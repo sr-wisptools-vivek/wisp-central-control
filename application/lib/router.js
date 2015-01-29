@@ -2,15 +2,22 @@ Router.configure({
   layoutTemplate: 'layout',
   loadingTemplate: 'loading',
   notFoundTemplate: 'notFound',
-  waitOn: function() { return Meteor.subscribe('interaction'); }
+  waitOn: function() { /*return Meteor.subscribe('interaction');*/ }
 });
 
 Router.route('/', {name: 'dashboard'});
+/*
 Router.route('/interaction/:_id', {
   name: 'interactionPage',
   data: function() { return Posts.findOne(this.params._id); }
 });
-Router.route('/submit', {name: 'interactionSubmit'});
+*/
+
+Router.route('/newsale', {
+    name: 'newsale', 
+    template: 'wtSalesInteraction'
+});
+
 
 var requireLogin = function() {
   if (! Meteor.user()) {

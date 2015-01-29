@@ -96,3 +96,7 @@
 .navbar-custom .navbar-link:hover {
   color: #3b5c5a;
 }
+
+i.menu-icon {
+  width: 25px;
+}

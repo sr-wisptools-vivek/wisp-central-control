@@ -1,0 +1,1 @@
+This manages the wt_interactions collection for the WISP Tools front-end.  More details are comming.

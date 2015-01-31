@@ -32,7 +32,11 @@
         <li role="presentation"><a href="#">Choose A Plan</a></li>
         <li role="presentation"><a href="#">Disclosures</a></li>
     </ul>
-    {{createDate}} {{createUsername}}
+    <div class="jumbotron">
+	    {{> wtInteractionInputField context=this title='Name:' field='name'}}
+	    <br/>
+	    {{> wtInteractionInputField context=this title='Phone:' field='phone'}}
+    </div>
 </template>
 
 <template name="wtInteractionSupport">

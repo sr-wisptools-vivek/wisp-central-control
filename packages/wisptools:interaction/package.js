@@ -12,9 +12,18 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
-  api.use(['meteor','mongo']);
+  api.use([
+    'meteor',
+    'mongo',
+    'templating',
+    'babrahams:editable-text'
+  ]);
   api.addFiles('server/publication.js', 'server');
-  api.addFiles('client/subscription.js', 'client');
+  api.addFiles([
+    'client/subscription.js',
+    'client/template.html',
+    'client/template.js'
+    ], 'client');
   api.addFiles('lib/collection.js', ['server','client']);
   api.export('WtInteraction');
 });

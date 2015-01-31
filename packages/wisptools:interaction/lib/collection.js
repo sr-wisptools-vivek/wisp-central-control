@@ -16,9 +16,9 @@ WtInteraction.new = function (data) {
   check(data, {type: String});
 
     var interaction = _.extend(data, {
-        createDate: new Date(),
-        createUserId: user._id,
-        createUsername: user.username        
+        c_date: new Date(),
+        c_user_id: user._id,
+        c_user: user.username        
     });
     interaction._id = this.insert(interaction);
     return interaction;

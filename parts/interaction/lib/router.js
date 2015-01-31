@@ -1,10 +1,16 @@
-
 Router.route('/interaction/sales/new', {
-    name: 'newSale', 
-    template: 'wtSalesInteraction',
+	name: 'newSale',
+	template: 'wtNewInteraction',
+	data: function() {
+		return WtInteraction.new({type: 'sales'});
+	}
+});
+
+Router.route('/interaction/:_id', {
+    name: 'interactionById', 
+    template: 'wtInteraction',
     data: function() {
-        var data = wtInteraction.new({type: 'sales'});
-        return data;
+        return WtInteraction.findOne(this.params._id);
     }
 });
 

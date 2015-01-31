@@ -1,3 +1,3 @@
-Meteor.publish('wtInteraction', function() {
-  return wtInteraction.find();
+Meteor.publish('wtInteractions', function() {
+  return WtInteraction.find();
 });

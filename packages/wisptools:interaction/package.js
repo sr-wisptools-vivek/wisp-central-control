@@ -16,7 +16,7 @@ Package.onUse(function(api) {
   api.addFiles('server/publication.js', 'server');
   api.addFiles('client/subscription.js', 'client');
   api.addFiles('lib/collection.js', ['server','client']);
-  api.export('wtInteraction');
+  api.export('WtInteraction');
 });
 
 Package.onTest(function(api) {

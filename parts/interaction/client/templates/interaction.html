@@ -1,4 +1,30 @@
-<template name="wtSalesInteractionMenu">
+<template name="wtNewInteraction">
+	{{> loading}}
+	{{gotoIdPage}}
+</template>
+
+
+<template name="wtInteraction">
+	{{#if isDefault}}
+    	{{> wtInteractionDefault}}
+	{{/if}}
+	{{#if isSales}}
+    	{{> wtInteractionSales}}
+	{{/if}}
+	{{#if isSupport}}
+    	{{> wtInteractionSupport}}
+	{{/if}}
+	{{#if isService}}
+    	{{> wtInteractionService}}
+	{{/if}}
+</template>
+
+
+<template name="wtInteractionDefault">
+	<h1>DEFAULT</h1>
+</template>
+
+<template name="wtInteractionSales">
     <ul class="nav nav-pills nav-justified">
         <li role="presentation" class="active"><a href="#">Inital Questions</a></li>
         <li role="presentation"><a href="#">Service Address</a></li>
@@ -9,6 +35,11 @@
     {{createDate}} {{createUsername}}
 </template>
 
-<template name="wtSalesInteraction">
-    {{> wtSalesInteractionMenu}}
+<template name="wtInteractionSupport">
+	<h1>SUPPORT</h1>
 </template>
+
+<template name="wtInteractionService">
+	<h1>SERVICE</h1>
+</template>
+

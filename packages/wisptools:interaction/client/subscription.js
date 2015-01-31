@@ -1,1 +1,1 @@
-Meteor.subscribe('wtInteraction');
+Meteor.subscribe('wtInteractions');

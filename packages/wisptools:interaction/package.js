@@ -1,6 +1,6 @@
 Package.describe({
   name: 'wisptools:interaction',
-  version: '0.0.1',
+  version: '0.0.2',
   // Brief, one-line summary of the package.
   summary: 'Managed the wt_interactions collection for the WISP Tools interface',
   // URL to the Git repository containing the source code for this package.

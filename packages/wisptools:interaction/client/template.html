@@ -1,8 +1,3 @@
-<template name="wtInteractionInputField">
-  {{title}} 
-  {{> editableText options}}
-</template>
-
 <template name="wtInteractionSalesQuestionsOne">
-
+  {{> quickForm collection="WtInteraction" doc=this.doc schema=salesSchema id="wtInteractionSalesQuestionsOne" autosave=true buttonContent=false type="update"}}
 </template>

@@ -16,7 +16,6 @@ Package.onUse(function(api) {
     'meteor',
     'mongo',
     'templating',
-    'babrahams:editable-text@0.7.6',
     'aldeed:collection2@2.3.1',
     'aldeed:autoform@4.2.2'
   ]);

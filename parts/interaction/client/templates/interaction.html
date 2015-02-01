@@ -34,9 +34,12 @@
   </ul>
   <div style="margin-top: 20px">
     <div class="jumbotron">
-      {{> wtInteractionInputField context=this title='Name:' field='name'}}
-      <br/>
-      {{> wtInteractionInputField context=this title='Phone:' field='phone'}}
+      <div style="margin-bottom: 20px">
+        <strong>Name:</strong> {{name}}
+        <br/> 
+        <strong>Phone:</strong> {{phone}}
+      </div>
+      {{> wtInteractionSalesQuestionsOne doc=this}}
     </div>
   </div>
 </template>

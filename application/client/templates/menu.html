@@ -1,19 +1,19 @@
 <template name="menu">
-      {{#if currentUser}}
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-users menu-icon"></i> New Interaction <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="{{pathFor 'newSale'}}"><i class="fa fa-usd menu-icon"></i> Sales</a></li>
-                <li><a href="#"><i class="fa fa-wrench menu-icon"></i> Support</a></li>
-                <li><a href="#"><i class="fa fa-user menu-icon"></i> Customer Service</a></li>
-            </ul>
-        </li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-sitemap menu-icon"></i> Network <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#"><i class="fa fa-hdd-o menu-icon"></i> Infrastructure</a></li>
-                <li><a href="#"><i class="fa fa-laptop menu-icon"></i> Customer Equipment</a></li>
-            </ul>
-        </li>
-      {{/if}}
+  {{#if currentUser}}
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-users menu-icon"></i> New Interaction <span class="caret"></span></a>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="{{pathFor 'newSale'}}"><i class="fa fa-usd menu-icon"></i> Sales</a></li>
+        <li><a href="#"><i class="fa fa-wrench menu-icon"></i> Support</a></li>
+        <li><a href="#"><i class="fa fa-user menu-icon"></i> Customer Service</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-sitemap menu-icon"></i> Network <span class="caret"></span></a>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#"><i class="fa fa-hdd-o menu-icon"></i> Infrastructure</a></li>
+        <li><a href="#"><i class="fa fa-laptop menu-icon"></i> Customer Equipment</a></li>
+      </ul>
+    </li>
+  {{/if}}
 </template>

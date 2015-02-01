@@ -1,17 +1,17 @@
 Router.route('/interaction/sales/new', {
-	name: 'newSale',
-	template: 'wtNewInteraction',
-	data: function() {
-		return WtInteraction.new({type: 'sales'});
-	}
+  name: 'newSale',
+  template: 'wtNewInteraction',
+  data: function() {
+    return WtInteraction.new({type: 'sales'});
+  }
 });
 
 Router.route('/interaction/:_id', {
-    name: 'interactionById', 
-    template: 'wtInteraction',
-    data: function() {
-        return WtInteraction.findOne(this.params._id);
-    }
+  name: 'interactionById', 
+  template: 'wtInteraction',
+  data: function() {
+    return WtInteraction.findOne(this.params._id);
+  }
 });
 
 /*

@@ -16,7 +16,9 @@ Package.onUse(function(api) {
     'meteor',
     'mongo',
     'templating',
-    'babrahams:editable-text@0.7.6'
+    'babrahams:editable-text@0.7.6',
+    'aldeed:collection2@2.3.1',
+    'aldeed:autoform@4.2.2'
   ]);
   api.addFiles('server/publication.js', 'server');
   api.addFiles([
@@ -24,7 +26,10 @@ Package.onUse(function(api) {
     'client/template.html',
     'client/template.js'
     ], 'client');
-  api.addFiles('lib/collection.js', ['server','client']);
+  api.addFiles([
+    'lib/collection.js',
+    'lib/schema.js'
+    ], ['server','client']);
   api.export('WtInteraction');
 });
 

@@ -1,51 +1,51 @@
 <template name="wtNewInteraction">
-	{{> loading}}
-	{{gotoIdPage}}
+  {{> loading}}
+  {{gotoIdPage}}
 </template>
 
 
 <template name="wtInteraction">
-	{{#if isDefault}}
-    	{{> wtInteractionDefault}}
-	{{/if}}
-	{{#if isSales}}
-    	{{> wtInteractionSales}}
-	{{/if}}
-	{{#if isSupport}}
-    	{{> wtInteractionSupport}}
-	{{/if}}
-	{{#if isService}}
-    	{{> wtInteractionService}}
-	{{/if}}
+  {{#if isDefault}}
+    {{> wtInteractionDefault}}
+  {{/if}}
+  {{#if isSales}}
+    {{> wtInteractionSales}}
+  {{/if}}
+  {{#if isSupport}}
+    {{> wtInteractionSupport}}
+  {{/if}}
+  {{#if isService}}
+    {{> wtInteractionService}}
+  {{/if}}
 </template>
 
 
 <template name="wtInteractionDefault">
-	<h1>DEFAULT</h1>
+  <h1>DEFAULT</h1>
 </template>
 
 <template name="wtInteractionSales">
-    <ul class="nav nav-pills nav-justified">
-        <li role="presentation" class="active"><a href="#">Inital Questions</a></li>
-        <li role="presentation"><a href="#">Service Address</a></li>
-        <li role="presentation"><a href="#">More Questions</a></li>
-        <li role="presentation"><a href="#">Choose A Plan</a></li>
-        <li role="presentation"><a href="#">Disclosures</a></li>
-    </ul>
-    <div style="margin-top: 20px">
-	    <div class="jumbotron">
-		    {{> wtInteractionInputField context=this title='Name:' field='name'}}
-		    <br/>
-		    {{> wtInteractionInputField context=this title='Phone:' field='phone'}}
-	    </div>
+  <ul class="nav nav-pills nav-justified">
+    <li role="presentation" class="active"><a href="#">Inital Questions</a></li>
+    <li role="presentation"><a href="#">Service Address</a></li>
+    <li role="presentation"><a href="#">More Questions</a></li>
+    <li role="presentation"><a href="#">Choose A Plan</a></li>
+    <li role="presentation"><a href="#">Disclosures</a></li>
+  </ul>
+  <div style="margin-top: 20px">
+    <div class="jumbotron">
+      {{> wtInteractionInputField context=this title='Name:' field='name'}}
+      <br/>
+      {{> wtInteractionInputField context=this title='Phone:' field='phone'}}
     </div>
+  </div>
 </template>
 
 <template name="wtInteractionSupport">
-	<h1>SUPPORT</h1>
+  <h1>SUPPORT</h1>
 </template>
 
 <template name="wtInteractionService">
-	<h1>SERVICE</h1>
+  <h1>SERVICE</h1>
 </template>
 

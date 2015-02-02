@@ -1,6 +1,6 @@
 Package.describe({
   name: 'wisptools:interaction',
-  version: '0.0.2',
+  version: '0.0.3',
   // Brief, one-line summary of the package.
   summary: 'Managed the wt_interactions collection for the WISP Tools interface',
   // URL to the Git repository containing the source code for this package.
@@ -19,17 +19,30 @@ Package.onUse(function(api) {
     'aldeed:collection2@2.3.1',
     'aldeed:autoform@4.2.2'
   ]);
-  api.addFiles('server/publication.js', 'server');
-  api.addFiles([
-    'client/subscription.js',
-    'client/template.html',
-    'client/template.js'
-    ], 'client');
+
+  // Client and Server files
   api.addFiles([
     'lib/collection.js',
     'lib/schema.js'
     ], ['server','client']);
+
+  // Server only files
+  api.addFiles([
+    'server/publication.js',
+    'server/fixture.js'
+    ], 'server');
+
+  // Client only files
+  api.addFiles([
+    'client/subscription.js',
+    'client/template.html',
+    'client/template.js',
+    'client/menu.html',
+    'client/menu.js'
+    ], 'client');
+
   api.export('WtInteraction');
+  api.export('schema');
 });
 
 Package.onTest(function(api) {

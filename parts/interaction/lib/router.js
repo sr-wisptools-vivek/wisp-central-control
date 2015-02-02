@@ -1,8 +1,8 @@
-Router.route('/interaction/sales/new', {
-  name: 'newSale',
+Router.route('/interaction/new/:name', {
+  name: 'newInteraction',
   template: 'wtNewInteraction',
   data: function() {
-    return WtInteraction.new({type: 'sales'});
+    return WtInteraction.new({type: this.params.name});
   }
 });
 
@@ -13,10 +13,3 @@ Router.route('/interaction/:_id', {
     return WtInteraction.findOne(this.params._id);
   }
 });
-
-/*
-Router.route('/interaction/:_id', {
-  name: 'interactionPage',
-  data: function() { return Posts.findOne(this.params._id); }
-});
-*/

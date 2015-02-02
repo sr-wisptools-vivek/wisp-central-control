@@ -1,3 +1,27 @@
-<template name="wtInteractionSalesQuestionsOne">
-  {{> quickForm collection="WtInteraction" doc=this.doc schema=salesSchema id="wtInteractionSalesQuestionsOne" autosave=true buttonContent=false type="update"}}
+
+<template name="wtInteraction">
+  <div role="tabpanel">
+    <ul class="nav nav-pills nav-justified" id="wt_interaction_tabs" role="tablist">
+      {{#each pages}}
+        {{> wtInteractionPageTab}}
+      {{/each}}
+    </ul>
+
+    <div class="tab-content">
+      {{#each pages}}
+        {{> wtInteractionPageContent}}
+      {{/each}}
+    </div>
+  </div>
 </template>
+
+<template name="wtInteractionPageTab">
+    <li role="presentation"><a href="#{{pageId}}" aria-controls="{{pageId}}" role="tab" data-toggle="pill">{{name}}</a></li>
+</template>
+
+<template name="wtInteractionPageContent">
+  <div role="tabpanel" class="tab-pane" id="{{pageId}}">
+    {{> quickForm collection="WtInteraction" doc=parentData schema=formSchema id=formId autosave=true buttonContent=false type="update"}}
+  </div>
+</template>
+

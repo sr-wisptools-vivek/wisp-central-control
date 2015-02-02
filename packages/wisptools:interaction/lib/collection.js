@@ -1,3 +1,4 @@
+// Main collection that keeps every interaction.
 WtInteraction = new Mongo.Collection('wt_interactions');
 
 WtInteraction.allow({
@@ -10,6 +11,8 @@ WtInteraction.allow({
   }
 });
 
+// This is called when a new interaction is created.
+// It initializes the record and returns the id.
 WtInteraction.new = function (data) {
   var user = Meteor.user();
   check(user.username, String);
@@ -25,6 +28,11 @@ WtInteraction.new = function (data) {
 
 }
 
+// Not really using this at the moment, because AutoForm is doing the updates.
 WtInteraction.updateFeild = function (id, data) {
   this.update({_id: id}, {$set: data});
 }
+
+// The collection that stores all the schema information.
+// The admin can update this information to change the data on the pages.
+WtInteractionConfig = new Mongo.Collection('wt_interactions_config');

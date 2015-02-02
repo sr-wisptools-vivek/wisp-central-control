@@ -40,3 +40,4 @@ schema.sales = new SimpleSchema({
     optional: true
   }
 });
+

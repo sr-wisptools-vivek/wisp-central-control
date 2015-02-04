@@ -22,8 +22,7 @@ Package.onUse(function(api) {
 
   // Client and Server files
   api.addFiles([
-    'lib/collection.js',
-    'lib/schema.js'
+    'lib/collection.js'
     ], ['server','client']);
 
   // Server only files
@@ -35,10 +34,16 @@ Package.onUse(function(api) {
   // Client only files
   api.addFiles([
     'client/subscription.js',
-    'client/template.html',
-    'client/template.js',
-    'client/menu.html',
-    'client/menu.js'
+    'client/templates/menu.html',
+    'client/templates/menu.js',
+    'client/templates/sales.html',
+    'client/templates/sales.js',
+    'client/templates/support.html',
+    'client/templates/support.js',
+    'client/templates/service.html',
+    'client/templates/service.js',
+    'client/templates/base.html',
+    'client/templates/base.js'
     ], 'client');
 
   api.export('WtInteraction');

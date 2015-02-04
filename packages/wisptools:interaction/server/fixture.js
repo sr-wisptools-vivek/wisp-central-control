@@ -16,6 +16,7 @@ if (WtInteractionConfig.find().count() === 0) {
     text: "Sales",
     name: "sales",
     icon_class: "fa fa-usd",
+    template: "wtInteractionSales",
     display_order: 1
   });
 
@@ -25,7 +26,8 @@ if (WtInteractionConfig.find().count() === 0) {
     text: "Support",
     name: "support",
     icon_class: "fa fa-wrench",
-    display_order: 2,
+    template: "wtInteractionSupport",
+    display_order: 2
   });
 
   // Customer Service Interaction
@@ -34,8 +36,13 @@ if (WtInteractionConfig.find().count() === 0) {
     text: "Customer Service",
     name: "service",
     icon_class: "fa fa-user",
-    display_order: 3,
+    template: "wtInteractionService",
+    display_order: 3
   });
+
+
+
+/*
 
   // The schema builds the page form using AutoForm
   WtInteractionConfig.insert({
@@ -95,13 +102,24 @@ if (WtInteractionConfig.find().count() === 0) {
         type: "String",
         label: "What is the Address where you would like to have the Service at?",
         max: 100,
-        optional: false
+        optional: true
+      },
+      location: {
+        type: "String",
+        autoform: {
+          type: 'map',
+          afFieldInput: {
+            type: 'map',
+            geolocation: true,
+            searchBox: true
+          }
+        }
       },
       agl: {
         type: "Number",
         label: "Height of SM at Location (ft):",
         defaultValue: 15,
-        optional: false
+        optional: true
       }
     }
   });
@@ -266,6 +284,6 @@ if (WtInteractionConfig.find().count() === 0) {
       }
     }
   });
-
+*/
 
 }

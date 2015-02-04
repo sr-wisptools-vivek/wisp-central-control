@@ -1,5 +1,9 @@
 
 <template name="wtInteraction">
+  {{> UI.dynamic template=templateName}}
+</template>
+
+<template name="wtInteractionPageWithTabs">
   <div role="tabpanel">
     <ul class="nav nav-pills nav-justified" id="wt_interaction_tabs" role="tablist">
       {{#each pages}}
@@ -21,7 +25,7 @@
 
 <template name="wtInteractionPageContent">
   <div role="tabpanel" class="tab-pane" id="{{pageId}}">
-    {{> quickForm collection="WtInteraction" doc=parentData schema=formSchema id=formId autosave=true buttonContent=false type="update"}}
+    {{> quickForm collection="WtInteraction" doc=../.. schema=schema id=formId autosave=true buttonContent=false type="update"}}
   </div>
 </template>
 

@@ -17,12 +17,14 @@ Package.onUse(function(api) {
     'mongo',
     'templating',
     'aldeed:collection2@2.3.1',
-    'aldeed:autoform@4.2.2'
+    'aldeed:autoform@4.2.2',
+    'iron:router@1.0.7'
   ]);
 
   // Client and Server files
   api.addFiles([
-    'lib/collection.js'
+    'lib/collection.js',
+    'lib/router.js'
     ], ['server','client']);
 
   // Server only files

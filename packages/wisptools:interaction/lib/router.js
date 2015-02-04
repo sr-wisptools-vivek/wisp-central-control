@@ -1,3 +1,4 @@
+
 Router.route('/interaction/new/:name', {
   name: 'newInteraction',
   template: 'wtNewInteraction',

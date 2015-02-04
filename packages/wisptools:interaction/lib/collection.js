@@ -36,3 +36,4 @@ WtInteraction.updateFeild = function (id, data) {
 // The collection that stores all the schema information.
 // The admin can update this information to change the data on the pages.
 WtInteractionConfig = new Mongo.Collection('wt_interactions_config');
+

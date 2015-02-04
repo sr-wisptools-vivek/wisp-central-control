@@ -49,7 +49,6 @@ Package.onUse(function(api) {
     ], 'client');
 
   api.export('WtInteraction');
-  api.export('schema');
 });
 
 Package.onTest(function(api) {

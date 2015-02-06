@@ -5,13 +5,18 @@ Template.wtNewInteraction.helpers({
   }
 });
 
+
 Template.wtInteraction.helpers({
-  pages: function () {
-    return WtInteractionConfig.find({type: "schema", page: this.type}, {sort: {display_order: 1}});
-  },
+  //pages: function () {
+  //  return WtInteractionConfig.find({type: "schema", page: this.type}, {sort: {display_order: 1}});
+  //},
   templateName: function () {
-    var row = WtInteractionConfig.findOne({type: "dropdown", name: this.type});
-    return row.template;
+    for (var i = 0; i < WtInteraction.menu.dropdown.length; i++) {
+      if (WtInteraction.menu.dropdown[i].name == this.type) 
+        return WtInteraction.menu.dropdown[i].template
+    }
+    //var row = WtInteractionConfig.findOne({type: "dropdown", name: this.type});
+    //return row.template;
   }
 });
 

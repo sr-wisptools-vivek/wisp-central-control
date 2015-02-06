@@ -24,7 +24,8 @@ Package.onUse(function(api) {
   // Client and Server files
   api.addFiles([
     'lib/collection.js',
-    'lib/router.js'
+    'lib/router.js',
+    'lib/config.js'
     ], ['server','client']);
 
   // Server only files

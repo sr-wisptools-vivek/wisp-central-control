@@ -129,6 +129,7 @@ var pageData = [
   },{
     name: "Choose A Plan",
     pageId: "choose_a_plan_page",
+    showCustomerConversion: true,
     schema: new SimpleSchema({
       plan: {
         type: String,
@@ -154,3 +155,13 @@ var pageData = [
 Template.wtInteractionSales.helpers({
   pages: pageData
 });
+
+Template.wtInteractionSales.events({
+  'click #convert': function(e) {
+    $('#convert').prop('disabled', true);
+    var interaction = Template.parentData(2);
+    var customer = WtCustomer.newFromInteraction(interaction.data._id);
+    WtInteraction.updateFeild(interaction.data._id, {customerId: customer._id});
+  }
+});
+

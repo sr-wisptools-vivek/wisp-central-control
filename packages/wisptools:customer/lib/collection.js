@@ -11,53 +11,90 @@ WtCustomer.allow({
   }
 });
 
+// Takes an id of a WtInteraction and uses the name, phone and address to initialize a new customer
+WtCustomer.newFromInteraction = function (id) {
+  var user = Meteor.user();
+  check(user.username, String);
+  check(id, String);
+
+  var data = WtInteraction.findOne({_id: id});
+
+  var customer = {
+    c_date: new Date(),
+    c_user_id: user._id,
+    c_user: user.username,
+    acc_name: data.name,
+    contacts: [{
+      first_name: data.name,
+      phones: [{phone: data.phone}]
+    }]
+  }
+
+  customer._id = this.insert(customer);
+  return customer;
+}
+
+
 schema = {};
 
 schema.address = new SimpleSchema({
   street_1: {
     type: String,
-    label: "Street Address One"
-    max: 100
+    label: "Street Address One",
+    max: 100,
+    optional: true
   },
   street_2: {
     type: String,
-    label: "Street Address Two"
-    max: 100
+    label: "Street Address Two",
+    max: 100,
+    optional: true
   },
   city: {
     type: String,
     label: "City",
-    max: 50
+    max: 50,
+    optional: true
   },
   state: {
     type: String,
     label: "State",
-    regEx: /^A[LKSZRAEP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]$/
+    regEx: /^A[LKSZRAEP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]$/,
+    optional: true
   },
   zip: {
     type: String,
-    label: "Zip"
-    regEx: /^[0-9]{5}$/
-  }
+    label: "Zip",
+    regEx: /^[0-9]{5}$/,
+    optional: true
+  },
+  geocode: {
+      type: Object,
+      optional: true
+  }    
+
 });
 
 schema.email = new SimpleSchema({
   email: {
     type: String,
-    lable: "Email",
+    label: "Email",
     max: 100,
-    regEx: SimpleSchema.RegEx.Email
+    regEx: SimpleSchema.RegEx.Email,
+    optional: true
   }
 });
 
 schema.phone = new SimpleSchema({
   phone: {
     type: Number,
-    label: "Phone Number"
+    label: "Phone Number",
+    optional: true
   },
   extention: {
     type: Number,
-    label: "Extention"
+    label: "Extention",
+    optional: true
   },
   type: {
     type: String,
@@ -66,7 +103,8 @@ schema.phone = new SimpleSchema({
       'Home',
       'Work',
       'Cell'
-    ]
+    ],
+    optional: true
   }
 });
 
@@ -74,18 +112,22 @@ schema.contact = new SimpleSchema({
   first_name: {
     type: String,
     label: "First Name",
-    max: 30
+    max: 30,
+    optional: true
   },
   last_name: {
     type: String,
     label: "Last Name",
-    max: 30
+    max: 30,
+    optional: true
   },
   emails: {
-    type: [schema.email]
+    type: [schema.email],
+    optional: true
   },
   phones: {
-    type: [schema.phone]
+    type: [schema.phone],
+    optional: true
   }
 }); 
 
@@ -96,27 +138,28 @@ schema.customer = new SimpleSchema({
       'Residential',
       'Business'
     ],
-    optional: false
+    optional: true
   },
   acc_name: {
     type: String,
-    optional: false,
+    optional: true,
     max: 100
   },
   contacts: {
-    type: [schema.contact]
-  }
+    type: [schema.contact],
+    optional: true
+  },
   phys_addr: {
-    type: schema.address
+    type: schema.address,
+    optional: true
   },
   bill_addr: {
-    type: schema.address
-  },
-  geocode: {
-    type: Object
+    type: schema.address,
+    optional: true
   },
   external_ids: {
-    type: [Object]
+    type: [Object],
+    optional: true
   },
   status: {
     type: String,
@@ -127,6 +170,7 @@ schema.customer = new SimpleSchema({
       'Non Pay',
       'Hold',
       'Closed'
-    ]
+    ],
+    optional: true
   }
 });

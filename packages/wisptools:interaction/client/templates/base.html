@@ -15,7 +15,7 @@
       {{/each}}
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-content jumbotron interaction-content">
       {{#each pages}}
         {{> wtInteractionPageContent}}
       {{/each}}
@@ -29,6 +29,14 @@
 
 <template name="wtInteractionPageContent">
   <div role="tabpanel" class="tab-pane" id="{{pageId}}">
+    {{#if showCustomerConversion}}
+      {{#if customerId}}
+        {{> wtCustomerEditForm id=customerId}}
+      {{/if}}
+      {{#unless customerId}}
+        <button type="button" class="btn btn-primary" id="convert">Convert to Customer</button>
+      {{/unless}}
+    {{/if}}
     {{> quickForm collection="WtInteraction" doc=../.. schema=schema id=formId autosave=true buttonContent=false type="update"}}
   </div>
 </template>

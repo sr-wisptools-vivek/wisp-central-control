@@ -23,6 +23,9 @@ Template.wtInteraction.helpers({
 Template.wtInteractionPageContent.helpers({
   formId: function () {
     return this.pageId + "_form";    
+  },
+  customerId: function () {
+    return Template.parentData(4).data.customerId;
   }
 });
 

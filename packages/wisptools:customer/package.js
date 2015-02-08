@@ -12,7 +12,33 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
-  api.addFiles('wisptools:customer.js');
+  api.use([
+    'meteor',
+    'mongo',
+    'templating',
+    'aldeed:collection2@2.3.1',
+    'aldeed:autoform@4.2.2',
+    'iron:router@1.0.7'
+  ]);
+
+  // Client and Server files
+  api.addFiles([
+    'lib/collection.js'
+    ], ['server','client']);
+
+  // Server only files
+  api.addFiles([
+    'server/publish.js'
+    ], 'server');
+
+  // Client only files
+  api.addFiles([
+    'client/subscribe.js',
+    'client/templates/customer.html',
+    'client/templates/customer.js'
+    ], 'client');
+
+  api.export('WtCustomer');
 });
 
 Package.onTest(function(api) {

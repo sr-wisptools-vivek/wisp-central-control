@@ -29,6 +29,22 @@ Template.wtInteractionPageContent.helpers({
   }
 });
 
+Template.wtInteractionPageWithTabs.helpers({
+  name: function () {
+    return Template.parentData(3).data.name;
+  },
+  phone: function () {
+    return Template.parentData(3).data.phone;
+  },
+  title: function () {
+    var type = Template.parentData(3).data.type;
+    if (type == "sales") return "Sales";
+    if (type == "support") return "Support";
+    if (type == "service") return "Customer Service";
+    return "Interaction";
+  }
+});
+
 Template.wtInteraction.rendered = function () {
   // Activate the first tab.
   $('#wt_interaction_tabs a:first').tab('show');

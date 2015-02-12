@@ -1,3 +1,22 @@
 div.interaction-content {
-  margin-top: 15px;
+  padding: 3%;
+  border: #ddd solid 1px;
+  border-top-style: none;
+  clear: both;
+  width: 100%;
 }
+
+div.interaction-name {
+  float: left;
+}
+
+div.interaction-title {
+  color: #999;
+  float: right;
+}
+
+div.interaction-menu {
+  clear: both;
+  width: 100%;
+}
+

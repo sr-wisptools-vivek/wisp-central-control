@@ -8,14 +8,15 @@
 </template>
 
 <template name="wtInteractionPageWithTabs">
-  <div role="tabpanel">
-    <ul class="nav nav-pills nav-justified" id="wt_interaction_tabs" role="tablist">
+  <div class="interaction-name"><h4>{{name}} @ {{phone}}</h4></div><div class="interaction-title"><h4>{{title}}</h4></div>
+  <div role="tabpanel" class="interaction-menu">
+    <ul class="nav nav-tabs nav-justified" id="wt_interaction_tabs" role="tablist">
       {{#each pages}}
         {{> wtInteractionPageTab}}
       {{/each}}
     </ul>
 
-    <div class="tab-content jumbotron interaction-content">
+    <div class="tab-content interaction-content">
       {{#each pages}}
         {{> wtInteractionPageContent}}
       {{/each}}

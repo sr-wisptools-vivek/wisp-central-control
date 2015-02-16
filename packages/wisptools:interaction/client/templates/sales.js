@@ -1,7 +1,8 @@
 var pageData = [
   {
-    name: "Inital Questions",
-    pageId: "initial_questions_page",
+    name: "Contact",
+    pageId: "contact_page",
+    tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       regarding: {
         type: String,
@@ -23,7 +24,7 @@ var pageData = [
         optional: true
       },
       phone: {
-        type: Number,
+        type: String,
         label: "In case we get disconnected what is the best number I can call you back on?",
         optional: true
       },
@@ -43,8 +44,9 @@ var pageData = [
       }
     })
   },{
-    name: "Service Address",
-    pageId: "service_address_page",
+    name: "Location",
+    pageId: "location_page",
+    tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       address: {
         type: String,
@@ -52,16 +54,17 @@ var pageData = [
         max: 100,
         optional: true
       },
-      agl: {
+      bld_stories: {
         type: Number,
-        label: "Height of SM at Location (ft):",
-        defaultValue: 15,
+        label: "How many stories tall is your building?",
+        defaultValue: 2,
         optional: true
       }
     })
   },{
-    name: "More Questions",
-    pageId: "more_questions_page",
+    name: "Survey",
+    pageId: "survey_page",
+    tabTemplate: "wtInteractionSalesQuestions",
     schema: new SimpleSchema({
       cur_provider: {
         type: String,
@@ -127,9 +130,9 @@ var pageData = [
       }
     })
   },{
-    name: "Choose A Plan",
-    pageId: "choose_a_plan_page",
-    showCustomerConversion: true,
+    name: "Plans",
+    pageId: "plan_page",
+    tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       plan: {
         type: String,
@@ -139,8 +142,27 @@ var pageData = [
       }
     })
   },{
+    name: "Schedule",
+    pageId: "schedule_page",
+    tabTemplate: "wtInteractionQuickForm",
+    schema: new SimpleSchema({
+      schedule: {
+        type: String,
+        label: "Working on this page.  Need to build a package that handles the schedule.",
+        max: 30,
+        optional: true
+      }
+    })
+  },{
+    name: "Order",
+    pageId: "order_page",
+    tabTemplate: "wtInteractionSalesOrder",
+    schema: new SimpleSchema({
+    })
+  },{
     name: "Disclosures",
     pageId: "disclosures_page",
+    tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       disclosure1: {
         type: Boolean,
@@ -153,7 +175,19 @@ var pageData = [
 ];
 
 Template.wtInteractionSales.helpers({
-  pages: pageData
+  pages: function () {
+    // Setting the parent interaction data, so each page as access to the main context.
+    for (i = 0; i < pageData.length; i++) {
+      pageData[i].interactionData = Template.parentData(2).data;
+    }
+    return pageData;
+  },
+  interactionId: function () {
+    return Template.parentData(2).data._id;
+  },
+  customerId: function () {
+    return Template.parentData(2).data.customerId;
+  }
 });
 
 Template.wtInteractionSales.events({
@@ -165,3 +199,15 @@ Template.wtInteractionSales.events({
   }
 });
 
+Template.wtInteractionSalesOrder.helpers({
+  formId: function () {
+    return this.pageId + "_form";    
+  }
+});
+
+
+Template.wtInteractionSalesQuestions.helpers({
+  formId: function () {
+    return this.pageId + "_form";    
+  }
+});

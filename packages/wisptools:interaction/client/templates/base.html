@@ -4,11 +4,23 @@
 </template>
 
 <template name="wtInteraction">
-  {{> UI.dynamic template=templateName}}
+  {{> Template.dynamic template=templateName}}
 </template>
 
+
 <template name="wtInteractionPageWithTabs">
-  <div class="interaction-name"><h4>{{name}} @ {{phone}}</h4></div><div class="interaction-title"><h4>{{title}}</h4></div>
+  <div class="interaction-info row">
+    <div class="interaction-name col-md-5">
+      <h4>{{name}} @ {{phone}}</h4>
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-primary btn-block" id="interaction-wrap-up">Wrap Up</button>
+    </div>
+    <div class="interaction-title col-md-5">
+      <h4>{{title}}</h4>
+    </div>
+  </div>
+
   <div role="tabpanel" class="interaction-menu">
     <ul class="nav nav-tabs nav-justified" id="wt_interaction_tabs" role="tablist">
       {{#each pages}}
@@ -18,7 +30,7 @@
 
     <div class="tab-content interaction-content">
       {{#each pages}}
-        {{> wtInteractionPageContent}}
+        {{> Template.dynamic template=tabTemplate}}
       {{/each}}
     </div>
   </div>
@@ -28,17 +40,9 @@
     <li role="presentation"><a href="#{{pageId}}" aria-controls="{{pageId}}" role="tab" data-toggle="pill">{{name}}</a></li>
 </template>
 
-<template name="wtInteractionPageContent">
+<template name="wtInteractionQuickForm">
   <div role="tabpanel" class="tab-pane" id="{{pageId}}">
-    {{#if showCustomerConversion}}
-      {{#if customerId}}
-        {{> wtCustomerEditForm id=customerId}}
-      {{/if}}
-      {{#unless customerId}}
-        <button type="button" class="btn btn-primary" id="convert">Convert to Customer</button>
-      {{/unless}}
-    {{/if}}
-    {{> quickForm collection="WtInteraction" doc=../.. schema=schema id=formId autosave=true buttonContent=false type="update"}}
+    {{> quickForm collection="WtInteraction" doc=interactionData schema=schema id=formId autosave=true buttonContent=false type="update"}}
   </div>
 </template>
 

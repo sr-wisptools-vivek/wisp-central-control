@@ -7,16 +7,19 @@ div.interaction-content {
 }
 
 div.interaction-name {
-  float: left;
+  text-align: left;
 }
 
 div.interaction-title {
   color: #999;
-  float: right;
+  text-align: right;
 }
 
 div.interaction-menu {
-  clear: both;
   width: 100%;
+}
+
+label.standalone {
+  margin-bottom: 30px;
 }
 

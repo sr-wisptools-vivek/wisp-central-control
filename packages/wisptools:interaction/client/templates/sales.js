@@ -62,8 +62,8 @@ var pageData = [
       }
     })
   },{
-    name: "Survey",
-    pageId: "survey_page",
+    name: "Questions",
+    pageId: "questions_page",
     tabTemplate: "wtInteractionSalesQuestions",
     schema: new SimpleSchema({
       cur_provider: {

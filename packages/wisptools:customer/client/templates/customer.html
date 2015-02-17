@@ -1,3 +1,8 @@
 <template name="wtCustomerEditForm">
-  {{> quickForm collection="WtCustomer" schema=schema id=formId autosave=true buttonContent=false type="update"}}
+  {{#if customerData.address.use_service_addr}}
+    {{> quickForm collection="WtCustomer" doc=customerData schema=schema id=formId autosave=true buttonContent=false type="update" omitFields="status,external_ids,address.street_1,address.street_2,address.city,address.state,address.zip"}}
+  {{/if}}
+  {{#unless customerData.address.use_service_addr}}
+    {{> quickForm collection="WtCustomer" doc=customerData schema=schema id=formId autosave=true buttonContent=false type="update" omitFields="status,external_ids"}}
+  {{/unless}}
 </template>

@@ -23,11 +23,10 @@ WtCustomer.newFromInteraction = function (id) {
     c_date: new Date(),
     c_user_id: user._id,
     c_user: user.username,
-    acc_name: data.name,
-    contacts: [{
-      first_name: data.name,
-      phones: [{phone: data.phone}]
-    }]
+    first_name: data.name,
+    phone: data.phone,
+    address: {use_service_addr: true},
+    status: "New"
   }
 
   customer._id = this.insert(customer);
@@ -67,12 +66,7 @@ schema.address = new SimpleSchema({
     label: "Zip",
     regEx: /^[0-9]{5}$/,
     optional: true
-  },
-  geocode: {
-      type: Object,
-      optional: true
-  }    
-
+  }
 });
 
 schema.email = new SimpleSchema({
@@ -87,8 +81,8 @@ schema.email = new SimpleSchema({
 
 schema.phone = new SimpleSchema({
   phone: {
-    type: Number,
-    label: "Phone Number",
+    type: String,
+    label: "Phone",
     optional: true
   },
   extention: {
@@ -132,29 +126,77 @@ schema.contact = new SimpleSchema({
 }); 
 
 schema.customer = new SimpleSchema({
-  acc_type: {
+  first_name: {
     type: String,
-    allowedValues: [
-      'Residential',
-      'Business'
-    ],
-    optional: true
-  },
-  acc_name: {
-    type: String,
+    label: "First Name",
     optional: true,
     max: 100
   },
-  contacts: {
-    type: [schema.contact],
+  last_name: {
+    type: String,
+    label: "Last Name",
+    optional: true,
+    max: 100
+  },
+  biz_name: {
+    type: String,
+    label: "Business Name (Optional)",
+    optional: true,
+    max: 100
+  },
+  phone: {
+    type: String,
+    label: "Phone",
     optional: true
   },
-  phys_addr: {
-    type: schema.address,
+  email: {
+    type: String,
+    label: "Email",
+    max: 100,
+    regEx: SimpleSchema.RegEx.Email,
     optional: true
   },
-  bill_addr: {
-    type: schema.address,
+  address: {
+    type: Object,
+    label: "Mailing Address"
+  },
+  'address.use_service_addr': {
+    type: Boolean,
+    label: "Use Service Address",
+    optional: false
+  },
+  'address.street_1': {
+    type: String,
+    label: "Address One",
+    max: 100,
+    optional: true
+  },
+  'address.street_2': {
+    type: String,
+    label: "Address Two",
+    max: 100,
+    optional: true
+  },
+  'address.city': {
+    type: String,
+    label: "City",
+    max: 50,
+    optional: true
+  },
+  'address.state': {
+    type: String,
+    allowedValues: ["AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"],
+    autoform: {
+      afFieldInput: {
+        firstOption: "(Select a State)"
+      }
+    },
+    optional: true
+  },
+  'address.zip': {
+    type: String,
+    label: "Zip",
+    regEx: /^[0-9]{5}$/,
     optional: true
   },
   external_ids: {

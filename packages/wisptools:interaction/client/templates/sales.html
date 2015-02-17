@@ -12,10 +12,10 @@
 
 <template name="wtInteractionSalesOrder">
   <div role="tabpanel" class="tab-pane" id="{{pageId}}">
-    {{#if customerId}}
+    {{#if interactionData.customerId}}
       {{> wtCustomerEditForm id=interactionData.customerId}}
     {{/if}}
-    {{#unless customerId}}
+    {{#unless interactionData.customerId}}
       <button type="button" class="btn btn-primary" id="convert">Convert to Customer</button>
     {{/unless}}
     {{> quickForm collection="WtInteraction" doc=interactionData schema=schema id=formId autosave=true buttonContent=false type="update"}}

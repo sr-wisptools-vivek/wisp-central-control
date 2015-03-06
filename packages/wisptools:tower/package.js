@@ -12,7 +12,37 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
-  api.addFiles('wisptools:tower.js');
+
+  api.use([
+    'meteor',
+    'mongo',
+    'templating',
+    'aldeed:collection2@2.3.1',
+    'aldeed:autoform@4.2.2',
+    'iron:router@1.0.7'
+  ]);
+
+  // Client and Server files
+  api.addFiles([
+    'lib/collection.js',
+    'lib/router.js'
+    ], ['server','client']);
+
+  // Server only files
+  api.addFiles([
+    'server/publish.js'
+    ], 'server');
+
+  // Client only files
+  api.addFiles([
+    'client/subscribe.js',
+    'client/css/style.css',
+    'client/templates/map.html',
+    'client/templates/map.js'
+    ], 'client');
+
+  api.export('WtTower');
+
 });
 
 Package.onTest(function(api) {

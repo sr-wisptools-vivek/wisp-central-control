@@ -38,7 +38,8 @@ Package.onUse(function(api) {
     'client/subscribe.js',
     'client/css/style.css',
     'client/templates/map.html',
-    'client/templates/map.js'
+    'client/templates/map.js',
+    'client/map_controls.js'
     ], 'client');
 
   api.export('WtTower');

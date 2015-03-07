@@ -19,7 +19,9 @@ Package.onUse(function(api) {
     'templating',
     'aldeed:collection2@2.3.1',
     'aldeed:autoform@4.2.2',
-    'iron:router@1.0.7'
+    'iron:router@1.0.7',
+    'wisptools:map-control',
+    'wisptools:collection'
   ]);
 
   // Client and Server files
@@ -28,18 +30,11 @@ Package.onUse(function(api) {
     'lib/router.js'
     ], ['server','client']);
 
-  // Server only files
-  api.addFiles([
-    'server/publish.js'
-    ], 'server');
-
   // Client only files
   api.addFiles([
-    'client/subscribe.js',
     'client/css/style.css',
     'client/templates/map.html',
-    'client/templates/map.js',
-    'client/map_controls.js'
+    'client/templates/map.js'
     ], 'client');
 
   api.export('WtTower');

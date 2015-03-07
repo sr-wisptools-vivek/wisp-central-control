@@ -18,7 +18,8 @@ Package.onUse(function(api) {
     'templating',
     'aldeed:collection2@2.3.1',
     'aldeed:autoform@4.2.2',
-    'iron:router@1.0.7'
+    'iron:router@1.0.7',
+    'wisptools:collection'
   ]);
 
   // Client and Server files
@@ -26,14 +27,9 @@ Package.onUse(function(api) {
     'lib/collection.js'
     ], ['server','client']);
 
-  // Server only files
-  api.addFiles([
-    'server/publish.js'
-    ], 'server');
 
   // Client only files
   api.addFiles([
-    'client/subscribe.js',
     'client/templates/customer.html',
     'client/templates/customer.js'
     ], 'client');

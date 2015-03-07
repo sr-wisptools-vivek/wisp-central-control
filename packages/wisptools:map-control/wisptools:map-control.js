@@ -1,4 +1,6 @@
-mapControl = {
+MapControl = {
+  // map object
+  map: {},
 
   // google markers objects
   markers: [],
@@ -14,7 +16,7 @@ mapControl = {
     var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
     var gMarker = new google.maps.Marker({
       position: gLatLng,
-      map: GoogleMaps.maps.towerMap.instance,
+      map: this.map,
       title: marker.title,
       // animation: google.maps.Animation.DROP,
       icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
@@ -31,7 +33,7 @@ mapControl = {
     for (var i = 0, latLngLength = this.latLngs.length; i < latLngLength; i++) {
       bounds.extend(this.latLngs[i]);
     }
-    GoogleMaps.maps.towerMap.instance.fitBounds(bounds);
+    this.map.fitBounds(bounds);
   },
 
   // check if a marker already exists

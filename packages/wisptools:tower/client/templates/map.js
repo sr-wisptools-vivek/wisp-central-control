@@ -17,6 +17,8 @@ Template.wtTowers.created = function() {
   GoogleMaps.ready('towerMap', function(map) {
     // Add a marker to the map once it's ready
 
+    MapControl.map = GoogleMaps.maps.towerMap.instance;
+
     Deps.autorun(function() {
       var towers = WtTower.find().fetch();
 
@@ -30,8 +32,8 @@ Template.wtTowers.created = function() {
         };
 
         // check if marker already exists
-        if (!mapControl.markerExists('id', objMarker.id))
-          mapControl.addMarker(objMarker);
+        if (!MapControl.markerExists('id', objMarker.id))
+          MapControl.addMarker(objMarker);
       });
     });
     //var marker = new google.maps.Marker({

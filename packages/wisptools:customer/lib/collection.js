@@ -1,15 +1,5 @@
 // Main collection that keeps every interaction.
-WtCustomer = new Mongo.Collection('wt_customer');
-
-WtCustomer.allow({
-  insert: function(userId, doc) {
-    // only allow posting if you are logged in
-    return !! userId;
-  },
-  update: function(userId, doc) {
-    return !! userId;
-  }
-});
+WtCustomer = new WtCollection('wt_customer');
 
 // Takes an id of a WtInteraction and uses the name, phone and address to initialize a new customer
 WtCustomer.newFromInteraction = function (id) {

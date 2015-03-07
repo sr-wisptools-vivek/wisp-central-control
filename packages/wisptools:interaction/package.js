@@ -12,6 +12,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
+  
   api.use([
     'meteor',
     'mongo',
@@ -20,7 +21,8 @@ Package.onUse(function(api) {
     'aldeed:autoform@4.2.2',
     'iron:router@1.0.7',
     'wisptools:customer',
-    'wisptools:collection'
+    'wisptools:collection',
+    'wisptools:autoform-select-other'
   ]);
 
   // Client and Server files

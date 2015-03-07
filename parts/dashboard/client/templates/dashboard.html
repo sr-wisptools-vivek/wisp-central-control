@@ -1,12 +1,18 @@
 <template name="dashboard">
   <center><h1>Dashboard</h1></center>
-  <h4>Number of Interactions</h4>
+  <h4>Customer Interactions</h4>
   <table class="table table-condensed">
     <tbody>
       <tr><td><strong>Sales:</strong></td><td>{{salesInteractions}}</td></tr>
       <tr><td><strong>Support:</strong></td><td>{{supportInteractions}}</td></tr>
       <tr><td><strong>Service:</strong></td><td>{{serviceInteractions}}</td></tr>
       <tr><td><strong>Total:</strong></td><td>{{totalInteractions}}</td></tr>
+    </tbody>
+  </table>
+  <h4>Infrastructure</h4>
+  <table class="table table-condensed">
+    <tbody>
+      <tr><td><strong>Towers:</strong></td><td>{{towers}}</td></tr>
     </tbody>
   </table>
 </template>

@@ -7,15 +7,20 @@ var pageData = [
       regarding: {
         type: String,
         label: "How can I help you today?",
-        allowedValues: [
-          'Want to Upgrade Service', 
-          'Checking Prices',
-          'To Sign Up',
-          'Outside Sales Agent',
-          'Not a Sales Call',
-          'Other'
-        ],
-        optional: true
+        optional: true,
+        autoform: {
+          afFieldInput: {
+            type: "select-other",
+            options: [
+              'Want to Upgrade Service', 
+              'Checking Prices',
+              'To Sign Up',
+              'Outside Sales Agent',
+              'Not a Sales Call'
+            ]
+          }
+        }
+
       },
       name: {
         type: String,

@@ -10,5 +10,8 @@ Template.dashboard.helpers({
   },
   totalInteractions: function () {
     return WtInteraction.find().count();
+  },
+  towers: function () {
+    return WtTower.find().count();
   }
 });

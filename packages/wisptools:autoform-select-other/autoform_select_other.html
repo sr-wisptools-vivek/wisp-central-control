@@ -1,0 +1,18 @@
+<template name="afSelectOther">
+  {{log}}
+  <select {{atts}}>
+    {{#each this.selectOptions}}
+      {{#if optgroup}}
+        <optgroup label="{{optgroup}}">
+        {{#each options}}
+          <option {{optionAtts}}>{{label}}</option>
+        {{/each}}
+        </optgroup>
+      {{else}}
+        <option {{optionAtts}}>{{label}}</option>
+      {{/if}}
+    {{/each}}
+    <option value="other">Other</option>
+  </select>
+  <input type="text" id={{inputbox}} value="{{inputboxvalue}}" {{atts}}/>
+</template>

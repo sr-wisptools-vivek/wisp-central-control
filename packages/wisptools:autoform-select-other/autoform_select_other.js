@@ -53,9 +53,6 @@ Template.afSelectOther.helpers({
   atts: function () {
     var atts = _.clone(this.atts);
     atts = AutoForm.Utility.addClass(atts, 'form-control');
-    atts = _.extend(atts, {
-      style: "width: 49%;margin-right: 5px;"
-    });
     return atts;
   }
 });

@@ -11,13 +11,13 @@ var pageData = [
         autoform: {
           afFieldInput: {
             type: "select-other",
-            options: [
-              'Want to Upgrade Service', 
-              'Checking Prices',
-              'To Sign Up',
-              'Outside Sales Agent',
-              'Not a Sales Call'
-            ]
+            options: {
+              upgrade: 'Want to Upgrade Service', 
+              checking: 'Checking Prices',
+              sign_up: 'To Sign Up',
+              outside_sales: 'Outside Sales Agent',
+              not_sales: 'Not a Sales Call'
+            }
           }
         }
 

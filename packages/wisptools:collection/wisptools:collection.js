@@ -3,7 +3,7 @@ subsManager = new SubsManager();
 WtCollection = function(collectionName) {
 
   // Create new collection
-  wtCollection = new Mongo.Collection(collectionName);
+  var wtCollection = new Mongo.Collection(collectionName);
 
   // Set basic permissions
   wtCollection.allow({

@@ -1,5 +1,4 @@
 <template name="afSelectOther">
-  {{log}}
   <div class="row">
     <div class="col-xs-6">
       <select {{atts}}>
@@ -18,7 +17,7 @@
       </select>
     </div>
     <div class="col-xs-6">
-      <input type="text" placeholder="Other" oid={{inputbox}} value="{{inputboxvalue}}" {{atts}}/>
+      <input type="text" placeholder="Other" class="form-control" id={{inputbox}} value="{{inputboxvalue}}" />
     </div>
   </div>
 </template>

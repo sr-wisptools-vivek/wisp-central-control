@@ -1,23 +1,23 @@
 <template name="afSelectOther">
-  <div class="row">
-    <div class="col-xs-6">
-      <select {{atts}}>
-        {{#each this.selectOptions}}
-          {{#if optgroup}}
-            <optgroup label="{{optgroup}}">
-            {{#each options}}
-              <option {{optionAtts}}>{{label}}</option>
-            {{/each}}
-            </optgroup>
-          {{else}}
-            <option {{optionAtts}}>{{label}}</option>
-          {{/if}}
-        {{/each}}
-        <option value="other">Other</option>
-      </select>
-    </div>
-    <div class="col-xs-6">
-      <input type="text" placeholder="Other" class="form-control" id={{inputbox}} value="{{inputboxvalue}}" />
-    </div>
-  </div>
+	<div class="row">
+		<div class="col-xs-6">
+			<select {{atts}}>
+				{{#each this.selectOptions}}
+					{{#if optgroup}}
+						<optgroup label="{{optgroup}}">
+						{{#each options}}
+							<option {{optionAtts}}>{{label}}</option>
+						{{/each}}
+						</optgroup>
+					{{else}}
+						<option {{optionAtts}}>{{label}}</option>
+					{{/if}}
+				{{/each}}
+						<option value="other" {{selectedother}}>Other</option>
+			</select>
+		</div>
+		<div class="col-xs-6">
+			<input type="text" class="form-control" id={{inputbox}} value="{{inputboxvalue}}" placeholder="Other" />
+		</div>
+	</div>
 </template>

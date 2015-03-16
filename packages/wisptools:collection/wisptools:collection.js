@@ -33,5 +33,4 @@ WtCollection = function(collectionName) {
 
   return wtCollection;
 
-}; 
-
+};

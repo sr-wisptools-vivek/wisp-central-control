@@ -49,10 +49,16 @@ MapControl = {
 	//remove marker
 	removeMarker: function(marker) {
 		_.findWhere(this.markers, {id: marker.id}).setMap(null);
-		delete _.findWhere(this.latLngs, {id: marker.id});
-		delete _.findWhere(this.markers, {id: marker.id});
-		delete _.findWhere(this.markerData, {id: marker.id});
-		delete _.difference(this.towerIds, [marker.id]);
+		this.latLngs =_.reject(this.latLngs, function (obj) {
+			return obj.id == marker.id;
+		});
+		this.markers =_.reject(this.markers, function (obj) {
+			return obj.id == marker.id;
+		});
+		this.markerData =_.reject(this.markerData, function (obj) {
+			return obj.id == marker.id;
+		});
+		this.towerIds = _.difference(this.towerIds, [marker.id]);
 	},
 
 	// calculate and move the bound box based on our markers

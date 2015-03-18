@@ -19,11 +19,47 @@ MapControl = {
 		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
 		_.extend(gLatLng, {id: marker.id});
 		var gMarker = new google.maps.Marker({
-		position: gLatLng,
-		map: this.map,
-		title: marker.title,
-		// animation: google.maps.Animation.DROP,
-		icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+			position: gLatLng,
+			map: this.map,
+			title: marker.title,
+			// animation: google.maps.Animation.DROP,
+			icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+		});
+		google.maps.event.addListener(gMarker, 'click', function() {
+			bootbox.dialog({
+					title: gMarker.getTitle(),
+					message: '<div class="row">' +
+										'<div class="col-xs-12">' +
+											'<form class="form-horizontal" role="form">' +
+												'<div class="form-group">' +
+													'<label class="col-xs-4 control-label">Tower Name</label>' +
+													'<div class="col-xs-6">' +
+														'<input type="text" class="form-control" name="name" value="'+gMarker.getTitle()+'" />' +
+													'</div>' +
+												'</div>' +
+												'<div class="form-group">' +
+													'<div class="col-xs-offset-4 col-xs-6">' +
+														'<div class="checkbox">' +
+															'<input type="checkbox" name="draggable" value="Y" checked="true"/> Draggable?' +
+														'</div>' +
+													'</div>' +
+												'</div>' +
+											'</form>' +
+										'</div>' +
+									'</div>',
+					buttons: {
+						success: {
+							label: "Save",
+							className: "btn-success",
+							callback: function () {
+								var name = $('#name').val();
+								var answer = $("input[name='draggable']:checked").val();
+								Example.show("Hello " + name + ". You've chosen <b>" + answer + "</b>");
+							}
+						}
+					}
+				}
+			);
 		});
 		_.extend(gMarker, {id: marker.id});
 		this.latLngs.push(gLatLng);
@@ -72,7 +108,7 @@ MapControl = {
 
 	// check if a marker already exists
 	markerExists: function(key, val) {
-		c = {};
+		var c = {};
 		c[key] = val;
 		return typeof _.findWhere(this.markerData, c) != "undefined";
 	}

@@ -49,9 +49,5 @@ Template.wtTowers.created = function() {
 	
 			MapControl.calcBounds();
 		});
-		//var marker = new google.maps.Marker({
-		//  position: map.options.center,
-		//  map: map.instance
-		//});
 	});
 };

@@ -26,7 +26,7 @@ MapControl = {
 			icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 		});
 		google.maps.event.addListener(gMarker, 'click', function() {
-			$('#wtTowerEditFormModal').modal('show');
+			Session.set('wtTowerEditFormModalShowing', true)
 		});
 		_.extend(gMarker, {id: marker.id});
 		this.latLngs.push(gLatLng);

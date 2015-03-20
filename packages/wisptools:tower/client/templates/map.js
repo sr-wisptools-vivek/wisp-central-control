@@ -51,3 +51,9 @@ Template.wtTowers.created = function() {
 		});
 	});
 };
+
+Template.wtTowerEditFormModal.helpers({
+	showing: function () {
+		return Session.get('wtTowerEditFormModalShowing');
+	}
+});

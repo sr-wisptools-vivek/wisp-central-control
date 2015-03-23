@@ -34,7 +34,15 @@ Template.wtTowers.created = function() {
 		
 				// check if marker already exists
 				if (!MapControl.markerExists('id', objMarker.id))
-					MapControl.addMarker(objMarker);
+					MapControl.addMarker(objMarker, {
+						markerOptions: {},
+						events: {
+							'click': function () {
+								Session.set('selectedTowerMarker', objMarker.id);
+								$('#wtTowerEditFormModal').modal('show');
+							}
+						}
+					});
 				else
 					MapControl.updateMarker(objMarker);
 		
@@ -53,7 +61,25 @@ Template.wtTowers.created = function() {
 };
 
 Template.wtTowerEditFormModal.helpers({
-	showing: function () {
-		return Session.get('wtTowerEditFormModalShowing');
+	towerName: function () {
+		if (typeof Session.get('selectedTowerMarker') != "undefined") {
+			return _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).title;
+		} else {
+			return '';
+		}
+	},
+	towerDraggable: function () {
+		if (typeof Session.get('selectedTowerMarker') != "undefined") {
+			return _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getDraggable();
+		} else {
+			return false;
+		}
+	},
+	towerId: function () {
+		if (typeof Session.get('selectedTowerMarker') != "undefined") {
+			return Session.get('selectedTowerMarker');
+		} else {
+			return false;
+		}
 	}
 });

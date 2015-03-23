@@ -15,38 +15,59 @@ MapControl = {
 	towerIds: [],
 
 	// add a marker given our formatted marker data object
-	addMarker: function(marker) {
+	addMarker: function(marker, markerMap) {
 		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
 		_.extend(gLatLng, {id: marker.id});
-		var gMarker = new google.maps.Marker({
+
+		var markerOptions = {
 			position: gLatLng,
 			map: this.map,
 			title: marker.title,
 			// animation: google.maps.Animation.DROP,
 			icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+		};
+		if (!_.isUndefined(markerMap.markerOptions)) {
+			_.extend(markerOptions, markerMap.markerOptions)
+		}
+		var gMarker = new google.maps.Marker(markerOptions);
+
+		_.each(markerMap.events, function (callback, on) {
+			google.maps.event.addListener(gMarker, on, callback);
 		});
-		google.maps.event.addListener(gMarker, 'click', function() {
-			Session.set('wtTowerEditFormModalShowing', true)
-		});
+
 		_.extend(gMarker, {id: marker.id});
+
 		this.latLngs.push(gLatLng);
 		this.markers.push(gMarker);
 		this.markerData.push(marker);
 		this.towerIds.push(marker.id);
+
 		return gMarker;
 	},
 
 	//update marker
-	updateMarker: function(marker) {
+	updateMarker: function(marker, markerMap) {
 		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
 		_.extend(gLatLng, {id: marker.id});
+
 		var markerOps = {
 			position: gLatLng,
 			title: marker.title,
 		};
+		if (!_.isUndefined(markerMap.markerOptions)) {
+			_.extend(markerOps, markerMap.markerOptions);
+		}
 		_.findWhere(this.markers, {id: marker.id}).setOptions(markerOps);
+
+		_.each(markerMap.events, function (callback, on) {
+			google.maps.event.addListener(gMarker, on, callback);
+		});
+
+
 		_.extend(_.findWhere(this.latLngs, {id: marker.id}), gLatLng);
 		_.extend(_.findWhere(this.markerData, {id: marker.id}), marker);
+
+		return _.findWhere(this.markers, {id: marker.id});
 	},
 
 	//remove marker

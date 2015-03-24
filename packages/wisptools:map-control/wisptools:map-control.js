@@ -16,6 +16,7 @@ MapControl = {
 
 	// add a marker given our formatted marker data object
 	addMarker: function(marker, markerMap) {
+console.log("addMarker called: " + marker.id);
 		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
 		_.extend(gLatLng, {id: marker.id});
 
@@ -49,6 +50,11 @@ MapControl = {
 
 	//update marker
 	updateMarker: function(marker, markerMap) {
+console.log("updateMarker called: " + marker.id);
+		var mrk = _.findWhere(this.markers, {id: marker.id});
+		if (typeof marker.title == "undefined") marker.title = mrk.getTitle();
+		if (typeof marker.lat == "undefined") marker.lat = mrk.getPosition().lat();
+		if (typeof marker.lng == "undefined") marker.lng = mrk.getPosition().lng();
 		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
 		_.extend(gLatLng, {id: marker.id});
 
@@ -59,18 +65,18 @@ MapControl = {
 		if (typeof markerMap != "undefined" && typeof markerMap.markerOptions != "undefined") {
 			_.extend(markerOps, markerMap.markerOptions);
 		}
-		_.findWhere(this.markers, {id: marker.id}).setOptions(markerOps);
+		mrk.setOptions(markerOps);
 
 		if (typeof markerMap != "undefined" && typeof markerMap.events != "undefined") {
 			_.each(markerMap.events, function (callback, on) {
-				google.maps.event.addListener(gMarker, on, callback);
+				google.maps.event.addListener(mrk, on, callback);
 			});
 		}
 
 		_.extend(_.findWhere(this.latLngs, {id: marker.id}), gLatLng);
 		_.extend(_.findWhere(this.markerData, {id: marker.id}), marker);
 
-		return _.findWhere(this.markers, {id: marker.id});
+		return mrk;
 	},
 
 	//remove marker

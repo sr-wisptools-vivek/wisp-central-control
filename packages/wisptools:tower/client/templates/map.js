@@ -13,16 +13,19 @@ Template.wtTowers.helpers({
 });
 
 Template.wtTowers.created = function() {
+	//Initiating the draggable setting
+	Session.set('towerDraggable', true)
+
 	// We can use the `ready` callback to interact with the map API once the map is ready.
 	GoogleMaps.ready('towerMap', function(map) {
 		// Add a marker to the map once it's ready
-	
+
 		MapControl.map = GoogleMaps.maps.towerMap.instance;
 	
 		Deps.autorun(function() {
 			var towers = WtTower.find().fetch();
 			var towerIds = [];
-	
+
 			_.each(towers, function(tower) {
 				//{ loc: { type: "Point", coordinates: [ 40, 5 ] } }
 				var objMarker = {
@@ -33,19 +36,36 @@ Template.wtTowers.created = function() {
 				};
 		
 				// check if marker already exists
-				if (!MapControl.markerExists('id', objMarker.id))
+				if (!MapControl.markerExists('id', objMarker.id)) {
 					MapControl.addMarker(objMarker, {
-						markerOptions: {},
+						markerOptions: {
+							draggable: Session.get('towerDraggable')
+						},
 						events: {
-							'click': function () {
+							'mousedown': function () {
 								Session.set('selectedTowerMarker', objMarker.id);
+							},
+							'click': function () {
 								$('#wtTowerEditFormModal').modal('show');
+							},
+							'dragend': function () {
+								WtTower.update({_id: Session.get('selectedTowerMarker')}, {
+																							$set: {
+																								'loc.coordinates.0': _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lng(),
+																								'loc.coordinates.1': _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lat()
+																							}
+															});
 							}
 						}
 					});
-				else
-					MapControl.updateMarker(objMarker);
-		
+				} else {
+					MapControl.updateMarker(objMarker, {
+						markerOptions: {
+							draggable: Session.get('towerDraggable')
+						}
+					});
+				}
+
 				// pushing to ids to remove towers
 				towerIds.push(tower._id);
 			});
@@ -68,9 +88,16 @@ Template.wtTowerEditFormModal.helpers({
 			return '';
 		}
 	},
-	towerDraggable: function () {
+	towerLat: function () {
 		if (typeof Session.get('selectedTowerMarker') != "undefined") {
-			return _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getDraggable();
+			return _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lat();
+		} else {
+			return false;
+		}
+	},
+	towerLng: function () {
+		if (typeof Session.get('selectedTowerMarker') != "undefined") {
+			return _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lng();
 		} else {
 			return false;
 		}
@@ -83,3 +110,55 @@ Template.wtTowerEditFormModal.helpers({
 		}
 	}
 });
+
+Template.wtTowerEditFormModal.events({
+	'submit form': function (event) {
+		WtTower.update({_id: Session.get('selectedTowerMarker')}, {
+			$set: {
+				name: event.target.name.value,
+				"loc.coordinates.0": event.target.lng.value,
+				"loc.coordinates.1": event.target.lat.value
+			}
+		});
+		MapControl.updateMarker({
+			id: Session.get('selectedTowerMarker'),
+			title: event.target.name.value,
+			lat: event.target.lat.value,
+			lng: event.target.lng.value
+		});
+		$('#wtTowerEditFormModal').modal('hide');
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}
+});
+
+Template.wtTowerDraggable.helpers({
+	dragBtnClass: function () {
+		if (Session.get('towerDraggable')) {
+			return 'btn-primary';
+		} else {
+			return '';
+		}
+	},
+	dragBtnDisplay: function () {
+		if (Session.get('towerDraggable')) {
+			return 'Off';
+		} else {
+			return 'On';
+		}
+	},
+	dragTextBlock: function () {
+		if (Session.get('towerDraggable')) {
+			return '';
+		} else {
+			return 'hide';
+		}
+	}
+});
+
+Template.wtTowerDraggable.events = {
+	'click .btn': function () {
+		Session.set('towerDraggable', ! Session.get('towerDraggable'));
+	}
+};

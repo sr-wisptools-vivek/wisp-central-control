@@ -26,14 +26,16 @@ MapControl = {
 			// animation: google.maps.Animation.DROP,
 			icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 		};
-		if (!_.isUndefined(markerMap.markerOptions)) {
+		if (typeof markerMap != "undefined" && typeof markerMap.markerOptions != "undefined") {
 			_.extend(markerOptions, markerMap.markerOptions)
 		}
 		var gMarker = new google.maps.Marker(markerOptions);
 
-		_.each(markerMap.events, function (callback, on) {
-			google.maps.event.addListener(gMarker, on, callback);
-		});
+		if (typeof markerMap != "undefined" && typeof markerMap.events != "undefined") {
+			_.each(markerMap.events, function (callback, on) {
+				google.maps.event.addListener(gMarker, on, callback);
+			});
+		}
 
 		_.extend(gMarker, {id: marker.id});
 
@@ -54,15 +56,16 @@ MapControl = {
 			position: gLatLng,
 			title: marker.title,
 		};
-		if (!_.isUndefined(markerMap.markerOptions)) {
+		if (typeof markerMap != "undefined" && typeof markerMap.markerOptions != "undefined") {
 			_.extend(markerOps, markerMap.markerOptions);
 		}
 		_.findWhere(this.markers, {id: marker.id}).setOptions(markerOps);
 
-		_.each(markerMap.events, function (callback, on) {
-			google.maps.event.addListener(gMarker, on, callback);
-		});
-
+		if (typeof markerMap != "undefined" && typeof markerMap.events != "undefined") {
+			_.each(markerMap.events, function (callback, on) {
+				google.maps.event.addListener(gMarker, on, callback);
+			});
+		}
 
 		_.extend(_.findWhere(this.latLngs, {id: marker.id}), gLatLng);
 		_.extend(_.findWhere(this.markerData, {id: marker.id}), marker);

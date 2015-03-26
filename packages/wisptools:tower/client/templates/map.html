@@ -3,10 +3,10 @@
     <h4>Infrastructure</h4>
   </div>
 
-  <div class="wt-tower-map-container col-xs-11">
+  <div class="wt-tower-map-container col-xs-10">
     {{> googleMap name="towerMap" options=mapOptions}}
   </div>
-	<div class="col-xs-1">
+	<div class="col-xs-2">
 		{{> wtTowerControls}}
 	</div>
   {{> wtTowerEditFormModal}}
@@ -14,8 +14,8 @@
 </template>
 
 <template name="wtTowerControls">
-	<button class="btn btn-sm {{dragBtnClass}} wt-btn-control" id="dragBtn">Drag {{dragBtnDisplay}}</button>
-	<button class="btn btn-sm btn-primary wt-btn-control" id="addTowerBtn">Add Tower</button>
+	<button class="btn btn-sm btn-primary wt-btn-control btn-block" id="addTowerBtn">Add Tower</button>
+	<button class="btn btn-sm {{dragBtnClass}} wt-btn-control btn-block" id="dragBtn">Tower Dragging is {{dragBtnDisplay}}</button>
 </template>
 
 <template name="wtTowerEditFormModal">

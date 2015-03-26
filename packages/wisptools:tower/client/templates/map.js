@@ -164,9 +164,9 @@ Template.wtTowerDraggable.helpers({
 Template.wtTowerControls.helpers({
 	dragBtnClass: function () {
 		if (Session.get('towerDraggable')) {
-			return 'btn-primary';
+			return 'btn-success';
 		} else {
-			return '';
+			return 'btn-primary';
 		}
 	},
 	dragBtnDisplay: function () {

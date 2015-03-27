@@ -1,5 +1,5 @@
 Router.route('/towers', {
-  name: 'towerMap', 
+  name: 'towerMap',
   template: 'wtTowers',
   data: function() {
     return WtTower.find();

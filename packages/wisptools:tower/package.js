@@ -21,7 +21,8 @@ Package.onUse(function(api) {
     'aldeed:autoform@4.2.2',
     'iron:router@1.0.7',
     'wisptools:map-control',
-    'wisptools:collection'
+    'wisptools:collection',
+    'zimme:bootstrap-growl@2.0.1'
   ]);
 
   // Client and Server files
@@ -32,7 +33,13 @@ Package.onUse(function(api) {
 
   // Client only files
   api.addFiles([
+    'client/css/animate.css',
+    'client/css/growl.css',
     'client/css/style.css',
+    'client/templates/side_menu.html',
+    'client/templates/side_menu.js',
+    'client/templates/edit_form.html',
+    'client/templates/edit_form.js',
     'client/templates/map.html',
     'client/templates/map.js'
     ], 'client');

@@ -49,12 +49,27 @@ Template.wtTowers.created = function() {
 								$('#wtTowerEditFormModal').modal('show');
 							},
 							'dragend': function () {
-								WtTower.update({_id: Session.get('selectedTowerMarker')}, {
+								var ret = WtTower.update({_id: Session.get('selectedTowerMarker')}, {
 																							$set: {
 																								'loc.coordinates.0': _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lng(),
 																								'loc.coordinates.1': _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lat()
 																							}
 															});
+								if (ret) {
+									$.growl({
+										icon: 'glyphicon glyphicon-ok',
+										message: 'Updated Tower'
+									},{
+										type: 'success'
+									});
+								} else {
+									$.growl({
+										icon: 'glyphicon glyphicon-warning-sign',
+										message: 'Update Failed. Please try again'
+									},{
+										type: 'danger'
+									});
+								}
 								//make the computation invalid for the modal form to get new lat/lng
 								var temp = Session.get('selectedTowerMarker');
 								Session.set('selectedTowerMarker', '');
@@ -82,13 +97,3 @@ Template.wtTowers.created = function() {
 		MapControl.calcBounds();
 	});
 };
-
-Template.wtTowerDraggable.helpers({
-	dragTextBlock: function () {
-		if (Session.get('towerDraggable')) {
-			return '';
-		} else {
-			return 'hide';
-		}
-	}
-});

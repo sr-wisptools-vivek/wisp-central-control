@@ -6,17 +6,8 @@
   <div class="wt-tower-map-container col-xs-10">
     {{> googleMap name="towerMap" options=mapOptions}}
   </div>
-	<div class="col-xs-2">
-		{{> wtTowerControls}}
-	</div>
+  <div class="col-xs-2">
+    {{> wtTowerControls}}
+  </div>
   {{> wtTowerEditFormModal}}
-  {{> wtTowerDraggable}}
-</template>
-
-<template name="wtTowerDraggable">
-	<div class="row-fluid">
-		<div class="col-xs-12">
-			<h4 class="text-center {{dragTextBlock}}">You may now click and drag Towers to change the location</h4>
-		</div>
-	</div>
 </template>

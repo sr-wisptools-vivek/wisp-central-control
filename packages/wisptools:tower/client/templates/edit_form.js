@@ -77,7 +77,7 @@ Template.wtTowerEditFormModal.events({
 			});
 			if (ret) {
 				$.growl({
-					//icon: 'glyphicon glyphicon-ok',
+					icon: 'glyphicon glyphicon-ok',
 					message: 'Added Tower'
 				},{
 					type: 'success'

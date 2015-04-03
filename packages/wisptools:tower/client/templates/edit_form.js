@@ -10,16 +10,14 @@ Template.wtTowerEditFormModal.helpers({
 		}
 	},
 	towerLat: function () {
-		console.log("wtTowerEditFormModal towerLat");
-		if (typeof Session.get('selectedTowerMarker') != "undefined") {
+		if (typeof Session.get('selectedTowerMarker') != "undefined" && Session.get('selectedTowerMarker') != '') {
 			return _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lat();
 		} else {
 			return '';
 		}
 	},
 	towerLng: function () {
-		console.log("wtTowerEditFormModal towerLng");
-		if (typeof Session.get('selectedTowerMarker') != "undefined") {
+		if (typeof Session.get('selectedTowerMarker') != "undefined" && Session.get('selectedTowerMarker') != '') {
 			return _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lng();
 		} else {
 			return '';
@@ -30,6 +28,11 @@ Template.wtTowerEditFormModal.helpers({
 			return 'Save';
 		} else {
 			return 'Add';
+		}
+	},
+	accessPoints: function () {
+		if (typeof Session.get('selectedTowerMarker') != "undefined" && Session.get('selectedTowerMarker') != '') {
+			return _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).accessPoints;
 		}
 	}
 });
@@ -60,12 +63,14 @@ Template.wtTowerEditFormModal.events({
 					type: 'danger'
 				});
 			}
+/*
 			MapControl.updateMarker({
 				id: Session.get('selectedTowerMarker'),
 				title: event.target.name.value,
 				lat: event.target.lat.value,
 				lng: event.target.lng.value
 			});
+*/
 		} else {
 			//Add Tower
 			var ret = WtTower.insert({
@@ -95,5 +100,9 @@ Template.wtTowerEditFormModal.events({
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
+	},
+	'mousewheel #wtTowerEditFormModal': function (event) {
+		console.log(event);
+		$('#myCarousel').carousel('next');
 	}
 });

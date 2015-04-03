@@ -22,7 +22,9 @@ Package.onUse(function(api) {
     'iron:router@1.0.7',
     'wisptools:map-control',
     'wisptools:collection',
-    'zimme:bootstrap-growl@2.0.1'
+    'zimme:bootstrap-growl@2.0.1',
+    'mrt:jquery-mousewheel',
+    'natestrauser:bootstrap-colorpicker'
   ]);
 
   // Client and Server files
@@ -36,8 +38,12 @@ Package.onUse(function(api) {
     'client/css/animate.css',
     'client/css/growl.css',
     'client/css/style.css',
+    'client/css/bootstrap-modal-carousel.min.css',
+    'client/js/bootstrap-modal-carousel.min.js',
     'client/templates/side_menu.html',
     'client/templates/side_menu.js',
+    'client/templates/access_point.html',
+    'client/templates/access_point.js',
     'client/templates/edit_form.html',
     'client/templates/edit_form.js',
     'client/templates/map.html',

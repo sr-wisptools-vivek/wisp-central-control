@@ -18,6 +18,9 @@ Template.wtTowerControls.helpers({
 Template.wtTowerControls.events = {
 	'click #dragBtn': function () {
 		Session.set('towerDraggable', ! Session.get('towerDraggable'));
+		_.each(MapControl.markers, function (marker) {
+			marker.setOptions({draggable: Session.get('towerDraggable')});
+		});
 		if (Session.get('towerDraggable')) {
 			$.growl({
 				icon: 'glyphicon glyphicon-ok',
@@ -29,6 +32,10 @@ Template.wtTowerControls.events = {
 	},
 	'click #addTowerBtn': function () {
 		Session.set('selectedTowerMarker', '');
-		$('#wtTowerEditFormModal').modal('show');
+		$('#wtTowerEditFormModal').modal({
+			show: true,
+			local: '#myCarousel'
+		});
+		$('#myCarousel').carousel(0);
 	}
 };

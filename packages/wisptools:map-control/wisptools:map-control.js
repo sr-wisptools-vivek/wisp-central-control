@@ -82,6 +82,7 @@ MapControl = {
 
 	//remove marker
 	removeMarker: function(marker) {
+		console.log("removeMarker called: " + marker.id);
 		_.findWhere(this.markers, {id: marker.id}).setMap(null);
 		google.maps.event.clearInstanceListeners(_.findWhere(this.markers, {id: marker.id}));
 

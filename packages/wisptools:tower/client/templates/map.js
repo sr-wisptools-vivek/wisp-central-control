@@ -43,7 +43,7 @@ Template.wtTowers.created = function() {
 								show: true,
 								local: '#myCarousel'
 							});
-							$('#myCarousel').carousel(0);
+							//$('#myCarousel').carousel(0);
 						},
 						'dragend': function () {
 							var ret = WtTower.update({_id: Session.get('selectedTowerMarker')}, {
@@ -68,9 +68,8 @@ Template.wtTowers.created = function() {
 								});
 							}
 							//make the computation invalid for the modal form to get new lat/lng
-							var temp = Session.get('selectedTowerMarker');
 							Session.set('selectedTowerMarker', '');
-							Session.set('selectedTowerMarker', temp);
+							Session.set('selectedTowerMarker', objMarker.id);
 						}
 					}
 				});
@@ -89,81 +88,7 @@ Template.wtTowers.created = function() {
 			}
 		});
 
-/*
-		Deps.autorun(function() {
-			var towers = WtTower.find().fetch();
-			var towerIds = [];
-
-			_.each(towers, function(tower) {
-				//{ loc: { type: "Point", coordinates: [ 40, 5 ] } }
-				var objMarker = {
-					id: tower._id,
-					lat: tower.loc.coordinates[1],
-					lng: tower.loc.coordinates[0],
-					title: tower.name
-				};
-		
-				// check if marker already exists
-				if (!MapControl.markerExists('id', objMarker.id)) {
-					MapControl.addMarker(objMarker, {
-						markerOptions: {
-							draggable: Session.get('towerDraggable')
-						},
-						events: {
-							'mousedown': function () {
-								Session.set('selectedTowerMarker', objMarker.id);
-							},
-							'click': function () {
-								$('#wtTowerEditFormModal').modal('show');
-							},
-							'dragend': function () {
-								var ret = WtTower.update({_id: Session.get('selectedTowerMarker')}, {
-																							$set: {
-																								'loc.coordinates.0': _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lng(),
-																								'loc.coordinates.1': _.findWhere(MapControl.markers, {id: Session.get('selectedTowerMarker')}).getPosition().lat()
-																							}
-															});
-								if (ret) {
-									$.growl({
-										icon: 'glyphicon glyphicon-ok',
-										message: 'Updated Tower'
-									},{
-										type: 'success'
-									});
-								} else {
-									$.growl({
-										icon: 'glyphicon glyphicon-warning-sign',
-										message: 'Update Failed. Please try again'
-									},{
-										type: 'danger'
-									});
-								}
-								//make the computation invalid for the modal form to get new lat/lng
-								var temp = Session.get('selectedTowerMarker');
-								Session.set('selectedTowerMarker', '');
-								Session.set('selectedTowerMarker', temp);
-							}
-						}
-					});
-				} else {
-					MapControl.updateMarker(objMarker, {
-						markerOptions: {
-							draggable: Session.get('towerDraggable')
-						}
-					});
-				}
-
-				// pushing to ids to remove towers
-				towerIds.push(tower._id);
-			});
-		
-			//removed towers
-			_.each(_.difference(MapControl.towerIds, towerIds), function (id) {
-				MapControl.removeMarker({id: id});
-			});
-		});
-*/
-
 		MapControl.calcBounds();
+
 	});
 };

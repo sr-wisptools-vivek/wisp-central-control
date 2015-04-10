@@ -7,6 +7,6 @@ Router.route('/towers', {
 });
 
 Router.onBeforeAction(function() {
-  GoogleMaps.load();
+  GoogleMaps.load({libraries: 'geometry'});
   this.next();
 }, { only: ['towerMap'] });

@@ -10,19 +10,15 @@
 
 		<!-- Wrapper for slides -->
 		<div class="carousel-inner">
-			{{#autoForm collection="WtTower" id="towerForm" doc=formDoc type=formType template="bootstrap3-horizontal"}}
-				<div class="item active">
-					{{> afQuickField name='name' template="bootstrap3-horizontal" label-class="col-xs-4" input-col-class="col-xs-6"}}
-					{{> afQuickFields name='loc' template="bootstrap3-horizontal" label-class="col-xs-4" input-col-class="col-xs-6" omitFields='loc.type'}}
-				</div>
-				<div class="item">
-
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary">{{btnContent}}</button>
-					<button type="reset" class="btn btn-default">Clear</button>
-				</div>
-			{{/autoForm}}
+			<div class="item active">
+				One
+			</div>
+			<div class="item">
+				Two
+			</div>
+			<div class="item">
+				Three
+			</div>
 		</div>
 		<!-- Controls -->
 		<a class="left carousel-control" href="#myCarousel" data-slide="prev">

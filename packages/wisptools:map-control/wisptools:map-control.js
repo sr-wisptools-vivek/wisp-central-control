@@ -95,7 +95,6 @@ MapControl = {
 		this.markerData =_.reject(this.markerData, function (obj) {
 			return obj.id == marker.id;
 		});
-		this.towerIds = _.difference(this.towerIds, [marker.id]);
 	},
 
 	// calculate and move the bound box based on our markers

@@ -14,13 +14,13 @@ Template.wtTowers.helpers({
 
 Template.wtTowers.created = function() {
 	//Initiating the draggable setting
-	Session.set('towerDraggable', true)
+	Session.set('towerDraggable', true);
+	Session.set('selectedTowerMarker', '');
 
 	// We can use the `ready` callback to interact with the map API once the map is ready.
 	GoogleMaps.ready('towerMap', function(map) {
 		// Add a marker to the map once it's ready
-		MapControl.map = GoogleMaps.maps.towerMap.instance;
-
+		MapControl.map = AccessPoints.map = GoogleMaps.maps.towerMap.instance;
 		WtTower.find().observe({
 			added: function (tower) {
 				var objMarker = {
@@ -43,7 +43,7 @@ Template.wtTowers.created = function() {
 								show: true,
 								local: '#myCarousel'
 							});
-							//$('#myCarousel').carousel(0);
+							$('#myCarousel').carousel(0);
 						},
 						'dragend': function () {
 							var ret = WtTower.update({_id: Session.get('selectedTowerMarker')}, {
@@ -72,6 +72,28 @@ Template.wtTowers.created = function() {
 							Session.set('selectedTowerMarker', objMarker.id);
 						}
 					}
+				});
+
+				_.each(tower.accesspoints, function (ap, key) {
+					var accesspoint = {
+						options: _.extend(ap, {
+							id: key,
+							groupId: objMarker.id,
+							lat: objMarker.lat,
+							lng: objMarker.lng,
+						}),
+						events: {
+							click: function () {
+								$('#wtTowerEditFormModal').modal({
+									show: true,
+									local: '#myCarousel'
+								});
+								console.log(key);
+								$('#myCarousel').carousel(key);
+							}
+						}
+					};
+					AccessPoints.addAccessPoint(accesspoint);
 				});
 			},
 			changed: function (tower, oldTower) {

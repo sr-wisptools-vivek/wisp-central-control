@@ -73,8 +73,9 @@ Template.wtTowers.created = function() {
 						}
 					}
 				});
-
+console.log(tower);
 				_.each(tower.accesspoints, function (ap, key) {
+console.log(ap);
 					var accesspoint = {
 						options: _.extend(ap, {
 							id: key,
@@ -104,6 +105,27 @@ Template.wtTowers.created = function() {
 					title: tower.name
 				};
 				MapControl.updateMarker(objMarker);
+				_.each(tower.accesspoints, function (ap, key) {
+					var accesspoint = {
+						options: _.extend(ap, {
+							id: key,
+							groupId: objMarker.id,
+							lat: objMarker.lat,
+							lng: objMarker.lng,
+						}),
+						events: {
+							click: function () {
+								$('#wtTowerEditFormModal').modal({
+									show: true,
+									local: '#myCarousel'
+								});
+								console.log(key);
+								$('#myCarousel').carousel(key);
+							}
+						}
+					};
+					AccessPoints.updateAccessPoint(accesspoint);
+				});
 			},
 			removed: function (oldTower) {
 				MapControl.removeMarker({id: oldTower.id});

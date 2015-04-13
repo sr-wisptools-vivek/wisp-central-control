@@ -127,6 +127,7 @@ Template.wtTowers.created = function() {
 			},
 			removed: function (oldTower) {
 				MapControl.removeMarker({id: oldTower.id});
+				AccessPoints.removeGroup({id: oldTower.id});
 			}
 		});
 

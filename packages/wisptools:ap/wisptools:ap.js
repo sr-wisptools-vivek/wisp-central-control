@@ -155,6 +155,7 @@ AccessPoints = {
 										}
 								});
 		polygon = _.first(polygon);
+console.log(polygon);
 		google.maps.event.clearInstanceListeners(polygon);
 		polygon.setMap(null);
 

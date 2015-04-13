@@ -73,9 +73,8 @@ Template.wtTowers.created = function() {
 						}
 					}
 				});
-console.log(tower);
+
 				_.each(tower.accesspoints, function (ap, key) {
-console.log(ap);
 					var accesspoint = {
 						options: _.extend(ap, {
 							id: key,
@@ -89,8 +88,8 @@ console.log(ap);
 									show: true,
 									local: '#myCarousel'
 								});
-								console.log(key);
-								$('#myCarousel').carousel(key);
+								console.log(key+1);
+								$('#myCarousel').carousel(key+1);
 							}
 						}
 					};
@@ -119,8 +118,7 @@ console.log(ap);
 									show: true,
 									local: '#myCarousel'
 								});
-								console.log(key);
-								$('#myCarousel').carousel(key);
+								$('#myCarousel').carousel(key+1);
 							}
 						}
 					};

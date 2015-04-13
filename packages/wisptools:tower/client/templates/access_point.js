@@ -1,6 +1,5 @@
 Template.accessPoint.rendered = function () {
 	$('.simplecolorpicker').simplecolorpicker({theme: 'fontawesome'});
-	console.log("simplecolorpicker called");
 };
 
 Template.accessPoint.helpers({
@@ -25,6 +24,6 @@ Template.accessPoint.helpers({
 			return (a==b.color) ? 'selected' : '';
 	},
 	log: function () {
-		console.log(this);
+		//console.log(this);
 	}
 });

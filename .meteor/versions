@@ -74,7 +74,6 @@ sacha:spin@2.0.4
 service-configuration@1.0.3
 session@1.0.5
 sha@1.0.2
-sirhan:access-points@0.0.1
 spacebars@1.0.5
 spacebars-compiler@1.0.4
 srp@1.0.2
@@ -86,6 +85,7 @@ underscore@1.0.2
 url@1.0.3
 webapp@1.1.6
 webapp-hashing@1.0.2
+wisptools:ap@0.0.1
 wisptools:autoform-select-other@0.0.1
 wisptools:collection@0.0.1
 wisptools:customer@0.0.1

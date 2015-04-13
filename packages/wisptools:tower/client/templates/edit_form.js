@@ -32,7 +32,7 @@ Template.wtTowerEditFormModal.helpers({
 	},
 	accessPoints: function () {
 		if (typeof Session.get('selectedTowerMarker') != "undefined" && Session.get('selectedTowerMarker') != '') {
-			return _.findWhere(AccessPoints.accesspoints, {groupId: Session.get('selectedTowerMarker')});
+			return WtTower.find({id: Session.get('selectedTowerMarker')}, {accessPoints: 1});
 		}
 	}
 });
@@ -94,7 +94,6 @@ Template.wtTowerEditFormModal.events({
 		return false;
 	},
 	'mousewheel #wtTowerEditFormModal': function (event) {
-		console.log(event);
 		$('#myCarousel').carousel('next');
 	}
 });

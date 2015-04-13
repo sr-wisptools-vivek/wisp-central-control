@@ -97,7 +97,7 @@ AccessPoints = {
 
 		polygon.setMap(this.map);
 		this.polygons.push(polygon);
-console.log(polygon);
+
 		if (typeof ap.events != "undefined") {
 			_.each(ap.events, function (callback, on) {
 				google.maps.event.addListener(polygon, on, callback);
@@ -129,9 +129,6 @@ console.log(polygon);
 											}
 									});
 			polygon = _.first(polygon);
-			//_.findWhere(this.polygons, {'properties.id': accesspoint.id, 'properties.groupId': accesspoint.groupId});
-			console.log(polygon);
-
 			polygon.setOptions({
 					paths: this.getPolygonPoints(accesspoint),
 					strokeColor: accesspoint.color,
@@ -152,7 +149,21 @@ console.log(polygon);
 	},
 
 	removeAccessPoint: function (ap) {
+		var polygon = _.filter(this.polygons, function (polygon) {
+										if (polygon.properties.id === ap.options.id && polygon.properties.groupId === ap.options.groupId) {
+											return true;
+										}
+								});
+		polygon = _.first(polygon);
+		google.maps.event.clearInstanceListeners(polygon);
+		polygon.setMap(null);
 
+		this.polygons =_.reject(this.polygons, function (p) {
+			return p.properties.id === ap.options.id;
+		});
+		this.accesspoints =_.reject(this.accesspoints, function (accesspoint) {
+			return accesspoint.id == ap.id;
+		});
 	},
 
 	getPolygonPoints: function (ap) {

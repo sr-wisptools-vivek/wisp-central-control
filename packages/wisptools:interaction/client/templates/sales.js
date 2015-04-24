@@ -1,7 +1,7 @@
 var pageData = [
   {
-    name: "Contact",
-    pageId: "contact_page",
+    tabName: "Contact",
+    tabId: "contact_page",
     tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       regarding: {
@@ -49,8 +49,8 @@ var pageData = [
       }
     })
   },{
-    name: "Location",
-    pageId: "location_page",
+    tabName: "Location",
+    tabId: "location_page",
     tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       address: {
@@ -67,8 +67,8 @@ var pageData = [
       }
     })
   },{
-    name: "Questions",
-    pageId: "questions_page",
+    tabName: "Questions",
+    tabId: "questions_page",
     tabTemplate: "wtInteractionSalesQuestions",
     schema: new SimpleSchema({
       cur_provider: {
@@ -135,8 +135,8 @@ var pageData = [
       }
     })
   },{
-    name: "Plans",
-    pageId: "plan_page",
+    tabName: "Plans",
+    tabId: "plan_page",
     tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       plan: {
@@ -147,8 +147,8 @@ var pageData = [
       }
     })
   },{
-    name: "Schedule",
-    pageId: "schedule_page",
+    tabName: "Schedule",
+    tabId: "schedule_page",
     tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       schedule: {
@@ -159,14 +159,14 @@ var pageData = [
       }
     })
   },{
-    name: "Order",
-    pageId: "order_page",
+    tabName: "Order",
+    tabId: "order_page",
     tabTemplate: "wtInteractionSalesOrder",
     schema: new SimpleSchema({
     })
   },{
-    name: "Disclosures",
-    pageId: "disclosures_page",
+    tabName: "Disclosures",
+    tabId: "disclosures_page",
     tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       disclosure1: {
@@ -206,13 +206,13 @@ Template.wtInteractionSales.events({
 
 Template.wtInteractionSalesOrder.helpers({
   formId: function () {
-    return this.pageId + "_form";    
+    return this.tabId + "_form";    
   }
 });
 
 
 Template.wtInteractionSalesQuestions.helpers({
   formId: function () {
-    return this.pageId + "_form";    
+    return this.tabId + "_form";    
   }
 });

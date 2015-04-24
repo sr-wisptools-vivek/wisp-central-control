@@ -9,6 +9,7 @@
 
 
 <template name="wtInteractionPageWithTabs">
+
   <div class="interaction-info row">
     <div class="interaction-name col-md-4">
       <h4>{{name}} @ {{phone}}</h4>
@@ -21,28 +22,11 @@
     </div>
   </div>
 
-  <div role="tabpanel" class="interaction-menu">
-    <ul class="nav nav-tabs nav-justified" id="wt_interaction_tabs" role="tablist">
-      {{#each pages}}
-        {{> wtInteractionPageTab}}
-      {{/each}}
-    </ul>
+  {{> wtTabPage tabData=tabData}}
 
-    <div class="tab-content interaction-content">
-      {{#each pages}}
-        {{> Template.dynamic template=tabTemplate}}
-      {{/each}}
-    </div>
-  </div>
-</template>
-
-<template name="wtInteractionPageTab">
-    <li role="presentation"><a href="#{{pageId}}" aria-controls="{{pageId}}" role="tab" data-toggle="pill">{{name}}</a></li>
 </template>
 
 <template name="wtInteractionQuickForm">
-  <div role="tabpanel" class="tab-pane" id="{{pageId}}">
-    {{> quickForm collection="WtInteraction" doc=interactionData schema=schema id=formId autosave=true buttonContent=false type="update"}}
-  </div>
+  {{> quickForm collection="WtInteraction" doc=interactionData schema=schema id=formId autosave=true buttonContent=false type="update"}}
 </template>
 

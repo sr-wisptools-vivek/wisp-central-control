@@ -18,8 +18,8 @@
 
       <div class="tab-content tab-page-content">
         {{#each pages}}
-          <div role="tabpanel" class="tab-pane" id="{{id}}">
-            {{> Template.dynamic template=template}}
+          <div role="tabpanel" class="tab-pane" id="{{tabId}}">
+            {{> Template.dynamic template=tabTemplate}}
           </div>
         {{/each}}
       </div>
@@ -28,5 +28,5 @@
 </template>
 
 <template name="wtTabPageTab">
-    <li role="presentation"><a href="#{{id}}" aria-controls="{{id}}" role="tab" data-toggle="pill">{{name}}</a></li>
+    <li role="presentation"><a href="#{{tabId}}" aria-controls="{{tabId}}" role="tab" data-toggle="pill">{{tabName}}</a></li>
 </template>

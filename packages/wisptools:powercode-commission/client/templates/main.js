@@ -4,21 +4,21 @@ Template.wtPowercodeCommissions.helpers({
     title: "Powercode Commissions",
     pages: [
       {
-        name: "Commission Reports",
-        id: "pc_com_reports",
-        template: "wtPowercodeCommissionReports"
+        tabName: "Commission Reports",
+        tabId: "pc_com_reports",
+        tabTemplate: "wtPowercodeCommissionReports"
       },{
-        name: "Configure Users",
-        id: "pc_com_users",
-        template: "wtPowercodeCommissionUsers"
+        tabName: "Configure Users",
+        tabId: "pc_com_users",
+        tabTemplate: "wtPowercodeCommissionUsers"
       },{
-        name: "Configure Services",
-        id: "pc_com_services",
-        template: "wtPowercodeCommissionServices"
+        tabName: "Configure Services",
+        tabId: "pc_com_services",
+        tabTemplate: "wtPowercodeCommissionServices"
       },{
-        name: "Configure Commission Types",
-        id: "pc_com_types",
-        template: "wtPowercodeCommissionTypes"
+        tabName: "Configure Commission Types",
+        tabId: "pc_com_types",
+        tabTemplate: "wtPowercodeCommissionTypes"
       }
     ]
   }

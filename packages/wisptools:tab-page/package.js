@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'wisptools:powercode',
+  name: 'wisptools:tab-page',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -12,32 +12,22 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.2');
-
   api.use([
     'meteor',
-    'mongo',
-    'templating',
-    'aldeed:collection2@2.3.1',
-    'aldeed:autoform@4.2.2',
-    'iron:router@1.0.7',
-    'wisptools:menu'
+    'templating'
   ]);
 
-  // Client and server files
+  // Client only files
   api.addFiles([
-    'lib/wtpowercode.js'
-    ], ['server','client']);
-
-  api.export('WtPowercode');
+    'client/css/style.css',
+    'client/templates/tabs.html',
+    'client/templates/tabs.js'
+    ], 'client');
 
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('wisptools:powercode');
-  api.addFiles('wisptools:powercode-tests.js');
-});
-
-Npm.depends({
-  'mysql': '2.6.2'
+  api.use('wisptools:tab-pages');
+  api.addFiles('wisptools:tab-pages-tests.js');
 });

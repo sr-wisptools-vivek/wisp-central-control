@@ -15,6 +15,7 @@ WtMenu =  {
       if (this.dropdown[i].dropdownName == dropdownName) {
         isNew = false;
         index = i;
+        break;
       }
     }
     if (isNew) {
@@ -29,6 +30,7 @@ WtMenu =  {
     return index;
   },
   addDropdownItem: function(dropdownName, name, route, icon, displayOrder) {
+
     var i = this.indexFor(dropdownName);
     var n = this.dropdown[i].items.length;
 

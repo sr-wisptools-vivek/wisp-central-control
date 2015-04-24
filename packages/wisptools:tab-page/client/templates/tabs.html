@@ -1,0 +1,32 @@
+
+<template name="wtTabPage">
+  {{#with tabData}}
+    {{#if showTitle}}
+      <div class="row">
+        <div class="tab-page-title col-md-12">
+          <h4>{{title}}</h4>
+        </div>
+      </div>
+    {{/if}}
+
+    <div role="tabpanel" class="tab-page-menu">
+      <ul class="nav nav-tabs nav-justified" id="wt_tab_page_tabs" role="tablist">
+        {{#each pages}}
+          {{> wtTabPageTab}}
+        {{/each}}
+      </ul>
+
+      <div class="tab-content tab-page-content">
+        {{#each pages}}
+          <div role="tabpanel" class="tab-pane" id="{{id}}">
+            {{> Template.dynamic template=template}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  {{/with}}
+</template>
+
+<template name="wtTabPageTab">
+    <li role="presentation"><a href="#{{id}}" aria-controls="{{id}}" role="tab" data-toggle="pill">{{name}}</a></li>
+</template>

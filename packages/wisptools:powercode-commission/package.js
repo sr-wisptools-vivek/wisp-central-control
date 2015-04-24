@@ -21,12 +21,28 @@ Package.onUse(function(api) {
     'aldeed:autoform@4.2.2',
     'iron:router@1.0.7',
     'wisptools:menu',
-    'wisptools:powercode'
+    'wisptools:powercode',
+    'wisptools:tab-page'
   ]);
+
+  // Client and Server files
+  api.addFiles([
+    'lib/router.js'
+    ], ['server','client']);
 
   // Client only files
   api.addFiles([
-    'client/menu.js'
+    'client/menu.js',
+    'client/templates/main.html',
+    'client/templates/main.js',
+    'client/templates/reports.html',
+    'client/templates/reports.js',
+    'client/templates/services.html',
+    'client/templates/services.js',
+    'client/templates/types.html',
+    'client/templates/types.js',
+    'client/templates/users.html',
+    'client/templates/users.js'
     ], 'client');
 
 });

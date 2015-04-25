@@ -4,7 +4,7 @@ WtPowercode = {};
 if (Meteor.isServer) {
 
   var mysql = Npm.require('mysql');
-  var pool  = mysql.createPool({
+  WtPowercode.pool  = mysql.createPool({
     host      : Meteor.settings.powercode.dbHost,
     user      : Meteor.settings.powercode.dbUser,
     password  : Meteor.settings.powercode.dbPass
@@ -17,7 +17,7 @@ if (Meteor.isServer) {
         events = [],
         eventNameIndex = {};
 
-    pool.getConnection(function (err, conn) {
+    this.pool.getConnection(function (err, conn) {
         if (err) {
             if (eventNameIndex.error) {
                 eventNameIndex.error();

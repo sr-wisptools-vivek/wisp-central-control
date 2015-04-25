@@ -17,6 +17,7 @@ Package.onUse(function(api) {
     'meteor',
     'mongo',
     'templating',
+    'reactive-var',
     'aldeed:collection2@2.3.1',
     'aldeed:autoform@4.2.2',
     'iron:router@1.0.7',

@@ -28,6 +28,10 @@ Package.onUse(function(api) {
     'lib/wtpowercode.js'
     ], ['server','client']);
 
+  api.addFiles([
+    'server/methods.js'
+    ], 'server');
+
   api.export('WtPowercode');
 
 });

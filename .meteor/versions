@@ -86,6 +86,7 @@ wisptools:autoform-select-other@0.0.1
 wisptools:collection@0.0.1
 wisptools:customer@0.0.1
 wisptools:delete-btn@0.0.1
+wisptools:growl@0.0.1
 wisptools:interaction@0.0.4
 wisptools:map-control@0.0.1
 wisptools:menu@0.0.1

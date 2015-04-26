@@ -54,7 +54,11 @@ Template.wtPowercodeCommissionUsersComSelect.events({
       commissionTypeId: event.target.value,
       commissionTypeName: event.target[event.target.selectedIndex].text
     }
-    console.log(data);
-    WtPowercodeCommission.collection.user.update(userType._id, {$set: data});
+    WtPowercodeCommission.collection.user.update(userType._id, {$set: data}, {}, function (err, res) {
+      if (err)
+        WtGrowl.fail("Could not update commission type for user " + webUser.Username);
+      else
+        WtGrowl.success("Commission type updated for user " + webUser.Username);
+    });
   }
 });

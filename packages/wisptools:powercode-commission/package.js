@@ -25,7 +25,8 @@ Package.onUse(function(api) {
     'wisptools:menu',
     'wisptools:powercode',
     'wisptools:tab-page',
-    'wisptools:delete-btn'
+    'wisptools:delete-btn',
+    'wisptools:growl'
   ]);
 
   // Client and Server files

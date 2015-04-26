@@ -36,7 +36,12 @@ Template.wtPowercodeCommissionTypesEdit.events({
     var type = event.target.typeName.value;
     var given = event.target.givenWhen.value;
 
-    WtPowercodeCommission.collection.type.updateFeild(_id, {name: type, givenWhen: given});
+    WtPowercodeCommission.collection.type.update(_id, {$set: {name: type, givenWhen: given}}, {}, function (err, res) {
+      if (err)
+        WtGrowl.fail("Could not update commission type " + type);
+      else
+        WtGrowl.success("Commission type " + type + " updated");
+    });
 
   }
 });

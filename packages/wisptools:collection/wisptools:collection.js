@@ -36,8 +36,8 @@ WtCollection = function(collectionName) {
   }
 
   // Not really using this at the moment, because AutoForm is doing the updates.
-  wtCollection.updateFeild = function (id, data) {
-    this.update({_id: id}, {$set: data});
+  wtCollection.updateFeild = function (id, data, options, callback) {
+    var res = this.update({_id: id}, {$set: data}, options, callback);
   }
 
   return wtCollection;

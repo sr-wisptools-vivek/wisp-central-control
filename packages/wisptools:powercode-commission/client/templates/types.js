@@ -38,28 +38,5 @@ Template.wtPowercodeCommissionTypesEdit.events({
 
     WtPowercodeCommission.collection.type.updateFeild(_id, {name: type, givenWhen: given});
 
-  },
-  "click .del-type": function (event) {
-    var id = this._id;
-    var name = this.name;
-
-    bootbox.dialog({
-      message: "Are you sure?",
-      title: "Delete " + name,
-      buttons: {
-        no: {
-          label: "No",
-          className: "btn-default"
-        },
-        yes: {
-          label: "Yes, delete!",
-          className: "btn-danger",
-          callback: function () {
-            console.log("DELETED COMMISSION TYPE: " + id);
-            WtPowercodeCommission.collection.type.updateFeild(id, {deleted: true});            
-          }
-        }
-      }
-    });
   }
 });

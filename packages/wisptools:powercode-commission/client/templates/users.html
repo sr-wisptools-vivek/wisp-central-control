@@ -10,9 +10,18 @@
         <tr>
           <td>{{Username}}</td>
           <td>{{Name}}</td>
-          <td></td>
+          <td>{{> wtPowercodeCommissionUsersComSelect}}</td>
         </tr>
       {{/each}}
     </tbody>
   </table>
+</template>
+
+<template name="wtPowercodeCommissionUsersComSelect">
+  <select class="form-control type-sel">
+    <option value="None">None</option>
+    {{#each typeList}}
+      <option value="{{_id}}" {{selected _id userType.commissionTypeId}}>{{name}}</option>
+    {{/each}}
+  </select>
 </template>

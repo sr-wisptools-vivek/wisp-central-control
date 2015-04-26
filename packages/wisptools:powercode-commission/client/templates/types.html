@@ -1,3 +1,44 @@
 <template name="wtPowercodeCommissionTypes">
-  <h1>Types</h1>
+
+  {{#each typeList}}
+    {{> wtPowercodeCommissionTypesEdit}}
+  {{/each}}
+
+<div class="jumbotron">
+  <form class="form-inline add-type">
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control" name="typeName" value="">
+    </div>
+    <div class="form-group">
+      <label>Given When</label>
+        <select class="form-control" name="givenWhen">
+          <option>Payment Received</option>
+          <option>Account Charged</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+</div>
+
+</template>
+
+<template name="wtPowercodeCommissionTypesEdit">
+  <div class="jumbotron">
+  <form class="form-inline save-type">
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control" name="typeName" value="{{name}}">
+    </div>
+    <div class="form-group">
+      <label>Given When</label>
+        <select class="form-control" name="givenWhen">
+          <option {{selected givenWhen "Payment Received"}}>Payment Received</option>
+          <option {{selected givenWhen "Account Charged"}}>Account Charged</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    {{>wtDeleteBtn id=_id collection='wt_powercode_commission_type' name=name}}
+  </form>
+  </div>
 </template>

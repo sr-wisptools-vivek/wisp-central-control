@@ -6,9 +6,9 @@ WtCollection = function(collectionName) {
   var wtCollection = new Mongo.Collection(collectionName);
 
   // Set basic permissions
+  // TODO: Add better access control
   wtCollection.allow({
     insert: function(userId, doc) {
-      // only allow posting if you are logged in
       return !! userId;
     },
     update: function(userId, doc) {

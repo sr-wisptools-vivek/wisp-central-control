@@ -21,13 +21,16 @@ Package.onUse(function(api) {
     'aldeed:collection2@2.3.1',
     'aldeed:autoform@4.2.2',
     'iron:router@1.0.7',
+    'wisptools:collection',
     'wisptools:menu',
     'wisptools:powercode',
-    'wisptools:tab-page'
+    'wisptools:tab-page',
+    'wisptools:delete-btn'
   ]);
 
   // Client and Server files
   api.addFiles([
+    'lib/collection.js',
     'lib/router.js'
     ], ['server','client']);
 
@@ -45,6 +48,8 @@ Package.onUse(function(api) {
     'client/templates/users.html',
     'client/templates/users.js'
     ], 'client');
+
+  api.export('WtPowercodeCommission');
 
 });
 

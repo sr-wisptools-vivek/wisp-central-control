@@ -20,6 +20,15 @@ WtCollection = function(collectionName) {
     Meteor.publish(collectionName, function() {
       return wtCollection.find();
     });
+
+    wtCollection.before.insert(function(userId, doc) {
+      doc.createdAt = new Date();
+    });
+
+    wtCollection.before.update(function(userId, doc, fieldNames, modifier, options) {
+      modifier.$set = modifier.$set || {};
+      modifier.$set.updatedAt = new Date();
+    });
   }
 
   if (Meteor.isClient) {

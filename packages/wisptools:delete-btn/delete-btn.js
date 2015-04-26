@@ -34,9 +34,9 @@ if (Meteor.isServer) {
     wtMarkAsDeleted: function (id, collection) {
       var data = {
         deleted: true,
-        deletedOn: new Date().valueOf()
+        deletedAt: new Date()
       }
-      Mongo.Collection.get(collection).update(id, data);
+      Mongo.Collection.get(collection).update({_id: id}, {$set: data});
     }
   });
 }

@@ -83,6 +83,10 @@ Template.wtTowers.created = function() {
 							lng: objMarker.lng,
 						}),
 						events: {
+							'mousedown': function () {
+								Session.set('selectedTowerMarker', '');
+								Session.set('selectedTowerMarker', objMarker.id);
+							},
 							click: function () {
 								$('#wtTowerEditFormModal').modal({
 									show: true,
@@ -113,6 +117,10 @@ Template.wtTowers.created = function() {
 							lng: objMarker.lng,
 						}),
 						events: {
+							'mousedown': function () {
+								Session.set('selectedTowerMarker', '');
+								Session.set('selectedTowerMarker', objMarker.id);
+							},
 							click: function () {
 								$('#wtTowerEditFormModal').modal({
 									show: true,

@@ -30,10 +30,13 @@ Template.wtTowerEditFormModal.helpers({
 			return 'Add';
 		}
 	},
-	accessPoints: function () {
+	tower: function () {
 		if (typeof Session.get('selectedTowerMarker') != "undefined" && Session.get('selectedTowerMarker') != '') {
-			return WtTower.find({id: Session.get('selectedTowerMarker')}, {accessPoints: 1});
+			return WtTower.findOne({_id: Session.get('selectedTowerMarker')});
 		}
+	},
+	log: function () {
+		console.log(this);
 	}
 });
 
@@ -94,6 +97,14 @@ Template.wtTowerEditFormModal.events({
 		return false;
 	},
 	'mousewheel #wtTowerEditFormModal': function (event) {
-		$('#myCarousel').carousel('next');
+		if(event.originalEvent.wheelDelta /120 < 0) {
+			$("#myCarousel").carousel('next');
+		}
+		else {
+			$("#myCarousel").carousel('prev');
+		}
+	},
+	'slid.bs.carousel #myCarousel': function () {
+		$('.simplecolorpicker.fontawesome').show();
 	}
 });

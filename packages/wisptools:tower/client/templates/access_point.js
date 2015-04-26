@@ -22,8 +22,5 @@ Template.accessPoint.helpers({
 	selectedColor: function (a,b) {
 		if (typeof b.color != 'undefined')
 			return (a==b.color) ? 'selected' : '';
-	},
-	log: function () {
-		//console.log(this);
 	}
 });

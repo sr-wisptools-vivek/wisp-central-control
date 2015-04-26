@@ -32,9 +32,11 @@
 					</div>
 				</div>
 			</div>
-			{{#each accessPoints}}
-				{{> accessPoint}}
-			{{/each}}
+			{{#with tower}}
+				{{#each accesspoints}}
+					{{> accessPoint}}
+				{{/each}}
+			{{/with}}
 			{{> accessPoint}}
 		</div>
 

@@ -92,6 +92,7 @@ wisptools:map-control@0.0.1
 wisptools:menu@0.0.1
 wisptools:powercode@0.0.1
 wisptools:powercode-commission@0.0.1
+wisptools:powercode-extenet@0.0.1
 wisptools:tab-page@0.0.1
 wisptools:tower@0.0.1
 zimme:bootstrap-growl@2.0.1

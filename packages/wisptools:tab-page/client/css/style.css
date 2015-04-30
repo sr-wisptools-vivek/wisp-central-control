@@ -1,7 +1,6 @@
 div.tab-page-content {
   padding: 3%;
   border: #ddd solid 1px;
-  border-top-style: none;
   clear: both;
   width: 100%;
 }
@@ -15,4 +14,15 @@ div.tab-page-menu {
   width: 100%;
 }
 
+@media (max-width: 767px) {
+  div.tab-page-content {
+    border-top-style: solid;
+  }
+}
+
+@media (min-width: 768px) {
+  div.tab-page-content {
+    border-top-style: none;
+  }
+}
 

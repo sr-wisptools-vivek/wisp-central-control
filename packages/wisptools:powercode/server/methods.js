@@ -47,14 +47,34 @@ Meteor.methods({
   }
 });
 
+var getServicesSQL = function (type) {
+  var where = "";
+  var db_name = Meteor.settings.powercode.dbName;
+  if (type == "Monthly Services") {
+    where = "WHERE Type IN ('Monthly','Monthly Internet')";
+  }
+  return "SELECT ID, Cost, Type, Tax, Status, Discription as Description, CONCAT('$', FORMAT(Cost, 2)) as CostFormat FROM " + db_name + ".Services " + where + " ORDER BY Type, Description";
+}
+
 Meteor.methods({
   wtPowercodeGetAllServices: function() {
     if (Meteor.userId() == null) return null;
 
     var fut = new Future();
-    var db_name = Meteor.settings.powercode.dbName;
-    var sql = "SELECT ID, Cost, Type, Tax, Status, Discription as Description, CONCAT('$', FORMAT(Cost, 2)) as CostFormat FROM " + db_name + ".Services ORDER BY Type, Description";
+    var sql = getServicesSQL(null);
+    runQuery(sql, fut);
 
+    return fut.wait();
+  }
+});
+
+
+Meteor.methods({
+  wtPowercodeGetAllMonthlyServices: function() {
+    if (Meteor.userId() == null) return null;
+
+    var fut = new Future();
+    var sql = getServicesSQL("Monthly Services");
     runQuery(sql, fut);
 
     return fut.wait();

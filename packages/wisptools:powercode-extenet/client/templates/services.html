@@ -1,0 +1,38 @@
+<template name="wtPowercodeExteNetServices">
+  <table class="table table-striped table-bordered">
+    <tbody>
+      <tr>
+        <th>Powercode Service</th>
+        <th>Price</th>
+        <th>Type</th>
+        <th>Is a LTE Service?</th>
+        <th>mNET Profile</th>
+      </tr>
+      {{#each monthlyServices}}
+        <tr>
+          <td>{{Description}}</td>
+          <td>{{CostFormat}}</td>
+          <td>{{Type}}</td>
+          {{> wtPowercodeExteNetServiceSettings}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+
+<template name="wtPowercodeExteNetServiceSettings">
+  {{#with service}}
+    <td>
+      <select class="form-control is-lte-select">
+        <option value="No" {{selected isLte "No"}}>No</option>
+        <option value="Yes" {{selected isLte "Yes"}}>Yes</option>
+      </select>
+    </td>
+    <td>
+    {{#if showProfile}}
+      <input type="text" class="form-control lte-profile-input" name="typeName" value="{{profile}}">
+    {{/if}}
+    </td>
+  {{/with}}
+</template>

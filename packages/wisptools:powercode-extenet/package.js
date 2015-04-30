@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'wisptools:powercode-commission',
+  name: 'wisptools:powercode-extenet',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -11,7 +11,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.0.3.2');
+  api.versionsFrom('1.1.0.2');
 
   api.use([
     'meteor',
@@ -23,7 +23,6 @@ Package.onUse(function(api) {
     'wisptools:menu',
     'wisptools:powercode',
     'wisptools:tab-page',
-    'wisptools:delete-btn',
     'wisptools:growl'
   ]);
 
@@ -38,22 +37,19 @@ Package.onUse(function(api) {
     'client/menu.js',
     'client/templates/main.html',
     'client/templates/main.js',
-    'client/templates/reports.html',
-    'client/templates/reports.js',
+    'client/templates/api.html',
+    'client/templates/api.js',
     'client/templates/services.html',
     'client/templates/services.js',
-    'client/templates/types.html',
-    'client/templates/types.js',
-    'client/templates/users.html',
-    'client/templates/users.js'
+    'client/templates/sim_cards.html',
+    'client/templates/sim_cards.js',
     ], 'client');
 
-  api.export('WtPowercodeCommission');
-
+  api.export('WtPowercodeExtenet');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('wisptools:powercode-commission');
-  api.addFiles('wisptools:powercode-commission-tests.js');
+  api.use('wisptools:powercode-extenet');
+  api.addFiles('powercode-extenet-tests.js');
 });

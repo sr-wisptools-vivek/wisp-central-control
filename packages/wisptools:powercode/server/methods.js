@@ -65,16 +65,26 @@ Meteor.methods({
     runQuery(sql, fut);
 
     return fut.wait();
-  }
-});
-
-
-Meteor.methods({
+  },
   wtPowercodeGetAllMonthlyServices: function() {
     if (Meteor.userId() == null) return null;
 
     var fut = new Future();
     var sql = getServicesSQL("Monthly Services");
+    runQuery(sql, fut);
+
+    return fut.wait();
+  }
+});
+
+
+Meteor.methods({
+  wtPowercodeGetAllInvProducts: function() {
+    if (Meteor.userId() == null) return null;
+
+    var fut = new Future();
+    var db_name = Meteor.settings.powercode.dbName;
+    var sql = "SELECT * FROM " + db_name + ".InvProduct ORDER BY Model, Name";
     runQuery(sql, fut);
 
     return fut.wait();

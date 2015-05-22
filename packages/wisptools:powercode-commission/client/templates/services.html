@@ -21,12 +21,12 @@
         <div class="form-group">
           <label>{{name}}</label>
           <div class="input-group">
-            <input type="text" class="form-control" value="{{commission.amount}}">
+            <input type="text" class="form-control comm-amount" value="{{commission.amount}}">
             <div class="input-group-btn">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{commission.type}} <span class="caret"></span></button>
               <ul class="dropdown-menu pull-right">
-                <li><a href="#">%</a></li>
-                <li><a href="#">$</a></li>
+                <li class="comm-perc"><a href="#">%</a></li>
+                <li class="comm-dollar" ><a href="#">$</a></li>
               </ul>
             </div><!-- /btn-group -->                  
           </div>

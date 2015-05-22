@@ -55,3 +55,61 @@ Template.wtPowercodeCommissionServicesTypes.helpers({
   }
 });
 
+Template.wtPowercodeCommissionServicesTypes.events({
+  "blur .comm-amount": function (event) {
+    var _this = this;
+    var powercodeService = Template.parentData(0);
+    var data = WtPowercodeCommission.collection.service.findOne({serviceId: powercodeService.ID, commissions: {$elemMatch: {typeId: _this._id}}}, {fields: {commissions: 1}});
+
+    var len = data.commissions.length;
+    for (var i = 0; i < len; i++) {
+      if (data.commissions[i].typeId == _this._id) {
+        data.commissions[i].amount = event.target.value;
+      }
+    }
+    WtPowercodeCommission.collection.service.update(data._id, {$set: {commissions: data.commissions}}, {}, function (err, res) {
+      if (err)
+        WtGrowl.fail("Could not update service");
+      else
+        WtGrowl.success("Amount updated to " + event.target.value);
+    });
+  },
+  "blur .comm-perc": function(event) {
+    var _this = this;
+    var powercodeService = Template.parentData(0);
+    var data = WtPowercodeCommission.collection.service.findOne({serviceId: powercodeService.ID, commissions: {$elemMatch: {typeId: _this._id}}}, {fields: {commissions: 1}});
+
+    var len = data.commissions.length;
+    for (var i = 0; i < len; i++) {
+      if (data.commissions[i].typeId == _this._id) {
+        data.commissions[i].type = '%';
+      }
+    }
+    WtPowercodeCommission.collection.service.update(data._id, {$set: {commissions: data.commissions}}, {}, function (err, res) {
+      if (err)
+        WtGrowl.fail("Could not update service");
+      else
+        WtGrowl.success("Commissions set to %");
+    });
+  },
+  "blur .comm-dollar": function(event) {
+    var _this = this;
+    var powercodeService = Template.parentData(0);
+    var data = WtPowercodeCommission.collection.service.findOne({serviceId: powercodeService.ID, commissions: {$elemMatch: {typeId: _this._id}}}, {fields: {commissions: 1}});
+
+    var len = data.commissions.length;
+    for (var i = 0; i < len; i++) {
+      if (data.commissions[i].typeId == _this._id) {
+        data.commissions[i].type = '$';
+      }
+    }
+    WtPowercodeCommission.collection.service.update(data._id, {$set: {commissions: data.commissions}}, {}, function (err, res) {
+      if (err)
+        WtGrowl.fail("Could not update service");
+      else
+        WtGrowl.success("Commissions set to $");
+    });
+  }
+});
+
+

@@ -19,12 +19,15 @@ Package.onUse(function(api) {
     'templating',
     'reactive-var',
     'iron:router@1.0.7',
+    'rajit:bootstrap3-datepicker@1.4.1',
     'wisptools:collection',
     'wisptools:menu',
     'wisptools:powercode',
     'wisptools:tab-page',
     'wisptools:delete-btn',
-    'wisptools:growl'
+    'wisptools:growl',
+    'wisptools:download-csv',
+    'wisptools:date-format'
   ]);
 
   // Client and Server files

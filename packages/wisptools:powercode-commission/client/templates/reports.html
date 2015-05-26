@@ -1,3 +1,47 @@
 <template name="wtPowercodeCommissionReports">
-  <h1>Reports</h1>
+
+  <div class="jumbotron">
+    <form class="run-report">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="text" class="form-control" name="commStartDate" id="commStartDate" value="{{startDate}}">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="text" class="form-control" name="commEndDate" id="commEndDate" value="{{endDate}}">
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" {{disabled}}>{{#unless running}}Run{{/unless}}{{#if running}}Running{{/if}}</button>
+    </form>
+  </div>
+
+  {{#unless haveData}}
+    <div class="row">
+      <div class="col-md-10"><h3>Commission Report</h3><strong>{{startDate}} to {{endDate}}</strong></div>
+      <div class="col-md-2">{{> wtDownloadCSV table="#wtPowercodeCommissionReportTable"}}</div>
+    </div>
+    <table id="wtPowercodeCommissionReportTable" class="table table-striped table-bordered">
+      <tbody>
+        <tr>
+          <th>User</th>
+          <th>Customer</th>
+          <th>Commission Amount</th>
+        </tr>
+        {{#each reportData}}
+          <tr>
+            <td>{{user}}</td>
+            <td>{{customer}}</td>
+            <td>{{commission}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/unless}}
+
+
 </template>

@@ -61,6 +61,7 @@ mongo-livedata@1.0.8
 npm-bcrypt@0.7.8_2
 observe-sequence@1.0.6
 ordered-dict@1.0.3
+rajit:bootstrap3-datepicker@1.4.1
 random@1.0.3
 reactive-dict@1.1.0
 reactive-var@1.0.5
@@ -85,7 +86,9 @@ webapp-hashing@1.0.3
 wisptools:autoform-select-other@0.0.1
 wisptools:collection@0.0.1
 wisptools:customer@0.0.1
+wisptools:date-format@0.0.1
 wisptools:delete-btn@0.0.1
+wisptools:download-csv@0.0.1
 wisptools:growl@0.0.1
 wisptools:interaction@0.0.4
 wisptools:map-control@0.0.1

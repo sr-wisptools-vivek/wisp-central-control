@@ -56,7 +56,7 @@ Template.wtPowercodeCommissionReports.events({
     self.startDate.set(event.target.commStartDate.value);
     self.endDate.set(event.target.commEndDate.value);
 
-    Meteor.call('wtPowercodeGetServicesSoldBySalesPersonAll', event.target.commStartDate.value, event.target.commEndDate.value, function (err, res) {
+    Meteor.call('wtPowercodeGetServicesSoldBySalesPersonAll', self.startDate.get(), self.endDate.get(), function (err, res) {
       var curSalesPerson;
       var curCommissionTypeId;
       var mRes; // for db results
@@ -103,48 +103,6 @@ Template.wtPowercodeCommissionReports.events({
         if (! services[res[i].ServiceID][curCommissionTypeId] ) { continue; }
         if (Number(services[res[i].ServiceID][curCommissionTypeId].amount) == 0) { continue; }
 
-/*
-        // Update the customer credits as the customer changes
-        if (curCustomerID != res[i].CustomerID) {
-          curCustomerID = res[i].CustomerID;
-          curDebitDate = null;
-          prom = new Promise(function(resolve, reject) {
-            Meteor.call('wtPowercodeGetAccountingSum', curCustomerID, 'Credits', function (err, res) {
-              if (err) res = null;
-              resolve(res);
-            });
-          })
-          .then(mRes);
-          mRes = fut.wait();
-          if (mRes === null) {
-            curCustomerCredit = 0;
-          } else {
-            curCustomerCredit = mRes[0].AccountSum;
-          }
-        }
-
-        // Update the customer credits as the customer changes
-        if (curDebitDate != res[i].Date) {
-          curDebitDate = res[i].Date;
-          fut = new Future();
-          Meteor.call('wtPowercodeGetAccountingSum', curCustomerID, 'Debits', curDebitDate, function (err, res) {
-            if (err) fut.return(null);
-            fut.return(res);
-          });
-          mRes = fut.wait();
-          if (mRes === null) {
-            curCustomerDebit = 0;
-          } else {
-            curCustomerDebit = mRes[0].AccountSum;
-          }
-        }
-
-        if (curCustomerCredit >= curCustomerDebit) {
-          res[i].isPaidUp = true;
-        } else {
-          res[i].isPaidUp = false;
-        }
-*/
         if (! balances[res[i].CustomerID]) balances[res[i].CustomerID] = {};
         if (! balances[res[i].CustomerID][res[i].Date]) balances[res[i].CustomerID][res[i].Date] = [];
         balances[res[i].CustomerID][res[i].Date].push(workingIndex);
@@ -188,8 +146,3 @@ Template.wtPowercodeCommissionReports.events({
 
   }
 });
-
-var handleCustomerBalance = {
-
-
-};

@@ -12,7 +12,33 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
-  api.addFiles('powercode-tax-report.js');
+
+  api.use([
+    'meteor',
+    'mongo',
+    'templating',
+    'reactive-var',
+    'iron:router@1.0.7',
+    'rajit:bootstrap3-datepicker@1.4.1',
+    'numeral:numeral@1.5.3',
+    'wisptools:menu',
+    'wisptools:powercode',
+    'wisptools:download-csv',
+    'wisptools:date-format',
+    'wisptools:progress-bar'
+  ]);
+
+  // Client and Server files
+  api.addFiles([
+    'lib/router.js'
+    ], ['server','client']);
+
+  // Client only files
+  api.addFiles([
+    'client/menu.js',
+    'client/templates/report.html',
+    'client/templates/report.js'
+    ], 'client');
 });
 
 Package.onTest(function(api) {

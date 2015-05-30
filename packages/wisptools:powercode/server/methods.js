@@ -175,4 +175,200 @@ Meteor.methods({
   }
 });
 
+/********************************
+/* Tax Report
+/*************/
+Meteor.methods({
+  wtPowercodeGetTaxReport: function(startDate, endDate) {
+    if (Meteor.userId() == null) return null;
+
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+    endDate.setDate(endDate.getDate()+1);
+
+    var startDateFormat = WtDateFormat(startDate, 'isoDate');
+    var endDateFormat = WtDateFormat(endDate, 'isoDate');
+
+    var serviceIds = '(75, 77)'; // Services that are really taxes
+    var paymentClass = '(5, 6, 7, 8, 9)';  // The account classes that are type payment
+
+    var getTaxSql = function(debOrCrd) {
+
+      var debitLine = 'format(sum(dc.Amount), 2) as Debit, ';
+      var creditLine = '\'0.00\' as Credit, ';
+
+      if (debOrCrd == 'Credits') {
+        debitLine = '\'0.00\' as Debit, ';
+        creditLine = 'format(sum(dc.Amount), 2) as Credit, ';
+      }
+
+      return 'SELECT ' + 
+          'concat(cust.CustomerID, \'-\', date_format(dc.Time, \'%Y-%m-%d\')) as InvoiceNumber, ' +
+          'cust.CustomerID, ' +
+          'date_format(dc.Time, \'%Y-%m-%d\') as Date, ' +
+          'cust.FirstName, ' +
+          'cust.LastName, ' +
+          'cust.CompanyName, ' +
+          'a.City, ' +
+          'a.State, ' +
+          'substr(a.ZipCode, 1, 5) as Zip, ' +
+          'dc.Discription as InvoiceDescription, ' +
+          't.Name as Description, ' +
+          'sum(cs.Quanity) as ServiceQuantity, ' +
+          'ac.Discription as AccountClass, ' +
+          debitLine +
+          creditLine +
+          '\'Collected Tax\' as Type ' +
+        'FROM ' + 
+          dbName + '.Customer cust, ' +
+          dbName + '.Address a, ' + 
+          dbName + '.' + debOrCrd + ' dc, ' +
+          dbName + '.TaxType t, ' +
+          dbName + '.AccountClass ac, ' +
+          dbName + '.CustomerServices cs ' +
+        'WHERE ' +
+          'cust.CustomerID=dc.CustomerID AND ' +
+          'cust.CustomerID=a.CustomerID AND ' +
+          'cust.CustomerID=cs.CustomerID AND ' +
+          'dc.ServiceID=cs.ServiceID AND ' +
+          'a.Type=\'Home\' AND ' +
+          'dc.Time >= \'' + startDateFormat + '\' AND ' + 
+          'dc.Time < \'' + endDateFormat + '\' AND ' +
+          'dc.TaxTypeID = t.ID AND ' +
+          'dc.AccountClassID = ac.ID AND ' +
+          'dc.AccountClassID NOT IN ' + paymentClass + ' ' +
+        'GROUP BY CustomerID, InvoiceDescription, AccountClass, Date ' +
+        'ORDER BY Date, CustomerID ';
+
+    }
+
+
+    var getTaxServiceSql = function(debOrCrd) {
+
+      var debitLine = 'format(sum(dc.Amount), 2) as Debit, ';
+      var creditLine = '\'0.00\' as Credit, ';
+
+      if (debOrCrd == 'Credits') {
+        debitLine = '\'0.00\' as Debit, ';
+        creditLine = 'format(sum(dc.Amount), 2) as Credit, ';
+      }
+
+      return 'SELECT ' + 
+          'concat(cust.CustomerID, \'-\', date_format(dc.Time, \'%Y-%m-%d\')) as InvoiceNumber, ' +
+          'cust.CustomerID, ' +
+          'date_format(dc.Time, \'%Y-%m-%d\') as Date, ' +
+          'cust.FirstName, ' +
+          'cust.LastName, ' +
+          'cust.CompanyName, ' +
+          'a.City, ' +
+          'a.State, ' +
+          'substr(a.ZipCode, 1, 5) as Zip, ' +
+          'dc.Discription as InvoiceDescription, ' +
+          's.Discription as Description, ' +
+          'sum(cs.Quanity) as ServiceQuantity, ' +
+          'ac.Discription as AccountClass, ' +
+          debitLine +
+          creditLine +
+          '\'Collected Tax\' as Type ' +
+        'FROM ' + 
+          dbName + '.Customer cust, ' +
+          dbName + '.Address a, ' + 
+          dbName + '.' + debOrCrd + ' dc, ' +
+          dbName + '.AccountClass ac, ' +
+          dbName + '.Services s, ' +
+          dbName + '.CustomerServices cs ' +
+        'WHERE ' +
+          'cust.CustomerID=dc.CustomerID AND ' +
+          'cust.CustomerID=a.CustomerID AND ' +
+          'cust.CustomerID=cs.CustomerID AND ' +
+          'dc.ServiceID=cs.ServiceID AND ' +
+          'a.Type=\'Home\' AND ' +
+          'dc.Time >= \'' + startDateFormat + '\' AND ' + 
+          'dc.Time < \'' + endDateFormat + '\' AND ' +
+          'dc.ServiceID = s.ID AND ' +
+          'dc.AccountClassID = ac.ID AND ' +
+          's.ID IN ' + serviceIds + ' AND ' +
+          'dc.AccountClassID NOT IN ' + paymentClass + ' ' +
+        'GROUP BY CustomerID, InvoiceDescription, AccountClass, Date ' +
+        'ORDER BY Date, CustomerID ';
+
+    }
+
+    var getServiceSql = function(debOrCrd) {
+
+      var debitLine = 'format(sum(dc.Amount), 2) as Debit, ';
+      var creditLine = '\'0.00\' as Credit, ';
+
+      if (debOrCrd == 'Credits') {
+        debitLine = '\'0.00\' as Debit, ';
+        creditLine = 'format(sum(dc.Amount), 2) as Credit, ';
+      }
+
+      return 'SELECT ' + 
+          'concat(cust.CustomerID, \'-\', date_format(dc.Time, \'%Y-%m-%d\')) as InvoiceNumber, ' +
+          'cust.CustomerID, ' +
+          'date_format(dc.Time, \'%Y-%m-%d\') as Date, ' +
+          'cust.FirstName, ' +
+          'cust.LastName, ' +
+          'cust.CompanyName, ' +
+          'a.City, ' +
+          'a.State, ' +
+          'substr(a.ZipCode, 1, 5) as Zip, ' +
+          'dc.Discription as InvoiceDescription, ' +
+          's.Discription as Description, ' +
+          'sum(cs.Quanity) as ServiceQuantity, ' +
+          'ac.Discription as AccountClass, ' +
+          debitLine +
+          creditLine +
+          '\'Product or Service\' as Type ' +
+        'FROM ' + 
+          dbName + '.Customer cust, ' +
+          dbName + '.Address a, ' + 
+          dbName + '.' + debOrCrd + ' dc, ' +
+          dbName + '.AccountClass ac, ' +
+          dbName + '.Services s, ' +
+          dbName + '.CustomerServices cs ' +
+        'WHERE ' +
+          'cust.CustomerID=dc.CustomerID AND ' +
+          'cust.CustomerID=a.CustomerID AND ' +
+          'cust.CustomerID=cs.CustomerID AND ' +
+          'dc.ServiceID=cs.ServiceID AND ' +
+          'a.Type=\'Home\' AND ' +
+          'dc.Time >= \'' + startDateFormat + '\' AND ' + 
+          'dc.Time < \'' + endDateFormat + '\' AND ' +
+          'dc.ServiceID = s.ID AND ' +
+          'dc.AccountClassID = ac.ID AND ' +
+          's.ID NOT IN ' + serviceIds + ' AND ' +
+          'dc.TaxTypeID IS NULL AND ' +
+          'dc.AccountClassID NOT IN ' + paymentClass + ' ' +
+        'GROUP BY CustomerID, InvoiceDescription, AccountClass, Date ' +
+        'ORDER BY Date, CustomerID ';
+
+    }
+
+
+    var fut = new Future();
+    var dbName = Meteor.settings.powercode.dbName;
+    var sql = '(' +
+          getTaxSql('Debits') +
+        ') UNION ( ' +
+          getTaxSql('Credits') +
+        ') UNION ( ' +
+          getTaxServiceSql('Debits') +
+        ') UNION ( ' +
+          getTaxServiceSql('Credits') +
+        ') UNION ( ' +
+          getServiceSql('Debits') +
+        ') UNION ( ' +
+          getServiceSql('Credits') +
+        ')';
+    runQuery(sql, fut);
+
+    return fut.wait();
+
+  }
+});
+
+
+
 

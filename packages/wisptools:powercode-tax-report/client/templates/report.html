@@ -1,0 +1,83 @@
+<template name="wtPowercodeTaxReport">
+  <div class="row">
+    <div class="tab-page-title col-md-12">
+      <h4>Powercode Tax Report</h4>
+    </div>
+  </div>
+
+  <div class="jumbotron">
+    <form class="run-report-tax">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="text" class="form-control" name="taxStartDate" id="taxStartDate" value="{{startDate}}">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="text" class="form-control" name="taxEndDate" id="taxEndDate" value="{{endDate}}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary" {{disabled}}>{{#unless running}}Run{{/unless}}{{#if running}}Running{{/if}}</button>
+        </div>
+        <div class="col-md-10">
+          {{#if running}} {{> wtProgressBar percent=percentDone}} {{/if}}
+        </div>
+      </div>
+    </form>
+  </div>
+
+  {{#unless haveData}}
+    <div class="row">
+      <div class="col-md-10"><h3>Tax Report</h3><strong>{{startDate}} to {{endDate}}</strong></div>
+      <div class="col-md-2">{{> wtDownloadCSV table="#wtPowercodeTaxReportTable"}}</div>
+    </div>
+    <table id="wtPowercodeTaxReportTable" class="table table-striped table-bordered">
+      <tbody>
+        <tr>
+          <th>Invoice Number</th>
+          <th>Customer ID</th>
+          <th>Date</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Company Name</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip</th>
+          <th>Invoice Description</th>
+          <th>Description</th>
+          <th>Service Quantity</th>
+          <th>Account Class</th>
+          <th>Debit</th>
+          <th>Credit</th>
+          <th>Type</th>
+        </tr>
+        {{#each reportData}}
+          <tr>
+            <td>{{InvoiceNumber}}</td>
+            <td>{{CustomerID}}</td>
+            <td>{{Date}}</td>
+            <td>{{FirstName}}</td>
+            <td>{{LastName}}</td>
+            <td>{{CompanyName}}</td>
+            <td>{{City}}</td>
+            <td>{{State}}</td>
+            <td>{{Zip}}</td>
+            <td>{{InvoiceDescription}}</td>
+            <td>{{Description}}</td>
+            <td>{{ServiceQuantity}}</td>
+            <td>{{AccountClass}}</td>
+            <td align="right">{{Debit}}</td>
+            <td align="right">{{Credit}}</td>
+            <td>{{Type}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/unless}}
+  </template>

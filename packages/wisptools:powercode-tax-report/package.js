@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'wisptools:date-format',
+  name: 'wisptools:powercode-tax-report',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -12,12 +12,11 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
-  api.addFiles('date-format.js');
-  api.export('WtDateFormat');
+  api.addFiles('powercode-tax-report.js');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('wisptools:date-format');
-  api.addFiles('date-format-tests.js');
+  api.use('wisptools:powercode-tax-report');
+  api.addFiles('powercode-tax-report-tests.js');
 });

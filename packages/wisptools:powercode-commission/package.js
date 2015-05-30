@@ -18,8 +18,10 @@ Package.onUse(function(api) {
     'mongo',
     'templating',
     'reactive-var',
+    'underscore',
     'iron:router@1.0.7',
     'rajit:bootstrap3-datepicker@1.4.1',
+    'numeral:numeral@1.5.3',
     'wisptools:collection',
     'wisptools:menu',
     'wisptools:powercode',
@@ -27,7 +29,8 @@ Package.onUse(function(api) {
     'wisptools:delete-btn',
     'wisptools:growl',
     'wisptools:download-csv',
-    'wisptools:date-format'
+    'wisptools:date-format',
+    'wisptools:progress-bar'
   ]);
 
   // Client and Server files

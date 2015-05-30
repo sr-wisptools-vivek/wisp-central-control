@@ -20,7 +20,8 @@ Package.onUse(function(api) {
     'aldeed:collection2@2.3.1',
     'aldeed:autoform@4.2.2',
     'iron:router@1.0.7',
-    'wisptools:menu'
+    'wisptools:menu',
+    'wisptools:date-format'    
   ]);
 
   // Client and server files

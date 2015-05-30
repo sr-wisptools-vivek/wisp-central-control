@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'wisptools:date-format',
+  name: 'wisptools:progress-bar',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -12,12 +12,16 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
-  api.addFiles('date-format.js');
-  api.export('WtDateFormat');
+
+  api.use([
+    'templating'
+  ]);  
+
+  api.addFiles(['progress-bar.js', 'progress-bar.html'], 'client');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('wisptools:date-format');
-  api.addFiles('date-format-tests.js');
+  api.use('wisptools:progress-bar');
+  api.addFiles('progress-bar-tests.js');
 });

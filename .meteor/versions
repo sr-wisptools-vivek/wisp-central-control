@@ -59,6 +59,7 @@ momentjs:moment@2.8.4
 mongo@1.1.0
 mongo-livedata@1.0.8
 npm-bcrypt@0.7.8_2
+numeral:numeral@1.5.3
 observe-sequence@1.0.6
 ordered-dict@1.0.3
 rajit:bootstrap3-datepicker@1.4.1
@@ -96,6 +97,7 @@ wisptools:menu@0.0.1
 wisptools:powercode@0.0.1
 wisptools:powercode-commission@0.0.1
 wisptools:powercode-extenet@0.0.1
+wisptools:progress-bar@0.0.1
 wisptools:tab-page@0.0.1
 wisptools:tower@0.0.1
 zimme:bootstrap-growl@2.0.1

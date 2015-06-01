@@ -16,7 +16,7 @@ Template.wtPowercodeCommissions.helpers({
         tabId: "pc_com_services",
         tabTemplate: "wtPowercodeCommissionServices"
       },{
-        tabName: "Configure Commission Types",
+        tabName: "Configure Commission Groups",
         tabId: "pc_com_types",
         tabTemplate: "wtPowercodeCommissionTypes"
       }

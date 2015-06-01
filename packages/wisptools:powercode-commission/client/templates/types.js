@@ -17,6 +17,7 @@ Template.wtPowercodeCommissionTypesEdit.helpers({
 Template.wtPowercodeCommissionTypes.events({
   "submit .add-type": function (event) {
     event.preventDefault();
+    event.stopPropagation();
 
     var type = event.target.typeName.value;
     var given = event.target.givenWhen.value;
@@ -31,6 +32,7 @@ Template.wtPowercodeCommissionTypes.events({
 Template.wtPowercodeCommissionTypesEdit.events({
   "submit .save-type": function (event) {
     event.preventDefault();
+    event.stopPropagation();
 
     var _id = this._id
     var type = event.target.typeName.value;

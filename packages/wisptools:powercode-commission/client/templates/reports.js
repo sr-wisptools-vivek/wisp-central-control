@@ -46,7 +46,7 @@ Template.wtPowercodeCommissionReports.helpers({
 });
 
 Template.wtPowercodeCommissionReports.events({
-  "submit .run-report": function (event) {
+  "submit .run-comm-report": function (event) {
 
     event.preventDefault();
     event.stopPropagation();

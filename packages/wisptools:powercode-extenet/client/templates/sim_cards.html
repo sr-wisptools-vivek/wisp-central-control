@@ -29,7 +29,13 @@
     </td>
     <td>
     {{#if showAutoSync}}
-      <label class="form-control">Auto Sync <input type="checkbox" class="auto-sync-sim-check" name="autoSync" {{checked autoSyncInventory}}></label>
+    <div class="form-group">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" class="auto-sync-sim-check" name="autoSync" {{checked autoSyncInventory}}> Auto Sync
+        </label>
+      </div>
+    </div>
     {{/if}}
     </td>
   {{/with}}

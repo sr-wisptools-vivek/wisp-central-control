@@ -10,13 +10,10 @@ MapControl = {
 	
 	// our formatted marker data objects
 	markerData: [],
-	
-	// tower ids to track removed towers
-	towerIds: [],
 
 	// add a marker given our formatted marker data object
 	addMarker: function(marker, markerMap) {
-console.log("addMarker called: " + marker.id);
+		console.log("addMarker called: " + marker.id);
 		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
 		_.extend(gLatLng, {id: marker.id});
 
@@ -43,29 +40,33 @@ console.log("addMarker called: " + marker.id);
 		this.latLngs.push(gLatLng);
 		this.markers.push(gMarker);
 		this.markerData.push(marker);
-		this.towerIds.push(marker.id);
 
 		return gMarker;
 	},
 
 	//update marker
 	updateMarker: function(marker, markerMap) {
-console.log("updateMarker called: " + marker.id);
-		var mrk = _.findWhere(this.markers, {id: marker.id});
-		if (typeof marker.title == "undefined") marker.title = mrk.getTitle();
-		if (typeof marker.lat == "undefined") marker.lat = mrk.getPosition().lat();
-		if (typeof marker.lng == "undefined") marker.lng = mrk.getPosition().lng();
-		var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
-		_.extend(gLatLng, {id: marker.id});
+		console.log("updateMarker called: " + marker.id);
 
-		var markerOps = {
-			position: gLatLng,
-			title: marker.title,
-		};
-		if (typeof markerMap != "undefined" && typeof markerMap.markerOptions != "undefined") {
-			_.extend(markerOps, markerMap.markerOptions);
+		var mrk = _.findWhere(this.markers, {id: marker.id});
+		var markerOptions = {};
+
+		if (typeof marker.title != "undefined") {
+			_.extend(markerOptions, {title: marker.title});
 		}
-		mrk.setOptions(markerOps);
+		if (typeof marker.lat != "undefined" && typeof marker.lng != "undefined") {
+			var gLatLng = new google.maps.LatLng(marker.lat, marker.lng);
+			_.extend(gLatLng, {id: marker.id});
+			_.extend(markerOptions, {position: gLatLng});
+			_.extend(_.findWhere(this.latLngs, {id: marker.id}), gLatLng);
+		}
+
+		if (typeof markerMap != "undefined" && typeof markerMap.markerOptions != "undefined") {
+			_.extend(markerOptions, markerMap.markerOptions);
+		}
+
+		if (_.size(markerOptions))
+			mrk.setOptions(markerOptions);
 
 		if (typeof markerMap != "undefined" && typeof markerMap.events != "undefined") {
 			_.each(markerMap.events, function (callback, on) {
@@ -73,7 +74,7 @@ console.log("updateMarker called: " + marker.id);
 			});
 		}
 
-		_.extend(_.findWhere(this.latLngs, {id: marker.id}), gLatLng);
+		_.extend(_.findWhere(this.markers, {id: marker.id}), mrk);
 		_.extend(_.findWhere(this.markerData, {id: marker.id}), marker);
 
 		return mrk;
@@ -81,7 +82,10 @@ console.log("updateMarker called: " + marker.id);
 
 	//remove marker
 	removeMarker: function(marker) {
+		console.log("removeMarker called: " + marker.id);
 		_.findWhere(this.markers, {id: marker.id}).setMap(null);
+		google.maps.event.clearInstanceListeners(_.findWhere(this.markers, {id: marker.id}));
+
 		this.latLngs =_.reject(this.latLngs, function (obj) {
 			return obj.id == marker.id;
 		});
@@ -91,7 +95,6 @@ console.log("updateMarker called: " + marker.id);
 		this.markerData =_.reject(this.markerData, function (obj) {
 			return obj.id == marker.id;
 		});
-		this.towerIds = _.difference(this.towerIds, [marker.id]);
 	},
 
 	// calculate and move the bound box based on our markers

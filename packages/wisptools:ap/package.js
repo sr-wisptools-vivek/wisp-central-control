@@ -12,11 +12,13 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
-  api.addFiles('wisptools:ap.js');
+  api.use(['garrilla:geodesy-libraries']);
+  api.addFiles('wisptools:ap.js', 'client');
+  api.export('AccessPoints');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('wisptools:ap');
-  api.addFiles('wisptools:ap-tests.js');
+  api.addFiles('wisptools:ap.js');
 });

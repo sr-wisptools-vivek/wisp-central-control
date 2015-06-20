@@ -1,35 +1,66 @@
 <template name="wtTowerEditFormModal">
-	<div class="modal fade" id="wtTowerEditFormModal" tabindex="-1" role="dialog" aria-labelledby="wtTowerEditFormModalLabel" aria-hidden="hide">
+	<!-- Bootstrap Modal Carousel, content of modal-body -->
+	<div id="myCarousel" class="carousel slide carousel-fit" data-interval="false">
+		<!-- Indicators -->
+		<!--
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1"></li>
+			<li data-target="#myCarousel" data-slide-to="2"></li>
+		</ol>
+		-->
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner">
+			<div class="item active">
+				<div class="form-group">
+					<label class="col-xs-4 control-label">Name</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" name="name" value="{{towerName}}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label">Latitude</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" name="lat" value="{{towerLat}}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label">Longitude</label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control" name="lng" value="{{towerLng}}">
+					</div>
+				</div>
+			</div>
+			{{#with tower}}
+				{{#each accesspoints}}
+					{{> accessPoint}}
+				{{/each}}
+			{{/with}}
+			{{> accessPoint}}
+		</div>
+
+		<!-- Controls -->
+		<!--
+		<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		<a class="right carousel-control" href="#myCarousel" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+		-->
+	</div>
+
+	<!-- Bootstrap Modal -->
+	<div class="modal fade modal-fullscreen force-fullscreen" id="wtTowerEditFormModal" tabindex="-1" role="dialog" aria-labelledby="wtTowerEditFormModalLabel" aria-hidden="hide">
 		<form class="form-horizontal" role="form">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title" id="wtTowerEditFormModal">{{towerName "true"}}</h4>
+					<h4 class="modal-title" id="wtTowerEditFormModalLabel">{{towerName "true"}}</h4>
 				</div>
 				<div class="modal-body">
-					<div class="row">
-						<div class="col-xs-12">
-								<div class="form-group">
-									<label class="col-xs-4 control-label">Name</label>
-									<div class="col-xs-6">
-										<input type="text" class="form-control" name="name" value="{{towerName}}" />
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-xs-4 control-label">Latitude</label>
-									<div class="col-xs-6">
-										<input type="text" class="form-control" name="lat" value="{{towerLat}}" />
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-xs-4 control-label">Longitude</label>
-									<div class="col-xs-6">
-										<input type="text" class="form-control" name="lng" value="{{towerLng}}" />
-									</div>
-								</div>
-						</div>
-					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

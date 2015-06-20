@@ -1,7 +1,7 @@
 var pageData = [
   {
-    name: "Support Page One",
-    pageId: "support_page_one_page",
+    tabName: "Support Page One",
+    tabId: "support_page_one_page",
     tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       q1: {
@@ -12,8 +12,8 @@ var pageData = [
       }
     })
   },{
-    name: "Support Page Two",
-    pageId: "support_page_two_page",
+    tabName: "Support Page Two",
+    tabId: "support_page_two_page",
     tabTemplate: "wtInteractionQuickForm",
     schema: new SimpleSchema({
       q2: {

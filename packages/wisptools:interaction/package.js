@@ -22,7 +22,8 @@ Package.onUse(function(api) {
     'iron:router@1.0.7',
     'wisptools:customer',
     'wisptools:collection',
-    'wisptools:autoform-select-other'
+    'wisptools:autoform-select-other',
+    'wisptools:tab-page'
   ]);
 
   // Client and Server files

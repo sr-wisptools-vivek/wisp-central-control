@@ -1,0 +1,36 @@
+<template name="wtPowercodeSIMCards">
+  <table class="table table-striped table-bordered">
+    <tbody>
+      <tr>
+        <th>Inventory Product</th>
+        <th>Model</th>
+        <th>Is a Sim Card?</th>
+        <th>Auto Sync with Inventory</th>
+      </tr>
+      {{#each inventoryProducts}}
+        <tr>
+          <td>{{Name}}</td>
+          <td>{{Model}}</td>
+          {{> wtPowercodeSIMCardsSettings}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+
+<template name="wtPowercodeSIMCardsSettings">
+  {{#with simCard}}
+    <td>
+      <select class="form-control is-sim-select">
+        <option value="No" {{selected isSimCard "No"}}>No</option>
+        <option value="Yes" {{selected isSimCard "Yes"}}>Yes</option>
+      </select>
+    </td>
+    <td>
+    {{#if showAutoSync}}
+      <label class="form-control">Auto Sync <input type="checkbox" class="auto-sync-sim-check" name="autoSync" {{checked autoSyncInventory}}></label>
+    {{/if}}
+    </td>
+  {{/with}}
+</template>

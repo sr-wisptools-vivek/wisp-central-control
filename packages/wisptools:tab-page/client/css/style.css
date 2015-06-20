@@ -1,0 +1,28 @@
+div.tab-page-content {
+  padding: 3%;
+  border: #ddd solid 1px;
+  clear: both;
+  width: 100%;
+}
+
+div.tab-page-title {
+  color: #999;
+  text-align: right;
+}
+
+div.tab-page-menu {
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  div.tab-page-content {
+    border-top-style: solid;
+  }
+}
+
+@media (min-width: 768px) {
+  div.tab-page-content {
+    border-top-style: none;
+  }
+}
+

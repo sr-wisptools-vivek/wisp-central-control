@@ -1,4 +1,4 @@
-WtInteraction = new WtCollection('wt_interactions');
+WtInteraction = WtCollection('wt_interactions');
 
 // This creates a new record in the collection, adding the create date and user.
 // Returns the newly created record.

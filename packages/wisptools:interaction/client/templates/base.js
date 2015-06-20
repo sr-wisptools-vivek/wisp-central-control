@@ -22,7 +22,7 @@ Template.wtInteraction.helpers({
 
 Template.wtInteractionQuickForm.helpers({
   formId: function () {
-    return this.pageId + "_form";    
+    return this.tabId + "_form";    
   }
 });
 
@@ -39,6 +39,12 @@ Template.wtInteractionPageWithTabs.helpers({
     if (type == "support") return "Support";
     if (type == "service") return "Customer Service";
     return "Interaction";
+  },
+  tabData: function () {
+    return {
+      showTitle: false,
+      pages: this.pages
+    }
   }
 });
 

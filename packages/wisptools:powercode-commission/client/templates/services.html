@@ -1,0 +1,38 @@
+<template name="wtPowercodeCommissionServices">
+  {{#each serviceList}}
+    <div class="jumbotron">
+      <div class="row">
+        <div class="col-md-8"><h3>{{Description}}</h3></div>
+        <div class="col-md-4 text-right"><h3>{{CostFormat}}</h3></div>
+      </div>
+      <div class="row">
+        <div class="col-md-8"><h4>Commission Amounts</h4></div>
+        <div class="col-md-4 text-right"><h4>{{Type}}</h4></div>
+      </div>
+      {{> wtPowercodeCommissionServicesTypes}}
+    </div>
+  {{/each}}
+</template>
+
+<template name="wtPowercodeCommissionServicesTypes">
+  <div class="row">
+    {{#each typeList}}
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>{{name}}</label>
+          <div class="input-group">
+            <input type="text" class="form-control comm-amount" value="{{commission.amount}}">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{commission.type}} <span class="caret"></span></button>
+              <ul class="dropdown-menu pull-right">
+                <li class="comm-perc"><a href="#">%</a></li>
+                <li class="comm-dollar" ><a href="#">$</a></li>
+              </ul>
+            </div><!-- /btn-group -->                  
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</template>
+

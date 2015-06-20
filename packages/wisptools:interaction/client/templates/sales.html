@@ -3,15 +3,12 @@
 </template>
 
 <template name="wtInteractionSalesQuestions">
-  <div role="tabpanel" class="tab-pane" id="{{pageId}}">
     <label class="standalone">{{interactionData.name}}, while we wait for the system to check coverage, may I ask you a few questions?</label>
 
     {{> quickForm collection="WtInteraction" doc=interactionData schema=schema id=formId autosave=true buttonContent=false type="update"}}
-  </div>
 </template>
 
 <template name="wtInteractionSalesOrder">
-  <div role="tabpanel" class="tab-pane" id="{{pageId}}">
     {{#if interactionData.customerId}}
       {{> wtCustomerEditForm id=interactionData.customerId}}
     {{/if}}
@@ -19,5 +16,4 @@
       <button type="button" class="btn btn-primary" id="convert">Convert to Customer</button>
     {{/unless}}
     {{> quickForm collection="WtInteraction" doc=interactionData schema=schema id=formId autosave=true buttonContent=false type="update"}}
-  </div>
 </template>

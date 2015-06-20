@@ -6,9 +6,9 @@ WtCollection = function(collectionName) {
   var wtCollection = new Mongo.Collection(collectionName);
 
   // Set basic permissions
+  // TODO: Add better access control
   wtCollection.allow({
     insert: function(userId, doc) {
-      // only allow posting if you are logged in
       return !! userId;
     },
     update: function(userId, doc) {
@@ -20,6 +20,15 @@ WtCollection = function(collectionName) {
     Meteor.publish(collectionName, function() {
       return wtCollection.find();
     });
+
+    wtCollection.before.insert(function(userId, doc) {
+      doc.createdAt = new Date();
+    });
+
+    wtCollection.before.update(function(userId, doc, fieldNames, modifier, options) {
+      modifier.$set = modifier.$set || {};
+      modifier.$set.updatedAt = new Date();
+    });
   }
 
   if (Meteor.isClient) {
@@ -27,8 +36,8 @@ WtCollection = function(collectionName) {
   }
 
   // Not really using this at the moment, because AutoForm is doing the updates.
-  wtCollection.updateFeild = function (id, data) {
-    this.update({_id: id}, {$set: data});
+  wtCollection.updateFeild = function (id, data, options, callback) {
+    var res = this.update({_id: id}, {$set: data}, options, callback);
   }
 
   return wtCollection;

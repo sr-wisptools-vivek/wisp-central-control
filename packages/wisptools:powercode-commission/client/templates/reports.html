@@ -1,0 +1,63 @@
+<template name="wtPowercodeCommissionReports">
+
+  <div class="jumbotron">
+    <form class="run-comm-report">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="text" class="form-control" name="commStartDate" id="commStartDate" value="{{startDate}}">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="text" class="form-control" name="commEndDate" id="commEndDate" value="{{endDate}}">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary" {{disabled}}>{{#unless running}}Run{{/unless}}{{#if running}}Running{{/if}}</button>
+        </div>
+        <div class="col-md-10">
+          {{#if running}} {{> wtProgressBar percent=percentDone}} {{/if}}
+        </div>
+      </div>
+    </form>
+  </div>
+
+  {{#unless haveData}}
+    <div class="row">
+      <div class="col-md-10"><h3>Commission Report</h3><strong>{{startDate}} to {{endDate}}</strong></div>
+      <div class="col-md-2">{{> wtDownloadCSV table="#wtPowercodeCommissionReportTable"}}</div>
+    </div>
+    <table id="wtPowercodeCommissionReportTable" class="table table-striped table-bordered">
+      <tbody>
+        <tr>
+          <th>Sales Person</th>
+          <th>Date</th>
+          <th>Customer ID</th>
+          <th>Customer</th>
+          <th>Description</th>
+          <th>Service Amount</th>
+          <th>Commission Amount</th>
+          <th>Service Paid For</th>
+        </tr>
+        {{#each reportData}}
+          <tr>
+            <td>{{SalesPerson}}</td>
+            <td>{{Date}}</td>
+            <td>{{CustomerID}}</td>
+            <td>{{CompanyName}}</td>
+            <td>{{Description}}</td>
+            <td align="right">{{Amount}}</td>
+            <td align="right">{{commission}}</td>
+            <td align="center">{{isPaidUp}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/unless}}
+</template>
+

@@ -21,6 +21,7 @@ ejson@1.0.6
 email@1.0.6
 fastclick@1.0.3
 fortawesome:fontawesome@4.3.0
+garrilla:geodesy-libraries@0.0.1
 geojson-utils@1.0.3
 html-tools@1.0.4
 htmljs@1.0.4
@@ -58,6 +59,8 @@ mobile-status-bar@1.0.3
 momentjs:moment@2.8.4
 mongo@1.1.0
 mongo-livedata@1.0.8
+mrt:jquery-mousewheel@0.1.0
+natestrauser:bootstrap-colorpicker@0.1.1
 npm-bcrypt@0.7.8_2
 numeral:numeral@1.5.3
 observe-sequence@1.0.6
@@ -84,6 +87,7 @@ underscore@1.0.3
 url@1.0.4
 webapp@1.2.0
 webapp-hashing@1.0.3
+wisptools:ap@0.0.1
 wisptools:autoform-select-other@0.0.1
 wisptools:collection@0.0.1
 wisptools:customer@0.0.1

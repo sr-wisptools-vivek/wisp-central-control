@@ -1,4 +1,4 @@
 Router.route('/powercode/taxreport/', {
-  name: 'powercodeTaxReport', 
-  template: 'wtPowercodeTaxReport'
+  name: 'powercodeTaxReportTabs', 
+  template: 'wtPowercodeTaxReportTabs'
 });

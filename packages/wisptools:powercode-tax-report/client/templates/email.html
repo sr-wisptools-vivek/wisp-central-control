@@ -1,0 +1,30 @@
+<template name="wtPowercodeTaxReportEmail">
+
+  {{#each typeList}}
+    {{> wtPowercodeTaxReportEmailEdit}}
+  {{/each}}
+
+<div class="jumbotron">
+  <form class="form-inline add-type">
+    <div class="form-group">
+      <label>Email</label>
+      <input type="text" class="form-control" name="taxReportEmail" value="">
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+</div>
+
+</template>
+
+<template name="wtPowercodeTaxReportEmailEdit">
+  <div class="jumbotron">
+  <form class="form-inline save-type">
+    <div class="form-group">
+      <label>Email</label>
+      <input type="text" class="form-control" name="taxReportEmail" value="{{email}}">
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    {{>wtDeleteBtn id=_id collection='wt_powercode_tax_report_email' name=email}}
+  </form>
+  </div>
+</template>

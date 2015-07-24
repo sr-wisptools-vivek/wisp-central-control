@@ -180,7 +180,9 @@ Meteor.methods({
 /*************/
 Meteor.methods({
   wtPowercodeGetTaxReport: function(startDate, endDate) {
-    if (Meteor.userId() == null) return null;
+    // this.connection is null when the server makes the call
+    // check if we have an authorized user or if the server made the call
+    if (Meteor.userId() == null && this.connection != null) return null;
 
     startDate = new Date(startDate);
     endDate = new Date(endDate);

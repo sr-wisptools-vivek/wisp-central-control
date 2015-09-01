@@ -211,6 +211,7 @@ Meteor.methods({
           'cust.FirstName, ' +
           'cust.LastName, ' +
           'cust.CompanyName, ' +
+          'a.Address1, ' +
           'a.City, ' +
           'a.State, ' +
           'substr(a.ZipCode, 1, 5) as Zip, ' +
@@ -262,6 +263,7 @@ Meteor.methods({
           'cust.FirstName, ' +
           'cust.LastName, ' +
           'cust.CompanyName, ' +
+          'a.Address1, ' +
           'a.City, ' +
           'a.State, ' +
           'substr(a.ZipCode, 1, 5) as Zip, ' +
@@ -313,6 +315,7 @@ Meteor.methods({
           'cust.FirstName, ' +
           'cust.LastName, ' +
           'cust.CompanyName, ' +
+          'a.Address1, ' +
           'a.City, ' +
           'a.State, ' +
           'substr(a.ZipCode, 1, 5) as Zip, ' +

@@ -1,5 +1,6 @@
 accounts-base@1.2.0
 accounts-password@1.1.1
+alanning:roles@1.2.13
 aldeed:autoform@4.2.2
 aldeed:collection2@2.3.1
 aldeed:simple-schema@1.1.0
@@ -105,6 +106,7 @@ wisptools:powercode-commission@0.0.1
 wisptools:powercode-extenet@0.0.1
 wisptools:powercode-tax-report@0.0.1
 wisptools:progress-bar@0.0.1
+wisptools:roles@0.0.1
 wisptools:tab-page@0.0.1
 wisptools:tower@0.0.1
 zimme:bootstrap-growl@2.0.1

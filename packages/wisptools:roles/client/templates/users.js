@@ -1,52 +1,57 @@
-Template.wtRolesUser.created = function(){
- /*   var self=this;
-    self.userList=new ReactiveVar([]);
-*/
-    
+
    
+
+Template.wtRolesUser.created = function(){
+var self = this;
+Meteor.subscribe('admin');
+  self.userList = new ReactiveVar([]);
+var data =Meteor.users.find();
+var count = Meteor.users.find().count();
+ self.userList.set(data);
 }
 
-Template.wtRolesuser.helpers({
-  /* userList: function(){ 
-
+Template.wtRolesUser.helpers({
+   userList: function(){ 
        return Template.instance().userList.get();
-
-     
-   }*/
+   }
 });
 
-Template.wtRolesCustomerSelect.created = function(){
+Template.wtRolesUsersSelect.created = function(){
     var sel=this;
     sel.typeList= new ReactiveVar([]);
 
     
 }
 
-Template.wtRolesCustomerSelect.helpers({
-    userType: function () {
-        var User = Template.parentData(1);
-       ;
-        var data;
-        if (data == undefined) {
-    
-          data = {
-           
-        
-            }
+Template.wtRolesUsersSelect.helpers({
+ userType: function () {
+    var User = Template.parentData(1);
+   // console.log(User);
+    Meteor.subscribe('user');
+  //  var data = Meteor.users.findOne({roles: User.name});
+    console.log(data);
+    // init if not found
+   /* if (data == undefined) {
+      var webUsername = this.webUsername;
+      data = {
+        _ID: User._ID,
+        username: User.username,
+        roles: User.roles
+      }
       
-        }
-  
-      return data;
-    },
-    typeList: function () {
-        return Template.instance().typeList.get();  
-    },
-    selected: function (a, b) {
-        return a == b ? 'selected' : '';
-    }
+    }*/
+    return data;
+  },
+  typeList: function () {
+      Meteor.subscribe('roles');
+    return Meteor.roles.find();
+  },
+  selected: function (a, b) {
+    return a == b ? 'selected' : '';
+  }
 });
-
-Template.wtRolesCustomerSelect.events({
+/*
+Template.wtRolesUsersSelect.events({
     "change .type-sel": function (event) {
         var User = Template.parentData(0);
         var CustomerID=User.CustomerID;   
@@ -65,5 +70,5 @@ Template.wtRolesCustomerSelect.events({
 
         });
     }
-});
+});*/
 

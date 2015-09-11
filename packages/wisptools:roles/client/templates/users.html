@@ -12,9 +12,9 @@
 	</tr>
         {{#each userList}}
           <tr>
-            <td>{{FirstName}}</td>
+            <td>{{username}}</td>
             <td>
-          ,<!--    {{>wtRolesUsersSelect}} -->  
+             {{>wtRolesUsersSelect}}
             </td>
           </tr>
         {{/each}}
@@ -27,7 +27,7 @@
   <select class="form-control type-sel" width="auto">
    
     {{#each typeList}}
-      <option value={{AccountTypeID}} {{selected AccountTypeID userType.AccountTypeID}}>{{Name}}</option>
+      <option value={{_ID}} {{selected _ID userType._ID}}>{{name}}</option>
     {{/each}}
   </select>
 </template>

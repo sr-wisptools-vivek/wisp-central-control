@@ -32,7 +32,7 @@ Package.onUse(function(api) {
   ]);
   
   api.addFiles([
-   
+    
     'lib/router.js'
    
     ], ['server','client']);
@@ -43,6 +43,10 @@ Package.onUse(function(api) {
     'client/templates/users.js'
     ], 'client');
     
+   api.addFiles([
+       
+    ], 'server');
+
     api.addFiles('roles.js');
 });
 

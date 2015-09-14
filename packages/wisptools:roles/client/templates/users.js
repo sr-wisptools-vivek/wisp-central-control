@@ -8,6 +8,7 @@ Meteor.subscribe('admin');
 var data =Meteor.users.find();
 var count = Meteor.users.find().count();
  self.userList.set(data);
+
 }
 
 Template.wtRolesUser.helpers({
@@ -25,50 +26,56 @@ Template.wtRolesUsersSelect.created = function(){
 
 Template.wtRolesUsersSelect.helpers({
  userType: function () {
+     
     var User = Template.parentData(1);
-   // console.log(User);
-    Meteor.subscribe('user');
-  //  var data = Meteor.users.findOne({roles: User.name});
-    console.log(data);
-    // init if not found
-   /* if (data == undefined) {
-      var webUsername = this.webUsername;
+    var _id=User._id
+    
+    Meteor.subscribe('user',User._id);
+    var data = Meteor.users.findOne({_id: User._id});
+    if (data == undefined) {
+  
       data = {
-        _ID: User._ID,
+        _id: User._id,
         username: User.username,
-        roles: User.roles
+        name: User.roles
       }
-      
-    }*/
+       
+    }
+  
     return data;
   },
   typeList: function () {
       Meteor.subscribe('roles');
-    return Meteor.roles.find();
+    return Meteor.roles.find();  
   },
   selected: function (a, b) {
     return a == b ? 'selected' : '';
   }
 });
-/*
+
 Template.wtRolesUsersSelect.events({
     "change .type-sel": function (event) {
         var User = Template.parentData(0);
-        var CustomerID=User.CustomerID;   
-    
+  
+        var CustomerID=User._id;   
+        var roles=event.target.value;
+        console.log(roles);
         var data = {
-          CustomerID: User.CustomerID,
-          AccountTypeID: event.target.value
-      
+          id: User._id,
+          roles: event.target.value
+          
+        
         }
 
-        Meteor.call('wtRolesUpdateUser',data.CustomerID,data.AccountTypeID, function (err, res) {
+        Meteor.call('updateRoles',data.id,data.roles,function (err, res) {
          if (err)
-            WtGrowl.fail("Could not update Role type for user " + User.FirstName);
+            WtGrowl.fail("Could not update Role type for user " + User.username);
          else
-            WtGrowl.success("Role type updated for user " + User.FirstName);
-
+         {
+            WtGrowl.success("Role type updated for user " + User.username);
+         }
+       
         });
     }
-});*/
+});
 

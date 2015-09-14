@@ -27,7 +27,7 @@
   <select class="form-control type-sel" width="auto">
    
     {{#each typeList}}
-      <option value={{_ID}} {{selected _ID userType._ID}}>{{name}}</option>
+      <option value={{roles}} {{selected name userType.roles}}>{{name}}</option>
     {{/each}}
   </select>
 </template>

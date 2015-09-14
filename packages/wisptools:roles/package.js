@@ -16,6 +16,8 @@ Package.onUse(function(api) {
   
    api.use([
     'meteor',
+    'alanning:roles',
+    'accounts-password',
     'mongo',
     'templating',
     'reactive-var',
@@ -38,16 +40,20 @@ Package.onUse(function(api) {
     ], ['server','client']);
     
    api.addFiles([
-       'client/menu.js',
+    'client/menu.js',
     'client/templates/users.html',
     'client/templates/users.js'
     ], 'client');
     
    api.addFiles([
        
+       'server/server.js',
+       'server/publication.js',
+       'server/userMethods.js'
     ], 'server');
 
     api.addFiles('roles.js');
+    api.export('roles');
 });
 
 Package.onTest(function(api) {

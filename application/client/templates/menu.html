@@ -8,6 +8,8 @@
         <li><a href="#"><i class="fa fa-laptop menu-icon"></i> Customer Equipment</a></li>
       </ul>
     </li>
+  {{#if isInRole 'admin'}}
     {{> wtMenu}}
+  {{/if}}
   {{/if}}
 </template>

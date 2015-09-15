@@ -12,7 +12,48 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
-  api.addFiles('roles.js');
+  
+  
+   api.use([
+    'meteor',
+    'alanning:roles',
+    'accounts-password',
+    'mongo',
+    'templating',
+    'reactive-var',
+    'underscore',
+    'iron:router@1.0.7',
+    'wisptools:tab-page',
+    'rajit:bootstrap3-datepicker@1.4.1',
+    'numeral:numeral@1.5.3',
+    'percolate:synced-cron@1.2.1',
+    'wisptools:growl',
+    'wisptools:collection',
+    'wisptools:menu'
+    
+  ]);
+  
+  api.addFiles([
+    
+    'lib/router.js'
+   
+    ], ['server','client']);
+    
+   api.addFiles([
+    'client/menu.js',
+    'client/templates/users.html',
+    'client/templates/users.js'
+    ], 'client');
+    
+   api.addFiles([
+       
+       'server/server.js',
+       'server/publication.js',
+       'server/userMethods.js'
+    ], 'server');
+
+    api.addFiles('roles.js');
+    api.export('roles');
 });
 
 Package.onTest(function(api) {

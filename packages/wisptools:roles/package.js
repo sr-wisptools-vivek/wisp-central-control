@@ -16,7 +16,7 @@ Package.onUse(function(api) {
   
    api.use([
     'meteor',
-    'alanning:roles',
+    'alanning:roles@1.2.13',
     'accounts-password',
     'mongo',
     'templating',
@@ -24,9 +24,7 @@ Package.onUse(function(api) {
     'underscore',
     'iron:router@1.0.7',
     'wisptools:tab-page',
-    'rajit:bootstrap3-datepicker@1.4.1',
     'numeral:numeral@1.5.3',
-    'percolate:synced-cron@1.2.1',
     'wisptools:growl',
     'wisptools:collection',
     'wisptools:menu'
@@ -54,6 +52,7 @@ Package.onUse(function(api) {
 
     api.addFiles('roles.js');
     api.export('roles');
+    api.export('Roles');
 });
 
 Package.onTest(function(api) {

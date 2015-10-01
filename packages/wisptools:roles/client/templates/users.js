@@ -6,6 +6,7 @@ var self = this;
 Meteor.subscribe('admin');
   self.userList = new ReactiveVar([]);
 var data =Meteor.users.find();
+//console.log(data);
 var count = Meteor.users.find().count();
  self.userList.set(data);
 
@@ -56,26 +57,37 @@ Template.wtRolesUsersSelect.helpers({
 Template.wtRolesUsersSelect.events({
     "change .type-sel": function (event) {
         var User = Template.parentData(0);
-  
-        var CustomerID=User._id;   
+     
+      var name;
         var roles=event.target.value;
-        console.log(roles);
+       if(User.emails)
+          name=User.emails[0].address;
+       else if(User.services.google.email)
+          name=User.services.google.email;
+      
         var data = {
           id: User._id,
-          roles: event.target.value
-          
+          roles: event.target.value,
+          name:name
         
         }
-
-        Meteor.call('updateRoles',data.id,data.roles,function (err, res) {
-         if (err)
-            WtGrowl.fail("Could not update Role type for user " + User.username);
+        var user=Meteor.user();
+        if(user._id==User._id)
+        {
+             WtGrowl.fail("Sorry!! you cannot update your own role ");
+         }
          else
          {
-            WtGrowl.success("Role type updated for user " + User.username);
+        Meteor.call('updateRoles',data.id,data.roles,function (err, res) {
+         if (err)
+            WtGrowl.fail("Could not update Role type for user " + data.name);
+         else
+         {
+            WtGrowl.success("Role type updated for user " + data.name);
          }
-       
+        
         });
+         }
     }
 });
 

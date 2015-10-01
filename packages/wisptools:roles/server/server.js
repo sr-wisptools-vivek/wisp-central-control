@@ -14,12 +14,12 @@ return user;
 }
 else
 {
-user.roles = ['Customer'];
+user.roles = ['customer'];
 if ( options.profile )
 user.profile = {name:user.username};
 
 if (user.roles.length > 0) {
-Roles.addUsersToRoles(user._id,['Customer']);
+Roles.addUsersToRoles(user._id,['customer']);
 }
 return user;
 }

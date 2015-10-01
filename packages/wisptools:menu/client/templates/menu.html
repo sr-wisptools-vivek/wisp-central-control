@@ -1,4 +1,7 @@
 <template name="wtMenu">
+  {{#each primary}}
+    <li><a href="{{pathFor route}}"><i class="fa {{icon}} menu-icon"></i> {{name}}</a></li>
+  {{/each}}
   {{#each dropdown}}
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa {{dropdownIcon}} menu-icon"></i> {{dropdownName}} <span class="caret"></span></a>

@@ -1,4 +1,4 @@
-function parse_str(str, array) {
+function parseStr(str, array) {
      var strArr = String(str)
     .replace(/^&/, '')
     .replace(/&$/, '')
@@ -174,12 +174,35 @@ Template.wtTowerEditFormModal.events({
 	
 		if (typeof Session.get('selectedTowerMarker') != "undefined" && Session.get('selectedTowerMarker') != '') {
 			//Update Tower
-			
-			
-			var s={};parse_str(serializeForm(event.target),s);
+			var s;
+
+
 			console.log(event.target['ap[][name]'].value);
-			console.log(s['ap']);
+			console.log(event.target['ap[][azimuth]'].value);
+			console.log(event.target['ap[][beamwidth]'].value);
+			console.log(event.target['ap[][distance]'].value);
+			console.log(event.target['ap[][frequency]'].value);
 			
+
+			var color = $('.color[data-selected]').data('color');
+			var name = event.target['ap[][name]'].value;
+			var azimuth = event.target['ap[][azimuth]'].value;
+			var beamwidth = event.target['ap[][beamwidth]'].value;
+			var distance = event.target['ap[][distance]'].value;
+			var frequency = event.target['ap[][frequency]'].value;
+
+			s={
+				'name': name,
+				'azimuth': azimuth,
+				'beamwidth': beamwidth,
+				'distance': distance,
+				'frequency': frequency,
+				'color': color
+			 }
+			 console.log(s);
+		
+
+			// s={};parseStr(serializeForm(event.target),s);
 			
 			
 			var ret = WtTower.update({_id: Session.get('selectedTowerMarker')}, {
@@ -187,7 +210,7 @@ Template.wtTowerEditFormModal.events({
 					name: event.target.name.value,
 					"loc.coordinates.0": event.target.lng.value,
 					"loc.coordinates.1": event.target.lat.value,
-					"ap":s['ap']
+					"accesspoints":[s]
 				}
 			});
 			if (ret) {

@@ -1,3 +1,5 @@
+
+
 Template.wtTowerEditFormModal.helpers({
 	towerName: function (head) {
 		if (typeof Session.get('selectedTowerMarker') != "undefined" && Session.get('selectedTowerMarker') != '') {
@@ -42,15 +44,49 @@ Template.wtTowerEditFormModal.helpers({
 
 Template.wtTowerEditFormModal.events({
 	'submit form': function (event) {
+	
 		if (typeof Session.get('selectedTowerMarker') != "undefined" && Session.get('selectedTowerMarker') != '') {
 			//Update Tower
-			var ret = WtTower.update({_id: Session.get('selectedTowerMarker')}, {
-				$set: {
-					name: event.target.name.value,
-					"loc.coordinates.0": event.target.lng.value,
-					"loc.coordinates.1": event.target.lat.value
-				}
-			});
+			var s=Array();
+
+
+			/*console.log(event.target['ap[][name]'].value);
+			console.log(event.target['ap[][azimuth]'].value);
+			console.log(event.target['ap[][beamwidth]'].value);
+			console.log(event.target['ap[][distance]'].value);
+			console.log(event.target['ap[][frequency]'].value);
+			console.log('no of elements:'+document.querySelectorAll("[name='ap[][name]']").length);*/
+
+			
+		for(var i=0; i<document.querySelectorAll("[name='ap[][name]']").length; i++)
+		{
+			var color = document.querySelectorAll("[name='ap[][color]']")[i].value;
+			var name = document.querySelectorAll("[name='ap[][name]']")[i].value;
+			var azimuth = document.querySelectorAll("[name='ap[][azimuth]']")[i].value;
+			var beamwidth = document.querySelectorAll("[name='ap[][beamwidth]']")[i].value;
+			var distance = document.querySelectorAll("[name='ap[][distance]']")[i].value;
+			var frequency = document.querySelectorAll("[name='ap[][frequency]']")[i].value;
+			s.push({
+					'name': name,
+					'azimuth': azimuth,
+					'beamwidth': beamwidth,
+					'distance': distance,
+					'frequency': frequency,
+					'color': color
+				});
+		}
+			
+		//console.log(s);
+		
+			
+		var ret = WtTower.update({_id: Session.get('selectedTowerMarker')}, {
+			$set: {
+				name: event.target.name.value,
+				"loc.coordinates.0": event.target.lng.value,
+				"loc.coordinates.1": event.target.lat.value,
+				"accesspoints":s
+			}
+		});
 			if (ret) {
 				$.growl({
 					icon: 'glyphicon glyphicon-ok',

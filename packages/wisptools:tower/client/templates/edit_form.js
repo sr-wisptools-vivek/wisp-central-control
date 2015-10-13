@@ -66,7 +66,8 @@ Template.wtTowerEditFormModal.events({
 			var beamwidth = document.querySelectorAll("[name='ap[][beamwidth]']")[i].value;
 			var distance = document.querySelectorAll("[name='ap[][distance]']")[i].value;
 			var frequency = document.querySelectorAll("[name='ap[][frequency]']")[i].value;
-			s.push({
+			if(name){
+				s.push({
 					'name': name,
 					'azimuth': azimuth,
 					'beamwidth': beamwidth,
@@ -74,6 +75,8 @@ Template.wtTowerEditFormModal.events({
 					'frequency': frequency,
 					'color': color
 				});
+			}
+			
 		}
 			
 		//console.log(s);
@@ -133,6 +136,8 @@ Template.wtTowerEditFormModal.events({
 		return false;
 	},
 	'mousewheel #wtTowerEditFormModal': function (event) {
+		$('.carousel').carousel()
+		event.preventDefault();
 		if(event.originalEvent.wheelDelta /120 < 0) {
 			$("#myCarousel").carousel('next');
 		}

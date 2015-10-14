@@ -24,3 +24,7 @@ Template.accessPoint.helpers({
 			return (a==b.color) ? 'selected' : '';
 	}
 });
+
+ Template.accessPoint.selected = function (parent) {
+    return (this.value === parent) ? 'selected' : '';
+  };

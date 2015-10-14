@@ -1,0 +1,14 @@
+{
+  "powercode": {
+    "dbHost": "localhost",
+    "dbUser": "master",
+    "dbPass": "MkdIUJfdiRd0GZva",
+    "dbName": "simplii_powernoc"
+  },
+  "wisptools": {
+    "smtpHost": "208.91.199.224",
+    "smtpPort": "25",
+    "smtpUser": "spence@wisptools.com",
+    "smtpPass": "JEX5vmjTFsvQYL3"
+  }
+}

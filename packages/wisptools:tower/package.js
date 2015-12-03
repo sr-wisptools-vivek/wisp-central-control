@@ -52,9 +52,7 @@ Package.onUse(function(api) {
     'client/templates/edit_form.html',
     'client/templates/edit_form.js',
     'client/templates/map.html',
-    'client/templates/map.js',
-    'client/templates/managed_router.html',
-    'client/templates/managed_router.js'
+    'client/templates/map.js'
     ], 'client');
 
   api.export('WtTower');

@@ -7,10 +7,10 @@ WtFriendlyTech.FTGetDeviceInfo = function(username, fullname, telephone) {
   try
   {
     console.log("inside soap client try");
-    console.log(Soap);
+    //console.log(Soap);
     var client = Soap.createClient(url);
     console.log(client);
-    var result = client.MyFunction(args);
+    var result = client.FTGetDeviceParameters(args);
     console.log(result);
     return result;
   }

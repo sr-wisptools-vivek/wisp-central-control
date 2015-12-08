@@ -1,0 +1,1 @@
+WtBillForwardAPI = {};

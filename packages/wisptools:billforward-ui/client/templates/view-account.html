@@ -1,0 +1,89 @@
+<template name="wtViewBfAccount">
+	<div class="wt-create-title">
+		<h4>Account Details</h4>
+		<div class="container">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="pwd">Company Name :</label>
+					<div class="col-sm-4">          
+						{{companyname}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="firstName">First Name :</label>
+					<div class="col-sm-4">
+						{{firstname}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="lastName">Last Name :</label>
+					<div class="col-sm-4">          
+						{{lastname}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="email">Email :</label>
+					<div class="col-sm-4">
+						{{email}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="phone">Phone :</label>
+					<div class="col-sm-4">          
+						{{mobile}}
+					</div>
+				</div>
+				<div class="form-group">
+          <label for="address" class="control-label col-sm-4">Physical Location :</label>
+          <div class="col-sm-4">
+            {{address1}}
+          </div>
+        </div>
+        {{#if address2}}
+          <div class="form-group">
+            <label for="address2" class="control-label col-sm-4">Address 2 :</label>
+            <div class="col-sm-4">
+              {{address2}}
+            </div>
+            </div>
+            {{#if address3}}
+              <div class="form-group">
+                <label for="address3" class="control-label col-sm-4">Address 3 :</label>
+                <div class="col-sm-4">
+                  {{address3}}
+                </div>
+              </div>
+            {{/if}}
+        {{/if}}
+        <div class="form-group">
+					<label class="control-label col-sm-4" for="pwd">City :</label>
+					<div class="col-sm-4">          
+						{{city}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="pwd">State :</label>
+					<div class="col-sm-4">          
+						{{province}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="pwd">Zip :</label>
+					<div class="col-sm-4">          
+						{{postcode}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="pwd">Tax Number :</label>
+					<div class="col-sm-4">          
+						{{vatnumber}}
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-4">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</template>

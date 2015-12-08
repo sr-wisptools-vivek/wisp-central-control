@@ -1,0 +1,34 @@
+<template name="wtListBfAccounts">
+  <h2>Billforward Accounts</h2>
+  {{#if displayTable}}
+  <div class="container">
+	  <h4>Click edit button to view and update account details.</h4>            
+	  <table class="table table-hover table-responsive">
+	    <thead>
+	      <tr>
+	        <th>Firstname</th>
+	        <th>Lastname</th>
+	        <th>Email</th>
+	        <th></th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	 			{{#each accountDetails}}
+ 					<tr>
+  					{{#with profile}}
+    					<td>{{firstName}}</td>
+			        <td>{{lastName}}</td>
+			        <td>{{email}}</td>
+			        <td><button type="button" value="{{accountID}}" class="edit_button btn btn-info">Edit</button></td>
+  					{{/with}}
+  				</tr>
+				{{/each}}
+	    </tbody>
+	  </table>
+	</div>
+	{{else}}
+		<h4>Fetching data from Billforward...</h4>
+		<div style="height: 175px;">{{> spinner}}</div>
+  {{/if}}
+</template>
+

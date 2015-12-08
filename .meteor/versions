@@ -46,12 +46,10 @@ logging@1.0.7
 matb33:collection-hooks@0.7.13
 meteor@1.1.6
 meteor-platform@1.2.2
-meteorhacks:async@1.0.0
 meteorhacks:fast-render@2.3.2
 meteorhacks:inject-data@1.2.3
 meteorhacks:kadira@2.20.1
 meteorhacks:meteorx@1.3.1
-meteorhacks:npm@1.5.0
 meteorhacks:picker@1.0.2
 meteorhacks:subs-manager@1.3.0
 minifiers@1.1.5
@@ -85,6 +83,7 @@ spacebars-compiler@1.0.6
 srp@1.0.3
 stylus@1.0.7
 templating@1.1.1
+tinytest@1.0.5
 tracker@1.0.7
 ui@1.0.6
 underscore@1.0.3
@@ -93,6 +92,9 @@ webapp@1.2.0
 webapp-hashing@1.0.3
 wisptools:ap@0.0.1
 wisptools:autoform-select-other@0.0.1
+wisptools:billforward@0.0.1
+wisptools:billforward-api@0.0.1
+wisptools:billforward-ui@0.0.1
 wisptools:collection@0.0.1
 wisptools:customer@0.0.1
 wisptools:date-format@0.0.1

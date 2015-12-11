@@ -1,0 +1,21 @@
+<template name='wtManagedRouterMySQLList'>
+  <table class="table table-striped">
+    <thead>
+      <tr><th>Customer</th><th>Serial Number</th><th>MAC</th><th>Make</th><th>Model</th><th>Manage</th></tr>
+    </thead>
+    <tbody>
+      {{#each routers}}
+        <tr>
+          <td>{{SubscriberName}}</td>
+          <td>{{SerialNumber}}</td>
+          <td>{{MACAddress}}</td>
+          <td>{{Make}}</td>
+          <td>{{Model}}</td>
+          <td>
+            <a href="{{url}}" target="_blank">View Router</a>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</template>

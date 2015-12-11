@@ -13,6 +13,7 @@ sacha:spin
 ian:accounts-ui-bootstrap-3
 accounts-password
 fortawesome:fontawesome
+wisptools:menu
 wisptools:interaction
 wisptools:customer
 wisptools:tower
@@ -20,10 +21,7 @@ meteorhacks:fast-render
 dburles:google-maps
 meteorhacks:kadira
 zimme:bootstrap-growl
-wisptools:menu
-wisptools:powercode-commission
-wisptools:powercode-extenet
-wisptools:powercode-tax-report
 mrt:jquery-mousewheel
 wisptools:ap
 wisptools:roles
+wisptools:managed-router-mysql

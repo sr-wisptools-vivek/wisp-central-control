@@ -22,6 +22,7 @@ Package.onUse(function(api) {
     'iron:router@1.0.7',
     'wisptools:map-control',
     'wisptools:collection',
+    'wisptools:menu',
     'zimme:bootstrap-growl@2.0.1',
     'mrt:jquery-mousewheel',
     'natestrauser:bootstrap-colorpicker'
@@ -52,7 +53,8 @@ Package.onUse(function(api) {
     'client/templates/edit_form.html',
     'client/templates/edit_form.js',
     'client/templates/map.html',
-    'client/templates/map.js'
+    'client/templates/map.js',
+    'client/menu.js'
     ], 'client');
 
   api.export('WtTower');

@@ -65,7 +65,21 @@ if (Meteor.isServer) {
 	      if (response.FTGetDeviceParametersResult.ErrorCode == 100)
 	      	{
 	      		var responseData = response.FTGetDeviceParametersResult;
-	      		return "Params : "+responseData.Params.ParamWSDL.Value;
+	      		return "Params : "+responseData.Params.ParamWSDL[0].Value;
+	      	}
+	      else
+	      	{
+	      		return "failed";
+	      	}
+    	},
+    	"wtManagedSetDeviceParameters": function(deviceSerialNo){
+	      //console.log(username);
+	      var response = WtFriendlyTech.FTSetDeviceParameters(deviceSerialNo);
+	      //console.log(response);
+	      if (response.FTSetDeviceParametersResult.ErrorCode == 100)
+	      	{
+	      		var responseData = response.FTSetDeviceParametersResult;
+	      		return "Id : "+responseData.Id;
 	      	}
 	      else
 	      	{

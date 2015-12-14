@@ -3,7 +3,7 @@ if (Meteor.isServer) {
 	Meteor.methods({
 
 		  "wtManagedRouterGetInfo": function(deviceSerialNo){
-	      //console.log(username);
+		  	if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
 	      var response = WtFriendlyTech.FTGetDeviceInfo(deviceSerialNo);
 	      //console.log(response);
 	      if (response.FTGetDeviceInfoResult.ErrorCode == 100)
@@ -17,7 +17,7 @@ if (Meteor.isServer) {
 	      	}
     	},
     	"wtManagedRouterGetCPE": function(deviceSerialNo){
-	      //console.log(username);
+    		if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
 	      var response = WtFriendlyTech.FTCPEStatus(deviceSerialNo);
 	      //console.log(response);
 	      if (response.FTCPEStatusResult.ErrorCode == 100)
@@ -31,7 +31,7 @@ if (Meteor.isServer) {
 	      	}
     	},
     	"wtManagedRouterRebootDevice": function(deviceSerialNo){
-	      //console.log(username);
+    		if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
 	      var response = WtFriendlyTech.FTRebootDevice(deviceSerialNo);
 	      //console.log(response);
 	      if (response.FTRebootDeviceResult.ErrorCode == 100)
@@ -45,7 +45,7 @@ if (Meteor.isServer) {
 	      	}
     	},
     	"wtManagedRouterResetToDefault": function(deviceSerialNo){
-	      //console.log(username);
+    		if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
 	      var response = WtFriendlyTech.FTResetToDefault(deviceSerialNo);
 	      //console.log(response);
 	      if (response.FTResetToDefaultResult.ErrorCode == 100)
@@ -58,23 +58,37 @@ if (Meteor.isServer) {
 	      		return "failed";
 	      	}
     	},
-    	"wtManagedGetDeviceParameters": function(deviceSerialNo){
-	      //console.log(username);
-	      var response = WtFriendlyTech.FTGetDeviceParameters(deviceSerialNo);
+    	"wtManagedGetDeviceParameters": function(deviceSerialNo, names){
+    		if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
+	      var response = WtFriendlyTech.FTGetDeviceParameters(deviceSerialNo, names);
 	      //console.log(response);
 	      if (response.FTGetDeviceParametersResult.ErrorCode == 100)
 	      	{
 	      		var responseData = response.FTGetDeviceParametersResult;
-	      		return "Params : "+responseData.Params.ParamWSDL[0].Value;
+	      		var paramWSDL = responseData.Params.ParamWSDL;
+	      		var output = "";
+	      		for (var i = paramWSDL.length - 1; i >= 0; i--) {
+	      			output+= paramWSDL[i].Name+" : "+paramWSDL[i].Value+"<br>";
+	      			//paramWSDL[i]
+	      		};
+	      		return output;
 	      	}
 	      else
 	      	{
 	      		return "failed";
 	      	}
     	},
-    	"wtManagedSetDeviceParameters": function(deviceSerialNo){
-	      //console.log(username);
-	      var response = WtFriendlyTech.FTSetDeviceParameters(deviceSerialNo);
+    	"wtManagedSetDeviceParameters": function(deviceSerialNo, namesArray, valuesArray){
+    		if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
+	      var arrayParams = new Array();
+	      for (var i = 0; i <= namesArray.length - 1; i++) {
+	      	var paramObject = {
+	      		"Name": namesArray[i],
+	      		"Value": valuesArray[i]
+	      	};
+	      	arrayParams.push(paramObject);
+	      };
+	      var response = WtFriendlyTech.FTSetDeviceParameters(deviceSerialNo,arrayParams);
 	      //console.log(response);
 	      if (response.FTSetDeviceParametersResult.ErrorCode == 100)
 	      	{

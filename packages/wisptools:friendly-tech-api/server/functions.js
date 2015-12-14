@@ -93,7 +93,7 @@ WtFriendlyTech.FTResetToDefault = function(deviceSerialNo) {
   }
 }
 
-WtFriendlyTech.FTGetDeviceParameters = function(deviceSerialNo) {
+WtFriendlyTech.FTGetDeviceParameters = function(deviceSerialNo, names) {
 
   var CPEStatus = function(deviceSerialNo){
     var APIArgs = {devicesn:deviceSerialNo};
@@ -118,9 +118,9 @@ WtFriendlyTech.FTGetDeviceParameters = function(deviceSerialNo) {
   };
 
   var args = {devicesn: deviceSerialNo, 
-              arraynames:{ string: ["InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.DNSServers", " InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.MaxAddress"] },
+              arraynames:{ string: names },
               source: CPEStatus(deviceSerialNo)
-            };
+             };
 console.log(args);
   try
   {
@@ -142,34 +142,16 @@ console.log(args);
   }
 }
 
-WtFriendlyTech.FTSetDeviceParameters = function(deviceSerialNo) {
-
-  var CPEStatus = function(deviceSerialNo){
-    var APIArgs = {devicesn:deviceSerialNo};
-    var result = client.FTCPEStatus(APIArgs);
-    console.log(result);
-    if (result.FTCPEStatusResult.ErrorCode == 100)
-      {
-        var responseData = result.FTCPEStatusResult;
-        if(responseData.Online == true)
-        {
-          return "0";
-        }
-        else
-        {
-          return "1";
-        }
-      }
-    else
-      {
-        return "1";
-      }
-  };
+WtFriendlyTech.FTSetDeviceParameters = function(deviceSerialNo, paramObject) {
 
   var args ={ devicesn: deviceSerialNo, 
-              arraynames:{ Params: [{"Name":"InternetGatewayDevice.LANDevice.1.LANHostConfigManagement.DNSServers","Value":"192.168.11.1"}]}
+              arrayparams: {
+                "Param": paramObject
+              }
             };
-console.log(args);
+
+
+console.log(JSON.stringify(args));
   try
   {
     var result = client.FTSetDeviceParameters(args);

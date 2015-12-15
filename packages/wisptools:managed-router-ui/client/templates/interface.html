@@ -1,0 +1,38 @@
+<template name="wtFriendlyTechInterface">
+	<div class="row">
+    <div class="col-xs-8">
+        <h2>Managed Router - David Salick</h2>
+    </div>
+	</div>
+	<div class="row">
+    <div class="col-xs-10">
+      <div class="row">
+        <div class="col-xs-3">
+          <strong>Status:</strong>
+        </div>
+        <div class="col-xs-9 status-box">
+        	{{CPEStatus}} 
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">
+          <strong>Last Check In:</strong>
+        </div>
+        <div class="col-xs-9 check-in-box">
+          12/14/2015 11:00 PM (39 minutes and 55 seconds ago) 
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">
+          <strong>Uptime:</strong>
+        </div>
+      	<div class="col-xs-9 uptime-box">
+          12 hours and 47 minutes 
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-2">
+        <a href="#" id="acs-refresh" class="btn btn-block btn-primary btn-lg ladda-button" data-style="zoom-out" data-size="l"><span class="ladda-label">Refresh</span></a>
+    </div>    
+  </div>
+</template>

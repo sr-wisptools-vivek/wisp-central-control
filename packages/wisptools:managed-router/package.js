@@ -14,9 +14,17 @@ Package.onUse(function(api) {
   api.use([
     'meteor',
     'mongo',
+    'templating',
+    'reactive-var',
+    'iron:router@1.0.7',
     'tinytest',
+    'rajit:bootstrap3-datepicker@1.4.1',
+    'numeral:numeral@1.5.3',
+    'percolate:synced-cron@1.2.1',
+    'zimme:bootstrap-growl@2.0.1',
     'wisptools:collection',
-    'wisptools:friendly-tech-api'
+    'wisptools:friendly-tech-api',
+    'wisptools:managed-router-ui'
     ]);
   api.versionsFrom('1.1.0.2');
   api.addFiles(['managed-router.js',

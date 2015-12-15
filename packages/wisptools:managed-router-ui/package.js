@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'wisptools:friendly-tech-api',
+  name: 'wisptools:managed-router-ui',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -12,20 +12,28 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
-  api.use(['zardak:soap',
+  api.use([
     'meteor',
     'mongo',
     'templating',
-    'reactive-var',
+    'aldeed:collection2@2.3.1',
+    'aldeed:autoform@4.2.2',
     'iron:router@1.0.7',
-    'tinytest'
+    'wisptools:menu',
+    'wisptools:friendly-tech-api'
   ]);
-  api.addFiles(['friendly-tech-api.js', 'server/api.js', 'server/functions.js'],'server');
-  api.export('WtFriendlyTech');
+  api.use(['templating'], 'client');
+  api.addFiles(['managed-router-ui.js', 'lib/router.js' ], ['server','client']);
+// Client only files
+  api.addFiles([
+    'client/menu.js',
+    'client/templates/interface.html',
+    'client/templates/interface.js'    
+    ], 'client');  
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('wisptools:friendly-tech-api');
-  api.addFiles('friendly-tech-api-tests.js');
+  api.use('wisptools:managed-router-ui');
+  api.addFiles('managed-router-ui-tests.js');
 });

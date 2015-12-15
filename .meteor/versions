@@ -102,6 +102,7 @@ wisptools:friendly-tech-api@0.0.1
 wisptools:growl@0.0.1
 wisptools:interaction@0.0.4
 wisptools:managed-router@0.0.1
+wisptools:managed-router-ui@0.0.1
 wisptools:map-control@0.0.1
 wisptools:menu@0.0.1
 wisptools:nodemailer@0.0.1

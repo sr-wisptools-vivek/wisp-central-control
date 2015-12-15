@@ -23,7 +23,7 @@ if (Meteor.isServer) {
 	      if (response.FTCPEStatusResult.ErrorCode == 100)
 	      	{
 	      		var responseData = response.FTCPEStatusResult;
-	      		return "Online : "+responseData.Online;
+	      		return responseData.Online;
 	      	}
 	      else
 	      	{

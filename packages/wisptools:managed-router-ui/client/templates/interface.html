@@ -11,7 +11,7 @@
           <strong>Status:</strong>
         </div>
         <div class="col-xs-9 status-box">
-        	{{CPEStatus}} 
+        	{{{CPEStatus}}}
         </div>
       </div>
       <div class="row">
@@ -19,7 +19,7 @@
           <strong>Last Check In:</strong>
         </div>
         <div class="col-xs-9 check-in-box">
-          12/14/2015 11:00 PM (39 minutes and 55 seconds ago) 
+          <!--12/14/2015 11:00 PM (39 minutes and 55 seconds ago)--> {{{lastCheckIn}}}
         </div>
       </div>
       <div class="row">
@@ -27,7 +27,7 @@
           <strong>Uptime:</strong>
         </div>
       	<div class="col-xs-9 uptime-box">
-          12 hours and 47 minutes 
+          {{{UpTime}}}
         </div>
       </div>
     </div>
@@ -35,4 +35,5 @@
         <a href="#" id="acs-refresh" class="btn btn-block btn-primary btn-lg ladda-button" data-style="zoom-out" data-size="l"><span class="ladda-label">Refresh</span></a>
     </div>    
   </div>
+  {{> wtTabPage tabData=tabData}}
 </template>

@@ -28,7 +28,12 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/menu.js',
     'client/templates/interface.html',
-    'client/templates/interface.js'    
+    'client/templates/tabs.js',
+    'client/templates/interface.js',
+    'client/templates/connected_devices.html',
+    'client/templates/wifi_scan.html',
+    'client/templates/router_config.html',
+    'client/templates/info.html' 
     ], 'client');  
 });
 

@@ -2,14 +2,15 @@
 if (Meteor.isServer) {
 	Meteor.methods({
 
-		  "wtManagedRouterGetInfo": function(deviceSerialNo){
+		  "wtManagedRouterGetInfo": function(deviceSerialNo, param){
 		  	if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
 	      var response = WtFriendlyTech.FTGetDeviceInfo(deviceSerialNo);
 	      //console.log(response);
 	      if (response.FTGetDeviceInfoResult.ErrorCode == 100)
 	      	{
 	      		var responseData = response.FTGetDeviceInfoResult;
-	      		return "ManufacturerName : "+responseData.ManufacturerName+" ModelName : "+responseData.ModelName;
+	      		//return "ManufacturerName : "+responseData.ManufacturerName+" ModelName : "+responseData.ModelName;
+	      		return responseData[param];
 	      	}
 	      else
 	      	{
@@ -68,7 +69,8 @@ if (Meteor.isServer) {
 	      		var paramWSDL = responseData.Params.ParamWSDL;
 	      		var output = "";
 	      		for (var i = paramWSDL.length - 1; i >= 0; i--) {
-	      			output+= paramWSDL[i].Name+" : "+paramWSDL[i].Value+"<br>";
+	      			//output+= paramWSDL[i].Name+" : "+paramWSDL[i].Value+"<br>";
+	      			output = paramWSDL[i].Value;
 	      			//paramWSDL[i]
 	      		};
 	      		return output;

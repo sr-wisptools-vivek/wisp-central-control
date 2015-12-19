@@ -59,12 +59,16 @@ Template.wtManagedRouterMySQLList.events({
             if (err)
               WtGrowl.fail('Search Failed');
             else 
-              t.routerList.set(res);
+              var tmp = t.routerList.get();
+              tmp.push(res[0]);
+              t.routerList.set(tmp);
           });
         }
       } else {
         WtGrowl.success('Router Added');
-        t.routerList.set(res);
+        var tmp = t.routerList.get();
+        tmp.push(res[0]);
+        t.routerList.set(tmp);
       }
     });
   }  

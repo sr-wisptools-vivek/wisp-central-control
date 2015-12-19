@@ -1,32 +1,39 @@
 <template name="wtRolesUser">
-    <table id="wtRolesUserTable" class="table table-striped table-bordered"  >
-      <tbody>
-        <tr>
-          <th>Email</th>
-          <th>Role</th>
-        </tr>
-        {{#each userList}}
+  <div class="bg-secondary app-page">
+    <div class="container">
+      <table id="wtRolesUserTable" class="table table-hover"  >
+        <tbody>
+          <tr>
+            <th>Email</th>
+            <th>Roles</th>
+          </tr>
+          {{#each userList}}
           <tr>
             <td>
               {{username}}
               {{#each emails}}
-                {{address}}
+              {{address}}
               {{/each}}
               {{services.google.email}}
             </td>
             <td>
-             {{>wtRolesUsersSelect}}
+              {{>wtRolesUsersSelect}}
             </td>
           </tr>
-        {{/each}}
-      </tbody>
-    </table>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <template name="wtRolesUsersSelect">
-  <select class="form-control type-sel" width="auto">
-    {{#each typeList}}
-      <option value={{roles}} {{selected name userType.roles}}>{{name}}</option>
-    {{/each}}
-  </select>
+  {{#each roleList}}
+  <div class="checkbox-inline {{disabled name ../roles}}">
+    <label>
+      <input class="roleCheckBox" type="checkbox" value="{{name}}" {{checked name ../roles}} {{disabled name ../roles ../_id}}>
+      {{name}}
+    </label>
+  </div>
+  {{/each}}
 </template>

@@ -14,7 +14,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
   
   
-   api.use([
+  api.use([
     'meteor',
     'alanning:roles@1.2.13',
     'accounts-password',
@@ -28,31 +28,28 @@ Package.onUse(function(api) {
     'wisptools:growl',
     'wisptools:collection',
     'wisptools:menu'
-    
   ]);
   
   api.addFiles([
-    
     'lib/router.js'
-   
     ], ['server','client']);
     
-   api.addFiles([
+  api.addFiles([
     'client/menu.js',
+    'client/subscription.js',
     'client/templates/users.html',
-    'client/templates/users.js'
-    ], 'client');
+    'client/templates/users.js',
+    'client/templates/manage-roles.html',
+    'client/templates/manage-roles.js'
+  ], 'client');
     
-   api.addFiles([
-       
-       'server/server.js',
-       'server/publication.js',
-       'server/userMethods.js'
-    ], 'server');
+  api.addFiles([
+    'server/publication.js',
+    'server/methods.js',
+    'server/on-create-user.js'
+  ], 'server');
 
-    api.addFiles('roles.js');
-    api.export('roles');
-    api.export('Roles');
+  api.export('Roles');
 });
 
 Package.onTest(function(api) {

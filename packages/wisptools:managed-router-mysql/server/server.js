@@ -42,6 +42,10 @@ WtManagedRouterMySQL.query = function () {
   };   
 }
 
+WtManagedRouterMySQL.escape = function (str) {
+  return this.pool.escape(str);
+}
+
 WtManagedRouterMySQL.makeUrl = function (id) {
   var token = CryptoJS.MD5(id.toString() + Meteor.settings.managedRouterMySQL.urlSecret.toString()).toString();
   var url = Meteor.settings.managedRouterMySQL.baseUrl + "?ID=" + id + "&TOKEN=" + token;

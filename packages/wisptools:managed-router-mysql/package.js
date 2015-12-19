@@ -21,7 +21,8 @@ Package.onUse(function(api) {
     'underscore',
     'iron:router@1.0.7',
     'jparker:crypto-md5@0.1.1',
-    'wisptools:menu'
+    'wisptools:menu',
+    'wisptools:growl'
   ]);
 
   api.addFiles([

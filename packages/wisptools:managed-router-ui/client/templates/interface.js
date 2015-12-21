@@ -15,7 +15,7 @@ Template.wtFriendlyTechInterface.helpers({
 	}
 });
 
-Template.wtFriendlyTechInterface.created = function (){
+Template.wtFriendlyTechInterface.rendered = function (){
     Meteor.call('wtManagedRouterGetCPE', "RNV5000511", function(err,response){
       if (err)
           console.log(err);

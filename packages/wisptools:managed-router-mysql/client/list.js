@@ -54,16 +54,6 @@ Template.wtManagedRouterMySQLList.events({
     Meteor.call('wtManagedRouterMySQLAdd', router, function (err, res) {
       if (err) {
         WtGrowl.fail(err.reason);
-        if (err.error == 'dup') {
-          Meteor.call('wtManagedRouterMySQLSearch', err.details, function (err, res) {
-            if (err)
-              WtGrowl.fail('Search Failed');
-            else 
-              var tmp = t.routerList.get();
-              tmp.push(res[0]);
-              t.routerList.set(tmp);
-          });
-        }
       } else {
         WtGrowl.success('Router Added');
         var tmp = t.routerList.get();

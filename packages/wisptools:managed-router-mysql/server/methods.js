@@ -79,7 +79,7 @@ Meteor.methods({
     var res = fut.wait();
     var subId = res.insertId;
 
-    var fut = new Future();
+    fut = new Future();
     // Add the router
     sql = 
       "INSERT INTO " +
@@ -92,6 +92,22 @@ Meteor.methods({
       " " + escapedMake + ", " +
       " " + escapedModel + ", " +
       " '', '', 'N', 'N' " +
+      ")";
+
+    runQuery(sql, fut);
+    res = fut.wait();
+    var eId = res.insertId;
+
+    fut = new Future();
+    // Add default passphrase
+    var passphrase = WtManagedRouterMySQL.escape("W500" + router.serial.substr(-4));;
+    sql = 
+      "INSERT INTO " +
+      " " + db_name + ".ManagedRouterLastSavedValue " +
+      "VALUES ( " +
+      " " + eId + ", " +
+      " 'InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.KeyPassphrase', " +
+      " " + passphrase + " " +
       ")";
 
     runQuery(sql, fut);

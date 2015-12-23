@@ -101,6 +101,30 @@ if (Meteor.isServer) {
 	      	{
 	      		return "failed";
 	      	}
+    	},
+    	"wtGetRouterInfo": function(deviceSerialNo,names){
+    		if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
+	      var namesArray = names.map(function(names) {
+				  return names['acs'];
+				});
+	      var response = WtFriendlyTech.FTGetRouterInfo(deviceSerialNo, namesArray);
+	      //console.log(response);
+	      if (response.FTGetDeviceParametersResult.ErrorCode == 100)
+	      	{
+	      		var responseData = response.FTGetDeviceParametersResult;
+	      		var paramWSDL = responseData.Params.ParamWSDL;
+	      		var output = "";
+	      		for (var i = paramWSDL.length - 1; i >= 0; i--) {
+	      			//output+= paramWSDL[i].Name+" : "+paramWSDL[i].Value+"<br>";
+	      			output = paramWSDL[i].Value;
+	      			//paramWSDL[i]
+	      		};
+	      		return paramWSDL;
+	      	}
+	      else
+	      	{
+	      		return "failed";
+	      	}
     	}
 
 	});

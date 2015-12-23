@@ -1,8 +1,9 @@
 // ReadyNet Devices
 acsDeviceConfig['READYNET'] = [];
 // Config for WRT500 Router
+acsDeviceConfig['READYNET']['WRT500'] = [];
 acsDeviceConfig['READYNET']['WRT500'].template = 'wtManagedRouterReadyNet';
-acsDeviceConfig['READYNET']['WRT500'].hosts {
+acsDeviceConfig['READYNET']['WRT500'].hosts ={
   'table': {
     'count': 'InternetGatewayDevice.LANDevice.1.Hosts.HostNumberOfEntries',
     'items': [
@@ -30,13 +31,13 @@ acsDeviceConfig['READYNET']['WRT500'].hosts {
     ]
   }
 };
-acsDeviceConfig['READYNET']['WRT500'].wifiScan {
+acsDeviceConfig['READYNET']['WRT500'].wifiScan ={
   'bestChannel': 'InternetGatewayDevice.X_READYNET_WIFI.NeighboringWiFiDiagnostic.BestChannel',
   'lastScan': 'InternetGatewayDevice.X_READYNET_WIFI.NeighboringWiFiDiagnostic.CompleteTime ',
   'scanNow': {
     'asc': 'InternetGatewayDevice.X_READYNET_WIFI.NeighboringWiFiDiagnostic.DiagnosticsState',
     'value': 'Requested'
-  }
+  },
   'table': {
     'count': 'InternetGatewayDevice.X_READYNET_WIFI.NeighboringWiFiDiagnostic.ResultNumberOfEntries',
     'items': [
@@ -57,7 +58,7 @@ acsDeviceConfig['READYNET']['WRT500'].wifiScan {
     ]
   }
 };
-acsDeviceConfig['READYNET']['WRT500'].routerConfig {
+acsDeviceConfig['READYNET']['WRT500'].routerConfig ={
   'form': {
     'columns': [
       {
@@ -154,7 +155,7 @@ acsDeviceConfig['READYNET']['WRT500'].routerConfig {
     ]
   }
 };
-acsDeviceConfig['READYNET']['WRT500'].info [
+acsDeviceConfig['READYNET']['WRT500'].info =[
   {
     'name': 'Manufacturer',
     'acs': 'InternetGatewayDevice.DeviceInfo.Manufacturer'

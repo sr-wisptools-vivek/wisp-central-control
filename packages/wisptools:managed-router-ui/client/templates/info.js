@@ -93,6 +93,24 @@ Template.wtFriendlyTechInfo.created = function (){
         Session.set("Serial", 'Model not available');
       }
     });
+    var manufacturer = Session.get('Manufacturer');
+    var model = Session.get('Model');
+    Meteor.call('wtGetRouterInfo', "RNV5000511",acsDeviceConfig[manufacturer][model].info, function(err,response) {
+      if(err) {
+        console.log("Error:" + err.reason);
+        return;
+      }
+      if(response!= "failed")
+      {
+        var str = response;
+        console.log(response);
+      }
+      else
+      {
+        console.log("Serial", 'Model not available');
+      }
+    });
+   // console.log(acsDeviceConfig['READYNET']['WRT500'].info);
 }
 
 Template.wtFriendlyTechInterface.events({

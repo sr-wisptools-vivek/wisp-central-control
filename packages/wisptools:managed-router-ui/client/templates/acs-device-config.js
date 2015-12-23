@@ -1,8 +1,10 @@
 // Config object for acs device
 acsDeviceConfig = [];
 // Default for catch all when no match found
-acsDeviceConfig['DEFAULT'] = []; 
+acsDeviceConfig['DEFAULT'] = [];
+acsDeviceConfig['DEFAULT']['DEFAULT'] = [];
 acsDeviceConfig['DEFAULT']['DEFAULT'].template = 'wtManagedRouterDefault';
+acsDeviceConfig['DEFAULT']['DEFAULT'].info = [];
 acsDeviceConfig['DEFAULT']['DEFAULT'].info [
   {
     'name': 'Manufacturer',

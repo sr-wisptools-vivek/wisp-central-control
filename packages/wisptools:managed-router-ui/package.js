@@ -28,8 +28,10 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/menu.js',
     'client/templates/interface.html',
-    'client/templates/tabs.js',
     'client/templates/interface.js',
+    'client/templates/tabs.js',
+    'client/templates/acs-device-config.js',
+    'client/templates/acs-device-config-readynet.js',
     'client/templates/connected_devices.html',
     'client/templates/wifi_scan.html',
     'client/templates/router_config.html',

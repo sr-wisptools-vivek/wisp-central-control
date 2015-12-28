@@ -1,6 +1,9 @@
 if(Meteor.isClient){
 
+Template.wtFriendlyTechInfo.routerInfo = function (){ return Session.get("routerInfo");}
+
 Template.wtFriendlyTechInfo.helpers({
+  
   Manufacturer: function(){
     console.log(Session.get("Manufacturer"));
     return Session.get("Manufacturer") || "Loading...";
@@ -28,73 +31,14 @@ Template.wtFriendlyTechInfo.helpers({
 });
 
 Template.wtFriendlyTechInfo.created = function (){
- /*   
-    var names = ["InternetGatewayDevice.DeviceInfo.UpTime"];
-    Meteor.call('wtManagedGetDeviceParameters', "RNV5000511", names, function(err,response) {
-      if(err) {
-        console.log("Error:" + err.reason);
-        return;
-      }
-      if(response!= "failed")
-      {
-        var hours = Math.floor(response / (60*60));
-        var minutes = Math.floor((response-(hours*3600))/60);
-        var newTime = hours+" hours and "+minutes+" minutes";
-        Session.set("UpTime", newTime);
-      }
-      else
-      {
-        Session.set("UpTime", 'Uptime not available');
-      }
-    });
-*/
-    Meteor.call('wtManagedRouterGetInfo', "RNV5000511","ManufacturerName", function(err,response) {
-      if(err) {
-        console.log("Error:" + err.reason);
-        return;
-      }
-      if(response!= "failed")
-      {
-        var str = response;
-        Session.set("Manufacturer", response);
-      }
-      else
-      {
-        Session.set("Manufacturer", 'Manufacturer Name not available');
-      }
-    });
-    Meteor.call('wtManagedRouterGetInfo', "RNV5000511","ModelName", function(err,response) {
-      if(err) {
-        console.log("Error:" + err.reason);
-        return;
-      }
-      if(response!= "failed")
-      {
-        var str = response;
-        Session.set("Model", response);
-      }
-      else
-      {
-        Session.set("Model", 'Model not available');
-      }
-    });
-    Meteor.call('wtManagedRouterGetInfo', "RNV5000511","Serial", function(err,response) {
-      if(err) {
-        console.log("Error:" + err.reason);
-        return;
-      }
-      if(response!= "failed")
-      {
-        var str = response;
-        Session.set("Serial", response);
-      }
-      else
-      {
-        Session.set("Serial", 'Model not available');
-      }
-    });
+
     var manufacturer = Session.get('Manufacturer');
     var model = Session.get('Model');
+    if(typeof manufacturer === 'undefined' || typeof model === 'undefined')
+    {
+      manufacturer = "DEFAULT";
+      model = "DEFAULT";
+    }
     Meteor.call('wtGetRouterInfo', "RNV5000511",acsDeviceConfig[manufacturer][model].info, function(err,response) {
       if(err) {
         console.log("Error:" + err.reason);
@@ -103,15 +47,45 @@ Template.wtFriendlyTechInfo.created = function (){
       if(response!= "failed")
       {
         var str = response;
+        var acs = acsDeviceConfig[manufacturer][model].info;
+        var acsArray = acs.map(function(acs) {
+          return acs['acs'];
+        });
+        
+        console.log(acsArray);
         console.log(response);
+        var routerInfo={};
+        var apiResult = response;
+        var inter={};
+        for (i in apiResult ) {
+          inter[apiResult[i].Name]=apiResult[i].Value;
+        }
+        var routerConfig = acsDeviceConfig[manufacturer][model].info;
+        for (j in routerConfig) {
+          console.log(routerConfig[j]['acs']);
+          if(inter.hasOwnProperty(routerConfig[j]['acs'])) {
+            routerInfo[routerConfig[j].name]=inter[routerConfig[j]['acs']];
+          }
+        }
+        console.log(routerInfo);
+        Session.set("routerInfo", routerInfo);
       }
       else
       {
-        console.log("Serial", 'Model not available');
+        console.log(response);
       }
     });
    // console.log(acsDeviceConfig['READYNET']['WRT500'].info);
 }
+
+Template.registerHelper("objectToPairs",function(object){
+  return _.map(object, function(value, key) {
+    return {
+      key: key,
+      value: value
+    };
+  });
+});
 
 Template.wtFriendlyTechInterface.events({
 

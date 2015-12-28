@@ -31,6 +31,8 @@ Template.wtFriendlyTechInterface.rendered = function (){
 				}
       }
     });
+
+    
     var names = ["InternetGatewayDevice.DeviceInfo.UpTime"];
 		Meteor.call('wtManagedGetDeviceParameters', "RNV5000511", names, function(err,response) {
 			if(err) {
@@ -72,6 +74,53 @@ Template.wtFriendlyTechInterface.rendered = function (){
 				Session.set("lastCheckIn", 'Last Check In time not available');
 			}
 		});
+
+
+		Meteor.call('wtManagedRouterGetInfo', "RNV5000511","ManufacturerName", function(err,response) {
+      if(err) {
+        console.log("Error:" + err.reason);
+        return;
+      }
+      if(response!= "failed")
+      {
+        var str = response;
+        Session.set("Manufacturer", response);
+      }
+      else
+      {
+        Session.set("Manufacturer", 'Manufacturer Name not available');
+      }
+    });
+    Meteor.call('wtManagedRouterGetInfo', "RNV5000511","ModelName", function(err,response) {
+      if(err) {
+        console.log("Error:" + err.reason);
+        return;
+      }
+      if(response!= "failed")
+      {
+        var str = response;
+        Session.set("Model", response);
+      }
+      else
+      {
+        Session.set("Model", 'Model not available');
+      }
+    });
+    Meteor.call('wtManagedRouterGetInfo', "RNV5000511","Serial", function(err,response) {
+      if(err) {
+        console.log("Error:" + err.reason);
+        return;
+      }
+      if(response!= "failed")
+      {
+        var str = response;
+        Session.set("Serial", response);
+      }
+      else
+      {
+        Session.set("Serial", 'Model not available');
+      }
+    });
 }
 
 Template.wtFriendlyTechInterface.events({

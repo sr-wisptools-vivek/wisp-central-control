@@ -9,16 +9,16 @@ acsDeviceConfig['READYNET']['WRT500'].hosts ={
     'items': [
       {
         'name': 'Host Name',
-        'acs': 'InternetGatewayDevice.LANDevice.1.Hosts.Host.[X].HostName'
+        'acs': 'InternetGatewayDevice.LANDevice.1.Hosts.Host.1.HostName'
       },{
         'name': 'IP Address',
-        'acs': 'InternetGatewayDevice.LANDevice.1.Hosts.Host.[X].IPAddress'
+        'acs': 'InternetGatewayDevice.LANDevice.1.Hosts.Host.1.IPAddress'
       },{
         'name': 'MAC Address',
-        'acs': 'InternetGatewayDevice.LANDevice.1.Hosts.Host.[X].MACAddress'
+        'acs': 'InternetGatewayDevice.LANDevice.1.Hosts.Host.1.MACAddress'
       },{
         'name': 'Interface',
-        'acs': 'InternetGatewayDevice.LANDevice.1.Hosts.Host.[X].InterfaceType'
+        'acs': 'InternetGatewayDevice.LANDevice.1.Hosts.Host.1.InterfaceType'
       } 
       /****
        * Signal Strength is a bit harder to do, because you have to match the MAC address in another list.

@@ -4,30 +4,12 @@
 			<div class="col-xs-12 info-box">
 				<div class="row" style="margin-bottom:20px; padding:20px;">
 					<div class="col-xs-10">
-						<div class="row">
-							<div class="col-xs-3"><strong>Manufacturer:</strong></div>
-							<div class="col-xs-9">{{Manufacturer}}</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-3"><strong>Model:</strong></div>
-							<div class="col-xs-9">{{Model}}</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-3"><strong>LAN MAC Address:</strong></div>
-							<div class="col-xs-9">00:01:9F:14:07:DC</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-3"><strong>WAN MAC Address:</strong></div>
-							<div class="col-xs-9">00:01:9F:14:07:DD</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-3"><strong>Serial Number:</strong></div>
-							<div class="col-xs-9">{{SerialNumber}}</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-3"><strong>Firmware Version:</strong></div>
-							<div class="col-xs-9">V3.10</div>
-						</div>
+						{{#each objectToPairs routerInfo}}
+							<div class="row">
+								<div class="col-xs-3"><strong>{{key}}:</strong></div>
+								<div class="col-xs-9">{{value}}</div>
+							</div>
+    				{{/each}}
 					</div>
 				</div>
 			</div>

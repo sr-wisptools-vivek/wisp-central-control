@@ -31,7 +31,8 @@ Package.onUse(function(api) {
     'wisptools:growl',
     'wisptools:download-csv',
     'wisptools:date-format',
-    'wisptools:progress-bar'
+    'wisptools:progress-bar',
+    'pfafman:filesaver'
   ]);
 
   // Client and Server files

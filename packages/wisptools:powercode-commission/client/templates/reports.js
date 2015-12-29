@@ -97,7 +97,12 @@ Template.wtPowercodeCommissionReports.events({
    
     var reportdate = $('[name=commStartDate]').val();
     
-    Meteor.call('downloadReport',reportdate);
+    Meteor.call('downloadReport',reportdate, function(err,res){
+      if(err)
+      { 
+        throw err;
+      }
+    });
 
  }
 });

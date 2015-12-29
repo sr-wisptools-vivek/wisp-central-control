@@ -1,7 +1,7 @@
 Meteor.methods({
   downloadReport: function(reportdate) {
     console.log(reportdate);
-    var converter = Npm.require('json-2-csv');
+
     var given = reportdate.split(" ");
     switch (given[1])
     {
@@ -47,21 +47,23 @@ Meteor.methods({
     var end = given.split("-");
     end[2] = "31";
     end = end.join("-");
-    var workingData = WtPowercodeCommission.collection.report.find({"Date": {$gte: given, $lt: end}, "isPaidUp": "Yes"});
-    // console.log(workingData);
-    // return workingData;
-    // var fields = ['SalesPerson', 'Date', 'CustomerID','CompanyName','Description','Amount','commission','isPaidUp'];
-    converter.json2csv(workingData, function(err, csv) {
+    var result = WtPowercodeCommission.collection.report.find({"Date": {$gte: given, $lt: end}, "isPaidUp": "Yes"}).fetch();
+    var converter = Npm.require('json-2-csv');
+    var json2csvCallback = function(err, csv) {
       if (err)
-        console.log(err);
+        throw err;
       
-      
-        console.log('file saved');
-    
-    });
+      var blob = new Blob([csv],
+              {type: "text/csv;charset=utf-8"});
+      saveAs(blob, "yourfile.csv");
+      //    console.log(csv);
+      // console.log("hello");
 
-    //
-    //  +  return workingData;
+    };
+
+    converter.json2csv(result, json2csvCallback);
+
+
   }
 });
 

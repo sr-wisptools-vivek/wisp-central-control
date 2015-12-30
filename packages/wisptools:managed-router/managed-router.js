@@ -69,9 +69,7 @@ if (Meteor.isServer) {
 	      		var paramWSDL = responseData.Params.ParamWSDL;
 	      		var output = "";
 	      		for (var i = paramWSDL.length - 1; i >= 0; i--) {
-	      			//output+= paramWSDL[i].Name+" : "+paramWSDL[i].Value+"<br>";
 	      			output = paramWSDL[i].Value;
-	      			//paramWSDL[i]
 	      		};
 	      		return output;
 	      	}
@@ -115,9 +113,7 @@ if (Meteor.isServer) {
 	      		var paramWSDL = responseData.Params.ParamWSDL;
 	      		var output = "";
 	      		for (var i = paramWSDL.length - 1; i >= 0; i--) {
-	      			//output+= paramWSDL[i].Name+" : "+paramWSDL[i].Value+"<br>";
 	      			output = paramWSDL[i].Value;
-	      			//paramWSDL[i]
 	      		};
 	      		return paramWSDL;
 	      	}
@@ -126,30 +122,31 @@ if (Meteor.isServer) {
 	      		return "failed";
 	      	}
     	},
-    	"wtGetRouterHosts": function(deviceSerialNo,names){
+    	"wtGetRouterHosts": function(deviceSerialNo,data){
     		if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
+    		
+    		var count = data.count;
+    		var hostCount = WtFriendlyTech.FTGetHostsCount(deviceSerialNo, count);
+
+    		var names = data.items;
     		var namesArray = names.map(function(names) {
-				  return names['acs'];
-				});
-	      var response = WtFriendlyTech.FTGetRouterInfo(deviceSerialNo, namesArray);
-	      console.log("wtGetRouterHosts response :");
-	      console.log(JSON.stringify(response));
-	      if (response.FTGetDeviceParametersResult.ErrorCode == 100)
-	      	{
-	      		var responseData = response.FTGetDeviceParametersResult;
-	      		var paramWSDL = responseData.Params.ParamWSDL;
-	      		var output = "";
-	      		for (var i = paramWSDL.length - 1; i >= 0; i--) {
-	      			//output+= paramWSDL[i].Name+" : "+paramWSDL[i].Value+"<br>";
-	      			output = paramWSDL[i].Value;
-	      			//paramWSDL[i]
-	      		};
-	      		return paramWSDL;
-	      	}
-	      else
-	      	{
-	      		return "failed";
-	      	}
+    			var str = names['acs'];
+    			var requiredPortion = str.split("[X]");
+    			var newStr = requiredPortion[0];
+    			if(newStr == 'InternetGatewayDevice.LANDevice.1.Hosts.Host.[X].')
+    			{
+    				return;
+    			}
+    			else
+    			{
+    				return newStr;
+    			}
+        });
+				requestData = namesArray.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]); //remove duplicates
+
+	      var response = WtFriendlyTech.FTGetHosts(deviceSerialNo, requestData);
+	      console.log(hostCount);
+	      console.log(response);
     	}
 
 	});

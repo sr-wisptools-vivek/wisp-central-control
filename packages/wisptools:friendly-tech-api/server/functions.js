@@ -220,3 +220,103 @@ console.log(args);
     return err;
   }
 }
+
+WtFriendlyTech.FTGetHostsCount = function(deviceSerialNo, names) {
+
+  var CPEStatus = 0;
+  var count = names;
+  //var itemsObj = names.items;
+  var args = {devicesn: deviceSerialNo, 
+              arraynames:{ string: [count] },
+              source: CPEStatus
+             };
+  //console.log(args);
+  try
+  {
+    var result = client.FTGetDeviceParameters(args);
+    var response = result.FTGetDeviceParametersResult;
+        if (response.ErrorCode == 100)
+          {
+            var deviceCount = response.Params.ParamWSDL[0].Value;
+            //console.log(deviceCount);
+            return deviceCount;
+
+            /*
+            var output = {};
+            
+            var itemsArray = itemsObj.map(function(itemsObj) {
+                  var str = itemsObj['acs'];
+                  var re = '[X]';
+                  var newstr = str.replace(re, "2")
+                  //console.log(newstr);
+                  return newstr;
+                });
+            
+            var requestArray = itemsObj.map(function(itemsObj) {
+                  return itemsObj['acs'];
+                });
+            var request = ['InternetGatewayDevice.LANDevice.1.Hosts.Host.1.HostName','InternetGatewayDevice.LANDevice.1.Hosts.Host.2.HostName'];
+            var arg2 = {devicesn: deviceSerialNo,
+                  arraynames:{srting:requestArray},
+                  source: CPEStatus
+                };
+            console.log(arg2);
+            output = client.FTGetDeviceParameters(arg2);
+            for (var i = 0; i <= deviceCount; i++) 
+              {
+                
+                var arg2 = {devicesn: deviceSerialNo,
+                  arraynames:{srting: ["InternetGatewayDevice.LANDevice.1.Hosts.Host."]},
+                  source: CPEStatus
+                };
+
+                output[i] = client.FTGetDeviceParameters(arg2);
+                
+                
+              }
+            console.log(output);
+            */
+          }
+  }
+  catch (err)
+  {
+    if(err.error === 'soap-creation')
+    {
+      console.log('SOAP Client creation failed');
+    }
+    else if (err.error === 'soap-method')
+    {
+      console.log('SOAP Method call failed');
+    }
+    return err;
+  }
+}
+
+WtFriendlyTech.FTGetHosts = function(deviceSerialNo, names) {
+
+  var CPEStatus = 0;
+
+  var args = {devicesn: deviceSerialNo, 
+              arraynames:{ string: names },
+              source: CPEStatus
+             };
+console.log(args);
+  try
+  {
+    var result = client.FTGetDeviceParameters(args);
+    console.log(JSON.stringify(result));
+    return result;
+  }
+  catch (err)
+  {
+    if(err.error === 'soap-creation')
+    {
+      console.log('SOAP Client creation failed');
+    }
+    else if (err.error === 'soap-method')
+    {
+      console.log('SOAP Method call failed');
+    }
+    return err;
+  }
+}

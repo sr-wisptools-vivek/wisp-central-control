@@ -9,7 +9,7 @@ Template.wtFriendlyTechConnDevices.created = function (){
       model = "WRT500";
     }
 
-    Meteor.call('wtGetRouterHosts', "RNV5000511",acsDeviceConfig[manufacturer][model].hosts.table.items, function(err,response) {
+    Meteor.call('wtGetRouterHosts', "RNV5000511",acsDeviceConfig[manufacturer][model].hosts, function(err,response) {
       if(err) {
         console.log("Error:" + err.reason);
         return;

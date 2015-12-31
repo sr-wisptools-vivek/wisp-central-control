@@ -31,7 +31,8 @@ Package.onUse(function(api) {
     'wisptools:growl',
     'wisptools:download-csv',
     'wisptools:date-format',
-    'wisptools:progress-bar'
+    'wisptools:progress-bar',
+    'pfafman:filesaver'
   ]);
 
   // Client and Server files
@@ -56,7 +57,8 @@ Package.onUse(function(api) {
     ], 'client');
 
  api.addFiles([
-    'server/cron.js'
+    'server/cron.js',
+    'server/downloadreport.js'
     ], ['server']);
 
   api.export('WtPowercodeCommission');
@@ -67,4 +69,8 @@ Package.onTest(function(api) {
   api.use('tinytest');
   api.use('wisptools:powercode-commission');
   api.addFiles('wisptools:powercode-commission-tests.js');
+});
+
+Npm.depends({
+'json-2-csv': '1.3.0'
 });

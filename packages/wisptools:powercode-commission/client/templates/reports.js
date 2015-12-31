@@ -83,13 +83,32 @@ Template.wtPowercodeCommissionReports.events({
     var workingData=  WtPowercodeCommission.collection.report.find({"Date" : {$gte :given,$lt:end},"isPaidUp":"Yes"});
     self.reportData.set(workingData);
     self.running.set(false);
- }
-else
-{
-workingData=[];
-self.reportData.set(workingData);
-    self.running.set(false);
-} 
+    }
+    else
+    {
+      workingData = [];
+      self.reportData.set(workingData);
+      self.running.set(false);
+    }
+
+  },
+  "submit .download-report": function(event) {
+    event.preventDefault();
+
+    var reportdate = $('[name=commStartDate]').val();
+
+    Meteor.call('downloadReport', reportdate, function(err, res) {
+      if (err)
+      {
+        throw err;
+      }
+      if (res)
+      {
+        var blob = new Blob([res],{type: "text/csv;charset=utf-8"});
+        var filename = "commission_report_"+reportdate+".csv";        
+        saveAs(blob, filename);
+      }
+    });
 
  }
 });

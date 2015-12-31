@@ -52,8 +52,8 @@ Template.wtFriendlyTechInfo.created = function (){
           return acs['acs'];
         });
         
-        console.log(acsArray);
-        console.log(response);
+        //console.log(acsArray);
+        //console.log(response);
         var routerInfo={};
         var apiResult = response;
         var inter={};
@@ -67,7 +67,7 @@ Template.wtFriendlyTechInfo.created = function (){
             routerInfo[routerConfig[j].name]=inter[routerConfig[j]['acs']];
           }
         }
-        console.log(routerInfo);
+        //console.log(routerInfo);
         Session.set("routerInfo", routerInfo);
       }
       else

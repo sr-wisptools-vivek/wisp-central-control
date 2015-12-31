@@ -124,29 +124,9 @@ if (Meteor.isServer) {
     	},
     	"wtGetRouterHosts": function(deviceSerialNo,data){
     		if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
-    		
-    		var count = data.count;
-    		var hostCount = WtFriendlyTech.FTGetHostsCount(deviceSerialNo, count);
-
-    		var names = data.items;
-    		var namesArray = names.map(function(names) {
-    			var str = names['acs'];
-    			var requiredPortion = str.split("[X]");
-    			var newStr = requiredPortion[0];
-    			if(newStr == 'InternetGatewayDevice.LANDevice.1.Hosts.Host.[X].')
-    			{
-    				return;
-    			}
-    			else
-    			{
-    				return newStr;
-    			}
-        });
-				requestData = namesArray.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]); //remove duplicates
-
-	      var response = WtFriendlyTech.FTGetHosts(deviceSerialNo, requestData);
-	      console.log(hostCount);
-	      console.log(response);
+		      var response = WtFriendlyTech.FTGetDeviceParameters(deviceSerialNo,data);
+		      console.log(JSON.stringify(response));
+		      return response;
     	}
 
 	});

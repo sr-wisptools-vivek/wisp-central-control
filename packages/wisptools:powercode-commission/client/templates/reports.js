@@ -92,15 +92,21 @@ Template.wtPowercodeCommissionReports.events({
     }
 
   },
-  "submit .download-report":function(event){
+  "submit .download-report": function(event) {
     event.preventDefault();
-   
+
     var reportdate = $('[name=commStartDate]').val();
-    
-    Meteor.call('downloadReport',reportdate, function(err,res){
-      if(err)
-      { 
+
+    Meteor.call('downloadReport', reportdate, function(err, res) {
+      if (err)
+      {
         throw err;
+      }
+      if (res)
+      {
+        var blob = new Blob([res],{type: "text/csv;charset=utf-8"});
+        var filename = "commission_report_"+reportdate+".csv";        
+        saveAs(blob, filename);
       }
     });
 

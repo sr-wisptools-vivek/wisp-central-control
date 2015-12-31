@@ -14,9 +14,20 @@ var runQuery = function (sql, future) {
   });  
 }
 
+var getDomain = function() {
+  var domain = WtMangedRouterMySQLDomains.findOne({userId: Meteor.userId()});
+  if (!domain) return null;
+  if (domain.name == "") return null;
+  return WtManagedRouterMySQL.escape(domain.name);
+}
+
 Meteor.methods({
   wtManagedRouterMySQLGetLimit: function(limit) {
     if (Meteor.userId() == null) return null;
+
+    var escapedDomain = getDomain();
+    if (escapedDomain == null) return null;
+
     var sqlLimit = limit || 10;
 
     var fut = new Future();
@@ -27,12 +38,15 @@ Meteor.methods({
       "  " + db_name + ".Equipment, " +
       "  " + db_name + ".ManagedRouter " + 
       "WHERE " + 
+      " Subscriber.SystemID=" + escapedDomain + " AND " +
       " Subscriber.SubscriberID=Equipment.SubscriberID AND " +
       " Equipment.Deleted='N' AND " +
       " Equipment.Make=ManagedRouter.CSGMake AND " +
       " Equipment.Model=ManagedRouter.CSGModel " +
       "ORDER BY Equipment.EquipmentID DESC " +
       "LIMIT " + sqlLimit;
+
+console.log(sql);
 
     runQuery(sql, fut);
 
@@ -55,11 +69,31 @@ Meteor.methods({
     res = Meteor.call('wtManagedRouterMySQLSearch', router.mac);
     if (res.length > 0) throw new Meteor.Error('dup','Duplicate MAC Address', router.mac);
 
+    var escapedDomain = getDomain();
+    if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
+
     var escapedName = WtManagedRouterMySQL.escape(router.name);
     var escapedSerial = WtManagedRouterMySQL.escape(router.serial);
     var escapedMAC = WtManagedRouterMySQL.escape(router.mac);
     var escapedMake = WtManagedRouterMySQL.escape(router.make);
     var escapedModel = WtManagedRouterMySQL.escape(router.model);
+
+    // Check for Serial Number Conflict
+    var fut = new Future();
+    var db_name = Meteor.settings.managedRouterMySQL.dbName;
+    var sql = 
+      "SELECT * FROM " +
+      " " + db_name + ".Equipment " +
+      "WHERE " + 
+      " Equipment.SerialNumber=" + escapedSerial + " AND " +
+      " Equipment.Deleted='N'";
+
+    runQuery(sql, fut);
+
+    var res = fut.wait();
+    if (res.length > 0) throw new Meteor.Error('denied','Serial Number Conflict');
+
+
 
     var fut = new Future();
     var db_name = Meteor.settings.managedRouterMySQL.dbName;
@@ -69,7 +103,7 @@ Meteor.methods({
       "INSERT INTO " +
       " " + db_name + ".Subscriber " +
       "VALUES ( " +
-      " NULL, 1, 0, 0, " +
+      " NULL, " + escapedDomain + ", 0, 0, " +
       " " + escapedName + ", " +
       " '', '', '', '', '', 'N', 'N' " +
       ")";
@@ -118,6 +152,8 @@ Meteor.methods({
   wtManagedRouterMySQLSearch: function(search) {
     if (Meteor.userId() == null) return null;
 
+    var escapedDomain = getDomain();
+    if (escapedDomain == null) return null;
     var escapedSearch = WtManagedRouterMySQL.escape("%" + search + "%");
 
     var fut = new Future();
@@ -128,10 +164,11 @@ Meteor.methods({
       "  " + db_name + ".Equipment, " +
       "  " + db_name + ".ManagedRouter " + 
       "WHERE " + 
+      " Subscriber.SystemID=" + escapedDomain + " AND " +
       " Subscriber.SubscriberID=Equipment.SubscriberID AND " +
       " Equipment.Deleted='N' AND " +
       " Equipment.Make=ManagedRouter.CSGMake AND " +
-      " Equipment.Model=ManagedRouter.CSGModel AND" +
+      " Equipment.Model=ManagedRouter.CSGModel AND " +
       " ( " +
       "   Subscriber.SubscriberName LIKE " + escapedSearch + " OR " +
       "   Equipment.SerialNumber LIKE " + escapedSearch + " OR " +

@@ -1,0 +1,32 @@
+<template name="wtManagedRouterMySQLDomains">
+  <div class="bg-secondary app-page">
+    <div class="container">
+      <table id="wtManagedRouterMySQLUserTable" class="table table-hover"  >
+        <tbody>
+          <tr>
+            <th>User</th>
+            <th>Domain</th>
+          </tr>
+          {{#each userList}}
+          <tr>
+            <td>
+              {{username}}
+              {{#each emails}}
+                {{address}}
+              {{/each}}
+              {{services.google.email}}
+            </td>
+            <td>
+              {{> wtManagedRouterMySQLDomain}}
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+
+<template name="wtManagedRouterMySQLDomain">
+  <input class="form-control mr-domain" type="text" value="{{domainName _id}}">
+</template>

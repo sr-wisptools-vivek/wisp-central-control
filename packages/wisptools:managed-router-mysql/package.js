@@ -22,14 +22,19 @@ Package.onUse(function(api) {
     'iron:router@1.0.7',
     'jparker:crypto-md5@0.1.1',
     'wisptools:menu',
-    'wisptools:growl'
+    'wisptools:growl',
+    'wisptools:collection',
+    'wisptools:roles'
   ]);
 
   api.addFiles([
-    'lib/router.js'
+    'lib/router.js',
+    'lib/collection.js'
   ], ['client', 'server']);
 
   api.addFiles([
+    'client/domains.html',
+    'client/domains.js',
     'client/list.html',
     'client/list.js',
     'client/menu.js'

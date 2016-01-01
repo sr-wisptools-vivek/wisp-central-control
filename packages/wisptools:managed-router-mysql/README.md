@@ -9,7 +9,7 @@ Before other requests will be accepted, you'll need an authentication token.  To
 POST /users/login
 ```
 
-Sample Data:
+Sample data
 
 ```js
 {
@@ -18,7 +18,7 @@ Sample Data:
 }
 ```
 
-Sample Result:
+Sample result
 ```js
 {
   "id": "HS7fELJQG4tLyx7kc",
@@ -76,7 +76,7 @@ If you make a search request, but supply no data, it will return the most recent
 POST /mr/search
 ```
 
-Sample Result:
+Sample result
 ```js
 [
   {
@@ -119,12 +119,12 @@ Passing an array with a single string will do a search using the string, returni
 POST /mr/search
 ```
 
-Sample Data:
+Sample data
 ```js
 ["RNV50005"]
 ```
 
-Sample Result:
+Sample result
 ```js
 [
   {
@@ -159,7 +159,7 @@ and maximum number of results.
 POST /mr/search
 ```
 
-Sample Data:
+Sample data
 ```js
 {
   "q":"test",
@@ -167,7 +167,7 @@ Sample Data:
 }
 ```
 
-Sample Result:
+Sample result
 ```js
 [
   {
@@ -191,7 +191,7 @@ it conflicts with an existing device.
 POST /mr/add
 ```
 
-Sample Data:
+Sample data
 ```js
 {
   "serial":"RNV5000511",
@@ -202,7 +202,7 @@ Sample Data:
 }
 ```
 
-Sample Result:
+Sample result
 ```js
 [
   {
@@ -218,7 +218,7 @@ Sample Result:
 ]
 ```
 
-Sample Error:
+Sample error
 ```js
 {
   "error": "dup",

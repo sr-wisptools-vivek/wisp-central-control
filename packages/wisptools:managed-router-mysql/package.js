@@ -21,6 +21,7 @@ Package.onUse(function(api) {
     'underscore',
     'iron:router@1.0.7',
     'jparker:crypto-md5@0.1.1',
+    'simple:rest@0.2.3',
     'wisptools:menu',
     'wisptools:growl',
     'wisptools:collection',

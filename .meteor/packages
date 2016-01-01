@@ -25,3 +25,5 @@ mrt:jquery-mousewheel
 wisptools:ap
 wisptools:roles
 wisptools:managed-router-mysql
+simple:rest
+simple:rest-accounts-password

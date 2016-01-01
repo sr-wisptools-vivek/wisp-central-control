@@ -2,8 +2,7 @@
 The Managed Router MySQL package includes support for RESTful API calls.
 
 ## Authentication
-Before other requests will be accepted, you'll need an authentication token.  To get a token you'll need to `"post"` to 
-`/users/login`, a json object containing your login username and password.
+Before other requests will be accepted, you'll need an authentication token.  To get a token you'll need to `"post"` a json object to `/users/login`, containing your login username and password.
 
 ```http
 POST /users/login

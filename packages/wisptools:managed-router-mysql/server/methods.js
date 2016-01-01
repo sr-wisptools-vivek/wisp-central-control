@@ -21,12 +21,19 @@ var getDomain = function() {
   return WtManagedRouterMySQL.escape(domain.name);
 }
 
-var search = function(search) {
+var search = function(search, limit) {
   if (this.userId == null) return [];
 
   var escapedDomain = getDomain.call(this);
   if (escapedDomain == null) return [];
-  var escapedSearch = WtManagedRouterMySQL.escape("%" + search + "%");
+
+  var sqlSearch = search || "";
+  if (sqlSearch.toString() === "[object Object]") sqlSearch = ''; // handleing default empty object on rest api
+  var escapedSearch = WtManagedRouterMySQL.escape("%" + sqlSearch + "%");
+
+  var sqlLimit = limit || 20;
+  if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
+  sqlLimit = WtManagedRouterMySQL.escape(sqlLimit);
 
   var fut = new Future();
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
@@ -53,7 +60,9 @@ var search = function(search) {
     "   Subscriber.SubscriberName LIKE " + escapedSearch + " OR " +
     "   Equipment.SerialNumber LIKE " + escapedSearch + " OR " +
     "   Equipment.MACAddress LIKE " + escapedSearch + " " +
-    " ) ";
+    " ) " +
+    "ORDER BY Equipment.EquipmentID DESC " +
+    "LIMIT " + sqlLimit;
 
   runQuery(sql, fut);
 
@@ -67,50 +76,11 @@ var search = function(search) {
 }
 
 Meteor.method("wtManagedRouterMySQLGetLimit", function(limit) {
-  if (this.userId == null) return [];
-
-  var escapedDomain = getDomain.call(this);
-  if (escapedDomain == null) return [];
-  var sqlLimit = limit || 10;
-  if (sqlLimit.toString() === "[object Object]") sqlLimit = 10; // handleing default empty object on rest api
-  sqlLimit = WtManagedRouterMySQL.escape(sqlLimit);
-
-  var fut = new Future();
-  var db_name = Meteor.settings.managedRouterMySQL.dbName;
-  var sql = 
-    "SELECT " + 
-    "  EquipmentID as id, " +
-    "  SystemID as domain, " +
-    "  SubscriberName as name, " +
-    "  SerialNumber as serial, " +
-    "  MACAddress as mac, " +
-    "  Make as make, " +
-    "  Model as model " +
-    "FROM " +
-    "  " + db_name + ".Subscriber, " +
-    "  " + db_name + ".Equipment, " +
-    "  " + db_name + ".ManagedRouter " + 
-    "WHERE " + 
-    " Subscriber.SystemID=" + escapedDomain + " AND " +
-    " Subscriber.SubscriberID=Equipment.SubscriberID AND " +
-    " Equipment.Deleted='N' AND " +
-    " Equipment.Make=ManagedRouter.CSGMake AND " +
-    " Equipment.Model=ManagedRouter.CSGModel " +
-    "ORDER BY Equipment.EquipmentID DESC " +
-    "LIMIT " + sqlLimit;
-
-  runQuery(sql, fut);
-
-  var res = fut.wait();
-  res = _.map(res, function(r) {
-    // add on the URL
-    r.url = WtManagedRouterMySQL.makeUrl(r.id);
-    return r;
-  });
-  return res;
+  return search.call(this, '', limit);
 },{
   url: "/mr/list"
 });
+
 Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var res;
   var sql;
@@ -204,8 +174,11 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 },{
   url: "/mr/add"
 });
-Meteor.method("wtManagedRouterMySQLSearch", function(str) {
-  return search.call(this, str);
+// srch is a string or an object with "q" and "limit" values
+Meteor.method("wtManagedRouterMySQLSearch", function(srch) {
+  var str = srch.q || srch;
+  var limit = srch.limit || 20;
+  return search.call(this, str, limit);
 },{
   url: "/mr/search"
 });

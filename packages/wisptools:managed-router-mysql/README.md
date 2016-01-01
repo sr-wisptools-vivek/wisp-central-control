@@ -42,7 +42,7 @@ $.ajax({
 ```
 
 ## Using the Token
-After you have received a valid token, you include it in the header when making API calls.
+After you have received a valid token, include it in the header when making API calls.
 
 ```http
 Authorization: Bearer <token>

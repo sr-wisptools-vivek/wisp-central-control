@@ -1,5 +1,5 @@
 ## RESTful API
-The Managed Router MySQL package includes support for RESTful interations.
+The Managed Router MySQL package includes support for RESTful API calls.
 
 ## Authentication
 Before other requests will be accepted, you'll need an authentication token.  To get a token you'll need to `"post"` to 

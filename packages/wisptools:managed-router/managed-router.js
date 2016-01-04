@@ -127,6 +127,12 @@ if (Meteor.isServer) {
 		      var response = WtFriendlyTech.FTGetDeviceParameters(deviceSerialNo,data);
 		      console.log(JSON.stringify(response));
 		      return response;
+    	},
+    	"wtWifiScan": function(deviceSerialNo,data){
+    		if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) throw new Meteor.Error(401, "Not authorized"); // Check if calling user is admin
+    			var response = WtFriendlyTech.FTGetDeviceParameters(deviceSerialNo,data);
+    			console.log(JSON.stringify(response));
+    			return response;
     	}
 
 	});

@@ -1,0 +1,81 @@
+Template.wtFriendlyTechWifiScan.created = function (){
+//console.log("wtFriendlyTechConnDevices created");
+    var manufacturer = Session.get('Manufacturer');
+    var model = Session.get('Model');
+   
+    if(typeof manufacturer === 'undefined' || typeof model === 'undefined')
+    {
+      manufacturer = "READYNET";
+      model = "WRT500";
+    }
+    var data = acsDeviceConfig["READYNET"]["WRT500"].wifiScan.table;
+    var count = data.count; 
+    var bestChannel = acsDeviceConfig["READYNET"]["WRT500"].wifiScan.bestChannel;
+    var lastScan = acsDeviceConfig["READYNET"]["WRT500"].wifiScan.lastScan;
+    var names = data.items;
+    var namesArray = names.map(function(names) {
+      var str = names['acs'];
+      var requiredPortion = str.split("[X]");
+      var newStr = requiredPortion[0];
+          return newStr;
+    });
+    requestData = namesArray.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]); //remove duplicates
+    requestData.push(count);
+    requestData.push(bestChannel);
+    requestData.push(lastScan);
+    console.log(requestData);
+
+    Meteor.call('wtWifiScan', "RNV5002747",requestData, function(err,response) {
+      responseData = response.FTGetDeviceParametersResult.Params.ParamWSDL;
+
+      var hostCount = 0;
+      var bestChannelResponse = 0;
+      var lastScanResponse = 0;
+
+      //console.log(hostCount);
+      var responseData = response.FTGetDeviceParametersResult.Params.ParamWSDL;      
+      var inter={};
+      for (i in responseData ) {
+        inter[responseData[i].Name]=responseData[i].Value;
+        if(responseData[i].Name == count)
+        {
+          hostCount = responseData[i].Value;
+        }
+        if(responseData[i].Name == bestChannel)
+        {
+          bestChannelResponse = responseData[i].Value;
+        }
+        if(responseData[i].Name == lastScan)
+        {
+          lastScanResponse = responseData[i].Value;
+        }
+      }
+      console.log(inter);   
+      var wifiScanResult = {};
+      var wifiScanInfo = data.items;
+      var tableData = {};
+      for(var k=1; k <= hostCount; k++){
+      
+        for (j in wifiScanInfo) {
+          var acsResponseInter = wifiScanInfo[j]['acs'];
+          var re = '[X]';
+          var acsResponse = acsResponseInter.replace(re, hostCount);
+          if(inter.hasOwnProperty(acsResponse)){
+            wifiScanResult[wifiScanInfo[j].name]=inter[acsResponse];
+          }
+          console.log(wifiScanResult);
+        }
+        tableData[k] = wifiScanResult;
+      }
+      console.log(wifiScanResult);
+      console.log(tableData);
+      Session.set("tableData", tableData);
+      Session.set("bestChannelResponse", bestChannelResponse);
+      Session.set("lastScanResponse", lastScanResponse);
+    });
+   // console.log(acsDeviceConfig['READYNET']['WRT500'].hosts);
+}
+
+Template.wtFriendlyTechInfo.bestChannelResponse = function (){ return Session.get("bestChannelResponse");}
+Template.wtFriendlyTechInfo.lastScanResponse = function (){ return Session.get("lastScanResponse");}
+Template.wtFriendlyTechInfo.tableData = function (){ return Session.get("tableData");}

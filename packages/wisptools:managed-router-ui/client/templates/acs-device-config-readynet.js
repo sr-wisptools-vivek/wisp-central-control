@@ -43,7 +43,7 @@ acsDeviceConfig['READYNET']['WRT500'].wifiScan ={
     'items': [
       {
         'name': 'Channel',
-        'acs': 'InternetGatewayDevice.X_READYNET_WIFI.NeighboringWiFiDiagnostic.Result.[X].SignalStrength'
+        'acs': 'InternetGatewayDevice.X_READYNET_WIFI.NeighboringWiFiDiagnostic.Result.[X].Channel'
       },{
         'name': 'Signal Strength',
         'acs': 'InternetGatewayDevice.X_READYNET_WIFI.NeighboringWiFiDiagnostic.Result.[X].SignalStrength',

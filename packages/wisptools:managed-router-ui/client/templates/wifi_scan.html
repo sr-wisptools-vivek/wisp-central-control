@@ -1,2 +1,52 @@
 <template name="wtFriendlyTechWifiScan">
+	<div style="margin-top:20px; padding:20px;" class="row">
+	  <div class="col-xs-12 scan-box">
+      <div style="margin-bottom:20px; padding:20px;" class="row">
+        <div class="col-xs-10">
+          <div class="row">
+            <div class="col-xs-3">
+              <strong>Best Channel:</strong>
+            </div>
+              <div class="col-xs-9">{{bestChannelResponse}}</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-3">
+              <strong>Last Scan:</strong>
+            </div>
+          	<div class="col-xs-9">{{lastScanResponse}}</div>
+          </div>
+        </div>
+        <div class="col-xs-2">
+          <a data-size="l" data-style="zoom-out" class="btn btn-block btn-primary btn-lg ladda-button" id="do-wifi-scan" href="#">
+          <span class="ladda-label">Scan Now</span></a>
+        </div>    
+      </div>
+
+	    <table class="table">
+		    <tbody>
+		    	<tr>
+		    		<th>Channel</th><th>Signal Strength</th><th>SSID</th><th>MAC Address</th>
+		    	</tr>
+		    	<tr>
+		    		<td>1</td>
+		    		<td>55%</td>
+		    		<td>UNKNOWN</td>
+		    		<td>68:72:51:30:5F:1A (Ubiquiti N)</td>
+		    	</tr>
+		    	<tr>
+		    		<td>2</td>
+		    		<td>0%</td>
+		    		<td>NETGEAR63</td>
+		    		<td>E4:F4:C6:1D:C1:DF (NETGEAR)</td>
+		    	</tr>
+		    	<tr>
+		    		<td>6</td>
+		    		<td>100%</td>
+		    		<td>Custom_SSID</td>
+		    		<td>00:01:9F:14:1B:18 (ReadyNet)</td>
+		    	</tr>            
+		    </tbody>
+	  	</table>
+	  </div>
+  </div>
 </template>

@@ -15,17 +15,17 @@ Template.wtFriendlyTechConnDevices.created = function (){
       var str = names['acs'];
       var requiredPortion = str.split("[X]");
       var newStr = requiredPortion[0];
-          return newStr;
+        return newStr;
     });
     requestData = namesArray.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]); //remove duplicates
     requestData.push(count);
 
-    Meteor.call('wtGetRouterHosts', "RNV5000511",requestData, function(err,response) {
+    Meteor.call('wtGetRouterHosts', "RNV5002747",requestData, function(err,response) {
       responseData = response.FTGetDeviceParametersResult.Params.ParamWSDL;
       hostCount = response.FTGetDeviceParametersResult.Params.ParamWSDL[0].Value;
       var inter={};
       for (i in responseData ) {
-                inter[responseData[i].Name]=responseData[i].Value;
+        inter[responseData[i].Name]=responseData[i].Value;
       }
       console.log(inter);   
       var connectedDevicesInfo = {};

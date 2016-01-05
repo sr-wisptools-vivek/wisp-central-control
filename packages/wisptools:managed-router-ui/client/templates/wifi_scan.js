@@ -1,3 +1,4 @@
+
 Template.wtFriendlyTechWifiScan.created = function (){
 //console.log("wtFriendlyTechConnDevices created");
     var manufacturer = Session.get('Manufacturer');
@@ -23,7 +24,7 @@ Template.wtFriendlyTechWifiScan.created = function (){
     requestData.push(count);
     requestData.push(bestChannel);
     requestData.push(lastScan);
-    console.log(requestData);
+    //console.log(requestData);
 
     Meteor.call('wtWifiScan', "RNV5002747",requestData, function(err,response) {
       responseData = response.FTGetDeviceParametersResult.Params.ParamWSDL;
@@ -35,47 +36,62 @@ Template.wtFriendlyTechWifiScan.created = function (){
       //console.log(hostCount);
       var responseData = response.FTGetDeviceParametersResult.Params.ParamWSDL;      
       var inter={};
-      for (i in responseData ) {
+    for (i in responseData ) {
+      if(responseData[i].Name == count)
+      {
+        hostCount = responseData[i].Value;
+      }
+      if(responseData[i].Name == bestChannel)
+      {
+        bestChannelResponse = responseData[i].Value;
+      }
+      if(responseData[i].Name == lastScan)
+      {
+        lastScanResponse = responseData[i].Value;
+      }
+    }
+
+    for (i in responseData ) {
         inter[responseData[i].Name]=responseData[i].Value;
-        if(responseData[i].Name == count)
-        {
-          hostCount = responseData[i].Value;
-        }
-        if(responseData[i].Name == bestChannel)
-        {
-          bestChannelResponse = responseData[i].Value;
-        }
-        if(responseData[i].Name == lastScan)
-        {
-          lastScanResponse = responseData[i].Value;
-        }
-      }
-      console.log(inter);   
-      var wifiScanResult = {};
-      var wifiScanInfo = data.items;
-      var tableData = {};
-      for(var k=1; k <= hostCount; k++){
-      
-        for (j in wifiScanInfo) {
-          var acsResponseInter = wifiScanInfo[j]['acs'];
-          var re = '[X]';
-          var acsResponse = acsResponseInter.replace(re, hostCount);
-          if(inter.hasOwnProperty(acsResponse)){
-            wifiScanResult[wifiScanInfo[j].name]=inter[acsResponse];
+    }
+    console.log(inter);   
+          
+    var wifiScanInfo = data.items;
+    var tableData = [];
+    for(var k=1; k <= hostCount; k++){
+      var wifiScanResult = [];
+      for (j in wifiScanInfo) {
+
+        var acsResponseInter = wifiScanInfo[j]['acs'];
+        var re = '[X]';
+        var acsResponse = acsResponseInter.replace(re, k);
+        //console.log(acsResponse);
+        if(inter.hasOwnProperty(acsResponse)){
+          if(typeof inter[acsResponse] === 'object')
+          {
+            var interResponse = "UNKNOWN";
           }
-          console.log(wifiScanResult);
+          else
+          {
+            var interResponse = inter[acsResponse];
+          }
+          wifiScanResult.push(interResponse);
         }
-        tableData[k] = wifiScanResult;
+        //console.log(wifiScanResult);
+
       }
-      console.log(wifiScanResult);
-      console.log(tableData);
-      Session.set("tableData", tableData);
-      Session.set("bestChannelResponse", bestChannelResponse);
-      Session.set("lastScanResponse", lastScanResponse);
+      tableData[k] = wifiScanResult;
+    }
+    //console.log(tableData);
+
+    Session.set("tableData", tableData);
+    Session.set("bestChannelResponse", bestChannelResponse);
+    Session.set("lastScanResponse", lastScanResponse);
     });
    // console.log(acsDeviceConfig['READYNET']['WRT500'].hosts);
 }
 
-Template.wtFriendlyTechInfo.bestChannelResponse = function (){ return Session.get("bestChannelResponse");}
-Template.wtFriendlyTechInfo.lastScanResponse = function (){ return Session.get("lastScanResponse");}
-Template.wtFriendlyTechInfo.tableData = function (){ return Session.get("tableData");}
+
+Template.wtFriendlyTechWifiScan.bestChannelResponse = function (){ return Session.get("bestChannelResponse");}
+Template.wtFriendlyTechWifiScan.lastScanResponse = function (){ return Session.get("lastScanResponse");}
+Template.wtFriendlyTechWifiScan.tableData = function (){ return Session.get("tableData");}

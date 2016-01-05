@@ -27,24 +27,14 @@
 		    	<tr>
 		    		<th>Channel</th><th>Signal Strength</th><th>SSID</th><th>MAC Address</th>
 		    	</tr>
-		    	<tr>
-		    		<td>1</td>
-		    		<td>55%</td>
-		    		<td>UNKNOWN</td>
-		    		<td>68:72:51:30:5F:1A (Ubiquiti N)</td>
-		    	</tr>
-		    	<tr>
-		    		<td>2</td>
-		    		<td>0%</td>
-		    		<td>NETGEAR63</td>
-		    		<td>E4:F4:C6:1D:C1:DF (NETGEAR)</td>
-		    	</tr>
-		    	<tr>
-		    		<td>6</td>
-		    		<td>100%</td>
-		    		<td>Custom_SSID</td>
-		    		<td>00:01:9F:14:1B:18 (ReadyNet)</td>
-		    	</tr>            
+		    	
+				  {{#each tableData}}
+				   <tr>
+					  {{#each this}}
+					    <td>{{this}}</td>
+					  {{/each}}
+					 </tr>
+					{{/each}}         
 		    </tbody>
 	  	</table>
 	  </div>

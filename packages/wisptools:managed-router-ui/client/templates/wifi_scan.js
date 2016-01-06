@@ -54,7 +54,7 @@ Template.wtFriendlyTechWifiScan.created = function (){
     for (i in responseData ) {
         inter[responseData[i].Name]=responseData[i].Value;
     }
-    console.log(inter);   
+    //console.log(inter);   
           
     var wifiScanInfo = data.items;
     var tableData = [];

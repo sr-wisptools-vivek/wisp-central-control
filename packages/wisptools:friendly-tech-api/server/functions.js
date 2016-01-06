@@ -7,7 +7,7 @@ WtFriendlyTech.FTGetDeviceInfo = function(deviceSerialNo) {
   try
   {
     var result = client.FTGetDeviceInfo(args);
-    console.log(result);
+    //console.log(result);
     return result;
   }
   catch (err)
@@ -30,7 +30,7 @@ WtFriendlyTech.FTCPEStatus = function(deviceSerialNo) {
   try
   {
     var result = client.FTCPEStatus(args);
-    console.log(result);
+    //console.log(result);
     return result;
   }
   catch (err)
@@ -53,7 +53,7 @@ WtFriendlyTech.FTRebootDevice = function(deviceSerialNo) {
   try
   {
     var result = client.FTRebootDevice(args);
-    console.log(result);
+    //console.log(result);
     return result;
   }
   catch (err)
@@ -76,7 +76,7 @@ WtFriendlyTech.FTResetToDefault = function(deviceSerialNo) {
   try
   {
     var result = client.FTResetToDefault(args);
-    console.log(result);
+    //console.log(result);
     return result;
   }
   catch (err)
@@ -98,7 +98,7 @@ WtFriendlyTech.FTGetDeviceParameters = function(deviceSerialNo, names) {
   var CPEStatus = function(deviceSerialNo){
     var APIArgs = {devicesn:deviceSerialNo};
     var result = client.FTCPEStatus(APIArgs);
-    console.log(result);
+    //console.log(result);
     if (result.FTCPEStatusResult.ErrorCode == 100)
       {
         var responseData = result.FTCPEStatusResult;
@@ -121,7 +121,7 @@ WtFriendlyTech.FTGetDeviceParameters = function(deviceSerialNo, names) {
               arraynames:{ string: names },
               source: CPEStatus(deviceSerialNo)
              };
-console.log(args);
+//console.log(args);
   try
   {
     var result = client.FTGetDeviceParameters(args);
@@ -151,11 +151,11 @@ WtFriendlyTech.FTSetDeviceParameters = function(deviceSerialNo, paramObject) {
             };
 
 
-console.log(JSON.stringify(args));
+//console.log(JSON.stringify(args));
   try
   {
     var result = client.FTSetDeviceParameters(args);
-    console.log(JSON.stringify(result));
+    //console.log(JSON.stringify(result));
     return result;
   }
   catch (err)
@@ -177,7 +177,7 @@ WtFriendlyTech.FTGetRouterInfo = function(deviceSerialNo, names) {
   var CPEStatus = function(deviceSerialNo){
     var APIArgs = {devicesn:deviceSerialNo};
     var result = client.FTCPEStatus(APIArgs);
-    console.log(result);
+    //console.log(result);
     if (result.FTCPEStatusResult.ErrorCode == 100)
       {
         var responseData = result.FTCPEStatusResult;
@@ -200,11 +200,11 @@ WtFriendlyTech.FTGetRouterInfo = function(deviceSerialNo, names) {
               arraynames:{ string: names },
               source: CPEStatus(deviceSerialNo)
              };
-console.log(args);
+//console.log(args);
   try
   {
     var result = client.FTGetDeviceParameters(args);
-    console.log(JSON.stringify(result));
+    //console.log(JSON.stringify(result));
     return result;
   }
   catch (err)

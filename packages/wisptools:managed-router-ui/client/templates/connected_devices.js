@@ -1,5 +1,4 @@
 Template.wtFriendlyTechConnDevices.created = function (){
-//console.log("wtFriendlyTechConnDevices created");
     var manufacturer = Session.get('Manufacturer');
     var model = Session.get('Model');
    
@@ -22,23 +21,47 @@ Template.wtFriendlyTechConnDevices.created = function (){
 
     Meteor.call('wtGetRouterHosts', "RNV5002747",requestData, function(err,response) {
       responseData = response.FTGetDeviceParametersResult.Params.ParamWSDL;
-      hostCount = response.FTGetDeviceParametersResult.Params.ParamWSDL[0].Value;
+      var hostCount = 0;
+      console.log(responseData);
       var inter={};
+      for (i in responseData ) {
+        if(responseData[i].Name == count)
+        {
+          hostCount = responseData[i].Value;
+        }
+      }
       for (i in responseData ) {
         inter[responseData[i].Name]=responseData[i].Value;
       }
-      console.log(inter);   
-      var connectedDevicesInfo = {};
+      //console.log(inter);
+
+      var connectedDevicesData = [];
       var connectedDevices = data.items;
-      for (j in connectedDevices) {
-        var acsResponseInter = connectedDevices[j]['acs'];
-        var re = '[X]';
-        var acsResponse = acsResponseInter.replace(re, hostCount);
-        if(inter.hasOwnProperty(acsResponse)){
-          connectedDevicesInfo[connectedDevices[j].name]=inter[acsResponse];
+
+      for(var k=1; k <= hostCount; k++){
+
+        var connectedDevicesResult = [];  
+
+        for (j in connectedDevices) {
+          var acsResponseInter = connectedDevices[j]['acs'];
+          var re = '[X]';
+          var acsResponse = acsResponseInter.replace(re, k);
+          if(inter.hasOwnProperty(acsResponse)){
+            if(typeof inter[acsResponse] === 'object')
+            {
+              var interResponse = "UNKNOWN";
+            }
+            else
+            {
+              var interResponse = inter[acsResponse];
+            }
+             connectedDevicesResult.push(interResponse);
+          }
         }
+        connectedDevicesData[k] = connectedDevicesResult;
       }
-      console.log(connectedDevicesInfo);
+      //console.log(connectedDevicesData);
+      Session.set("connectedDevicesData", connectedDevicesData);
     });
-   // console.log(acsDeviceConfig['READYNET']['WRT500'].hosts);
 }
+Template.wtFriendlyTechConnDevices.connectedDevicesData = function (){ return Session.get("connectedDevicesData");}

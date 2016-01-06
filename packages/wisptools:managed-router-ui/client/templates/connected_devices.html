@@ -1,2 +1,24 @@
 <template name="wtFriendlyTechConnDevices">
+	<div style="margin-top:20px; padding:20px;" class="row">
+		<div class="col-xs-12 hosts-box">
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>Host Name</th>
+						<th>IP Address</th>
+						<th>MAC Address</th>
+						<th>Interface</th>
+						<th>Signal Strength</th>
+					</tr>
+					{{#each connectedDevicesData}}
+				   <tr>
+					  {{#each this}}
+					    <td>{{this}}</td>
+					  {{/each}}
+					 </tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </template>

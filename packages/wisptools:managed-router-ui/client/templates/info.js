@@ -5,27 +5,27 @@ Template.wtFriendlyTechInfo.routerInfo = function (){ return Session.get("router
 Template.wtFriendlyTechInfo.helpers({
   
   Manufacturer: function(){
-    console.log(Session.get("Manufacturer"));
+    //console.log(Session.get("Manufacturer"));
     return Session.get("Manufacturer") || "Loading...";
   },
   Model: function(){
-    console.log(Session.get("Model"));
+    //console.log(Session.get("Model"));
     return Session.get("Model") || "Loading...";
   },
   LANMACAddress: function() {
-    console.log(Session.get("LANMACAddress"));
+    //console.log(Session.get("LANMACAddress"));
     return Session.get("LANMACAddress") || "Loading...";
   },
   WANMACAddress: function() {
-    console.log(Session.get("WANMACAddress"));
+    //console.log(Session.get("WANMACAddress"));
     return Session.get("WANMACAddress") || "Loading...";
   },
   SerialNumber: function() {
-    console.log(Session.get("Serial"));
+    //console.log(Session.get("Serial"));
     return Session.get("Serial") || "Loading...";
   },
   FirmwareVersion: function() {
-    console.log(Session.get("FirmwareVersion"));
+    //console.log(Session.get("FirmwareVersion"));
     return Session.get("FirmwareVersion") || "Loading...";
   }
 });
@@ -62,7 +62,7 @@ Template.wtFriendlyTechInfo.created = function (){
         }
         var routerConfig = acsDeviceConfig[manufacturer][model].info;
         for (j in routerConfig) {
-          console.log(routerConfig[j]['acs']);
+          //console.log(routerConfig[j]['acs']);
           if(inter.hasOwnProperty(routerConfig[j]['acs'])) {
             routerInfo[routerConfig[j].name]=inter[routerConfig[j]['acs']];
           }
@@ -72,7 +72,7 @@ Template.wtFriendlyTechInfo.created = function (){
       }
       else
       {
-        console.log(response);
+        //console.log(response);
       }
     });
    // console.log(acsDeviceConfig['READYNET']['WRT500'].info);

@@ -38,7 +38,8 @@ Package.onUse(function(api) {
     'client/templates/info.html',
     'client/templates/info.js',
     'client/templates/connected_devices.js',
-    'client/templates/wifi_scan.js'
+    'client/templates/wifi_scan.js',
+    'client/templates/router_config.js'
     ], 'client');  
 });
 

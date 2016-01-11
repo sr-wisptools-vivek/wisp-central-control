@@ -22,7 +22,7 @@ Template.wtFriendlyTechConnDevices.created = function (){
     Meteor.call('wtGetRouterHosts', "RNV5002747",requestData, function(err,response) {
       responseData = response.FTGetDeviceParametersResult.Params.ParamWSDL;
       var hostCount = 0;
-      console.log(responseData);
+      //console.log(responseData);
       var inter={};
       for (i in responseData ) {
         if(responseData[i].Name == count)

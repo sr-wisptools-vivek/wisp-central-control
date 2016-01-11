@@ -27,7 +27,7 @@ Template.wtFriendlyTechInterface.rendered = function (){
 				}
 				else
 				{
-					Session.set("CPEStatus", '<button type="button" class="btn btn-danger btn-xs">Status not available</button>');
+					Session.set("CPEStatus", '<button type="button" class="btn btn-danger btn-xs">Offline</button>');
 				}
       }
     });

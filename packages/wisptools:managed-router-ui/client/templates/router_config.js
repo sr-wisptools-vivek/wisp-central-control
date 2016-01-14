@@ -25,5 +25,29 @@ Template.wtFriendlyTechRouterConfig.created = function(){
     responseData = response.FTGetDeviceParametersResult.Params.ParamWSDL;
     console.log(responseData);
     
+    var resultObj = [];
+    var ParamWSDL = responseData.FTGetDeviceParametersResult.Params.ParamWSDL;
+    for(var i=0; i<columnCount; i++){
+    var names = data[i].items;
+
+      for(var k=0; k<names.length; k++){
+        var namesItems = names[k].acs;
+        
+        var found = ParamWSDL.filter(function(item) { return item.Name === namesItems; });
+        if(typeof found[0].Value === 'object')
+        {
+          var retValue = "";
+        }
+        else
+        {
+          var retValue = found[0].Value;
+        }
+        var retName = found[0].Name;
+        resultObj[retName] = retValue;
+        
+      }
+    }
+    console.log(resultObj);
+    
   });
 }

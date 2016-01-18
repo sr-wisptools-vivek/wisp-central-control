@@ -1,18 +1,51 @@
 <template name="wtFriendlyTechRouterConfig">
-	<div class="row" style="margin-top:20px; padding:20px;">
-		<div class="message_area"></div>
-		<div class="reboot_needed"></div>
-		<form class="form" role="form" id="acs_page">
-			<input type="hidden" name="ID" value="1267758">    
-			<input type="hidden" name="TOKEN" value="d5b28ddd03fec55729ac697c059b021d">    
-		<div class="row">
-			<div class="col-xs-4 wireless-settings" style="padding-right:20px; border-right: 1px solid #ccc;">
+  <div class="row" style="margin-top:20px; padding:20px;">
+    <div class="message_area"></div>
+    <div class="reboot_needed"></div>
+      <form class="form" role="form" id="acs_page">
+      <div class="row">
+        {{#each formData}}
+          <div class="col-xs-4 wireless-settings" style="padding-right:20px; border-right: 1px solid #ccc;">
+            <h4>{{title}}</h4>
+            {{#each items}}
+              <div class="form-group">
+                <label for="{{acsName acs}}">{{name}}</label>
+                {{#if boolValue type}}
+                  <select name="{{acsName acs}}" class="form-control" id="{{acsName acs}}">
+                    <option value="Enabled" {{item1Selected "Enabled"}}>Enabled</option>
+                    <option value="Disabled" {{item1Selected "Disabled"}} >Disabled</option>
+                  </select>
+                {{/if}}
+                {{#if dropdown type}}
+                  <select name="{{acsName acs}}" class="form-control" id="{{acsName acs}}">
+                  {{#each values}}
+                  <option value="{{value}}">{{name}}</option>
+                  {{/each}}
+                  </select>
+                {{/if}}
+                {{#if notSelect type}}
+                  {{#if isPassword type}}
+                    <input type="password" name="{{acsName acs}}" class="form-control" id="{{acsName acs}}" value="">
+                  {{else}}
+                	  <input type="text" name="{{acsName acs}}" class="form-control" id="{{acsName acs}}" value="">
+                  {{/if}}
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        {{/each}}
+      </div>
+    </form>
+  </div>
+</template>
+<!--
+
 				<h4>Wireless Settings</h4>
 				<div class="form-group">
 					<label for="item_1">Wireless</label>
 					<select name="item_1" class="form-control" id="item_1">
-						<option value="Enabled" selected="selected">Enabled</option>
-						<option value="Disabled">Disabled</option>
+						<option value="Enabled" {{item1Selected "Enabled"}}>Enabled</option>
+						<option value="Disabled" {{item1Selected "Disabled"}} >Disabled</option>
 					</select>
 				</div>
 				<div class="form-group"> </div>
@@ -34,7 +67,7 @@
 				<div class="form-group">
 					<label for="item_4">Passphrase</label><br>
 					<div class="pass_1790468445">
-						<a href="#" onclick="javascript:$('div.pass_1790468445').html('500_1752');">Last Saved</a>
+						<a href="#">Last Saved</a>
 					</div>
 					<input type="password" name="item_4" class="form-control" id="item_4" value="">
 				</div>
@@ -68,7 +101,7 @@
 				<div class="form-group">
 					<label for="item_19">Management Password</label><br>
 					<div class="pass_973101656">
-						<a href="#" onclick="javascript:$('div.pass_973101656').html('vivint');">Last Saved</a>
+						<a href="#">Last Saved</a>
 					</div>
 					<input type="password" name="item_19" class="form-control" id="item_19" value=""></div>
 					<div class="form-group"> </div>    
@@ -106,7 +139,4 @@
 				<a href="#" id="acs-submit-page" class="btn btn-block btn-primary btn-lg ladda-button" data-style="zoom-out" data-size="l"><span class="ladda-label">Save</span></a>
 			</div>
 		</div>
-
-		</form>
-	</div>
-</template>
+-->

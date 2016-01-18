@@ -1,42 +1,40 @@
 <template name="wtFriendlyTechWifiScan">
-	<div style="margin-top:20px; padding:20px;" class="row">
-	  <div class="col-xs-12 scan-box">
+  <div style="margin-top:20px; padding:20px;" class="row">
+    <div class="col-xs-12 scan-box">
       <div style="margin-bottom:20px; padding:20px;" class="row">
         <div class="col-xs-10">
           <div class="row">
             <div class="col-xs-3">
               <strong>Best Channel:</strong>
             </div>
-              <div class="col-xs-9">{{bestChannelResponse}}</div>
+            <div class="col-xs-9">{{bestChannelResponse}}</div>
           </div>
           <div class="row">
             <div class="col-xs-3">
               <strong>Last Scan:</strong>
             </div>
-          	<div class="col-xs-9">{{lastScanResponse}}</div>
+            <div class="col-xs-9">{{lastScanResponse}}</div>
           </div>
         </div>
         <div class="col-xs-2">
           <a data-size="l" data-style="zoom-out" class="btn btn-block btn-primary btn-lg ladda-button" id="do-wifi-scan" href="#">
           <span class="ladda-label">Scan Now</span></a>
-        </div>    
+        </div>
       </div>
-
-	    <table class="table">
-		    <tbody>
-		    	<tr>
-		    		<th>Channel</th><th>Signal Strength</th><th>SSID</th><th>MAC Address</th>
-		    	</tr>
-		    	
-				  {{#each tableData}}
-				   <tr>
-					  {{#each this}}
-					    <td>{{this}}</td>
-					  {{/each}}
-					 </tr>
-					{{/each}}         
-		    </tbody>
-	  	</table>
-	  </div>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Channel</th><th>Signal Strength</th><th>SSID</th><th>MAC Address</th>
+          </tr>
+          {{#each tableData}}
+          <tr>
+            {{#each this}}
+              <td>{{this}}</td>
+            {{/each}}
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>

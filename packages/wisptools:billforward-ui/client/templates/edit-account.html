@@ -1,0 +1,61 @@
+<template name="wtEditBfAccounts">
+	<div class="wt-create-title">
+		<h4>Edit Account</h4>
+		{{log accountId}}
+		{{accountData accountId}}
+		{{log accountData}}
+		{{#if displayForm}}
+		<div class="container">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="pwd">Company Name:</label>
+					<div class="col-sm-4">          
+						<input type="text" class="form-control" name="companyName" id="companyName" value="{{companyName}}" placeholder="Enter Company Name">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="firstName">First Name:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" name="firstName" id="firstName" value="{{firstName}}" placeholder="Enter First Name">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="lastName">Last Name:</label>
+					<div class="col-sm-4">          
+						<input type="text" class="form-control" name="lastName" id="lastName" value="{{lastName}}" placeholder="Enter Last Name">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="email">Email:</label>
+					<div class="col-sm-4">
+						<input type="email" class="form-control" name="email" id="email" value="{{email}}" placeholder="Enter Email Address">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="phone">Phone:</label>
+					<div class="col-sm-4">          
+						<input type="text" class="form-control" name="phone" id="phone" value="{{mobile}}" placeholder="Enter Phone Number">
+					</div>
+				</div>
+				{{> wtBillForwardAddress}}
+				<div class="form-group">
+					<label class="control-label col-sm-4" for="pwd">Tax Number:</label>
+					<div class="col-sm-4">          
+						<input type="text" class="form-control" name="taxNo" id="taxNo" value="{{vatNumber}}" placeholder="Enter Tax Number">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-4">
+						<input type="hidden" name="accountId" id="accountId" value="{{accountId}}">
+						<button type="submit" class="btn btn-default">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		{{else}}
+		<h4>Loading...</h4>
+		<div style="height: 175px;">{{> spinner}}</div>
+		<!--<img src="/templates/img/loading.gif"> -->
+  	{{/if}}
+	</div>
+</template>

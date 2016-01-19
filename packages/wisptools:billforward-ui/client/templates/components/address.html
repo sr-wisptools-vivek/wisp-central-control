@@ -1,0 +1,54 @@
+<template name='wtBillForwardAddress'>
+  <div class="form-group">
+    <label for="address" class="control-label col-sm-4">Physical Location</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="{{address1}}">
+    </div>
+  </div>
+  {{#if displayAdd2}}
+    <div class="form-group">
+      <label for="address2" class="control-label col-sm-4">Address 2</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="address2" name="address2" placeholder="Address 2" value="{{address2}}">
+      </div>
+      </div>
+      {{#if displayAdd3}}
+        <div class="form-group">
+          <label for="address3" class="control-label col-sm-4">Address 3</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="address3" name="address3" placeholder="Address 3" value="{{address3}}">
+          </div>
+        </div>
+      {{else}}
+        <div class='form-group'>
+          <div class="col-md-offset-4 col-md-4">
+            <span class="add3rdLine"><a href="#"><i class="fa fa-plus-circle"></i> Add 3rd Line</a></span>
+          </div>
+        </div>
+      {{/if}}
+  {{else}}
+    <div class='form-group'>
+      <div class="col-md-offset-4 col-md-4">
+        <span class="add2ndLine"><a href="#"><i class="fa fa-plus-circle"></i> Add 2nd Line</a></span>
+      </div>
+    </div>
+  {{/if}}
+  <div class="form-group">
+    <label for="address" class="control-label col-sm-4">City</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="city" name="city" placeholder="City" value="{{city}}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="address" class="control-label col-sm-4">State</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="province" name="province" placeholder="State" value="{{province}}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="address" class="control-label col-sm-4">Zip</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="postcode" name="postcode" placeholder="Zip" value="{{postcode}}">
+    </div>
+  </div>
+</template>

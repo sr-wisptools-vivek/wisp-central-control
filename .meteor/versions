@@ -14,6 +14,7 @@ boilerplate-generator@1.0.3
 callback-hook@1.0.3
 check@1.0.5
 chuangbo:cookie@1.1.0
+coffeescript@1.0.6
 dburles:google-maps@1.0.8
 ddp@1.1.0
 deps@1.0.7
@@ -84,6 +85,7 @@ spacebars-compiler@1.0.6
 srp@1.0.3
 stylus@1.0.7
 templating@1.1.1
+tinytest@1.0.5
 tracker@1.0.7
 ui@1.0.6
 underscore@1.0.3
@@ -94,12 +96,18 @@ wisptools:ap@0.0.1
 wisptools:autoform-select-other@0.0.1
 wisptools:collection@0.0.1
 wisptools:customer@0.0.1
-wisptools:growl@0.0.1
 wisptools:interaction@0.0.4
 wisptools:managed-router-mysql@0.0.1
+wisptools:date-format@0.0.1
+wisptools:delete-btn@0.0.1
+wisptools:download-csv@0.0.1
+wisptools:friendly-tech-api@0.0.1
+wisptools:growl@0.0.1
+wisptools:interaction@0.0.4
+wisptools:managed-router@0.0.1
+wisptools:managed-router-ui@0.0.1
 wisptools:map-control@0.0.1
 wisptools:menu@0.0.1
 wisptools:roles@0.0.1
 wisptools:tab-page@0.0.1
 wisptools:tower@0.0.1
-zimme:bootstrap-growl@2.0.1

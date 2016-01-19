@@ -1,0 +1,54 @@
+<template name="wtFriendlyTechRouterConfig">
+  <div class="row" style="margin-top:20px; padding:20px;">
+    <div class="message_area"></div>
+    <div class="reboot_needed"></div>
+      <form class="form" role="form" id="acs_page">
+      <div class="row">
+        {{#each formData}}
+          <div class="col-xs-4 wireless-settings" style="padding-right:20px; border-right: 1px solid #ccc;">
+            <h4>{{title}}</h4>
+            {{#each items}}
+              <div class="form-group">
+                <label for="{{acsName acs}}">{{name}}</label>
+                {{#if boolValue type}}
+                  <select name="{{acsName acs}}" class="form-control" id="{{acsName acs}}">
+                    <option value="Enabled" {{item1Selected "Enabled"}}>Enabled</option>
+                    <option value="Disabled" {{item1Selected "Disabled"}} >Disabled</option>
+                  </select>
+                {{/if}}
+                {{#if dropdown type}}
+                  <select name="{{acsName acs}}" class="form-control" id="{{acsName acs}}">
+                  {{#each values}}
+                  <option value="{{value}}">{{name}}</option>
+                  {{/each}}
+                  </select>
+                {{/if}}
+                {{#if isLink type}}
+                  <h4>
+                    <a href="http://192.168.0.131:8080" target="blank">192.168.0.131</a>
+                  </h4>
+                {{else}}
+                  {{#if notSelect type}}
+                    {{#if isPassword type}}
+                      <input type="password" name="{{acsName acs}}" class="form-control" id="{{acsName acs}}" value="">
+                    {{else}}
+                  	  <input type="text" name="{{acsName acs}}" class="form-control" id="{{acsName acs}}" value="">
+                    {{/if}}
+                  {{/if}}
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+        {{/each}}
+      </div>
+    </form>
+    <div class="form-group">
+      <div class="col-xs-offset-8 col-xs-2">
+        <a href="#" id="acs-reboot" class="btn btn-block btn-warning btn-lg ladda-button" data-style="zoom-out" data-size="l"><span class="ladda-label">Reboot</span></a>
+      </div>
+      <div class="col-xs-2">
+        <a href="#" id="acs-submit-page" class="btn btn-block btn-primary btn-lg ladda-button" data-style="zoom-out" data-size="l"><span class="ladda-label">Save</span></a>
+      </div>
+    </div>
+  </div>
+</template>

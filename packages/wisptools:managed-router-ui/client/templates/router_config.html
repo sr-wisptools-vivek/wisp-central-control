@@ -23,11 +23,17 @@
                   {{/each}}
                   </select>
                 {{/if}}
-                {{#if notSelect type}}
-                  {{#if isPassword type}}
-                    <input type="password" name="{{acsName acs}}" class="form-control" id="{{acsName acs}}" value="">
-                  {{else}}
-                	  <input type="text" name="{{acsName acs}}" class="form-control" id="{{acsName acs}}" value="">
+                {{#if isLink type}}
+                  <h4>
+                    <a href="http://192.168.0.131:8080" target="blank">192.168.0.131</a>
+                  </h4>
+                {{else}}
+                  {{#if notSelect type}}
+                    {{#if isPassword type}}
+                      <input type="password" name="{{acsName acs}}" class="form-control" id="{{acsName acs}}" value="">
+                    {{else}}
+                  	  <input type="text" name="{{acsName acs}}" class="form-control" id="{{acsName acs}}" value="">
+                    {{/if}}
                   {{/if}}
                 {{/if}}
               </div>
@@ -36,107 +42,13 @@
         {{/each}}
       </div>
     </form>
+    <div class="form-group">
+      <div class="col-xs-offset-8 col-xs-2">
+        <a href="#" id="acs-reboot" class="btn btn-block btn-warning btn-lg ladda-button" data-style="zoom-out" data-size="l"><span class="ladda-label">Reboot</span></a>
+      </div>
+      <div class="col-xs-2">
+        <a href="#" id="acs-submit-page" class="btn btn-block btn-primary btn-lg ladda-button" data-style="zoom-out" data-size="l"><span class="ladda-label">Save</span></a>
+      </div>
+    </div>
   </div>
 </template>
-<!--
-
-				<h4>Wireless Settings</h4>
-				<div class="form-group">
-					<label for="item_1">Wireless</label>
-					<select name="item_1" class="form-control" id="item_1">
-						<option value="Enabled" {{item1Selected "Enabled"}}>Enabled</option>
-						<option value="Disabled" {{item1Selected "Disabled"}} >Disabled</option>
-					</select>
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_2">Channel</label>
-					<select name="item_2" class="form-control" id="item_2">
-						<option value="0">Auto</option>
-						<option value="1">1</option>
-						<option value="6" selected="selected">6</option>
-						<option value="11">11</option>
-					</select>
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_3">SSID</label>
-					<input type="text" name="item_3" class="form-control" id="item_3" value="Custom_SSID">
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_4">Passphrase</label><br>
-					<div class="pass_1790468445">
-						<a href="#">Last Saved</a>
-					</div>
-					<input type="password" name="item_4" class="form-control" id="item_4" value="">
-				</div>
-				<div class="form-group"> </div>
-			</div>
-			<div class="col-xs-4 remote-settings" style="padding-right:20px; border-right: 1px solid #ccc;">
-				<h4>Remote Access Settings</h4>
-				<div class="form-group">
-					<label>WAN IP Address</label>
-					<h4><a href="http://192.168.0.131:8080" target="blank">192.168.0.131</a></h4>
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_16">Remote Management</label>
-					<select name="item_16" class="form-control" id="item_16">
-						<option value="Enabled">Enabled</option>
-						<option value="Disabled" selected="selected">Disabled</option>
-					</select>
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_17">Remote Management Port</label>
-					<input type="text" name="item_17" class="form-control" id="item_17" value="8080">
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_18">Management Username</label>
-					<input type="text" name="item_18" class="form-control" id="item_18" value="admin">
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_19">Management Password</label><br>
-					<div class="pass_973101656">
-						<a href="#">Last Saved</a>
-					</div>
-					<input type="password" name="item_19" class="form-control" id="item_19" value=""></div>
-					<div class="form-group"> </div>    
-			</div>
-			<div class="col-xs-4 lan-settings">
-				<h4>LAN Settings</h4>
-				<div class="form-group">
-					<label for="item_21">LAN IP</label>
-					<input type="text" name="item_21" class="form-control" id="item_21" value="192.168.11.1">
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_22">LAN Subnet Mask</label>
-					<input type="text" name="item_22" class="form-control" id="item_22" value="255.255.255.0">
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_8">DHCP Starting IP</label>
-					<input type="text" name="item_8" class="form-control" id="item_8" value="192.168.11.65">
-				</div>
-				<div class="form-group"> </div>
-				<div class="form-group">
-					<label for="item_9">DHCP Ending IP</label>
-					<input type="text" name="item_9" class="form-control" id="item_9" value="192.168.11.165">
-				</div>
-				<div class="form-group"> </div>    
-			</div>
-		</div>        
-
-		<div class="form-group">
-			<div class="col-xs-offset-8 col-xs-2">
-				<a href="#" id="acs-reboot" class="btn btn-block btn-warning btn-lg ladda-button" data-style="zoom-out" data-size="l"><span class="ladda-label">Reboot</span></a>
-			</div>        
-			<div class="col-xs-2">
-				<a href="#" id="acs-submit-page" class="btn btn-block btn-primary btn-lg ladda-button" data-style="zoom-out" data-size="l"><span class="ladda-label">Save</span></a>
-			</div>
-		</div>
--->

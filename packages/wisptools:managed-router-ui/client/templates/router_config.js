@@ -104,3 +104,14 @@ Template.registerHelper("notSelect",function(a){
     return false;
   }
 });
+
+Template.registerHelper("isLink",function(a){
+  if(a=="link")
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+});

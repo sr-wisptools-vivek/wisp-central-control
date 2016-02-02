@@ -20,9 +20,27 @@
           <tbody>
             {{#each routers}}
               <tr>
-                <td>{{name}}</td>
-                <td>{{serial}}</td>
-                <td>{{mac}}</td>
+                <td class="routerName">
+                  {{#if editingName}}
+                    <input type="text" id="editName" value="{{name}}">
+                  {{else}}
+                    {{name}}
+                  {{/if}}
+                </td>
+                <td class="routerSerial">
+                  {{#if editingSerial}}
+                    <input type="text" id="editSerial" value="{{serial}}">
+                  {{else}}
+                    {{serial}}
+                {{/if}}
+                </td>
+                <td class="routerMac">
+                  {{#if editingMac}}
+                    <input type="text" id="editMac" value="{{mac}}">
+                  {{else}}
+                    {{mac}}
+                  {{/if}}
+                </td>
                 <td>{{make}}</td>
                 <td>{{model}}</td>
                 <td>

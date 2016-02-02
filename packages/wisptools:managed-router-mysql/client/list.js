@@ -1,7 +1,17 @@
 Template.wtManagedRouterMySQLList.helpers({
   routers: function () {
+    console.log(Template.instance().routerList.get());
     return Template.instance().routerList.get();
-  }
+  },
+  editingName: function(){
+    return Session.equals('managedRouterEditingName', this.id);
+  },
+  editingSerial: function(){
+    return Session.equals('managedRouterEditingSerial', this.id);
+  },
+  editingMac: function(){
+    return Session.equals('managedRouterEditingMac', this.id);
+  } 
 });
 
 Template.wtManagedRouterMySQLList.created = function () {
@@ -61,5 +71,14 @@ Template.wtManagedRouterMySQLList.events({
         t.routerList.set(tmp);
       }
     });
+  },
+  'click .routerName': function(){
+    Session.set('managedRouterEditingName', this.id);
+  },
+  'click .routerSerial': function(){
+    Session.set('managedRouterEditingSerial', this.id);
+  },
+  'click .routerMac': function(){
+    Session.set('managedRouterEditingMac', this.id);
   }  
 })

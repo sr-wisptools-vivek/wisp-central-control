@@ -72,13 +72,31 @@ Template.wtManagedRouterMySQLList.events({
       }
     });
   },
-  'click .routerName': function(){
+  'click .routerName': function(e,t){
     Session.set('managedRouterEditingName', this.id);
+    Tracker.afterFlush(function() {
+          this.find('input#editName').focus()
+    }.bind(t));
   },
-  'click .routerSerial': function(){
+  'blur .routerName': function(){
+    Session.set('managedRouterEditingName', null);
+  },
+  'click .routerSerial': function(e,t){
     Session.set('managedRouterEditingSerial', this.id);
+    Tracker.afterFlush(function() {
+          this.find('input#editSerial').focus()
+    }.bind(t));
   },
-  'click .routerMac': function(){
+  'blur .routerSerial': function(){
+    Session.set('managedRouterEditingSerial', null);
+  },
+  'click .routerMac': function(e,t){
     Session.set('managedRouterEditingMac', this.id);
-  }  
+    Tracker.afterFlush(function() {
+          this.find('input#editMac').focus()
+    }.bind(t));
+  },
+  'blur .routerMac': function(){
+    Session.set('managedRouterEditingMac', null);
+  }    
 })

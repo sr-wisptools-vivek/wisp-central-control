@@ -72,13 +72,26 @@ Template.wtManagedRouterMySQLList.events({
       }
     });
   },
-  'click .routerName': function(e,t){
+  'click .routerName': function(e,t){ //event to change router name to textfield on click.
     Session.set('managedRouterEditingName', this.id);
     Tracker.afterFlush(function() {
           this.find('input#editName').focus()
     }.bind(t));
   },
-  'blur .routerName': function(){
+  'blur .routerName': function(e){  //event to save updated router name.
+    var newRouterName = e.target.value;
+    var updateRouter = {
+      name: newRouterName
+    };
+    var router = this;
+
+    Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+      if (err) {
+        WtGrowl.fail(err.reason);
+      } else {
+        WtGrowl.success('Router Name Updated');
+      }
+    });
     Session.set('managedRouterEditingName', null);
   },
   'click .routerSerial': function(e,t){

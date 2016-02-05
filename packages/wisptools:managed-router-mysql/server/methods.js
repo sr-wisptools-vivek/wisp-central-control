@@ -183,5 +183,28 @@ Meteor.method("wtManagedRouterMySQLSearch", function(srch) {
   url: "/mr/search"
 });
 
+Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
+  var res;
+  var sql;
+  var equipmentId = router.id;
+
+  if(typeof updateRouter["name"] !== undefined) {
+    var escapedDomain = getDomain.call(this);
+    if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
+    var escapedName =  WtManagedRouterMySQL.escape(updateRouter.name);
+    
+    // Get SubscriberId for Equipment
+    var fut = new Future();
+    var db_name = Meteor.settings.managedRouterMySQL.dbName;
+    sql = "SELECT SubscriberId FROM " +db_name+".Equipment WHERE EquipmentId = " + equipmentId; 
+    runQuery(sql, fut);
+
+    var res = fut.wait();
+    console.log(res);
+  }
+});
+
+
+
 
 

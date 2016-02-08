@@ -90,6 +90,7 @@ Template.wtManagedRouterMySQLList.events({
         WtGrowl.fail(err.reason);
       } else {
         WtGrowl.success('Router Name Updated');
+        //refresh code here. 
       }
     });
     Session.set('managedRouterEditingName', null);

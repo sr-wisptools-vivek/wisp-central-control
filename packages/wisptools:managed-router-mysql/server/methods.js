@@ -188,6 +188,7 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
   var sql;
   var equipmentId = router.id;
 
+  //Update SubscriberName in Subscriber table
   if(typeof updateRouter["name"] !== undefined) {
     var escapedDomain = getDomain.call(this);
     if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
@@ -196,11 +197,44 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
     // Get SubscriberId for Equipment
     var fut = new Future();
     var db_name = Meteor.settings.managedRouterMySQL.dbName;
-    sql = "SELECT SubscriberId FROM " +db_name+".Equipment WHERE EquipmentId = " + equipmentId; 
+    sql = "SELECT SubscriberId FROM " + db_name + ".Equipment WHERE EquipmentId = " + equipmentId; 
     runQuery(sql, fut);
-
     var res = fut.wait();
-    console.log(res);
+    var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberId);
+
+    //Update SubscriderName
+    var fut = new Future();
+    sql = 
+      "UPDATE " 
+      + db_name +".Subscriber "
+      + "SET SubscriberName = "
+      + escapedName +
+      " WHERE " + "SubscriberId = " +
+      subscriberId;
+    runQuery(sql,fut);
+  } else if( typeof updateRouter["name"] !== undefined ) {
+    var escapedDomain = getDomain.call(this);
+    if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
+    var escapedName =  WtManagedRouterMySQL.escape(updateRouter.name);
+    
+    // Get SubscriberId for Equipment
+    var fut = new Future();
+    var db_name = Meteor.settings.managedRouterMySQL.dbName;
+    sql = "SELECT SubscriberId FROM " + db_name + ".Equipment WHERE EquipmentId = " + equipmentId; 
+    runQuery(sql, fut);
+    var res = fut.wait();
+    var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberId);
+
+    //Update Subscrider name
+    var fut = new Future();
+    sql = 
+      "UPDATE " 
+      + db_name +".Subscriber "
+      + "SET SubscriberName = "
+      + escapedName +
+      " WHERE " + "SubscriberId = " +
+      subscriberId;
+    runQuery(sql,fut);
   }
 });
 

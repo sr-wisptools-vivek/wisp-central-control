@@ -1,6 +1,5 @@
 Template.wtManagedRouterMySQLList.helpers({
   routers: function () {
-    console.log(Template.instance().routerList.get());
     return Template.instance().routerList.get();
   },
   editingName: function(){
@@ -78,7 +77,7 @@ Template.wtManagedRouterMySQLList.events({
           this.find('input#editName').focus()
     }.bind(t));
   },
-  'blur .routerName': function(e){  //event to save updated router name.
+  'blur .routerName': function(e,t){  //event to save updated router name.
     var newRouterName = e.target.value;
     var updateRouter = {
       name: newRouterName
@@ -91,6 +90,7 @@ Template.wtManagedRouterMySQLList.events({
       } else {
         WtGrowl.success('Router Name Updated');
         //refresh code here. 
+        t.routerList.set(res);
       }
     });
     Session.set('managedRouterEditingName', null);
@@ -101,7 +101,24 @@ Template.wtManagedRouterMySQLList.events({
           this.find('input#editSerial').focus()
     }.bind(t));
   },
-  'blur .routerSerial': function(){
+  'blur .routerSerial': function(e,t){
+    var newRouterSerial = e.target.value.toUpperCase();
+    if (newRouterSerial.length != 10) {
+      WtGrowl.fail('Incorrect Serial Number Length');
+    }
+    var updateRouter = {
+      serial: newRouterSerial
+    };
+    var router = this;
+    Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+      if (err) {
+        WtGrowl.fail(err.reason);
+      } else {
+        WtGrowl.success('Router Serial Updated');
+        //refresh code here. 
+        t.routerList.set(res);
+      }
+    });
     Session.set('managedRouterEditingSerial', null);
   },
   'click .routerMac': function(e,t){

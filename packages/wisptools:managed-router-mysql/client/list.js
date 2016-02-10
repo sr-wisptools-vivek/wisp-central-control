@@ -38,10 +38,12 @@ Template.wtManagedRouterMySQLList.events({
   },
   'submit .mr-add': function(e, t) {
     e.preventDefault();
+    
     var name = e.target[0].value;
     var serial = e.target[1].value.toUpperCase();
     var mac = e.target[2].value.toUpperCase().replace(":", "").replace(".", "");
     var hasError = false;
+    
     if (mac.length != 12) {
       WtGrowl.fail('Incorrect MAC Address Length');
       hasError = true;
@@ -72,58 +74,68 @@ Template.wtManagedRouterMySQLList.events({
     });
   },
   'click .routerName': function(e,t){ //event to change router name to textfield on click.
+    
     Session.set('managedRouterEditingName', this.id);
-    Tracker.afterFlush(function() {
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
           this.find('input#editName').focus()
     }.bind(t));
   },
   'blur .routerName': function(e,t){  //event to save updated router name.
-    var newRouterName = e.target.value;
-    var updateRouter = {
-      name: newRouterName
-    };
-    var router = this;
+    
+    var newRouterName = e.target.value.trim();
+    
+    if (newRouterName !== ""){
+      var updateRouter = {
+        name: newRouterName
+      };
+      var router = this;
 
-    Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
-      if (err) {
-        WtGrowl.fail(err.reason);
-      } else {
-        WtGrowl.success('Router Name Updated');
-        //refresh code here. 
-        t.routerList.set(res);
-      }
-    });
+      Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+        if (err) {
+          WtGrowl.fail(err.reason);
+        } else {
+          WtGrowl.success('Router Name Updated');
+          //refresh code here. 
+          t.routerList.set(res);
+        }
+      });
+    }
     Session.set('managedRouterEditingName', null);
   },
-  'click .routerSerial': function(e,t){
+  'click .routerSerial': function(e,t){ //event to change serial to textfield on click.
     Session.set('managedRouterEditingSerial', this.id);
-    Tracker.afterFlush(function() {
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
           this.find('input#editSerial').focus()
     }.bind(t));
   },
   'blur .routerSerial': function(e,t){
     var newRouterSerial = e.target.value.toUpperCase();
-    if (newRouterSerial.length != 10) {
+    newRouterSerial = newRouterSerial.trim();
+
+    //Update Serial 
+    if (newRouterSerial.length == 10) {
+      var updateRouter = {
+        serial: newRouterSerial
+      };
+      var router = this;
+      
+      Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+        if (err) {
+          WtGrowl.fail(err.reason);
+        } else {
+          WtGrowl.success('Router Serial Updated');
+          //Refresh router list.
+          t.routerList.set(res);
+        }
+      });
+    } else {
       WtGrowl.fail('Incorrect Serial Number Length');
     }
-    var updateRouter = {
-      serial: newRouterSerial
-    };
-    var router = this;
-    Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
-      if (err) {
-        WtGrowl.fail(err.reason);
-      } else {
-        WtGrowl.success('Router Serial Updated');
-        //refresh code here. 
-        t.routerList.set(res);
-      }
-    });
     Session.set('managedRouterEditingSerial', null);
   },
-  'click .routerMac': function(e,t){
+  'click .routerMac': function(e,t){ //event to change mac to textfield on click.
     Session.set('managedRouterEditingMac', this.id);
-    Tracker.afterFlush(function() {
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
           this.find('input#editMac').focus()
     }.bind(t));
   },

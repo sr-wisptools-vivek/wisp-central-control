@@ -186,17 +186,19 @@ Meteor.method("wtManagedRouterMySQLSearch", function(srch) {
 Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
   var res;
   var sql;
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
+  var escapedDomain = getDomain.call(this);
+  
+  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
 
   //Update SubscriberName in table Subscriber 
-  if(typeof updateRouter["name"] !== undefined) {
-    var escapedDomain = getDomain.call(this);
-    if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
-    var escapedName =  WtManagedRouterMySQL.escape(updateRouter.name);
+  if (typeof updateRouter["name"] !== "undefined") {
     
+    var escapedName =  WtManagedRouterMySQL.escape(updateRouter.name);
+ 
     // Get SubscriberId for Equipment
     var fut = new Future();
-    var db_name = Meteor.settings.managedRouterMySQL.dbName;
     sql = "SELECT SubscriberId FROM " + db_name + ".Equipment WHERE EquipmentId = " + equipmentId; 
     runQuery(sql, fut);
     var res = fut.wait();
@@ -206,15 +208,32 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
     var fut = new Future();
     sql = 
       "UPDATE " 
-      + db_name +".Subscriber "
+      + db_name + ".Subscriber "
       + "SET SubscriberName = "
       + escapedName +
       " WHERE " + "SubscriberId = " +
       subscriberId;
-    runQuery(sql,fut);
 
-    return Meteor.call('wtManagedRouterMySQLSearch','');
+    runQuery(sql,fut);
   }
+
+  if (typeof updateRouter["serial"] !== "undefined" ){
+    var escapedSerial = WtManagedRouterMySQL.escape(updateRouter.serial); 
+    var equipmentId = router.id; 
+
+    //Update Serial
+    var fut = new Future();
+    sql = 
+      "UPDATE "
+      + db_name + ".Equipment "
+      + "SET SerialNumber = "
+      + escapedSerial +
+      " WHERE " + "EquipmentID = " +
+      equipmentId;
+    runQuery(sql,fut);
+  }
+
+  return Meteor.call('wtManagedRouterMySQLSearch','');
 });
 
 

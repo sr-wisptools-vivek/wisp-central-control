@@ -118,16 +118,17 @@ Template.wtManagedRouterMySQLList.events({
         serial: newRouterSerial
       };
       var router = this;
-      
-      Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
-        if (err) {
-          WtGrowl.fail(err.reason);
-        } else {
-          WtGrowl.success('Router Serial Updated');
-          //Refresh router list.
-          t.routerList.set(res);
-        }
-      });
+      if(router.serial !== newRouterSerial) { //Call method only when new serial number is entered.
+        Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+          if (err) {
+            WtGrowl.fail(err.reason);
+          } else {
+            WtGrowl.success('Router Serial Updated');
+            //Refresh router list.
+            t.routerList.set(res);
+          }
+        });
+      }
     } else {
       WtGrowl.fail('Incorrect Serial Number Length');
     }
@@ -139,7 +140,28 @@ Template.wtManagedRouterMySQLList.events({
           this.find('input#editMac').focus()
     }.bind(t));
   },
-  'blur .routerMac': function(){
+  'blur .routerMac': function(e,t){
+    var newRouterMac = e.target.value.toUpperCase().replace(":", "").replace(".", "");
+
+    if (newRouterMac.length == 12) {
+      var updateRouter = {
+        mac: newRouterMac
+      };
+      var router = this;
+      if(router.mac !== newRouterMac) { //Call method only when new serial number is entered.
+        Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+          if (err) {
+            WtGrowl.fail(err.reason);
+          } else {
+            WtGrowl.success('Router Serial Updated');
+            //Refresh router list.
+            t.routerList.set(res);
+          }
+        });
+      }
+    }else {
+      WtGrowl.fail('Incorrect MAC Address Length');
+    }
     Session.set('managedRouterEditingMac', null);
   }    
 })

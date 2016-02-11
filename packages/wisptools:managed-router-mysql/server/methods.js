@@ -215,11 +215,31 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
       subscriberId;
 
     runQuery(sql,fut);
-  }
+    res = fut.wait();
+  } //end of Subscriber Name update
 
   if (typeof updateRouter["serial"] !== "undefined" ){
+    var res;
     var escapedSerial = WtManagedRouterMySQL.escape(updateRouter.serial); 
-    var equipmentId = router.id; 
+    var equipmentId = router.id;
+
+    // Check for duplicate Serial
+    res = search.call(this, updateRouter.serial);
+    if (res.length > 0) throw new Meteor.Error('dup','Duplicate Serial Number', updateRouter.serial); 
+
+    // Check for Serial Number Conflict
+    var fut = new Future();
+    var sql = 
+        "SELECT * FROM " +
+        " " + db_name + ".Equipment " +
+        "WHERE " + 
+        " Equipment.SerialNumber=" + escapedSerial + " AND " +
+        " Equipment.Deleted='N'";
+
+    runQuery(sql, fut);
+
+    var res = fut.wait();
+    if (res.length > 0) throw new Meteor.Error('denied','Serial Number Conflict');
 
     //Update Serial
     var fut = new Future();
@@ -231,6 +251,29 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
       " WHERE " + "EquipmentID = " +
       equipmentId;
     runQuery(sql,fut);
+    res = fut.wait();
+  } //end of serial number update
+
+  if (typeof updateRouter["mac"] !== "undefined") {
+    var res;
+    var escapedMac = WtManagedRouterMySQL.escape(updateRouter.mac); 
+    var equipmentId = router.id; 
+    
+    // Check for duplicate mac
+    res = search.call(this, updateRouter.mac);
+    if (res.length > 0) throw new Meteor.Error('dup','Duplicate MAC Address', updateRouter.mac);
+
+    //Update Serial
+    var fut = new Future();
+    sql = 
+      "UPDATE "
+      + db_name + ".Equipment "
+      + "SET MACAddress = "
+      + escapedMac +
+      " WHERE " + "EquipmentID = " +
+      equipmentId;
+    runQuery(sql,fut);
+    res = fut.wait();
   }
 
   return Meteor.call('wtManagedRouterMySQLSearch','');

@@ -89,16 +89,17 @@ Template.wtManagedRouterMySQLList.events({
         name: newRouterName
       };
       var router = this;
-
-      Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
-        if (err) {
-          WtGrowl.fail(err.reason);
-        } else {
-          WtGrowl.success('Router Name Updated');
-          //refresh code here. 
-          t.routerList.set(res);
-        }
-      });
+      if (router.name !== newRouterName) {
+        Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+          if (err) {
+            WtGrowl.fail(err.reason);
+          } else {
+            WtGrowl.success('Router Name Updated');
+            //refresh code here. 
+            t.routerList.set(res);
+          }
+        });
+      }
     }
     Session.set('managedRouterEditingName', null);
   },

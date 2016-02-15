@@ -276,9 +276,10 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
     res = fut.wait();
   }
 
-  return Meteor.call('wtManagedRouterMySQLSearch','');
+  return Meteor.call('wtManagedRouterMySQLSearch',router.serial);
+},{
+  url: "/mr/update"
 });
-
 
 
 

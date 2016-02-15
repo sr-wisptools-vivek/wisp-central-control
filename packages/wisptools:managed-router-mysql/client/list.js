@@ -48,10 +48,6 @@ Template.wtManagedRouterMySQLList.events({
       WtGrowl.fail('Incorrect MAC Address Length');
       hasError = true;
     }
-    if (serial.length != 10) {
-      WtGrowl.fail('Incorrect Serial Number Length');
-      hasError = true;
-    }
     if (hasError) return;
 
     var router = {
@@ -114,22 +110,20 @@ Template.wtManagedRouterMySQLList.events({
     newRouterSerial = newRouterSerial.trim();
 
     //Update Serial 
-    if (newRouterSerial.length == 10) {
-      var updateRouter = {
-        serial: newRouterSerial
-      };
-      var router = this;
-      if(router.serial !== newRouterSerial) { //Call method only when new serial number is entered.
-        Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
-          if (err) {
-            WtGrowl.fail(err.reason);
-          } else {
-            WtGrowl.success('Router Serial Updated');
-            //Refresh router list.
-            t.routerList.set(res);
-          }
-        });
-      }
+    var updateRouter = {
+      serial: newRouterSerial
+    };
+    var router = this;
+    if(router.serial !== newRouterSerial) { //Call method only when new serial number is entered.
+      Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+        if (err) {
+          WtGrowl.fail(err.reason);
+        } else {
+          WtGrowl.success('Router Serial Updated');
+          //Refresh router list.
+          t.routerList.set(res);
+        }
+      });
     } else {
       WtGrowl.fail('Incorrect Serial Number Length');
     }

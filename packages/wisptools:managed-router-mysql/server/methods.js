@@ -116,8 +116,6 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var res = fut.wait();
   if (res.length > 0) throw new Meteor.Error('denied','Serial Number Conflict');
 
-
-
   var fut = new Future();
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
 
@@ -188,30 +186,42 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
   var sql;
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
-  var escapedDomain = getDomain.call(this);
   
+  var escapedDomain = getDomain.call(this);
   if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
+
+  // Get SubscriberId for Equipment
+  var fut = new Future();
+  sql = "SELECT SubscriberID FROM "
+        + db_name + ".Equipment " + 
+        " WHERE EquipmentID = " + equipmentId; 
+  runQuery(sql, fut);
+  var res = fut.wait();
+  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
+
+  var fut = new Future();
+  sql = "SELECT * FROM " + 
+        db_name + ".Subscriber " +
+        "WHERE SubscriberID= " +
+        subscriberId + " AND " +
+        "SystemID= " + escapedDomain ; 
+  runQuery(sql,fut);
+  var res = fut.wait();
+  if(res.length == 0) throw new Meteor.Error('denied','Domain Error');
 
   //Update SubscriberName in table Subscriber 
   if (typeof updateRouter["name"] !== "undefined") {
     
     var escapedName =  WtManagedRouterMySQL.escape(updateRouter.name);
- 
-    // Get SubscriberId for Equipment
-    var fut = new Future();
-    sql = "SELECT SubscriberId FROM " + db_name + ".Equipment WHERE EquipmentId = " + equipmentId; 
-    runQuery(sql, fut);
-    var res = fut.wait();
-    var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberId);
 
-    //Update Subscrider name
+    //Update Subscriber name
     var fut = new Future();
     sql = 
       "UPDATE " 
       + db_name + ".Subscriber "
       + "SET SubscriberName = "
       + escapedName +
-      " WHERE " + "SubscriberId = " +
+      " WHERE " + "SubscriberID = " +
       subscriberId;
 
     runQuery(sql,fut);

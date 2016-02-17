@@ -10,7 +10,7 @@ Template.wtManagedRouterMySQLList.helpers({
   },
   editingMac: function(){
     return Session.equals('managedRouterEditingMac', this.id);
-  } 
+  }
 });
 
 Template.wtManagedRouterMySQLList.created = function () {
@@ -158,5 +158,13 @@ Template.wtManagedRouterMySQLList.events({
       WtGrowl.fail('Incorrect MAC Address Length');
     }
     Session.set('managedRouterEditingMac', null);
+  }, 
+  'click .removeRouter': function(e,t){ //event handler for delete modal
+    e.preventDefault();
+    Session.set('managedRouterRemoveRouter', this.id);
+  },
+  'click #deleteRouter': function() {
+    console.log(Session.get('managedRouterRemoveRouter'));
+    
   }    
-})
+});

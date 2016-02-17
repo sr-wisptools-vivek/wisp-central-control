@@ -46,7 +46,9 @@
                 <td>{{model}}</td>
                 <td>
                   <a class="btn btn-default btn-sm" href="{{url}}" target="_blank">View Router</a>
-                  <a href="#" class="delete text-danger"><i class="fa fa-times"></i></a>
+                  <a href="#" class="removeRouter btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal" >
+                    <i class="fa fa-times"></i>
+                  </a>
                 </td>
               </tr>
             {{/each}}
@@ -70,6 +72,29 @@
         </table>
       </div>
       </form>
+    </div>
+  </div>
+  {{> wtManagedRouterDeleteModal}}
+</template>
+
+<template name='wtManagedRouterDeleteModal'>
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete</h4>
+        </div>
+        <div class="modal-body">
+          <p>Confirm Delete Router.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-primary" id="deleteRouter">Delete</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

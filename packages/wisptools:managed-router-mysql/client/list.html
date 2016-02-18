@@ -46,7 +46,7 @@
                 <td>{{model}}</td>
                 <td>
                   <a class="btn btn-default btn-sm" href="{{url}}" target="_blank">View Router</a>
-                  <a href="#" class="removeRouter btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal" >
+                  <a href="#" class="removeRouter btn btn-danger btn-sm" id="removeBtn{{id}}" data-toggle="modal" data-target="#myModal" >
                     <i class="fa fa-times"></i>
                   </a>
                 </td>
@@ -88,11 +88,11 @@
           <h4 class="modal-title">Delete</h4>
         </div>
         <div class="modal-body">
-          <p>Confirm Delete Router.</p>
+          <p>Delete Router. Are you sure?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-primary" id="deleteRouter">Delete</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" id="deleteRouter" data-dismiss="modal" class="btn btn-primary">Delete</button>
+          <button type="button" id="cancelDelete" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

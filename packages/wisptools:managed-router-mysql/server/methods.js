@@ -291,6 +291,22 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
   url: "/mr/update"
 });
 
+Meteor.method("wtManagedRouterMySQLRemove", function(router){
+  var res;
+  var sql;
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+  var equipmentId = router.id;
+
+  var fut = new Future();
+
+  sql = "UPDATE" 
+        + db_name + ".Equipment "
+        + "SET Deleted = 'Y' "
+        + "WHERE " + "EquipmentID = "
+        + equipmentId;
+  return ;
+});
+
 
 
 

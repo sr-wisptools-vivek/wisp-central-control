@@ -161,10 +161,20 @@ Template.wtManagedRouterMySQLList.events({
   }, 
   'click .removeRouter': function(e,t){ //event handler for delete modal
     e.preventDefault();
-    Session.set('managedRouterRemoveRouter', this.id);
+    Session.set('managedRouterRemoveRouter', this);
+    console.log(e);
+  },
+  'click #cancelDelete': function(){
+    Session.set('managedRouterRemoveRouter', null);
   },
   'click #deleteRouter': function() {
-    console.log(Session.get('managedRouterRemoveRouter'));
-    
+    var removeRouter = Session.get('managedRouterRemoveRouter');
+    Meteor.call('wtManagedRouterMySQLRemove', removeRouter, function (err, res) {
+      if (err) {
+        WtGrowl.fail(err.reason);
+      } else {
+        WtGrowl.success('Deleted');
+      }
+    } );
   }    
 });

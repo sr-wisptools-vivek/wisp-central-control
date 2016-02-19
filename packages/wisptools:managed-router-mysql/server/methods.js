@@ -86,8 +86,14 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var sql;
   // Check for duplicate Serial
   res = search.call(this, router.serial);
-  if (res.length > 0) throw new Meteor.Error('dup','Duplicate Serial Number', router.serial);
-
+  if (res.length > 0){
+    for (var i = 0; i < res.length; i++) {
+      if (res[i].serial == router.serial) {
+        throw new Meteor.Error('dup','Duplicate Serial Number', router.serial);
+        break;
+      }
+    }  
+  }
   // Check for duplicate mac
   res = search.call(this, router.mac);
   if (res.length > 0) throw new Meteor.Error('dup','Duplicate MAC Address', router.mac);
@@ -235,7 +241,14 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
 
     // Check for duplicate Serial
     res = search.call(this, updateRouter.serial);
-    if (res.length > 0) throw new Meteor.Error('dup','Duplicate Serial Number', updateRouter.serial); 
+    if (res.length > 0){
+      for (var i = 0; i < res.length; i++) {
+        if (res[i].serial == updateRouter.serial) {
+          throw new Meteor.Error('dup','Duplicate Serial Number', router.serial);
+          break;
+        }
+      }  
+    } 
 
     // Check for Serial Number Conflict
     var fut = new Future();
@@ -297,16 +310,37 @@ Meteor.method("wtManagedRouterMySQLRemove", function(router){
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
 
+  var escapedDomain = getDomain.call(this);
+  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
+
+  // Get SubscriberId for Equipment
   var fut = new Future();
 
-  sql = "UPDATE" 
+  sql = "SELECT SubscriberID FROM "
+        + db_name + ".Equipment " + 
+        " WHERE EquipmentID = " + equipmentId; 
+  runQuery(sql, fut);
+  var res = fut.wait();
+  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
+
+  var fut = new Future();
+  sql = "SELECT * FROM " + 
+        db_name + ".Subscriber " +
+        "WHERE SubscriberID= " +
+        subscriberId + " AND " +
+        "SystemID= " + escapedDomain ; 
+  runQuery(sql,fut);
+  var res = fut.wait();
+  
+  if(res.length == 0) throw new Meteor.Error('denied','Domain Error');
+  
+  var fut = new Future();
+  sql = "UPDATE " 
         + db_name + ".Equipment "
         + "SET Deleted = 'Y' "
         + "WHERE " + "EquipmentID = "
         + equipmentId;
+        //method not completed yet. 
+  console.log(sql);      
   return ;
 });
-
-
-
-

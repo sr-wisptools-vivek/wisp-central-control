@@ -20,37 +20,59 @@
           </thead>
           <tbody>
             {{#each routers}}
-              <tr style="height: 55px;">
-                <td class="routerName">
-                  {{#if editingName}}
-                    <input class="form-control" type="text" id="editName" value="{{name}}">
-                  {{else}}
-                    {{name}}
-                  {{/if}}
-                </td>
-                <td class="routerSerial">
-                  {{#if editingSerial}}
-                    <input class="form-control input-xs" type="text" id="editSerial" value="{{serial}}">
-                  {{else}}
-                    {{serial}}
-                {{/if}}
-                </td>
-                <td class="routerMac">
-                  {{#if editingMac}}
-                    <input class="form-control input-xs" type="text" id="editMac" value="{{mac}}">
-                  {{else}}
-                    {{mac}}
-                  {{/if}}
-                </td>
-                <td>{{make}}</td>
-                <td>{{model}}</td>
-                <td>
-                  <a class="btn btn-default btn-sm" href="{{url}}" target="_blank">View Router</a>
-                    <a href="#" class="removeRouter btn btn-danger btn-sm pull-right" id="removeBtn{{id}}" data-toggle="modal" data-target="#myModal" >
-                    <i class="fa fa-times"></i>  
+              {{#if restoreRouter}}
+                <tr style="height: 55px;">
+                  <td class="routerName">
+                    <strike>{{name}}</strike>
+                  </td>
+                  <td class="routerSerial">
+                    <strike>{{serial}}</strike>
+                  </td>
+                  <td class="routerMac">
+                    <strike>{{mac}}</strike>
+                  </td>
+                  <td><strike>{{make}}</strike></td>
+                  <td><strike>{{model}}</strike></td>
+                  <td>
+                    <a class="btn btn-default btn-sm" href="{{url}}" target="_blank">View Router</a>
+                    <a href="#" class="restoreRouter btn btn-warning btn-sm pull-right">
+                      <i class="fa fa-undo"></i>  
                     </a>
-                </td>
-              </tr>
+                  </td>
+                </tr>
+              {{else}}
+                <tr style="height: 55px;">
+                  <td class="routerName">
+                    {{#if editingName}}
+                      <input class="form-control" type="text" id="editName" value="{{name}}">
+                    {{else}}
+                      {{name}}
+                    {{/if}}
+                  </td>
+                  <td class="routerSerial">
+                    {{#if editingSerial}}
+                      <input class="form-control input-xs" type="text" id="editSerial" value="{{serial}}">
+                    {{else}}
+                      {{serial}}
+                  {{/if}}
+                  </td>
+                  <td class="routerMac">
+                    {{#if editingMac}}
+                      <input class="form-control input-xs" type="text" id="editMac" value="{{mac}}">
+                    {{else}}
+                      {{mac}}
+                    {{/if}}
+                  </td>
+                  <td>{{make}}</td>
+                  <td>{{model}}</td>
+                  <td>
+                    <a class="btn btn-default btn-sm" href="{{url}}" target="_blank">View Router</a>
+                    <a href="#" class="removeRouter btn btn-danger btn-sm pull-right" id="removeBtn{{id}}" data-toggle="modal" data-target="#myModal" >
+                      <i class="fa fa-times"></i>  
+                    </a>
+                  </td>
+                </tr>
+              {{/if}}
             {{/each}}
             <tr>
               <td>

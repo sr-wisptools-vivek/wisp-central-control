@@ -10,6 +10,9 @@ Template.wtManagedRouterMySQLList.helpers({
   },
   editingMac: function(){
     return Session.equals('managedRouterEditingMac', this.id);
+  },
+  restoreRouter: function() {
+    return Session.equals('removedRouterId', this.id);
   }
 });
 
@@ -210,7 +213,7 @@ Template.wtManagedRouterMySQLList.events({
   }, 
   'click .removeRouter': function(e,t){ //event handler for delete modal
     e.preventDefault();
-    Session.set('managedRouterRemoveRouter', this);    
+    Session.set('managedRouterRemoveRouter', this);
   },
   'click #cancelDelete': function(){
     Session.set('managedRouterRemoveRouter', null);
@@ -221,8 +224,22 @@ Template.wtManagedRouterMySQLList.events({
       if (err) {
         WtGrowl.fail(err.reason);
       } else {
-        WtGrowl.success('Deleted');
+        WtGrowl.success('Router Deleted ');
+        var deletedRouter = Session.get('managedRouterRemoveRouter');
+        Session.set('removedRouterId',deletedRouter.id);
       }
-    } );
+    });
+  },
+  'click .restoreRouter':function(e,t){
+    e.preventDefault();
+    var restoreRouter = this;
+    Meteor.call('wtManagedRouterMySQLRestore', restoreRouter, function (err, res) {
+      if (err) {
+        WtGrowl.fail(err.reason);
+      } else {
+        WtGrowl.success('Router Restored');
+        Session.set('removedRouterId', null);
+      }
+    });
   }    
 });

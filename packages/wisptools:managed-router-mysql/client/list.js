@@ -214,6 +214,12 @@ Template.wtManagedRouterMySQLList.events({
   'click .removeRouter': function(e,t){ //event handler for delete modal
     e.preventDefault();
     Session.set('managedRouterRemoveRouter', this);
+    //Remove previous delete router from routerList
+    Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
+      if(!err){
+        t.routerList.set(res);
+      }
+    });
   },
   'click #cancelDelete': function(){
     Session.set('managedRouterRemoveRouter', null);
@@ -230,7 +236,7 @@ Template.wtManagedRouterMySQLList.events({
       }
     });
   },
-  'click .restoreRouter':function(e,t){
+  'click .restoreRouter': function(e,t){
     e.preventDefault();
     var restoreRouter = this;
     Meteor.call('wtManagedRouterMySQLRestore', restoreRouter, function (err, res) {

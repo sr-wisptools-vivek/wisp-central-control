@@ -10,6 +10,9 @@ Template.wtManagedRouterMySQLList.helpers({
   },
   editingMac: function(){
     return Session.equals('managedRouterEditingMac', this.id);
+  },
+  restoreRouter: function() {
+    return Session.equals('removedRouterId', this.id);
   }
 });
 
@@ -118,49 +121,6 @@ Template.wtManagedRouterMySQLList.events({
       }
     }
   },
-  'click .routerSerial': function(e,t){ //event to change serial to textfield on click.
-    Session.set('managedRouterEditingSerial', this.id);
-    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
-          this.find('input#editSerial').focus()
-    }.bind(t));
-  },
-  'blur .routerSerial, keypress .routerSerial': function(e,t){
-    var keyPressed = e.which;
-    var eventType = e.type;
-
-    if(eventType=="keypress" && keyPressed == 13) {
-      e.preventDefault();
-    }
-    if((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newRouterSerial = e.target.value.toUpperCase();
-      newRouterSerial = newRouterSerial.trim();
-
-      //Update Serial 
-      var updateRouter = {
-        serial: newRouterSerial
-      };
-      var router = this;
-      if(router.serial !== newRouterSerial) { //Call method only when new serial number is entered.
-        Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
-          if (err) {
-            WtGrowl.fail(err.reason);
-            Session.set('managedRouterEditingSerial', null);
-          } else {
-            //Refresh router list.
-            Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
-              if(!err){
-                t.routerList.set(res);
-                WtGrowl.success('Router Serial Updated');
-                Session.set('managedRouterEditingSerial', null);
-              }
-            });
-          }
-        });
-      } else {
-        Session.set('managedRouterEditingSerial', null);
-      }  
-    }
-  },
   'click .routerMac': function(e,t){ //event to change mac to textfield on click.
     Session.set('managedRouterEditingMac', this.id);
     Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
@@ -210,7 +170,13 @@ Template.wtManagedRouterMySQLList.events({
   }, 
   'click .removeRouter': function(e,t){ //event handler for delete modal
     e.preventDefault();
-    Session.set('managedRouterRemoveRouter', this);    
+    Session.set('managedRouterRemoveRouter', this);
+    //Remove previous delete router from routerList
+    Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
+      if(!err){
+        t.routerList.set(res);
+      }
+    });
   },
   'click #cancelDelete': function(){
     Session.set('managedRouterRemoveRouter', null);
@@ -221,8 +187,22 @@ Template.wtManagedRouterMySQLList.events({
       if (err) {
         WtGrowl.fail(err.reason);
       } else {
-        WtGrowl.success('Deleted');
+        WtGrowl.success('Router Deleted ');
+        var deletedRouter = Session.get('managedRouterRemoveRouter');
+        Session.set('removedRouterId',deletedRouter.id);
       }
-    } );
+    });
+  },
+  'click .restoreRouter': function(e,t){
+    e.preventDefault();
+    var restoreRouter = this;
+    Meteor.call('wtManagedRouterMySQLRestore', restoreRouter, function (err, res) {
+      if (err) {
+        WtGrowl.fail(err.reason);
+      } else {
+        WtGrowl.success('Router Restored');
+        Session.set('removedRouterId', null);
+      }
+    });
   }    
 });

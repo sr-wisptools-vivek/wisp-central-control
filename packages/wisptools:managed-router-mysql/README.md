@@ -226,4 +226,134 @@ Sample error
 }
 ```
 
+## Updating Device Name and MAC
+Device MAC and Name can be updated by doing a `"post"` to `/mr/update`.  You'll get the updated device returned, or an error if
+it conflicts with an existing device.
 
+
+```http
+POST /mr/update
+```
+
+Sample data
+```js
+{
+    "id":"1267785",
+    "serial":"RNV5019236",
+    "new": { "mac": "00019F153C50"}
+}
+```
+
+Sample data
+```js
+{
+    "id":"1267785",
+    "serial":"RNV5019236",
+    "new": { "name": "VOIP"}
+}
+```
+
+Sample result
+```js
+[
+  {
+    "id": 1267785,
+    "domain": "dev",
+    "name": "VOIP",
+    "serial": "RNV5019236",
+    "mac": "00019F153C50",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267785&TOKEN=de62c38967973ccc5545f3e45ac1bc0b"
+  }
+]
+```
+
+Sample error
+```js
+{
+  "error": "dup",
+  "reason": "Duplicate MAC Address",
+  "details": "00019F153C50"
+}
+```
+
+## Delete Device
+Device can be deleted by doing a `"post"` to `/mr/delete`.  You'll get the deleted device returned, or an error if
+any conflict occurs. 
+
+```http
+POST /mr/delete
+```
+
+Sample data
+```js
+{
+    "id":"1267785",
+    "serial":"RNV5019236"
+}
+```
+
+Sample result
+```js
+[
+  {
+    "id": 1267785,
+    "domain": "dev",
+    "name": "VOIP",
+    "serial": "RNV5019236",
+    "mac": "00019F153C50",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267785&TOKEN=de62c38967973ccc5545f3e45ac1bc0b"
+  }
+]
+```
+
+Sample error
+```js
+{
+  "error": "denied",
+  "reason": "Not Authorized"
+}
+```
+
+## Restore Device
+Deleted device can be restored by doing a `"post"` to `/mr/undelete`.  You'll get the restored device returned, or an error if
+any conflict occurs. 
+
+```http
+POST /mr/undelete
+```
+
+Sample data
+```js
+{
+    "id":"1267785",
+    "serial":"RNV5019236"
+}
+```
+
+Sample result
+```js
+[
+  {
+    "id": 1267785,
+    "domain": "dev",
+    "name": "VOIP",
+    "serial": "RNV5019236",
+    "mac": "00019F153C50",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267785&TOKEN=de62c38967973ccc5545f3e45ac1bc0b"
+  }
+]
+```
+
+Sample error
+```js
+{
+  "error": "denied",
+  "reason": "Domain Error"
+}
+```

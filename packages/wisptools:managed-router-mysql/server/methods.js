@@ -187,15 +187,14 @@ Meteor.method("wtManagedRouterMySQLSearch", function(srch) {
   url: "/mr/search"
 });
 
-Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
+Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
   var res;
   var sql;
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
-  
+  var updateRouter = router.new;
   var escapedDomain = getDomain.call(this);
   if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
-
   // Get SubscriberId for Equipment
   var fut = new Future();
   sql = "SELECT SubscriberID FROM "
@@ -255,8 +254,7 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router, updateRouter) {
     runQuery(sql,fut);
     res = fut.wait();
   }
-
-  return Meteor.call('wtManagedRouterMySQLSearch',router.serial);
+  return search.call(this, router.serial, 1);
 },{
   url: "/mr/update"
 });
@@ -300,7 +298,7 @@ Meteor.method("wtManagedRouterMySQLRemove", function(router){
   runQuery(sql,fut);
   var res = fut.wait();
   
-  return Meteor.call('wtManagedRouterMySQLSearch',router.serial);
+  return search.call(this, router.serial, 1);
 },{
   url: "/mr/delete"
 });
@@ -344,7 +342,7 @@ Meteor.method("wtManagedRouterMySQLRestore", function(router){
   runQuery(sql,fut);
   var res = fut.wait();
   
-  return Meteor.call('wtManagedRouterMySQLSearch',router.serial);
+  return search.call(this, router.serial, 1);
 },{
   url: "/mr/undelete"
 });

@@ -97,8 +97,9 @@ Template.wtManagedRouterMySQLList.events({
           name: newRouterName
         };
         var router = this;
+        router.new = updateRouter;
         if (router.name !== newRouterName) { //Execute if value is changed.
-          Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+          Meteor.call('wtManagedRouterMySQLUpdate', router, function (err, res) {
             if (err) {
               WtGrowl.fail(err.reason);
               Session.set('managedRouterEditingName', null);
@@ -143,8 +144,9 @@ Template.wtManagedRouterMySQLList.events({
           mac: newRouterMac
         };
         var router = this;
+        router.new = updateRouter;
         if(router.mac !== newRouterMac) { //Call method only when new serial number is entered.
-          Meteor.call('wtManagedRouterMySQLUpdate', router,updateRouter, function (err, res) {
+          Meteor.call('wtManagedRouterMySQLUpdate', router, function (err, res) {
             if (err) {
               WtGrowl.fail(err.reason);
               Session.set('managedRouterEditingMac', null);

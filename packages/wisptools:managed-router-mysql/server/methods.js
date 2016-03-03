@@ -106,33 +106,28 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var escapedSerial = WtManagedRouterMySQL.escape(router.serial);
   var escapedMAC = WtManagedRouterMySQL.escape(router.mac);
   var escapedMake = WtManagedRouterMySQL.escape(router.make);
-  var escapedModel = WtManagedRouterMySQL.escape(router.model);
-
+  var model;
 
   //Auto detect model number from serial
-/*  var serialWithModelNumber = ["RNV50":"WRT500","RNV51":"VWRT510","12MS":"AC1200MS","12M":"AC1200M"]; //serial numbers with auto detect model number.
-  for (i in serialWithModelNumber) {
-    
-  }*/
-  /*var regexString = "\\b" + serialWithModelNumber.join("|\\b");
-  var regEx = new RegExp(regexString);
-  var patternString;
+  var serialWithModelNumber = {"RNV50":"WRT500","RNV51":"VWRT510","12MS":"AC1200MS","12M":"AC1200M"}; //serial numbers with auto detect model number.
+  var validSerial = false;
+  var regexString;
 
-  if (regEx.test(escapedSerial)) {
-    for (var i = 0; i < serialWithModelNumber.length; i++) {
-      patternString = "\\b" + serialWithModelNumber[i];
-      var pattern = new RegExp(patternString);
+  for (key in serialWithModelNumber) {
+    regexString = "\\b" + key;
+    var regEx = new RegExp(regexString);
 
-      if (serialWithModelNumber[i] == "RNV50") {  
-        if (pattern.test(escapedSerial)) {
-          escapedModel = "WRT500";
-        }
-      }
-    };
+    if (regEx.test(escapedSerial)) {
+      validSerial = true;
+      model = serialWithModelNumber[key];
+      break;
+    }
+  }
 
-  } else {
+  if(!validSerial) {
     throw new Meteor.Error('denied','Invalid Serial Number');
-  }*/
+  }
+  var escapedModel = WtManagedRouterMySQL.escape(model);
 
   // Check for Serial Number Conflict
   var fut = new Future();

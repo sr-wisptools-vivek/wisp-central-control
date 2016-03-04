@@ -59,8 +59,7 @@ Template.wtManagedRouterMySQLList.events({
       name: name,
       serial: serial,
       mac: mac,
-      make: 'READYNET',
-      model: 'WRT500'
+      make: 'READYNET'
     };
 
     Meteor.call('wtManagedRouterMySQLAdd', router, function (err, res) {

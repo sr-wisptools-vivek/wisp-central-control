@@ -195,9 +195,7 @@ Sample data
 {
   "serial":"RNV5000511",
   "mac":"00019F1407D2",
-  "name":"TEST 123",
-  "make":"READYNET",
-  "model":"WRT500"
+  "name":"TEST 123"
 }
 ```
 

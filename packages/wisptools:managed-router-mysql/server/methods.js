@@ -111,10 +111,11 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   //Auto detect model number from serial
   var serialWithModelNumber = {"RNV50":"WRT500","RNV51":"VWRT510","12MS":"AC1200MS","12M":"AC1200M"}; //serial numbers with auto detect model number.
   //Auto detect make number. 
-  var serialWithMakeNumber = {"RNV50":"READYNET","RNV51":"READYNET","12MS":"READYNET","12M":"READYNET"}; //serial numbers with auto detect model number.
+  var macWithMakeNumber = {"00019F":"READYNET"}; //OUI with make. (OUI: First 6 digits of MAC)
   var validSerial = false;
   var regexString;
 
+  //Find model number with respect to serial. 
   for (key in serialWithModelNumber) {
     regexString = "\\b" + key;
     var regEx = new RegExp(regexString);
@@ -122,7 +123,6 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     if (regEx.test(escapedSerial)) {
       validSerial = true;
       model = serialWithModelNumber[key];
-      make  = serialWithMakeNumber[key];
       break;
     }
   }
@@ -131,6 +131,23 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     throw new Meteor.Error('denied','Invalid Serial Number');
   }
   var escapedModel = WtManagedRouterMySQL.escape(model);
+
+  var validMac = false;
+  //Find make with respect to OUI. 
+  for (key in macWithMakeNumber) {
+    regexString = "\\b" + key;
+    var regEx = new RegExp(regexString);
+
+    if (regEx.test(escapedMAC)) {
+      validMac = true;
+      make = macWithMakeNumber[key];
+      break;
+    }
+  }
+
+  if(!validMac) {
+    throw new Meteor.Error('denied','Invalid Mac Number');
+  }
   var escapedMake  = WtManagedRouterMySQL.escape(make);
 
   // Check for Serial Number Conflict

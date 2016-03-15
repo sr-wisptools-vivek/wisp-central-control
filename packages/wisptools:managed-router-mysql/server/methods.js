@@ -105,11 +105,13 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var escapedName = WtManagedRouterMySQL.escape(router.name);
   var escapedSerial = WtManagedRouterMySQL.escape(router.serial);
   var escapedMAC = WtManagedRouterMySQL.escape(router.mac);
-  var escapedMake = WtManagedRouterMySQL.escape(router.make);
+  var Make;
   var model;
 
   //Auto detect model number from serial
   var serialWithModelNumber = {"RNV50":"WRT500","RNV51":"VWRT510","12MS":"AC1200MS","12M":"AC1200M"}; //serial numbers with auto detect model number.
+  //Auto detect make number. 
+  var serialWithMakeNumber = {"RNV50":"READYNET","RNV51":"READYNET","12MS":"READYNET","12M":"READYNET"}; //serial numbers with auto detect model number.
   var validSerial = false;
   var regexString;
 
@@ -120,6 +122,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     if (regEx.test(escapedSerial)) {
       validSerial = true;
       model = serialWithModelNumber[key];
+      make  = serialWithMakeNumber[key];
       break;
     }
   }
@@ -128,6 +131,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     throw new Meteor.Error('denied','Invalid Serial Number');
   }
   var escapedModel = WtManagedRouterMySQL.escape(model);
+  var escapedMake  = WtManagedRouterMySQL.escape(make);
 
   // Check for Serial Number Conflict
   var fut = new Future();

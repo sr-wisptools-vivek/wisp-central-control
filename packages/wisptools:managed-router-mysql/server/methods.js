@@ -109,9 +109,16 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var model;
 
   //Auto detect model number from serial
-  var serialWithModelNumber = {"RNV50":"WRT500","RNV51":"VWRT510","12MS":"AC1200MS","12M":"AC1200M"}; //serial numbers with auto detect model number.
+  var serialWithModelNumber = { "RNV50":"WRT500",
+                                "RNV51":"VWRT510",
+                                "12MS":"AC1200MS",
+                                "12M":"AC1200M",
+                                "400":"cnPilot R201"
+                              }; //serial numbers with auto detect model number.
   //Auto detect make number. 
-  var macWithMakeNumber = {"00019F":"READYNET"}; //OUI with make. (OUI: First 6 digits of MAC)
+  var macWithMakeNumber = { "00019F":"READYNET",
+                            "000456":"CAMBIUM"
+                          }; //OUI with make. (OUI: First 6 digits of MAC)
   var validSerial = false;
   var regexString;
 

@@ -14,7 +14,7 @@
     <div class="col-xs-12">
       <form class="mr-add">
         <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped routerTable">
           <thead>
             <tr><th>Customer</th><th>Serial Number</th><th>MAC</th><th>Make</th><th>Model</th><th>Manage</th></tr>
           </thead>
@@ -62,7 +62,7 @@
                   <td>{{make}}</td>
                   <td>{{model}}</td>
                   <td>
-                    <a class="btn btn-default btn-sm" href="{{url}}" target="_blank">View Router</a>
+                    <a class="btn btn-default btn-sm  addtomodal" href="{{url}}" target="_blank">View Router</a>
                     <a href="#" class="removeRouter btn btn-danger btn-xs pull-right" id="removeBtn{{id}}" data-toggle="modal" data-target="#myModal" >
                       <i class="fa fa-times"></i>  
                     </a>

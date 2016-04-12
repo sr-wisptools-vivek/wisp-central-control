@@ -14,8 +14,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.0.3.2');
   api.use([
     'meteor',
-    'jquery'
+    'jquery',
   ]);
-  
-  api.addFiles('wisptools:loadinModal.js',['client']);
+  api.addFiles('wisptools:loadinModal.js','client');
 });

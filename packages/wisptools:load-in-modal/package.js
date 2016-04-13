@@ -16,5 +16,6 @@ Package.onUse(function(api) {
     'meteor',
     'jquery',
   ]);
+  api.addFiles('css/modalStyle.css','client');
   api.addFiles('wisptools:loadinModal.js','client');
 });

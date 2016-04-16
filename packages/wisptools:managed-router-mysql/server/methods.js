@@ -31,9 +31,13 @@ var search = function(search, limit) {
   if (sqlSearch.toString() === "[object Object]") sqlSearch = ''; // handleing default empty object on rest api
   var escapedSearch = WtManagedRouterMySQL.escape("%" + sqlSearch + "%");
 
+  var sqlSearchMAC = sqlSearch.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, "");
+  var escapedSearchMAC = WtManagedRouterMySQL.escape("%" + sqlSearchMAC + "%");
+
   var sqlLimit = limit || 20;
   if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
   sqlLimit = WtManagedRouterMySQL.escape(sqlLimit);
+
 
   var fut = new Future();
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
@@ -59,7 +63,7 @@ var search = function(search, limit) {
     " ( " +
     "   Subscriber.SubscriberName LIKE " + escapedSearch + " OR " +
     "   Equipment.SerialNumber LIKE " + escapedSearch + " OR " +
-    "   Equipment.MACAddress LIKE " + escapedSearch + " " +
+    "   Equipment.MACAddress LIKE " + escapedSearchMAC + " " +
     " ) " +
     "ORDER BY Equipment.EquipmentID DESC " +
     "LIMIT " + sqlLimit;
@@ -85,6 +89,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var res;
   var sql;
 
+
   // Check for duplicate Serial
   res = search.call(this, router.serial);
   if (res.length > 0){
@@ -96,6 +101,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     }  
   }
   // Check for duplicate mac
+  router.mac = router.mac.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, ""); // normalize mac
   res = search.call(this, router.mac);
   if (res.length > 0) throw new Meteor.Error('dup','Duplicate MAC Address', router.mac);
 
@@ -284,6 +290,7 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
   } //end of Subscriber Name update
 
   if (typeof updateRouter["mac"] !== "undefined") {
+    updateRouter.mac = updateRouter.mac.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, ""); // normalize mac
     var res;
     var escapedMac = WtManagedRouterMySQL.escape(updateRouter.mac); 
     var equipmentId = router.id; 

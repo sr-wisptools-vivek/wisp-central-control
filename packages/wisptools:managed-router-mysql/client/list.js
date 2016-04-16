@@ -46,7 +46,7 @@ Template.wtManagedRouterMySQLList.events({
     }
     var name = e.target[0].value;
     var serial = e.target[1].value.toUpperCase();
-    var mac = e.target[2].value.toUpperCase().replace(":", "").replace(".", "");
+    var mac = e.target[2].value.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, "");
     var hasError = false;
     
     if (mac.length != 12) {

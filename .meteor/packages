@@ -26,3 +26,4 @@ wisptools:ap
 wisptools:roles
 wisptools:managed-router-mysql
 simple:rest-accounts-password
+wisptools:load-in-modal

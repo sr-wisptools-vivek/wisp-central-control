@@ -206,3 +206,7 @@ Template.wtManagedRouterMySQLList.events({
     });
   }    
 });
+
+Template.wtManagedRouterMySQLList.onRendered(function () {
+  $('.routerTable').loadInModal('.addtomodal');
+});

@@ -1,25 +1,26 @@
 (function ($) {
 
-	$.fn.loadInModal = function (childSelector) {
+	$.fn.loadInModal = function (childSelector, callback) {
 
 		createModal();
 
 		this.on('click', childSelector, function (e) {
 			e.preventDefault();
-			showpopup(e.target.href);
+			showpopup(e.target.href, callback);
 		});
 
 		return this;
 
 	};
 
-	function showpopup(url) {
+	function showpopup(url, callback) {
 		var heightOfModal = Math.floor($(document).height() * 0.8);
 		var iframe = '<iframe style="width:100%;height:'+heightOfModal+'px;border:none;" id="iframeinmodal"></iframe>';
 		$('#iframeinmodal').remove();
 		$('#modalIframe').append(iframe);
 		$('#iframeinmodal').attr('src', url);
 		$('#modalforiframe').modal('show');
+		callback();
 	}
 
 	function createModal() {

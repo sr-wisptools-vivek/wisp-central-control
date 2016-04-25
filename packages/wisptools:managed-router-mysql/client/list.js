@@ -208,5 +208,16 @@ Template.wtManagedRouterMySQLList.events({
 });
 
 Template.wtManagedRouterMySQLList.onRendered(function () {
-  $('.routerTable').loadInModal('.addtomodal');
+  $('.routerTable').loadInModal('.addtomodal', function () {
+    $('#iframeinmodal').on('load', function () {
+        console.log('this is removed');
+        // $('#iframeinmodal').css('display','block');
+        //$(this.contentWindow).onbeforeunload(function() {
+        //   $('#iframeinmodal').css('display','none');
+        //console.log('this is added');
+        //});
+      });
+  });
+  
 });
+

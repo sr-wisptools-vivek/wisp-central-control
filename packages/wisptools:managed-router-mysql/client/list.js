@@ -209,15 +209,25 @@ Template.wtManagedRouterMySQLList.events({
 
 Template.wtManagedRouterMySQLList.onRendered(function () {
   $('.routerTable').loadInModal('.addtomodal', function () {
-    $('#iframeinmodal').on('load', function () {
+    $iframe = $('#iframeinmodal');
+    $iframe.load(function () {
+      console.log('Load Iframe');
+    $iframe[0].contentWindow.onbeforeunload = function () {
+      console.log('Refresh Iframe');
+    };
+  });
+/*    $('#iframeinmodal').on('load', function () {
         console.log('this is removed');
+        
         // $('#iframeinmodal').css('display','block');
         //$(this.contentWindow).onbeforeunload(function() {
         //   $('#iframeinmodal').css('display','none');
         //console.log('this is added');
         //});
-      });
+      });*/
   });
+
+  
   
 });
 

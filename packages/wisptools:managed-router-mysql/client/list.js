@@ -210,7 +210,9 @@ Template.wtManagedRouterMySQLList.events({
 Template.wtManagedRouterMySQLList.onRendered(function () {
   $('.routerTable').loadInModal('.addtomodal', function () {
     $('#iframeinmodal').on('load',function () {
-      $('#loaderTxt').css('display','none')
     });
+  });
+  $('#iframeinmodal').load(function() {
+    alert('refreshing');
   });
 });

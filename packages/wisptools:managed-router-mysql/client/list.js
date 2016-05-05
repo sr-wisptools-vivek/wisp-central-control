@@ -209,4 +209,9 @@ Template.wtManagedRouterMySQLList.events({
 
 Template.wtManagedRouterMySQLList.onRendered(function () {
   $('.routerTable').loadInModal('.addtomodal');
+  $('.routerTable').on('mouseenter mouseleave','.removeRouter',function(e){
+      $(this).toggleClass('btn-danger');
+    }
+  );
+
 });

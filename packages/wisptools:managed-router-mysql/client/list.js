@@ -210,9 +210,9 @@ Template.wtManagedRouterMySQLList.events({
 Template.wtManagedRouterMySQLList.onRendered(function () {
   $('.routerTable').loadInModal('.addtomodal', function () {
     $('#iframeinmodal').on('load',function () {
+        $('#siteloader-content').hide();
+        var heightOfModal = Math.floor($(document).height() * 0.7);
+        $('#iframeinmodal').css('height',heightOfModal+'px');
     });
-  });
-  $('#iframeinmodal').load(function() {
-    alert('refreshing');
   });
 });

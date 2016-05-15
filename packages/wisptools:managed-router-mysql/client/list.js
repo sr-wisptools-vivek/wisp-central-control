@@ -215,4 +215,8 @@ Template.wtManagedRouterMySQLList.onRendered(function () {
         $('#iframeinmodal').css('height',heightOfModal+'px');
     });
   });
+  $('.routerTable').on('mouseenter mouseleave','.removeRouter',function(e){
+      $(this).toggleClass('btn-danger');
+    }
+  );
 });

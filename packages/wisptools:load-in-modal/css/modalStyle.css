@@ -2,9 +2,11 @@
   width: 100%;
   max-width: 1300px;
   height: 90%;
-  margin-top: 15px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
+}
+
+.modal-container {
+  padding: 15px;
 }
 
 .modal-content {

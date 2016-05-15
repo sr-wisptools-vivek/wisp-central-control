@@ -11,4 +11,14 @@
   height: auto;
   min-height: 90%;
   border-radius: 0;
+  max-width: 1300px;
 }
+
+#siteloader-content{
+	width: 32%;
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 15%;
+}
+
+ 

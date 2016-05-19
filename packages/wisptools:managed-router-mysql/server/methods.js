@@ -230,7 +230,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   runQuery(sql, fut);
   res = fut.wait();
 
-  return Meteor.call('wtManagedRouterMySQLSearch', router.serial);
+  return search.call(this, router.serial, 1);
 },{
   url: "/mr/add"
 });

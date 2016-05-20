@@ -67,7 +67,7 @@ Template.wtManagedRouterMySQLList.events({
       } else {
         WtGrowl.success('Router Added');
         var tmp = t.routerList.get();
-        tmp.unshift(res[0]);
+        tmp.push(res[0]);
         t.routerList.set(tmp);
       }
     });

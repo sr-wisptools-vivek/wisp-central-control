@@ -38,7 +38,6 @@ var search = function(search, limit) {
   if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
   sqlLimit = WtManagedRouterMySQL.escape(sqlLimit);
 
-
   var fut = new Future();
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var sql = 
@@ -58,6 +57,64 @@ var search = function(search, limit) {
     " Subscriber.SystemID=" + escapedDomain + " AND " +
     " Subscriber.SubscriberID=Equipment.SubscriberID AND " +
     " Equipment.Deleted='N' AND " +
+    " Equipment.Make=ManagedRouter.CSGMake AND " +
+    " Equipment.Model=ManagedRouter.CSGModel AND " +
+    " ( " +
+    "   Subscriber.SubscriberName LIKE " + escapedSearch + " OR " +
+    "   Equipment.SerialNumber LIKE " + escapedSearch + " OR " +
+    "   Equipment.MACAddress LIKE " + escapedSearchMAC + " " +
+    " ) " +
+    "ORDER BY Equipment.EquipmentID DESC " +
+    "LIMIT " + sqlLimit;
+
+  runQuery(sql, fut);
+
+  var res = fut.wait();
+  res = _.map(res, function(r) {
+    // add on the URL
+    r.url = WtManagedRouterMySQL.makeUrl(r.id);
+    return r;
+  });
+  return res;  
+}
+
+var searchDeleted = function(search, limit) {
+  if (this.userId == null) return [];
+
+  var escapedDomain = getDomain.call(this);
+  if (escapedDomain == null) return [];
+
+  var sqlSearch = search || "";
+  if (sqlSearch.toString() === "[object Object]") sqlSearch = ''; // handleing default empty object on rest api
+  var escapedSearch = WtManagedRouterMySQL.escape("%" + sqlSearch + "%");
+
+  var sqlSearchMAC = sqlSearch.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, "");
+  var escapedSearchMAC = WtManagedRouterMySQL.escape("%" + sqlSearchMAC + "%");
+
+  var sqlLimit = limit || 20;
+  if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
+  sqlLimit = WtManagedRouterMySQL.escape(sqlLimit);
+
+
+  var fut = new Future();
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+  var sql = 
+    "SELECT " +
+    "  EquipmentID as id, " +
+    "  SystemID as domain, " +
+    "  SubscriberName as name, " +
+    "  SerialNumber as serial, " +
+    "  MACAddress as mac, " +
+    "  Make as make, " +
+    "  Model as model " +
+    "FROM " +
+    "  " + db_name + ".Subscriber, " +
+    "  " + db_name + ".Equipment, " +
+    "  " + db_name + ".ManagedRouter " + 
+    "WHERE " + 
+    " Subscriber.SystemID=" + escapedDomain + " AND " +
+    " Subscriber.SubscriberID=Equipment.SubscriberID AND " +
+    " Equipment.Deleted='Y' AND " +
     " Equipment.Make=ManagedRouter.CSGMake AND " +
     " Equipment.Model=ManagedRouter.CSGModel AND " +
     " ( " +
@@ -355,7 +412,7 @@ Meteor.method("wtManagedRouterMySQLRemove", function(router){
   runQuery(sql,fut);
   var res = fut.wait();
   
-  return search.call(this, router.serial, 1);
+  return searchDeleted.call(this, router.serial, 1);
 },{
   url: "/mr/delete"
 });

@@ -297,13 +297,7 @@ Sample result
 [
   {
     "id": 1267785,
-    "domain": "dev",
-    "name": "VOIP",
-    "serial": "RNV5019236",
-    "mac": "00019F153C50",
-    "make": "READYNET",
-    "model": "WRT500",
-    "url": "http://159.203.192.31/mr/?ID=1267785&TOKEN=de62c38967973ccc5545f3e45ac1bc0b"
+    "status": "Deleted"
   }
 ]
 ```

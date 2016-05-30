@@ -38,7 +38,6 @@ var search = function(search, limit) {
   if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
   sqlLimit = WtManagedRouterMySQL.escape(sqlLimit);
 
-
   var fut = new Future();
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var sql = 
@@ -353,9 +352,15 @@ Meteor.method("wtManagedRouterMySQLRemove", function(router){
         + "WHERE " + "EquipmentID = "
         + equipmentId;
   runQuery(sql,fut);
-  var res = fut.wait();
   
-  return search.call(this, router.serial, 1);
+  var res = fut.wait();
+  var response = {
+        "id" : equipmentId,
+        "status" : "Deleted"
+  };
+
+  return response;
+
 },{
   url: "/mr/delete"
 });

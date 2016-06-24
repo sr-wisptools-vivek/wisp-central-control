@@ -214,9 +214,24 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   res = fut.wait();
   var eId = res.insertId;
 
-  fut = new Future();
   // Add default passphrase
-  var passphrase = WtManagedRouterMySQL.escape("W500" + router.serial.substr(-4));;
+  var passphrase = WtManagedRouterMySQL.escape("UNKNOWN");
+  switch (model) {
+    case 'WRT500':
+      passphrase = WtManagedRouterMySQL.escape("W500" + router.serial.substr(-4));;
+      break;
+    case 'VWRT510':
+      passphrase = WtManagedRouterMySQL.escape("V510" + router.serial.substr(-4));;
+      break;
+    case 'AC1200M':
+      passphrase = WtManagedRouterMySQL.escape("12M-" + router.serial.substr(-4));;
+      break;
+    case 'AC1200MS':
+      passphrase = WtManagedRouterMySQL.escape("12MS" + router.serial.substr(-4));;
+      break;
+  }
+  // 2.4GHz Passphrase
+  fut = new Future();
   sql = 
     "INSERT INTO " +
     " " + db_name + ".ManagedRouterLastSavedValue " +
@@ -225,7 +240,19 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     " 'InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.KeyPassphrase', " +
     " " + passphrase + " " +
     ")";
+  runQuery(sql, fut);
+  res = fut.wait();
 
+  // 5GHz Passphrase
+  fut = new Future();
+  sql = 
+    "INSERT INTO " +
+    " " + db_name + ".ManagedRouterLastSavedValue " +
+    "VALUES ( " +
+    " " + eId + ", " +
+    " 'InternetGatewayDevice.LANDevice.1.WLANConfiguration.5.KeyPassphrase', " +
+    " " + passphrase + " " +
+    ")";
   runQuery(sql, fut);
   res = fut.wait();
 

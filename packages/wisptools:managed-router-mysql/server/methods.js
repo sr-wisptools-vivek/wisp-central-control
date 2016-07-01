@@ -118,12 +118,18 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "RNV51":"VWRT510",
                                 "12MS":"AC1200MS",
                                 "12M":"AC1200M",
-                                "400":"cnPilot R201"
+                                "400":"cnPilot R201",
+                                "J12M00":"JMR1200M",
+                                "LTN520":"LTE520"
                               }; //serial numbers with auto detect model number.
   //Auto detect make number. 
   var macWithMakeNumber = { "00019F":"READYNET",
                             "000456":"CAMBIUM"
                           }; //OUI with make. (OUI: First 6 digits of MAC)
+  // Used to override OUI based make.
+  var modelToMake = {
+    "JMR1200M":"JIVE"
+  }
   var validSerial = false;
   var regexString;
 
@@ -153,6 +159,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     if (regEx.test(escapedMAC)) {
       validMac = true;
       make = macWithMakeNumber[key];
+      if (modelToMake[model]) make = modelToMake[model]; //override make
       break;
     }
   }
@@ -228,6 +235,12 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
       break;
     case 'AC1200MS':
       passphrase = WtManagedRouterMySQL.escape("12MS" + router.serial.substr(-4));;
+      break;
+    case 'JMR1200M':
+      passphrase = WtManagedRouterMySQL.escape("12M" + router.serial.substr(-4));;
+      break;
+    case 'LTE520':
+      passphrase = WtManagedRouterMySQL.escape("L520" + router.serial.substr(-4));;
       break;
   }
   // 2.4GHz Passphrase

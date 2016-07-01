@@ -237,7 +237,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
       passphrase = WtManagedRouterMySQL.escape("12MS" + router.serial.substr(-4));;
       break;
     case 'JMR1200M':
-      passphrase = WtManagedRouterMySQL.escape("12M" + router.serial.substr(-4));;
+      passphrase = WtManagedRouterMySQL.escape("J12M" + router.serial.substr(-4));;
       break;
     case 'LTE520':
       passphrase = WtManagedRouterMySQL.escape("L520" + router.serial.substr(-4));;

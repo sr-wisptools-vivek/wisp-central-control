@@ -115,7 +115,8 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 
   //Auto detect model number from serial
   var serialWithModelNumber = { "RNV50":"WRT500",
-                                "RNV51":"VWRT510",
+                                "RNV510":"VWRT510",
+                                "RNV530":"VWRT520",
                                 "12MS":"AC1200MS",
                                 "12M":"AC1200M",
                                 "400":"cnPilot R201",
@@ -229,6 +230,9 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
       break;
     case 'VWRT510':
       passphrase = WtManagedRouterMySQL.escape("V510" + router.serial.substr(-4));;
+      break;
+    case 'VWRT520':
+      passphrase = WtManagedRouterMySQL.escape("V520" + router.serial.substr(-4));;
       break;
     case 'AC1200M':
       passphrase = WtManagedRouterMySQL.escape("12M-" + router.serial.substr(-4));;

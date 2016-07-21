@@ -115,8 +115,10 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 
   //Auto detect model number from serial
   var serialWithModelNumber = { "RNV50":"WRT500",
+                                "RNV210":"VRT210",
                                 "RNV510":"VWRT510",
                                 "RNV530":"VWRT520",
+                                "RNV220":"VRT220",
                                 "12MS":"AC1200MS",
                                 "12M":"AC1200M",
                                 "400":"cnPilot R201",

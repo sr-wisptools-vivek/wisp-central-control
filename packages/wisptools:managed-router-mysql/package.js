@@ -38,7 +38,9 @@ Package.onUse(function(api) {
     'client/domains.js',
     'client/list.html',
     'client/list.js',
-    'client/menu.js'
+    'client/menu.js',
+    'client/managedomains.html',
+    'client/managedomains.js'
   ], 'client');
 
   api.addFiles([

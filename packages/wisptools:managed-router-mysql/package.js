@@ -45,7 +45,7 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'server/server.js',
-    'server/methods.js',
+    'server/methods.js'
   ], 'server');
 });
 

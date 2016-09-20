@@ -1,5 +1,11 @@
-Template.wtManagedRouterMySQLDomains.helpers({
+Template.wtManagedRouterMySQLManageDomains.helpers({
   domainList: function () {
-    return 1;
+    return Meteor.wt_managed_router_domains_list.find();
+  }
+});
+
+Template.wtManagedRouterMySQLManageDomains.events({
+  "click .addDomainbtn": function () {
+    WtGrowl.success('Domain Added.');
   }
 });

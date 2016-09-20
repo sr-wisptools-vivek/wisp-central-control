@@ -1,35 +1,33 @@
 <template name="wtManagedRouterMySQLManageDomains">
-    <div class="bg-secondary app-page">
-        <div class="container">
-            <table class="table table-hover">
-                <tbody>
-                    <tr>
-                        <th>Domain</th>
-                        <th>Action</th>
-                    </tr>
-                    {{#each domainList}}
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                            {{> wtManagedRouterMySQLManageDomain}}
-                        </td>
-                    </tr>
-                    {{/each}}
-                    <tr>
-                        <td>
-                            <input type="text" id="domainname" class="form-control">
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-xs addDomainbtn">Add Domain</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <div class="bg-secondary app-page">
+    <div class="container">
+      <table class="table table-hover"  >
+        <tbody>
+          <tr>
+            <th>Domains</th>
+            <th>Action</th>
+          </tr>
+          {{#each domainList}}
+          <tr>
+            <td>{{domain}}</td>
+            <td><button class="btn btn-danger btn-xs removeDomainbtn">Remove</button></td>
+          </tr>
+          {{/each}}
+          <tr>
+            <td>
+              <div class="input-group">
+                <input type="text" class="form-control" aria-label="Domain Name">
+                <span class="input-group-addon">
+                  <input type="checkbox" aria-label="Update ACS"> Update ACS
+                </span>
+              </div>
+            </td>
+            <td>
+              <button class="btn btn-primary btn-xs addDomainbtn">Add Domain</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-</template>
-
-<template name="wtManagedRouterMySQLManageDomain">
-  <input class="form-control mr-domain" type="checkbox" value="">
+  </div>
 </template>

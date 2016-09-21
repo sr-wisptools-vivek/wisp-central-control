@@ -38,6 +38,8 @@ Package.onUse(function(api) {
     'client/templates/managedomains.js',
     'client/menu.js'
   ], 'client');
+  
+  api.export('WtMangedRouterMySQLDomainsList');
 });
 
 

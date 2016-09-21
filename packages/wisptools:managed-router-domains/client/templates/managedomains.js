@@ -1,11 +1,26 @@
 Template.wtManagedRouterMySQLManageDomains.helpers({
   domainList: function () {
-    return Meteor.wt_managed_router_domains_list.find();
+    return WtMangedRouterMySQLDomainsList.find();
   }
 });
 
 Template.wtManagedRouterMySQLManageDomains.events({
   "click .addDomainbtn": function () {
-    WtGrowl.success('Domain Added.');
+    var newDomain = $('#domainName').val();
+    var findDomain = WtMangedRouterMySQLDomainsList.findOne({domain: newDomain});
+    
+    if(findDomain){
+      WtGrowl.fail('Duplicate Domain');
+    } else {
+      if($('#updateACS').is(':checked')){
+        //Need code for Updating ACS Option
+        //WtGrowl.success('ACS Updated');    
+      }
+      WtMangedRouterMySQLDomainsList.insert({
+          domain: newDomain
+      });
+      WtGrowl.success('Domain Added.');
+    }
+    $('#domainName').val('');
   }
 });

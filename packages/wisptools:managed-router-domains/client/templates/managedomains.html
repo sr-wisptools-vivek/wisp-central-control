@@ -9,16 +9,22 @@
           </tr>
           {{#each domainList}}
           <tr>
-            <td>{{domain}}</td>
+            <td class="domainName">
+              {{#if editingDomain}}
+                <input class="form-control" type="text" id="editDomain" value="{{domain}}">
+              {{else}}
+                {{domain}}
+              {{/if}}
+            </td>
             <td><button class="btn btn-danger btn-xs removeDomainbtn">Remove</button></td>
           </tr>
           {{/each}}
           <tr>
             <td>
               <div class="input-group">
-                <input type="text" class="form-control" aria-label="Domain Name" id="domainName">
+                <input type="text" class="form-control" id="domainName">
                 <span class="input-group-addon">
-                  <input type="checkbox" aria-label="Update ACS" id="updateACS"> Update ACS
+                  <input type="checkbox" id="updateACS"> Update ACS
                 </span>
               </div>
             </td>

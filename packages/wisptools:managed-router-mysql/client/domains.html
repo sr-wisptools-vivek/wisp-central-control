@@ -17,7 +17,7 @@
               {{services.google.email}}
             </td>
             <td>
-              {{> wtManagedRouterMySQLDomain}}
+              {{> wtManagedRouterMySQLDomain user=_id}}
             </td>
           </tr>
           {{/each}}
@@ -28,5 +28,11 @@
 </template>
 
 <template name="wtManagedRouterMySQLDomain">
-  <input class="form-control mr-domain" type="text" value="{{domainName _id}}">
+  <div class="form-group">
+    <select class="form-control mr-domain-select">
+      {{#each domains}}
+      <option value="{{domain}}" {{selected ../user}}>{{domain}}</option>
+      {{/each}}
+    </select>
+  </div>
 </template>

@@ -45,6 +45,9 @@ Package.onUse(function(api) {
     'server/server.js',
     'server/methods.js'
   ], 'server');
+  
+  api.export('WtMangedRouterMySQLDomains');
+
 });
 
 Package.onTest(function(api) {

@@ -16,7 +16,11 @@
                 {{domain}}
               {{/if}}
             </td>
-            <td><button class="btn btn-danger btn-xs removeDomainbtn">Remove</button></td>
+            <td>
+              <a href="#" class="remove-domain btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#confirmModal">
+                <i class="fa fa-times"></i>
+              </a>
+            </td>
           </tr>
           {{/each}}
           <tr>
@@ -34,6 +38,29 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+  {{> wtManagedRouterDeleteDomain}}
+</template>
+
+<template name='wtManagedRouterDeleteDomain'>
+  <div id="confirmModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete</h4>
+        </div>
+        <div class="modal-body">
+          <p>Delete Domain. Are you sure?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="deleteDomain" data-dismiss="modal" class="btn btn-primary">Delete</button>
+          <button type="button" id="cancelDelete" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

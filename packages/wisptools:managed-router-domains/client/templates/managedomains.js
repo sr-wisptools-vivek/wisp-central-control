@@ -44,8 +44,8 @@ Template.wtManagedRouterMySQLManageDomains.events({
         var Domain = this;
         
         if (Domain.domain !== newDomainName ) { //Execute if value is changed.
-          WtMangedRouterMySQLDomainsList.update({_id: Domain._id}, {$set: {domain: newDomainName}});
-          WtMangedRouterMySQLDomains.update({name:Domain.domain}, {$set: {name: newDomainName}});
+          WtMangedRouterMySQLDomainsList.update({_id: Domain._id}, {$set: {domain: newDomainName}});          
+          Meteor.call('wtManagedRouterUpdateUserDomain', Domain.domain, newDomainName);
           Session.set('managedRouterDomainEditingName', null);
           WtGrowl.success('Domain Updated');
         } else {

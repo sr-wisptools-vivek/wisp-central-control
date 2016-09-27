@@ -509,3 +509,8 @@ Meteor.method("wtManagedRouterMySQLRestore", function(router){
 },{
   url: "/mr/undelete"
 });
+
+Meteor.method("wtManagedRouterUpdateUserDomain", function(oldDomainName, newDomainName){
+  WtMangedRouterMySQLDomains.update({name:oldDomainName}, {$set: {name: newDomainName}}, {multi: true});
+});
+

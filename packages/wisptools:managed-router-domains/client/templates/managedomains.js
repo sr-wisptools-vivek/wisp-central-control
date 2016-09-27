@@ -45,6 +45,7 @@ Template.wtManagedRouterMySQLManageDomains.events({
         
         if (Domain.domain !== newDomainName ) { //Execute if value is changed.
           WtMangedRouterMySQLDomainsList.update({_id: Domain._id}, {$set: {domain: newDomainName}});
+          WtMangedRouterMySQLDomains.update({name:Domain.domain}, {$set: {name: newDomainName}});
           Session.set('managedRouterDomainEditingName', null);
           WtGrowl.success('Domain Updated');
         } else {

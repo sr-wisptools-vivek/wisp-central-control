@@ -9,15 +9,19 @@
           </tr>
           {{#each userList}}
           <tr>
-            <td>
+            <td style="width:50%">
               {{username}}
               {{#each emails}}
                 {{address}}
               {{/each}}
               {{services.google.email}}
             </td>
-            <td>
-              {{> wtManagedRouterMySQLDomain user=_id}}
+            <td class="domain-name"  style="width:50%">
+              {{#if changeDomain}}
+                {{> wtManagedRouterMySQLDomain user=_id}}
+              {{else}}
+                {{domainName}}
+              {{/if}}
             </td>
           </tr>
           {{/each}}

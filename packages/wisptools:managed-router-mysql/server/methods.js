@@ -104,6 +104,8 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   res = search.call(this, router.mac);
   if (res.length > 0) throw new Meteor.Error('dup','Duplicate MAC Address', router.mac);
 
+  // TODO: Check for reserved serial number
+
   var escapedDomain = getDomain.call(this);
   if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
 
@@ -508,4 +510,56 @@ Meteor.method("wtManagedRouterMySQLRestore", function(router){
   return search.call(this, router.serial, 1);
 },{
   url: "/mr/undelete"
+});
+
+Meteor.method("wtManagedRouterMySQLReserve", function() {
+  var mysqlRes;
+  var fut;
+  var res;
+
+  if (!this.userId || !Roles.userIsInRole(this.userId, ['admin','reseller'])) throw new Meteor.Error('denied','Not Authorized');
+
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+
+  var result = [];
+
+  _.each(arguments, function (item) {
+    var itemResult = {
+      serial: item.serial,
+      result: 'failed'
+    }
+    if (item.serial && item.domain) {
+      var escapedSerial =  WtManagedRouterMySQL.escape(item.serial);
+      var escapedDomain =  WtManagedRouterMySQL.escape(item.domain);
+
+      //Delete from reserve
+      fut = new Future();
+      sql = 
+        "DELETE FROM " + 
+        " " + db_name + ".EquipmentReserved " +
+        "WHERE SerialNumber = " + escapedSerial;
+      runQuery(sql,fut);
+      res = fut.wait();
+
+      //Insert new reserve
+      fut = new Future();
+      sql = 
+        "INSERT INTO " +
+        " " + db_name + ".EquipmentReserved " +
+        "VALUES ( " +
+        " " + escapedSerial + ", " +
+        " " + escapedDomain + " " +
+        ")";
+      runQuery(sql, fut);
+      res = fut.wait();
+
+      itemResult.result = 'success';
+    }
+    result.push(itemResult);
+  });
+
+  return result;
+
+},{
+  url: "/mr/reserve"
 });

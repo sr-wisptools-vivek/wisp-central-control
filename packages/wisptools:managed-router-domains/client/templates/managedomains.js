@@ -2,8 +2,16 @@ Template.wtManagedRouterMySQLManageDomains.helpers({
   domainList: function () {
     return WtMangedRouterMySQLDomainsList.find();
   },
-  editingDomain: function(){
+  editingDomain: function (){
     return Session.equals('managedRouterDomainEditingName', this._id);
+  },
+  updateACS: function () {
+    var domain = this;
+    if(domain.updateACS){
+      return "checked";  
+    } else {
+      return "";
+    }
   }
 });
 
@@ -11,20 +19,22 @@ Template.wtManagedRouterMySQLManageDomains.events({
   "click .addDomainbtn": function () {
     var newDomain = $('#domainName').val();
     var findDomain = WtMangedRouterMySQLDomainsList.findOne({domain: newDomain});
+    var updateACS = false;
     
     if(findDomain){
       WtGrowl.fail('Duplicate Domain');
     } else {
       if($('#updateACS').is(':checked')){
-        //Need code for Updating ACS Option
-        //WtGrowl.success('ACS Updated');    
+        updateACS = true;
       }
       WtMangedRouterMySQLDomainsList.insert({
-          domain: newDomain
+          domain: newDomain,
+          updateACS:updateACS
       });
       WtGrowl.success('Domain Added.');
     }
     $('#domainName').val('');
+    $('#updateACS').attr('checked', false);
   },
   'click .domainName': function(e,t){ //event to change router name to textfield on click.
     
@@ -55,6 +65,12 @@ Template.wtManagedRouterMySQLManageDomains.events({
         Session.set('managedRouterDomainEditingName', null);
       }
     }
+  },
+  'click .update-acs-chkbx': function (e,t) {
+      var status = false;
+      status = $(e.target).is(":checked");
+      WtMangedRouterMySQLDomainsList.update({_id: this._id}, {$set: {updateACS: status}});
+      WtGrowl.success('Updated');
   },
   'click .remove-domain': function() {
     Session.set('managedRouterDomainDelete', this);

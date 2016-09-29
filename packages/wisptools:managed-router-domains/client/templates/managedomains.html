@@ -2,11 +2,14 @@
   <div class="bg-secondary app-page">
     <div class="container">
       <table class="table table-hover"  >
-        <tbody>
+        <thead>
           <tr>
             <th>Domains</th>
+            <th>Update ACS</th>
             <th>Action</th>
           </tr>
+        </thead>
+        <tbody>
           {{#each domainList}}
           <tr>
             <td class="domainName">
@@ -17,12 +20,17 @@
               {{/if}}
             </td>
             <td>
+              <input type="checkbox" name="updateACS" value="1" class="update-acs-chkbx" {{updateACS}}>
+            </td>
+            <td>
               <a href="#" class="remove-domain btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#confirmModal">
                 <i class="fa fa-times"></i>
               </a>
             </td>
           </tr>
           {{/each}}
+        </tbody>
+        <tfoot>
           <tr>
             <td>
               <div class="input-group">
@@ -36,7 +44,7 @@
               <button class="btn btn-primary btn-xs addDomainbtn">Add Domain</button>
             </td>
           </tr>
-        </tbody>
+        </tfoot>        
       </table>
     </div>
   </div>

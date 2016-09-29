@@ -275,24 +275,27 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     ")";
   runQuery(sql, fut);
   res = fut.wait();
-
-  // Backend Event - Add Equipment
-  fut = new Future();
-  sql = 
-    "INSERT INTO " +
-    " " + db_name + ".Changes " +
-    "VALUES ( " +
-    " null, " +
-    " 1, " +
-    " 1, " +
-    " 'AddUpdateEquipment', " +
-    " '', " +
-    " " + eId + ", " +
-    " null, " +
-    " '0000-00-00 00:00:00' " +
-    ")";
-  runQuery(sql, fut);
-  res = fut.wait();
+  
+  var domain = WtMangedRouterMySQLDomainsList.findOne({name: escapedDomain});
+  if (domain.updateACS) {
+    // Backend Event - Add Equipment
+    fut = new Future();
+    sql =
+            "INSERT INTO " +
+            " " + db_name + ".Changes " +
+            "VALUES ( " +
+            " null, " +
+            " 1, " +
+            " 1, " +
+            " 'AddUpdateEquipment', " +
+            " '', " +
+            " " + eId + ", " +
+            " null, " +
+            " '0000-00-00 00:00:00' " +
+            ")";
+    runQuery(sql, fut);
+    res = fut.wait();
+  }
 
   return search.call(this, router.serial, 1);
 },{
@@ -423,24 +426,27 @@ Meteor.method("wtManagedRouterMySQLRemove", function(router){
         "id" : equipmentId,
         "status" : "Deleted"
   };
-
-  // Backend Event - Delete Equipment
-  fut = new Future();
-  sql = 
-    "INSERT INTO " +
-    " " + db_name + ".Changes " +
-    "VALUES ( " +
-    " null, " +
-    " 1, " +
-    " 1, " +
-    " 'DeleteEquipment', " +
-    " '', " +
-    " " + equipmentId + ", " +
-    " null, " +
-    " '0000-00-00 00:00:00' " +
-    ")";
-  runQuery(sql, fut);
-  res = fut.wait();
+  
+  var domain = WtMangedRouterMySQLDomainsList.findOne({name: escapedDomain});
+  if (domain.updateACS) { 
+    // Backend Event - Delete Equipment
+    fut = new Future();
+    sql =
+            "INSERT INTO " +
+            " " + db_name + ".Changes " +
+            "VALUES ( " +
+            " null, " +
+            " 1, " +
+            " 1, " +
+            " 'DeleteEquipment', " +
+            " '', " +
+            " " + equipmentId + ", " +
+            " null, " +
+            " '0000-00-00 00:00:00' " +
+            ")";
+    runQuery(sql, fut);
+    res = fut.wait();
+  }
 
   return response;
 
@@ -487,23 +493,26 @@ Meteor.method("wtManagedRouterMySQLRestore", function(router){
   runQuery(sql,fut);
   var res = fut.wait();
   
-  // Backend Event - Add/Update Equipment
-  fut = new Future();
-  sql = 
-    "INSERT INTO " +
-    " " + db_name + ".Changes " +
-    "VALUES ( " +
-    " null, " +
-    " 1, " +
-    " 1, " +
-    " 'AddUpdateEquipment', " +
-    " '', " +
-    " " + equipmentId + ", " +
-    " null, " +
-    " '0000-00-00 00:00:00' " +
-    ")";
-  runQuery(sql, fut);
-  res = fut.wait();  
+  var domain = WtMangedRouterMySQLDomainsList.findOne({name: escapedDomain});
+  if (domain.updateACS) {
+    // Backend Event - Add/Update Equipment
+    fut = new Future();
+    sql =
+            "INSERT INTO " +
+            " " + db_name + ".Changes " +
+            "VALUES ( " +
+            " null, " +
+            " 1, " +
+            " 1, " +
+            " 'AddUpdateEquipment', " +
+            " '', " +
+            " " + equipmentId + ", " +
+            " null, " +
+            " '0000-00-00 00:00:00' " +
+            ")";
+    runQuery(sql, fut);
+    res = fut.wait();    
+  }
 
   return search.call(this, router.serial, 1);
 },{

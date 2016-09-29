@@ -1,6 +1,18 @@
 <template name="wtManagedRouterMySQLDomains">
   <div class="bg-secondary app-page">
     <div class="container">
+      <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group">
+          <select class="form-control" id="selectDomain">
+            <option value="1">All</option>
+            {{#each domains}}            
+            <option value="{{domain}}" {{domainSelect}}>{{domain}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+      </div>
       <table id="wtManagedRouterMySQLUserTable" class="table table-hover"  >
         <tbody>
           <tr>

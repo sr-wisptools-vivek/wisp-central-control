@@ -1,6 +1,6 @@
 Template.wtManagedRouterMySQLDomains.helpers({
   userList: function () {
-    return Meteor.users.find();
+    return Meteor.users.find();  
   },
   domainName: function () {
     var user = this;
@@ -12,7 +12,10 @@ Template.wtManagedRouterMySQLDomains.helpers({
   },
   changeDomain: function(){
     return Session.equals('managedRouterChangeDomain', this._id);
-  }
+  },
+  domains: function () {    
+      return WtMangedRouterMySQLDomainsList.find();   
+  },
 });
 
 Template.wtManagedRouterMySQLDomains.events({
@@ -21,6 +24,14 @@ Template.wtManagedRouterMySQLDomains.events({
     Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
           this.find('.mr-domain-select').focus()
     }.bind(t));
+  },
+  'change #selectDomain': function(e) {
+    var selectedDomain = $(e.target).val();
+    if (selectedDomain == 1) {
+      Session.set('managedRouterSelectDomain', null);
+    } else {
+      Session.set('managedRouterSelectDomain', selectedDomain);
+    }
   }
 });
 

@@ -39,6 +39,10 @@ Package.onUse(function(api) {
     'client/menu.js'
   ], 'client');
   
+  api.addFiles([
+    'server/methods.js'
+  ], 'server');
+  
   api.export('WtMangedRouterMySQLDomainsList');
 });
 

@@ -76,16 +76,11 @@ Template.wtManagedRouterMySQLManageDomains.events({
     Session.set('managedRouterDomainDelete', this);
   },
   'click #deleteDomain': function() {
-    var removeDomain = Session.get('managedRouterDomainDelete');      
-    //check if domain is assigned to any user.
-    var item = WtMangedRouterMySQLDomains.findOne({name: removeDomain.domain});
-    if (item) {
-      Session.set('managedRouterDomainDelete', null);
-      WtGrowl.fail('Domain Assigned to User.');
-    } else {
-      WtMangedRouterMySQLDomainsList.remove({_id : removeDomain._id});
-      WtGrowl.success('Domain Deleted');
-    }
+    Meteor.call('wtManagedRouterDeleteDomain', function(err) {
+      if (err) {
+        WtGrowl.fail(err.reason);
+      }
+    });
   },
   'click #cancelDelete': function() {
     Session.set('managedRouterDomainDelete', null);  

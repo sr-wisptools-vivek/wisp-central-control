@@ -349,3 +349,49 @@ Sample error
   "reason": "Domain Error"
 }
 ```
+
+## Reserve Serial Number
+Users with admin or reseller previlages can reserve a serial number, so it can only be used on a matching domain, by doing a `"post"` to `/mr/reserve`.  You'll get a success or failure on each serial number passed in.
+
+```http
+POST /mr/reserve
+```
+
+Sample data
+```js
+[
+  {
+    "serial":"RNV500000",
+    "domain":"cool-isp"
+  },{
+    "serial":"RNV5000001",
+    "domain":"cool-isp"
+  }
+]
+```
+
+Sample result
+```js
+[
+  {
+    "serial": "RNV500000",
+    "result": "success"
+  },{
+    "serial": "RNV5000001",
+    "result": "success"
+  }
+]
+```
+
+Sample error
+```js
+[
+  {
+    "serial": "RNV500000",
+    "result": "failed"
+  },{
+    "serial": "RNV5000001",
+    "result": "failed"
+  }
+]
+```

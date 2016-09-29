@@ -87,6 +87,8 @@ Meteor.method("wtManagedRouterMySQLGetLimit", function(limit) {
 Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var res;
   var sql;
+  var fut;
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
 
 
   // Check for duplicate Serial
@@ -99,12 +101,11 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
       }
     }  
   }
+
   // Check for duplicate mac
   router.mac = router.mac.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, ""); // normalize mac
   res = search.call(this, router.mac);
   if (res.length > 0) throw new Meteor.Error('dup','Duplicate MAC Address', router.mac);
-
-  // TODO: Check for reserved serial number
 
   var escapedDomain = getDomain.call(this);
   if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
@@ -114,6 +115,23 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var escapedMAC = WtManagedRouterMySQL.escape(router.mac);
   var Make;
   var model;
+
+  // Check for reserved serial number
+  fut = new Future();
+  sql = 
+    "SELECT " +
+    "  Domain " +
+    "FROM " +
+    "  " + db_name + ".EquipmentReserved " +
+    "WHERE " + 
+    " SerialNumber=" + escapedSerial;
+  runQuery(sql, fut);
+  res = fut.wait();
+  if (res.length > 0) {
+    if (WtManagedRouterMySQL.escape(res[0].Domain) != escapedDomain)
+      throw new Meteor.Error('denied','Serial Number Is Reserved');
+  }
+
 
   //Auto detect model number from serial
   var serialWithModelNumber = { "RNV50":"WRT500",
@@ -176,9 +194,8 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var escapedMake  = WtManagedRouterMySQL.escape(make);
 
   // Check for Serial Number Conflict
-  var fut = new Future();
-  var db_name = Meteor.settings.managedRouterMySQL.dbName;
-  var sql = 
+  fut = new Future();
+  sql = 
     "SELECT * FROM " +
     " " + db_name + ".Equipment " +
     "WHERE " + 
@@ -187,11 +204,10 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 
   runQuery(sql, fut);
 
-  var res = fut.wait();
+  res = fut.wait();
   if (res.length > 0) throw new Meteor.Error('denied','Serial Number Conflict');
 
-  var fut = new Future();
-  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+  fut = new Future();
 
   // Add the Name
   sql = 
@@ -205,7 +221,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 
   runQuery(sql, fut);
 
-  var res = fut.wait();
+  res = fut.wait();
   var subId = res.insertId;
 
   fut = new Future();

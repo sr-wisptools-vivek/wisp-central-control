@@ -1,6 +1,12 @@
 Template.wtManagedRouterMySQLDomains.helpers({
   userList: function () {
-    return Meteor.users.find();  
+    var showUserWithDomain = Session.get('managedRouterSelectDomain');
+    if (showUserWithDomain != null) {
+      var users = WtMangedRouterMySQLDomains.find({name:showUserWithDomain},{"userId": 1, "_id": 0}).fetch();
+      console.log(users);
+    } else {
+      return Meteor.users.find();
+    }
   },
   domainName: function () {
     var user = this;

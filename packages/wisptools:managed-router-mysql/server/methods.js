@@ -427,8 +427,8 @@ Meteor.method("wtManagedRouterMySQLRemove", function(router){
         "status" : "Deleted"
   };
   
-  var domain = WtMangedRouterMySQLDomainsList.findOne({name: escapedDomain});
-  if (domain.updateACS) { 
+  var domain = WtMangedRouterMySQLDomainsList.findOne({domain: escapedDomain});
+  if (domain && domain.updateACS) { 
     // Backend Event - Delete Equipment
     fut = new Future();
     sql =
@@ -493,8 +493,8 @@ Meteor.method("wtManagedRouterMySQLRestore", function(router){
   runQuery(sql,fut);
   var res = fut.wait();
   
-  var domain = WtMangedRouterMySQLDomainsList.findOne({name: escapedDomain});
-  if (domain.updateACS) {
+  var domain = WtMangedRouterMySQLDomainsList.findOne({domain: escapedDomain});
+  if (domain && domain.updateACS) {
     // Backend Event - Add/Update Equipment
     fut = new Future();
     sql =

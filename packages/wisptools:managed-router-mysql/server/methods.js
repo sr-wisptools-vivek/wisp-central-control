@@ -276,8 +276,8 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   runQuery(sql, fut);
   res = fut.wait();
   
-  var domain = WtMangedRouterMySQLDomainsList.findOne({name: escapedDomain});
-  if (domain.updateACS) {
+  var domain = WtMangedRouterMySQLDomainsList.findOne({domain: escapedDomain});
+  if (domain && domain.updateACS) {
     // Backend Event - Add Equipment
     fut = new Future();
     sql =

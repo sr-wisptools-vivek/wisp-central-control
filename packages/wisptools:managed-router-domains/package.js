@@ -1,7 +1,7 @@
 Package.describe({
-  name: 'wisptools:managed-router-mysql',
+  name: 'wisptools:managed-router-domains',
   version: '0.0.1',
-  // Brief, one-line summary of the package.
+  // Manage domains, provide edit and delete options
   summary: '',
   // URL to the Git repository containing the source code for this package.
   git: '',
@@ -34,29 +34,16 @@ Package.onUse(function(api) {
   ], ['client', 'server']);
 
   api.addFiles([
-    'client/domains.html',
-    'client/domains.js',
-    'client/list.html',
-    'client/list.js',
+    'client/templates/managedomains.html',
+    'client/templates/managedomains.js',
     'client/menu.js'
   ], 'client');
-
+  
   api.addFiles([
-    'server/server.js',
     'server/methods.js'
   ], 'server');
   
-  api.export('WtMangedRouterMySQLDomains');
-
+  api.export('WtMangedRouterMySQLDomainsList');
 });
 
-Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('wisptools:managed-router-mysql');
-  api.addFiles('managed-router-mysql-tests.js');
-});
-
-Npm.depends({
-  'mysql': '2.6.2'
-});
 

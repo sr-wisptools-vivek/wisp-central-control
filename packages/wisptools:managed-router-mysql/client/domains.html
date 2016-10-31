@@ -1,26 +1,46 @@
 <template name="wtManagedRouterMySQLDomains">
   <div class="bg-secondary app-page">
     <div class="container">
+      <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group">
+          <select class="form-control" id="selectDomain">
+            <option value="1">All</option>
+            {{#each domains}}            
+            <option value="{{domain}}" {{domainSelect}}>{{domain}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+      </div>
       <table id="wtManagedRouterMySQLUserTable" class="table table-hover"  >
         <tbody>
           <tr>
             <th>User</th>
             <th>Domain</th>
           </tr>
-          {{#each userList}}
-          <tr>
-            <td>
-              {{username}}
-              {{#each emails}}
+          {{#if userList.count}}
+            {{#each userList}}
+            <tr>
+              <td style="width:50%">
+                {{username}}
+                {{#each emails}}
                 {{address}}
-              {{/each}}
-              {{services.google.email}}
-            </td>
-            <td>
-              {{> wtManagedRouterMySQLDomain}}
-            </td>
-          </tr>
-          {{/each}}
+                {{/each}}
+                {{services.google.email}}
+              </td>
+              <td class="domain-name"  style="width:50%">
+                {{#if changeDomain}}
+                {{> wtManagedRouterMySQLDomain user=_id}}
+                {{else}}
+                {{domainName}}
+                {{/if}}
+              </td>
+            </tr>
+            {{/each}}
+          {{else}}
+            <tr><td>No users with selected domain.</td></tr>
+          {{/if}}
         </tbody>
       </table>
     </div>
@@ -28,5 +48,11 @@
 </template>
 
 <template name="wtManagedRouterMySQLDomain">
-  <input class="form-control mr-domain" type="text" value="{{domainName _id}}">
+  <div class="form-group">
+    <select class="form-control mr-domain-select">
+      {{#each domains}}
+      <option value="{{domain}}" {{selected ../user}}>{{domain}}</option>
+      {{/each}}
+    </select>
+  </div>
 </template>

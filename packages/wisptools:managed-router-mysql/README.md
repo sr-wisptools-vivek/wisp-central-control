@@ -152,7 +152,7 @@ Sample result
 
 ### Method Three
 This is the most detailed way to do a search.  It requires an JSON object with pramaters that specify the search query
-and maximum number of results. 
+and maximum number of results.  It is also allows for a search of the Reserved Router database.  Partial searches of Reserved Router database will return matches found up to the limit.
 
 ```http
 POST /mr/search
@@ -161,8 +161,9 @@ POST /mr/search
 Sample data
 ```js
 {
-  "q":"test",
-  "limit":1
+  "q":"RNV5000512",
+  "limit":1,
+  "type":"reservation"
 }
 ```
 
@@ -170,14 +171,7 @@ Sample result
 ```js
 [
   {
-    "id": 1267774,
-    "domain": "test",
-    "name": "TEST 123",
-    "serial": "RNV5000512",
-    "mac": "00019F1407D2",
-    "make": "READYNET",
-    "model": "WRT500",
-    "url": "http://159.203.192.31/mr/?ID=1267774&TOKEN=XXX"
+    "serial": "RNV5000512"
   }
 ]
 ```

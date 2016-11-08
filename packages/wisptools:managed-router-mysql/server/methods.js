@@ -78,6 +78,40 @@ var search = function(search, limit) {
   return res;  
 }
 
+var searchReservation = function(search, limit) {
+  if (this.userId == null) return [];
+
+  var escapedDomain = getDomain.call(this);
+  if (escapedDomain == null) return [];
+
+  var sqlSearch = search || "";
+  if (sqlSearch.toString() === "[object Object]") sqlSearch = ''; // handleing default empty object on rest api
+  var escapedSearch = WtManagedRouterMySQL.escape("%" + sqlSearch + "%");
+
+  var sqlLimit = limit || 20;
+  if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
+  sqlLimit = WtManagedRouterMySQL.escape(sqlLimit);
+
+  var fut = new Future();
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+  var sql =
+    "SELECT " +
+    "  SerialNumber as serial " +
+    "FROM " +
+    "  " + db_name + ".EquipmentReserved " +
+    "WHERE " +
+    "  Domain=" + escapedDomain + " AND " +
+    "  SerialNumber LIKE " + escapedSearch + " " +
+    "ORDER BY SerialNumber DESC " +
+    "LIMIT " + sqlLimit;
+
+  runQuery(sql, fut);
+
+  var res = fut.wait();
+  return res;
+}
+
+
 Meteor.method("wtManagedRouterMySQLGetLimit", function(limit) {
   return search.call(this, '', limit);
 },{
@@ -320,14 +354,21 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 },{
   url: "/mr/add"
 });
-// srch is a string or an object with "q" and "limit" values
+
+// srch is a string or an object with "q", "limit" and "type" values
 Meteor.method("wtManagedRouterMySQLSearch", function(srch) {
   var str = srch.q || srch;
   var limit = srch.limit || 20;
-  return search.call(this, str, limit);
+  var type = srch.type || 'router';
+  if (type == 'reservation') {
+    return searchReservation.call(this, str, limit);
+  } else {
+    return search.call(this, str, limit);
+  }
 },{
   url: "/mr/search"
 });
+
 
 Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
   var res;

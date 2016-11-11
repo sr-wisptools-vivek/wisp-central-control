@@ -345,7 +345,9 @@ Sample error
 ```
 
 ## Reserve Serial Number
-Users with admin or reseller previlages can reserve a serial number, so it can only be used on a matching domain, by doing a `"post"` to `/mr/reserve`.  You'll get a success or failure on each serial number passed in.
+A serial number reservation is a method for a privilaged user to set aside serial numbers for specific `domains`.  Any serial number can be reserved, not just currently supported RN Control make/models.  Any domain can be added, it does not have to be in current use.
+
+Users with `admin` or `reseller` previlages can reserve a serial number, by doing a `"post"` to `/mr/reserve`.  The `result` of `success` means the serial number reservation was properly added or updated in the database, anything else is a failure.  You'll get a `result` on each serial number passed in.
 
 ```http
 POST /mr/reserve

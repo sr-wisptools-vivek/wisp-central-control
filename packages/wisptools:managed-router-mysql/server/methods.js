@@ -635,3 +635,14 @@ Meteor.method("wtManagedRouterUpdateUserDomain", function(oldDomainName, newDoma
   WtMangedRouterMySQLDomains.update({name:oldDomainName}, {$set: {name: newDomainName}}, {multi: true});
 });
 
+Meteor.method("wtManagedRouterGetUpdateACS", function(getDomain) {
+  var domain = WtMangedRouterMySQLDomainsList.findOne({domain: getDomain});
+  var updateACS = { "result":false};
+  if(domain && domain.updateACS) {
+     updateACS.result = true;
+  }
+  return updateACS;
+},{
+  url: "/mr/domain/update-acs/:0"
+});
+

@@ -595,6 +595,10 @@ Meteor.method("wtManagedRouterMySQLReserve", function() {
       serial: item.serial,
       result: 'failed'
     }
+    if (!item.serial) itemResult.result = 'serial value missing';
+    if (!item.domain) itemResult.result = 'domain value missing';
+    if (item.serial == "") itemResult.result = 'serial cannot be blank';
+    if (item.domain == "") itemResult.result = 'domain cannot be blank';
     if (item.serial && item.domain) {
       var escapedSerial =  WtManagedRouterMySQL.escape(item.serial);
       var escapedDomain =  WtManagedRouterMySQL.escape(item.domain);
@@ -632,6 +636,7 @@ Meteor.method("wtManagedRouterMySQLReserve", function() {
 });
 
 Meteor.method("wtManagedRouterUpdateUserDomain", function(oldDomainName, newDomainName){
+  if (!this.userId || !Roles.userIsInRole(this.userId, ['admin'])) throw new Meteor.Error('denied','Not Authorized');
   WtMangedRouterMySQLDomains.update({name:oldDomainName}, {$set: {name: newDomainName}}, {multi: true});
 });
 

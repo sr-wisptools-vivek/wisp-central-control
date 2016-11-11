@@ -355,11 +355,35 @@ Sample data
 ```js
 [
   {
-    "serial":"RNV500000",
+    "serial":"RNV5000520",
+    "domain":"test"
+  },
+  {
+    "serial":"RNV6000521",
     "domain":"cool-isp"
-  },{
-    "serial":"RNV5000001",
+  },
+  {
+    "serial":"RNV6000522",
+    "domain":"cool-isp",
+    "extra":"value"
+  },
+  {
+    "serial":"RNV6000523",
+    "domain":""
+  },
+  {
+    "serial":"",
     "domain":"cool-isp"
+  },
+  {
+    "serial":"123"
+  },
+  {
+    "domain":"123"
+  },
+  {},
+  {
+   "dummy":"i am smart"
   }
 ]
 ```
@@ -368,24 +392,37 @@ Sample result
 ```js
 [
   {
-    "serial": "RNV500000",
+    "serial": "RNV5000520",
     "result": "success"
-  },{
-    "serial": "RNV5000001",
-    "result": "success"
-  }
-]
-```
-
-Sample error
-```js
-[
+  },
   {
-    "serial": "RNV500000",
-    "result": "failed"
-  },{
-    "serial": "RNV5000001",
-    "result": "failed"
+    "serial": "RNV6000521",
+    "result": "success"
+  },
+  {
+    "serial": "RNV6000522",
+    "result": "success"
+  },
+  {
+    "serial": "RNV6000523",
+    "result": "domain cannot be blank"
+  },
+  {
+    "serial": "",
+    "result": "serial cannot be blank"
+  },
+  {
+    "serial": "123",
+    "result": "domain value missing"
+  },
+  {
+    "result": "serial value missing"
+  },
+  {
+    "result": "domain value missing"
+  },
+  {
+    "result": "domain value missing"
   }
 ]
 ```

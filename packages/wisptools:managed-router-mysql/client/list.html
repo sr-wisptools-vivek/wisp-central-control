@@ -22,7 +22,7 @@
             {{#each routers}}
               {{#if restoreRouter}}
                 <tr style="height: 55px;">
-                  <td class="routerName">
+                  <td class="routerName" >
                     <strike>{{name}}</strike>
                   </td>
                   <td class="routerSerial">
@@ -41,21 +41,21 @@
                 </tr>
               {{else}}
                 <tr style="height: 55px;">
-                  <td class="routerName">
+                  <td class="routerName editable" style="min-width:225px;cursor: pointer;">
                     {{#if editingName}}
                       <input class="form-control" type="text" id="editName" value="{{name}}">
                     {{else}}
-                      {{name}}
+                    {{name}}<span style="padding-left:10px; color:#A0A0A0; display:none;" class="pull-right"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></span>
                     {{/if}}
                   </td>
                   <td class="routerSerial">
                     {{serial}}
                   </td>
-                  <td class="routerMac">
+                  <td class="routerMac editable" style="cursor: pointer;">
                     {{#if editingMac}}
                       <input class="form-control input-xs" type="text" id="editMac" value="{{mac}}">
                     {{else}}
-                      {{mac}}
+                    {{mac}}<span style="padding-left:10px; color:#A0A0A0; display:none;" class="pull-right"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></span>
                     {{/if}}
                   </td>
                   <td>{{make}}</td>

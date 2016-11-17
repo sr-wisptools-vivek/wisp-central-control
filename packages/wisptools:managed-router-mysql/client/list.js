@@ -204,7 +204,13 @@ Template.wtManagedRouterMySQLList.events({
         Session.set('removedRouterId', null);
       }
     });
-  }    
+  },
+  'mouseenter .editable': function(e){
+    $(e.target).find('span').eq(0).css("display","block");
+  },
+  'mouseleave .editable': function(e){
+    $(e.target).find('span').eq(0).css("display","none");
+  }
 });
 
 Template.wtManagedRouterMySQLList.onRendered(function () {

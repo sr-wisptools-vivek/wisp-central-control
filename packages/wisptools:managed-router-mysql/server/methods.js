@@ -279,22 +279,27 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var eId = res.insertId;
 
   // Add default passphrase
+  var defaultRemotePassword = WtManagedRouterMySQL.escape("UNKNOWN");
   var passphrase = WtManagedRouterMySQL.escape("UNKNOWN");
   switch (model) {
     case 'WRT500':
       passphrase = WtManagedRouterMySQL.escape("W500" + router.serial.substr(-4));;
+      defaultRemotePassword = WtManagedRouterMySQL.escape("pz938q500");
       break;
     case 'VWRT510':
       passphrase = WtManagedRouterMySQL.escape("V510" + router.serial.substr(-4));;
+      defaultRemotePassword = WtManagedRouterMySQL.escape("pz938q510");
       break;
     case 'VWRT520':
       passphrase = WtManagedRouterMySQL.escape("V520" + router.serial.substr(-4));;
       break;
     case 'AC1200M':
       passphrase = WtManagedRouterMySQL.escape("12M-" + router.serial.substr(-4));;
+      defaultRemotePassword = WtManagedRouterMySQL.escape("pz938q12m");
       break;
     case 'AC1200MS':
       passphrase = WtManagedRouterMySQL.escape("12MS" + router.serial.substr(-4));;
+      defaultRemotePassword = WtManagedRouterMySQL.escape("pz938q12ms");
       break;
     case 'JMR1200M':
       passphrase = WtManagedRouterMySQL.escape("J12M" + router.serial.substr(-4));;
@@ -303,6 +308,19 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
       passphrase = WtManagedRouterMySQL.escape("L520" + router.serial.substr(-4));;
       break;
   }
+  // Default remote management password
+  fut = new Future();
+  sql = 
+    "INSERT INTO " +
+    " " + db_name + ".ManagedRouterLastSavedValue " +
+    "VALUES ( " +
+    " " + eId + ", " +
+    " 'InternetGatewayDevice.UserInterface.User.1.Password', " +
+    " " + defaultRemotePassword + " " +
+    ")";
+  runQuery(sql, fut);
+  res = fut.wait();
+  
   // 2.4GHz Passphrase
   fut = new Future();
   sql = 

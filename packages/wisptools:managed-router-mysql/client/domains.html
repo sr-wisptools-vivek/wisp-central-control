@@ -29,11 +29,11 @@
                 {{/each}}
                 {{services.google.email}}
               </td>
-              <td class="domain-name"  style="width:50%">
+              <td class="domain-name editable"  style="width:50%">
                 {{#if changeDomain}}
                 {{> wtManagedRouterMySQLDomain user=_id}}
                 {{else}}
-                {{domainName}}
+                {{domainName}}<span style="padding-left:10px; color:#A0A0A0; display:none;" class="pull-right"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></span>
                 {{/if}}
               </td>
             </tr>

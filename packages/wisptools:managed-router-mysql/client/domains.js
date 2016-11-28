@@ -44,10 +44,10 @@ Template.wtManagedRouterMySQLDomains.events({
     }
   },
   'mouseenter .editable': function(e){
-    $(e.target).find('span').eq(0).css("display","block");
+    WtEditableField(e.target,'block');
   },
   'mouseleave .editable': function(e){
-    $(e.target).find('span').eq(0).css("display","none");
+    WtEditableField(e.target,'none');
   }
 });
 

@@ -41,21 +41,21 @@
                 </tr>
               {{else}}
                 <tr style="height: 55px;">
-                  <td class="routerName editable" style="min-width:225px;cursor: pointer;">
+                  <td class="routerName editable" style="min-width:225px;">
                     {{#if editingName}}
                       <input class="form-control" type="text" id="editName" value="{{name}}">
                     {{else}}
-                    {{name}}<span style="padding-left:10px; color:#A0A0A0; display:none;" class="pull-right"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></span>
+                    {{name}}<span class="pull-right edit-field-indicator"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></span>
                     {{/if}}
                   </td>
                   <td class="routerSerial">
                     {{serial}}
                   </td>
-                  <td class="routerMac editable" style="cursor: pointer;">
+                  <td class="routerMac editable">
                     {{#if editingMac}}
                       <input class="form-control input-xs" type="text" id="editMac" value="{{mac}}">
                     {{else}}
-                    {{mac}}<span style="padding-left:10px; color:#A0A0A0; display:none;" class="pull-right"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></span>
+                    {{mac}}<span class="pull-right edit-field-indicator"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></span>
                     {{/if}}
                   </td>
                   <td>{{make}}</td>

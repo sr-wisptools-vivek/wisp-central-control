@@ -1,0 +1,9 @@
+.edit-field-indicator {
+  padding-left:10px;
+  color:#A0A0A0;
+  display:none;
+}
+
+.editable {
+  cursor: pointer;
+}

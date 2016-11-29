@@ -10,9 +10,10 @@ Package.onUse(function(api) {
   api.versionsFrom('1.0.3.2');
   api.use([
     'meteor',
+    'templating',
     'jquery',
   ]);
-  api.addFiles('css/editableField.css','client');
+  api.addFiles(['css/editableField.css','icon.html'],'client');
   api.addFiles('wisptools:editableField.js','client');
   api.export('WtEditableField');
 });

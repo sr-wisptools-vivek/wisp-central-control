@@ -16,7 +16,8 @@
               {{#if editingDomain}}
                 <input class="form-control" type="text" id="editDomain" value="{{domain}}">
               {{else}}
-                {{domain}}<span class="pull-right edit-field-indicator"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></span>
+                {{domain}}
+                {{> wtEditableIcon}}
               {{/if}}
             </td>
             <td>

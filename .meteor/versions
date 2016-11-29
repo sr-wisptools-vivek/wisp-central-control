@@ -93,6 +93,7 @@ wisptools:ap@0.0.1
 wisptools:autoform-select-other@0.0.1
 wisptools:collection@0.0.1
 wisptools:customer@0.0.1
+wisptools:editable-field@0.0.1
 wisptools:growl@0.0.1
 wisptools:interaction@0.0.4
 wisptools:load-in-modal@0.0.1

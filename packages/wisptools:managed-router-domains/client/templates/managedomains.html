@@ -12,11 +12,12 @@
         <tbody>
           {{#each domainList}}
           <tr>
-            <td class="domainName">
+            <td class="domainName editable">
               {{#if editingDomain}}
                 <input class="form-control" type="text" id="editDomain" value="{{domain}}">
               {{else}}
                 {{domain}}
+                {{> wtEditableIcon}}
               {{/if}}
             </td>
             <td>

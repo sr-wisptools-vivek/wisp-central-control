@@ -25,7 +25,8 @@ Package.onUse(function(api) {
     'wisptools:menu',
     'wisptools:growl',
     'wisptools:collection',
-    'wisptools:roles'
+    'wisptools:roles',
+    'wisptools:editable-field'
   ]);
 
   api.addFiles([

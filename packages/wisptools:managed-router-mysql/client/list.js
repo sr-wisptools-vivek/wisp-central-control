@@ -204,7 +204,7 @@ Template.wtManagedRouterMySQLList.events({
         Session.set('removedRouterId', null);
       }
     });
-  }    
+  }
 });
 
 Template.wtManagedRouterMySQLList.onRendered(function () {

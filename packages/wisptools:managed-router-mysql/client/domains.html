@@ -25,15 +25,16 @@
               <td style="width:50%">
                 {{username}}
                 {{#each emails}}
-                {{address}}
+                  {{address}}
                 {{/each}}
                 {{services.google.email}}
               </td>
-              <td class="domain-name"  style="width:50%">
+              <td class="domain-name editable"  style="width:50%">
                 {{#if changeDomain}}
-                {{> wtManagedRouterMySQLDomain user=_id}}
+                  {{> wtManagedRouterMySQLDomain user=_id}}
                 {{else}}
-                {{domainName}}
+                  {{domainName}}
+                  {{> wtEditableIcon}}
                 {{/if}}
               </td>
             </tr>

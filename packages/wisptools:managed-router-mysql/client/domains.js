@@ -42,12 +42,6 @@ Template.wtManagedRouterMySQLDomains.events({
     } else {
       Session.set('managedRouterSelectDomain', selectedDomain);
     }
-  },
-  'mouseenter .editable': function(e){
-    WtEditableField(e.target,'block');
-  },
-  'mouseleave .editable': function(e){
-    WtEditableField(e.target,'none');
   }
 });
 

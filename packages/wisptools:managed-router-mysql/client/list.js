@@ -204,12 +204,6 @@ Template.wtManagedRouterMySQLList.events({
         Session.set('removedRouterId', null);
       }
     });
-  },
-  'mouseenter .editable': function(e){
-    WtEditableField(e.target,'block');
-  },
-  'mouseleave .editable': function(e){
-    WtEditableField(e.target,'none');
   }
 });
 

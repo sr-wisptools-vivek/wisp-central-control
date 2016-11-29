@@ -4,6 +4,10 @@
   display:none;
 }
 
+.editable:hover > .edit-field-indicator {
+    display: block;
+}
+
 .editable {
   cursor: pointer;
 }

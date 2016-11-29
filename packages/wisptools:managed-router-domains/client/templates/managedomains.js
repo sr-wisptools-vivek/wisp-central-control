@@ -84,11 +84,5 @@ Template.wtManagedRouterMySQLManageDomains.events({
   },
   'click #cancelDelete': function() {
     Session.set('managedRouterDomainDelete', null);  
-  },
-  'mouseenter .editable': function(e){
-    WtEditableField(e.target,'block');    
-  },
-  'mouseleave .editable': function(e){
-    WtEditableField(e.target,'none');
   }
 });

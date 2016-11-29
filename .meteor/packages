@@ -24,7 +24,7 @@ mrt:jquery-mousewheel
 wisptools:ap
 wisptools:roles
 wisptools:managed-router-mysql
-simple:rest-accounts-password
 wisptools:load-in-modal
 wisptools:managed-router-domains
 wisptools:accounts-ui-bootstrap-3
+wisptools:rest-accounts-password

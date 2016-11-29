@@ -77,7 +77,6 @@ session@1.1.0
 sha@1.0.3
 simple:json-routes@1.0.4
 simple:rest@0.2.3
-simple:rest-accounts-password@1.0.1
 spacebars@1.0.6
 spacebars-compiler@1.0.6
 srp@1.0.3
@@ -101,6 +100,7 @@ wisptools:managed-router-domains@0.0.1
 wisptools:managed-router-mysql@0.0.1
 wisptools:map-control@0.0.1
 wisptools:menu@0.0.1
+wisptools:rest-accounts-password@0.0.1
 wisptools:roles@0.0.1
 wisptools:tab-page@0.0.1
 wisptools:tower@0.0.1

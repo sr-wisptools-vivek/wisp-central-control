@@ -9,3 +9,16 @@ Meteor.method("wtManagedRouterDeleteDomain", function(){
     WtMangedRouterMySQLDomainsList.remove({_id: removeDomain._id});
   }
 });
+
+Meteor.method("wtManagedRouterCheckDomain", function (domain) {
+  if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
+    var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: domain});
+    if (!domainList) {
+      return false;
+    } else {
+      return true;
+    }
+  } else {
+    return false;
+  }
+});

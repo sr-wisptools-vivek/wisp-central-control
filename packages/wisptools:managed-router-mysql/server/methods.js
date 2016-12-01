@@ -609,31 +609,36 @@ Meteor.method("wtManagedRouterMySQLReserve", function() {
     if (item.serial == "") itemResult.result = 'serial cannot be blank';
     if (item.domain == "") itemResult.result = 'domain cannot be blank';
     if (item.serial && item.domain) {
-      var escapedSerial =  WtManagedRouterMySQL.escape(item.serial);
-      var escapedDomain =  WtManagedRouterMySQL.escape(item.domain);
+      //Is the domain name exist?
+      if (Meteor.call('wtManagedRouterCheckDomain', item.domain)) {
+        var escapedSerial =  WtManagedRouterMySQL.escape(item.serial);
+        var escapedDomain =  WtManagedRouterMySQL.escape(item.domain);
 
-      //Delete from reserve
-      fut = new Future();
-      sql = 
-        "DELETE FROM " + 
-        " " + db_name + ".EquipmentReserved " +
-        "WHERE SerialNumber = " + escapedSerial;
-      runQuery(sql,fut);
-      res = fut.wait();
+        //Delete from reserve
+        fut = new Future();
+        sql = 
+          "DELETE FROM " + 
+          " " + db_name + ".EquipmentReserved " +
+          "WHERE SerialNumber = " + escapedSerial;
+        runQuery(sql,fut);
+        res = fut.wait();
 
-      //Insert new reserve
-      fut = new Future();
-      sql = 
-        "INSERT INTO " +
-        " " + db_name + ".EquipmentReserved " +
-        "VALUES ( " +
-        " " + escapedSerial + ", " +
-        " " + escapedDomain + " " +
-        ")";
-      runQuery(sql, fut);
-      res = fut.wait();
+        //Insert new reserve
+        fut = new Future();
+        sql = 
+          "INSERT INTO " +
+          " " + db_name + ".EquipmentReserved " +
+          "VALUES ( " +
+          " " + escapedSerial + ", " +
+          " " + escapedDomain + " " +
+          ")";
+        runQuery(sql, fut);
+        res = fut.wait();
 
-      itemResult.result = 'success';
+        itemResult.result = 'success';
+      } else {
+        itemResult.result = 'non-existing domain';
+      }
     }
     result.push(itemResult);
   });

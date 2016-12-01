@@ -14,11 +14,11 @@ Meteor.method("wtManagedRouterCheckDomain", function (domain) {
   if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
     var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: domain});
     if (!domainList) {
-      throw new Meteor.Error('error','Domain name is not valid.');
+      return false;
     } else {
       return true;
     }
   } else {
-    throw new Meteor.Error('error','Domain name is not valid.');
+    return false;
   }
 });

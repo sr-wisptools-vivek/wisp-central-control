@@ -628,17 +628,42 @@
 			return;
 		}
 
-		Accounts.createUser(options, function(error) {
-			if (error) {
-				if (error.reason == 'Signups forbidden'){
-					loginButtonsSession.errorMessage(i18n('errorMessages.signupsForbidden'))
+		if (options.profile['domain']) {
+			Meteor.call('wtManagedRouterCheckDomain', options.profile['domain'], true, function (e, r) {
+				if (e) {
+					errorFunction("An unknown error has occurred.");
 				} else {
-					loginButtonsSession.errorMessage(error.reason || "Unknown error");
+					if (r) {
+						Accounts.createUser(options, function(error) {
+							if (error) {
+								if (error.reason == 'Signups forbidden') {
+									loginButtonsSession.errorMessage(i18n('errorMessages.signupsForbidden'));
+								} else {
+									loginButtonsSession.errorMessage(error.reason || "Unknown error");
+								}
+							} else {
+								loginButtonsSession.closeDropdown();
+							}
+						});
+					} else {
+						errorFunction("Please provide a valid domain.");
+					}
 				}
-			} else {
-				loginButtonsSession.closeDropdown();
-			}
-		});
+			});
+		} else {
+			Accounts.createUser(options, function(error) {
+				if (error) {
+					if (error.reason == 'Signups forbidden') {
+						loginButtonsSession.errorMessage(i18n('errorMessages.signupsForbidden'));
+					} else {
+						loginButtonsSession.errorMessage(error.reason || "Unknown error");
+					}
+				} else {
+					loginButtonsSession.closeDropdown();
+				}
+			});
+		}
+
 	};
 
 	var forgotPassword = function() {

@@ -10,9 +10,19 @@ Meteor.method("wtManagedRouterDeleteDomain", function(){
   }
 });
 
-Meteor.method("wtManagedRouterCheckDomain", function (domain) {
+Meteor.method("wtManagedRouterCheckDomain", function (domain, ignoreCase) {
+  //Case sensitive search by default
+  if (typeof ignoreCase == "undefined") {
+    ignoreCase = false;
+  } else {
+    ignoreCase = (ignoreCase === true) ? true : false;
+  }
   if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
-    var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: domain});
+    if (ignoreCase) {
+      var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
+    } else {
+      var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: domain});
+    }
     if (!domainList) {
       return false;
     } else {

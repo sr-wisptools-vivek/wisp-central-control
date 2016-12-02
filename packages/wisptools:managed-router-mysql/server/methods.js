@@ -654,6 +654,16 @@ Meteor.method("wtManagedRouterUpdateUserDomain", function(oldDomainName, newDoma
   WtMangedRouterMySQLDomains.update({name:oldDomainName}, {$set: {name: newDomainName}}, {multi: true});
 });
 
+Meteor.method("wtManagedRouterAddUserDomain", function (userId, domain) {
+  if (!this.userId || (this.userId && this.userId!=userId)) throw new Meteor.Error('denied','Not Authorized');
+  var userDomain = WtMangedRouterMySQLDomains.findOne({userId: userId});
+  if (userDomain) {
+    WtMangedRouterMySQLDomains.update({userId: userId}, {$set: {name: domain}});
+  } else {
+    WtMangedRouterMySQLDomains.insert({userId: userId, name: domain});
+  }
+});
+
 Meteor.method("wtManagedRouterGetUpdateACS", function(getDomain) {
   var domain = WtMangedRouterMySQLDomainsList.findOne({domain: getDomain});
   var updateACS = { "result":false};

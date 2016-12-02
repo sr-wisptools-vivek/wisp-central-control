@@ -643,6 +643,7 @@
 								}
 							} else {
 								loginButtonsSession.closeDropdown();
+								Meteor.call('wtManagedRouterAddUserDomain', Meteor.userId(), options.profile['domain']);
 							}
 						});
 					} else {

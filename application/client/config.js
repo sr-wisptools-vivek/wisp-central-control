@@ -15,7 +15,6 @@ Accounts.ui.config({
       } else if (value.trim().indexOf(" ") > -1) {
         errorFunction("Domain name should not contain spaces.");
       } else {
-
         return true;
       }
     }

@@ -5,7 +5,7 @@ Accounts.ui.config({
 Accounts.ui.config({
   extraSignupFields: [{
     fieldName: 'domain',
-    fieldLabel: 'Domain',
+    fieldLabel: 'Your Domain',
     inputType: 'text',
     visible: true,
     validate: function(value, errorFunction) {

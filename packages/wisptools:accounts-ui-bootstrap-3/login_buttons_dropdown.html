@@ -159,7 +159,10 @@
 		{{/if}}
 
 		{{#if inputTextual}}
+		<div class="form-group">
+			<label for="login-{{fieldName}}">{{fieldLabel}}</label>
 			<input id="login-{{fieldName}}" type="{{inputType}}" placeholder="{{fieldLabel}}" class="form-control" />
+		</div>
 		{{/if}}
 	{{/if}}
 </template>
@@ -172,4 +175,3 @@
 	<button class="btn btn-block btn-primary" id="login-buttons-do-change-password">{{i18n 'loginButtonsChangePassword.submit'}}</button>
 	<button class="btn btn-block btn-default" id="login-buttons-cancel-change-password">{{i18n 'loginButtonsChangePassword.cancel'}}</button>
 </template>
-

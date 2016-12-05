@@ -196,6 +196,16 @@
 			if (event.keyCode === 13){
 				loginOrSignup();
 			}
+		},
+		'change #login-email': function () {
+			var email = $('#login-email').val();
+			var domain = '';
+			if (email && email.lastIndexOf('@')>-1) {
+				domain = email.substring(email.lastIndexOf('@') + 1);
+			}
+			if (domain.length > 0) {
+				$('#login-domain').val(domain);
+			}
 		}
 	});
 
@@ -634,6 +644,8 @@
 					errorFunction("An unknown error has occurred.");
 				} else {
 					if (r) {
+						errorFunction("Domain already in use. Please contact domain admin for an account.");
+					} else {
 						Accounts.createUser(options, function(error) {
 							if (error) {
 								if (error.reason == 'Signups forbidden') {
@@ -643,11 +655,19 @@
 								}
 							} else {
 								loginButtonsSession.closeDropdown();
-								Meteor.call('wtManagedRouterAddUserDomain', Meteor.userId(), options.profile['domain']);
+								Meteor.call('wtManagedRouterAddDomain', options.profile['domain'], function(e, r) {
+									if (e) {
+										console.log('Account created, but unable to add new domain.');
+									} else {
+										if (r) {
+											Meteor.call('wtManagedRouterAddUserDomain', Meteor.userId(), options.profile['domain']);
+										} else {
+											console.log('Account created, but unable to add new domain.');
+										}
+									}
+								});
 							}
 						});
-					} else {
-						errorFunction("Please provide a valid domain.");
 					}
 				}
 			});

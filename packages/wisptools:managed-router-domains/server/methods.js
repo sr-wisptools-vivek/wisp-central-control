@@ -10,6 +10,20 @@ Meteor.method("wtManagedRouterDeleteDomain", function(){
   }
 });
 
+Meteor.method("wtManagedRouterAddDomain", function (domain) {
+  if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
+    var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
+    if (!domainList) {
+      WtMangedRouterMySQLDomainsList.insert({
+        domain: domain,
+        updateACS: false
+      });
+      return true;
+    }
+  }
+  return false;
+});
+
 Meteor.method("wtManagedRouterCheckDomain", function (domain, ignoreCase) {
   //Case sensitive search by default
   if (typeof ignoreCase == "undefined") {

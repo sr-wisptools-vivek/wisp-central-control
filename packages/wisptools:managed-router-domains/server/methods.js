@@ -11,6 +11,7 @@ Meteor.method("wtManagedRouterDeleteDomain", function(){
 });
 
 Meteor.method("wtManagedRouterAddDomain", function (domain) {
+  if (!this.userId) throw new Meteor.Error('denied','Not Authorized');
   if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
     var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
     if (!domainList) {
@@ -18,6 +19,7 @@ Meteor.method("wtManagedRouterAddDomain", function (domain) {
         domain: domain,
         updateACS: false
       });
+      Roles.addUsersToRoles(this.userId, ['domain-admin']);
       return true;
     }
   }

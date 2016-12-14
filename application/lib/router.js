@@ -20,5 +20,6 @@ var requireLogin = function() {
 }
 Router.onBeforeAction('dataNotFound', {only: 'interactionPage'});
 Router.onBeforeAction(requireLogin, {except: [
-  'home'
+  'home',
+  'wtAccountsInviteCreateAccount'
 ]});

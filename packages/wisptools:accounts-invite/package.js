@@ -20,6 +20,8 @@ Package.onUse(function(api) {
     'wisptools:menu'
   ]);
 
+  api.use('email', ['server']);
+
   api.addFiles([
     'lib/router.js',
     'lib/collection.js'
@@ -28,11 +30,14 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/menu.js',
     'client/templates/invite.html',
-    'client/templates/invite.js'
+    'client/templates/invite.js',
+    'client/templates/accept-invite.html',
+    'client/templates/accept-invite.js'
   ], 'client');
 
   api.addFiles([
-    'server/methods.js'
+    'server/methods.js',
+    'server/email.js'
   ], 'server');
 
 });

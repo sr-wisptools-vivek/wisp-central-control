@@ -30,6 +30,17 @@ Meteor.methods({
       owner: this.userId
     });
 
-    //send mail
+    WtAccountsInvite.sendInvitationMail(email, token, domain);
+  },
+
+  'wtAccountsInviteGetInvite': function (token) {
+    var invite = WtAccountsInviteTokens.findOne({
+      token: token,
+      accepted: false
+    });
+    if (invite) {
+      return invite;
+    }
+    throw new Meteor.Error("accounts-invite", "Invalid token.");
   }
 });

@@ -42,5 +42,31 @@ Meteor.methods({
       return invite;
     }
     throw new Meteor.Error("accounts-invite", "Invalid token.");
+  },
+
+  'wtAccountsInviteCreateAccount': function (token, password) {
+    var invite = WtAccountsInviteTokens.findOne({
+      token: token,
+      accepted: false
+    });
+    if (!invite) {
+      throw new Meteor.Error("accounts-invite", "Invalid token.");
+    }
+
+    var options = {
+      email: invite.email,
+      password: password,
+      profile: {
+        domain: invite.domain
+      }
+    };
+
+    var newUserId = Accounts.createUser(options);
+    if (!newUserId) {
+      throw new Meteor.Error("accounts-invite", "Unable to create account.");
+    } else {
+      WtMangedRouterMySQLDomains.insert({userId: newUserId, name: invite.domain});
+      return newUserId;
+    }
   }
 });

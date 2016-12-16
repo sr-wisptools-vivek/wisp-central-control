@@ -66,7 +66,14 @@ Meteor.methods({
       throw new Meteor.Error("accounts-invite", "Unable to create account.");
     } else {
       WtMangedRouterMySQLDomains.insert({userId: newUserId, name: invite.domain});
-      return newUserId;
+      return {
+        userId: newUserId,
+        email: invite.email
+      };
     }
+  },
+
+  'wtAccountsInviteAccepted': function (token) {
+    WtAccountsInviteTokens.update({token: token}, {$set:{accepted: true}});
   }
 });

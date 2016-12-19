@@ -75,5 +75,9 @@ Meteor.methods({
 
   'wtAccountsInviteAccepted': function (token) {
     WtAccountsInviteTokens.update({token: token}, {$set:{accepted: true}});
+  },
+
+  'wtAccountsInviteResendInvitationMail': function (id) {
+    WtAccountsInvite.reSendInvitationMail(id);
   }
 });

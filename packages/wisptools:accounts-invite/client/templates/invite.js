@@ -1,6 +1,22 @@
 Template.wtAccountsInviteInvite.helpers({
   'domainName': function () {
     return Meteor.user().profile.domain;
+  },
+  'hasSendInvitations': function () {
+    var invitations = WtAccountsInviteTokens.find({owner: Meteor.userId()}).count();
+    if (invitations) {
+      return true;
+    }
+    return false;
+  },
+  'getSendInvitations': function () {
+    return WtAccountsInviteTokens.find({owner: Meteor.userId()});
+  },
+  'statusMessage': function (accepted) {
+    return accepted?"Accepted":"Pending";
+  },
+  'showResendBtn': function (accepted) {
+    return !accepted;
   }
 });
 
@@ -21,5 +37,16 @@ Template.wtAccountsInviteInvite.events({
         WtGrowl.fail('Please enter a valid email.');
       }
     }
+  },
+
+  'click .resendInvitation': function (e) {
+    e.preventDefault();
+    Meteor.call('wtAccountsInviteResendInvitationMail', this._id, function (err, res) {
+      if (err) {
+        WtGrowl.fail('An error has occurred.');
+      } else {
+        WtGrowl.success('Invitation mail send.');
+      }
+    });
   }
 });

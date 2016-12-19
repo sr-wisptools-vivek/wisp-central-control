@@ -15,6 +15,33 @@
           </div>
         </div>
       </form>
+      <br />
+      {{#if hasSendInvitations}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          {{#each getSendInvitations}}
+            <tr>
+              <td>{{email}}</td>
+              <td>{{createdAt}}</td>
+              <td>{{statusMessage accepted}}</td>
+              <td>
+              {{#if showResendBtn accepted}}
+                <button class="btn btn-primary btn-xs resendInvitation">Resend</button>
+              {{/if}}
+              </td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      {{/if}}
     </div>
   </div>
 </template>

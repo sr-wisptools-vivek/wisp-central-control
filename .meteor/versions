@@ -88,6 +88,7 @@ underscore@1.0.3
 url@1.0.4
 webapp@1.2.0
 webapp-hashing@1.0.3
+wisptools:accounts-invite@0.0.1
 wisptools:accounts-ui-bootstrap-3@0.0.1
 wisptools:ap@0.0.1
 wisptools:autoform-select-other@0.0.1

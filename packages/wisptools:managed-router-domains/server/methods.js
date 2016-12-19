@@ -4,15 +4,41 @@ Meteor.method("wtManagedRouterDeleteDomain", function(){
   var item = WtMangedRouterMySQLDomains.findOne({name: removeDomain.domain});
   if (item) {
     Session.set('managedRouterDomainDelete', null);
-    throw new Meteor.Error('denied','Domain Assigned to User');    
+    throw new Meteor.Error('denied','Domain Assigned to User');
   } else {
     WtMangedRouterMySQLDomainsList.remove({_id: removeDomain._id});
   }
 });
 
-Meteor.method("wtManagedRouterCheckDomain", function (domain) {
+Meteor.method("wtManagedRouterAddDomain", function (domain) {
+  if (!this.userId) throw new Meteor.Error('denied','Not Authorized');
   if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
-    var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: domain});
+    var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
+    if (!domainList) {
+      WtMangedRouterMySQLDomainsList.insert({
+        domain: domain,
+        updateACS: false
+      });
+      Roles.addUsersToRoles(this.userId, ['domain-admin']);
+      return true;
+    }
+  }
+  return false;
+});
+
+Meteor.method("wtManagedRouterCheckDomain", function (domain, ignoreCase) {
+  //Case sensitive search by default
+  if (typeof ignoreCase == "undefined") {
+    ignoreCase = false;
+  } else {
+    ignoreCase = (ignoreCase === true) ? true : false;
+  }
+  if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
+    if (ignoreCase) {
+      var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
+    } else {
+      var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: domain});
+    }
     if (!domainList) {
       return false;
     } else {

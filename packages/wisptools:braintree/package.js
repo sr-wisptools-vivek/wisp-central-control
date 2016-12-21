@@ -22,7 +22,8 @@ Package.onUse(function(api) {
   ]);
 
   api.addFiles([
-    'lib/router.js'
+    'lib/router.js',
+    'lib/collection.js'
     ], ['server','client']);
 
   api.addFiles([
@@ -32,7 +33,7 @@ Package.onUse(function(api) {
   ], 'client');
 
   api.addFiles([
-
+    'server/methods.js'
   ], 'server');
 
 });

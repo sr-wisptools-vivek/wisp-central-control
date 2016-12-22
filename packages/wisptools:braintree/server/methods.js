@@ -18,12 +18,12 @@ Meteor.methods({
 
     var braintreeSettings = WtBraintreeSettings.collection.findOne({owner: this.userId});
     if (braintreeSettings) {
-      WtBraintreeSettings.collection.update({owner: this.userId}, {
+      WtBraintreeSettings.collection.update({owner: this.userId}, {$set: {
         publicKey: publicKey,
         privateKey: privateKey,
         environment: environment,
         merchantId: merchantId
-      });
+      }});
     } else {
       WtBraintreeSettings.collection.insert({
         publicKey: publicKey,

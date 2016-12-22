@@ -11,11 +11,11 @@ Template.wtBraintreeSettings.helpers({
   'braintreeSettings': function () {
     return Session.get('braintreeSettings');
   },
-  'currentValue': function (env) {
+  'selected': function (env) {
     if (this.environment == env) {
-      return true;
+      return "selected";
     }
-    return false;
+    return "";
   }
 });
 

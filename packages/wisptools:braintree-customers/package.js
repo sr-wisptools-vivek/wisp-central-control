@@ -29,7 +29,9 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/menu.js',
     'client/templates/customers.html',
-    'client/templates/customers.js'
+    'client/templates/customers.js',
+    'client/templates/add.html',
+    'client/templates/add.js'
   ], 'client');
 
   api.addFiles([

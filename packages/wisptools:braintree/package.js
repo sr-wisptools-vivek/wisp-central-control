@@ -6,6 +6,8 @@ Package.describe({
   documentation: 'README.md'
 });
 
+Npm.depends({"braintree": "1.46.0"});
+
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
 
@@ -33,7 +35,10 @@ Package.onUse(function(api) {
   ], 'client');
 
   api.addFiles([
-    'server/methods.js'
+    'server/methods.js',
+    'server/braintree.js'
   ], 'server');
+
+  api.export('BraintreeAPI');
 
 });

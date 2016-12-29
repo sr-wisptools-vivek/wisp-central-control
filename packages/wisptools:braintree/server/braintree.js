@@ -15,8 +15,8 @@ var gateway = Braintree.connect({
   privateKey: Meteor.settings.braintree.privateKey
 });
 
-BraintreeAPI.createCustomer = function (firstName, lastName, company, email, phone, callback) {
-  if (!firstName || !lastName || !company || !email || !phone) {
+BraintreeAPI.createCustomer = function (firstName, lastName, email, phone, callback) {
+  if (!firstName || !lastName || !email || !phone) {
     throw new Meteor.Error("braintree-error", 'Braintree create customer - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
@@ -26,8 +26,26 @@ BraintreeAPI.createCustomer = function (firstName, lastName, company, email, pho
   gateway.customer.create({
     firstName: firstName,
     lastName: lastName,
-    company: company,
     email: email,
     phone: phone
+  }, callback);
+};
+
+BraintreeAPI.createAddress = function (customerId, firstName, lastName, streetAddress, locality, region, postalCode, callback) {
+  if (!customerId || !firstName || !lastName || !streetAddress || !locality || !region || !postalCode) {
+    throw new Meteor.Error("braintree-error", 'Braintree create address - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+
+  gateway.address.create({
+    customerId: customerId,
+    firstName: firstName,
+    lastName: lastName,
+    streetAddress: streetAddress,
+    locality: locality,
+    region: region,
+    postalCode: postalCode
   }, callback);
 };

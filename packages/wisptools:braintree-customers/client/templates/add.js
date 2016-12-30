@@ -11,13 +11,21 @@ Template.wtBraintreeCustomersAdd.events({
     var zip = $('#zip').val();
     if (!firstname || !lastname || !phone || !email || !address || !city || !state || !zip) {
       WtGrowl.fail('Please fill all the fields.');
+    } else if (!Accounts._loginButtons.validateEmail(email)) {
+      WtGrowl.fail('Please enter a valid email.');
     } else {
       Meteor.call('wtBraintreeAPIAddCustomer', firstname, lastname, phone, email, address, city, state, zip, function (err, res) {
         if (err) {
           WtGrowl.fail('Failed to create a new customer.');
-          console.log(err);
         } else {
-          WtGrowl.success('Created a new customer.');
+          Meteor.call('wtBraintreeCustomerAddCustomer', res.id, firstname, lastname, phone, email, address, city, state, zip, function (e, r) {
+            if (e) {
+              WtGrowl.fail('Failed to save new customer details.');
+            } else {
+              WtGrowl.success('Created a new customer.');
+              Router.go('wtBraintreeCustomers');
+            }
+          });
         }
       });
     }

@@ -1,3 +1,31 @@
 <template name="wtBraintreeCustomers">
-
+  <div class="bg-secondary app-page">
+    <div class="container">
+      <h3>Braintree Customers</h3><hr />
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Customer Id</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Domain</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each customers}}
+          <tr>
+            <td>{{ customerId }}</td>
+            <td>{{ firstName }} {{ lastName }}</td>
+            <td>{{ phone }}</td>
+            <td>{{ email }}</td>
+            <td>{{ domain }}</td>
+            <td>{{ createdAt }}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>

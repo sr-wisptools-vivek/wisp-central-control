@@ -35,7 +35,7 @@ Package.onUse(function(api) {
   ], 'client');
 
   api.addFiles([
-
+    'server/methods.js'
   ], 'server');
 
 });

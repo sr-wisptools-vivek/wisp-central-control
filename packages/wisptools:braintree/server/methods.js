@@ -38,6 +38,12 @@ Meteor.methods({
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
 
+    var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
+    if (!braintreeSettings) {
+      throw new Meteor.Error(401, "Failed to connect to Braintree.");
+    }
+    BraintreeAPI.connect(braintreeSettings.environment, braintreeSettings.merchantId, braintreeSettings.publicKey, braintreeSettings.privateKey);
+
     var myFuture = new Future();
     BraintreeAPI.createCustomer(firstName, lastName, email, phone, function (err, res) {
       if (err) {

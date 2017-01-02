@@ -3,17 +3,21 @@ BraintreeAPI = {};
 Braintree = Npm.require('braintree');
 Future = Npm.require('fibers/future');
 
-var environment = Braintree.Environment.Sandbox;
-if (Meteor.settings.braintree.environment == "production") {
-  environment = Braintree.Environment.Production;
-}
+var gateway = false;
 
-var gateway = Braintree.connect({
-  environment: environment,
-  merchantId: Meteor.settings.braintree.merchantId,
-  publicKey: Meteor.settings.braintree.publicKey,
-  privateKey: Meteor.settings.braintree.privateKey
-});
+BraintreeAPI.connect = function (environment, merchantId, publicKey, privateKey) {
+  if (environment == "production") {
+    environment = Braintree.Environment.Production;
+  } else {
+    environment = Braintree.Environment.Sandbox;
+  }
+  gateway = Braintree.connect({
+    environment: environment,
+    merchantId: merchantId,
+    publicKey: publicKey,
+    privateKey: privateKey
+  });
+};
 
 BraintreeAPI.createCustomer = function (firstName, lastName, email, phone, callback) {
   if (!firstName || !lastName || !email || !phone) {
@@ -21,6 +25,9 @@ BraintreeAPI.createCustomer = function (firstName, lastName, email, phone, callb
   }
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
   }
 
   gateway.customer.create({
@@ -37,6 +44,9 @@ BraintreeAPI.createAddress = function (customerId, firstName, lastName, streetAd
   }
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
   }
 
   gateway.address.create({

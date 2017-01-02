@@ -16,10 +16,12 @@ Template.wtBraintreeCustomersAdd.events({
     } else {
       Meteor.call('wtBraintreeAPIAddCustomer', firstname, lastname, phone, email, address, city, state, zip, function (err, res) {
         if (err) {
+          console.log(err);
           WtGrowl.fail('Failed to create a new customer.');
         } else {
           Meteor.call('wtBraintreeCustomerAddCustomer', res.id, firstname, lastname, phone, email, address, city, state, zip, function (e, r) {
             if (e) {
+              console.log(e);
               WtGrowl.fail('Failed to save new customer details.');
             } else {
               WtGrowl.success('Created a new customer.');

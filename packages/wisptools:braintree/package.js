@@ -31,7 +31,9 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/menu.js',
     'client/templates/settings.html',
-    'client/templates/settings.js'
+    'client/templates/settings.js',
+    'client/templates/plans.html',
+    'client/templates/plans.js'
   ], 'client');
 
   api.addFiles([

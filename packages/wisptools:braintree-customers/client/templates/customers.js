@@ -50,5 +50,9 @@ Template.wtBraintreeCustomers.events({
         Session.set('braintreeCustomers', r);
       }
     });
+  },
+  'click .detailsBtn': function (e) {
+    e.preventDefault();
+    Router.go('wtBraintreeCustomerDetails', {id: this._id});
   }
 });

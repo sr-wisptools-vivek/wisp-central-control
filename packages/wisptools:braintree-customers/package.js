@@ -31,7 +31,9 @@ Package.onUse(function(api) {
     'client/templates/customers.html',
     'client/templates/customers.js',
     'client/templates/add.html',
-    'client/templates/add.js'
+    'client/templates/add.js',
+    'client/templates/customer-details.html',
+    'client/templates/customer-details.js'
   ], 'client');
 
   api.addFiles([

@@ -46,5 +46,15 @@ Meteor.methods({
       };
       return WtBraintreeCustomers.collection.find(crit, limitQuery).fetch();
     }
+  },
+  'wtBraintreeCustomerGetCustomer': function (id) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+
+    return WtBraintreeCustomers.collection.findOne({
+      _id: id,
+      owner: this.userId,
+      domain: Meteor.user().profile.domain
+    });
   }
 });

@@ -20,6 +20,41 @@
         </table>
       </div>
       {{/with}}
+      <h4>Subscriptions</h4>
+      <div class="row">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Plan</th>
+              <th>Price</th>
+              <th>Billing Period</th>
+              <th>Balance</th>
+              <th>Next Bill Amount</th>
+              <th>Next Billing Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#if subscriptions}}
+            {{#each subscriptions}}
+            <tr>
+              <td>{{planName planId}}</td>
+              <td>{{price}}</td>
+              <td>{{billingPeriodStartDate}} to {{billingPeriodEndDate}}</td>
+              <td>{{balance}}</td>
+              <td>{{nextBillAmount}}</td>
+              <td>{{nextBillingDate}}</td>
+              <td>{{status}}</td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+              <td colspan="7">No Subscriptions</td>
+            </tr>
+            {{/if}}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

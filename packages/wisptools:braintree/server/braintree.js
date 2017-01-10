@@ -70,3 +70,17 @@ BraintreeAPI.getPlans = function (callback) {
 
   gateway.plan.all(callback);
 };
+
+BraintreeAPI.getCustomer = function (customerId, callback) {
+  if (!customerId) {
+    throw new Meteor.Error("braintree-error", 'Braintree get customer - Invalid parameter.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+
+  gateway.customer.find(customerId, callback);
+};

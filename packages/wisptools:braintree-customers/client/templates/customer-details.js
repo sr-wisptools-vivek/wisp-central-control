@@ -4,14 +4,16 @@ Template.wtBraintreeCustomerDetails.onRendered(function () {
   Session.set('braintreePlans', false);
   Meteor.call('wtBraintreeCustomerGetCustomer', this.data.id, function (e, r) {
     if (!e) {
-      Session.set('braintreeCustomer', r);
-      Meteor.call('wtBraintreeAPIGetCustomer', r.customerId, function (e, r) {
-        if (!e) {
-          if (r && r.status=='success') {
-            Session.set('braintreeAPICustomer', r.data);
+      if (r) {
+        Session.set('braintreeCustomer', r);
+        Meteor.call('wtBraintreeAPIGetCustomer', r.customerId, function (e, r) {
+          if (!e) {
+            if (r && r.status=='success') {
+              Session.set('braintreeAPICustomer', r.data);
+            }
           }
-        }
-      });
+        });
+      }
     }
   });
   Meteor.call('wtBraintreeAPIGetPlans', function (e, r) {
@@ -28,10 +30,23 @@ Template.wtBraintreeCustomerDetails.helpers({
   'apicustomer': function () {
     return Session.get('braintreeAPICustomer');
   },
+  'paymentmethods': function () {
+    var customer = Session.get('braintreeAPICustomer');
+    var paymentmethods = [];
+    if (customer && customer.paymentMethods && customer.paymentMethods.length > 0) {
+      for (var i=0; i<customer.paymentMethods.length; i++) {
+        paymentmethods.push(customer.paymentMethods[i]);
+      }
+    }
+    if (paymentmethods.length<1) {
+      return false;
+    }
+    return paymentmethods;
+  },
   'subscriptions': function () {
     var customer = Session.get('braintreeAPICustomer');
     var subscriptions = [];
-    if (customer.paymentMethods && customer.paymentMethods.length > 0) {
+    if (customer && customer.paymentMethods && customer.paymentMethods.length > 0) {
       for (var i=0; i<customer.paymentMethods.length; i++) {
         if (customer.paymentMethods[i].subscriptions && customer.paymentMethods[i].subscriptions.length>0) {
           for (var j=0; j<customer.paymentMethods[i].subscriptions.length; j++) {
@@ -44,6 +59,12 @@ Template.wtBraintreeCustomerDetails.helpers({
       return false;
     }
     return subscriptions;
+  },
+  'count': function (subscriptions) {
+    if (subscriptions && subscriptions.length>0) {
+      return subscriptions.length;
+    }
+    return 0;
   },
   'planName': function (planId) {
     var plans = Session.get('braintreePlans');

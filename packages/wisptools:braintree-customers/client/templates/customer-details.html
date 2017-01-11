@@ -1,6 +1,7 @@
 <template name="wtBraintreeCustomerDetails">
   <div class="bg-secondary app-page">
     <div class="container">
+      {{#if customer}}
       {{#with customer}}
       <h3>Braintree Customer ({{ customerId }})</h3><hr />
       <div class="row">
@@ -20,6 +21,44 @@
         </table>
       </div>
       {{/with}}
+      {{else}}
+      <div class="row">
+        <div class="alert alert-danger" role="alert">
+          Customer not found.
+        </div>
+      </div>
+      {{/if}}
+      <h4>Payment Methods</h4>
+      <div class="row">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Number</th>
+              <th>Expiry</th>
+              <th>Subscriptions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#if paymentmethods}}
+            {{#each paymentmethods}}
+            <tr>
+              <td>{{cardType}}</td>
+              <td>{{cardholderName}}</td>
+              <td>{{maskedNumber}}</td>
+              <td>{{expirationDate}}</td>
+              <td>{{count subscriptions}}</td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+              <td colspan="5">No Payment Methods</td>
+            </tr>
+            {{/if}}
+          </tbody>
+        </table>
+      </div>
       <h4>Subscriptions</h4>
       <div class="row">
         <table class="table table-bordered">

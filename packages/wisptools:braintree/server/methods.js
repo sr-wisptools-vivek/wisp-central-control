@@ -79,6 +79,51 @@ Meteor.methods({
     }
     return result1.data;
   },
+  'wtBraintreeAPIUpdateCustomer': function (customerId, addressId, firstName, lastName, phone, email, address, city, state, zip) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+
+    var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
+    if (!braintreeSettings) {
+      throw new Meteor.Error(401, "Failed to connect to Braintree.");
+    }
+    BraintreeAPI.connect(braintreeSettings.environment, braintreeSettings.merchantId, braintreeSettings.publicKey, braintreeSettings.privateKey);
+
+    var myFuture = new Future();
+    BraintreeAPI.updateCustomer(customerId, firstName, lastName, email, phone, function (err, res) {
+      if (err) {
+        myFuture.return({status: "error", msg: err.message});
+      } else {
+        if (res.success) {
+          myFuture.return({status: "success", data: res.customer});
+        } else {
+          myFuture.return({status: "error", msg: res.message});
+        }
+      }
+    });
+    var result1 = myFuture.wait();
+    if (result1.status == "success") {
+      var myFuture = new Future();
+      BraintreeAPI.updateAddress(customerId, addressId, firstName, lastName, address, city, state, zip, function (err, res) {
+        if (err) {
+          myFuture.return({status: "error", msg: err.message});
+        } else {
+          if (res.success) {
+            myFuture.return({status: "success", data: res});
+          } else {
+            myFuture.return({status: "error", msg: res.message});
+          }
+        }
+      });
+      var result2 = myFuture.wait();
+      if (result2.status == "error") {
+        throw new Meteor.Error("braintree-error", result2.msg);
+      }
+    } else {
+      throw new Meteor.Error("braintree-error", result1.msg);
+    }
+    return result1.data;
+  },
   'wtBraintreeAPIGetPlans': function () {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");

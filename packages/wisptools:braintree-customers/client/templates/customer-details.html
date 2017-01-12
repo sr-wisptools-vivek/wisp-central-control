@@ -3,7 +3,9 @@
     <div class="container">
       {{#if customer}}
       {{#with customer}}
-      <h3>Braintree Customer ({{ customerId }})</h3><hr />
+      <h3>Braintree Customer ({{ customerId }})</h3>
+      <button class="btn btn-primary editBtn">Edit</button>
+      <hr />
       <div class="row">
         <table class="table table-bordered">
           <tbody>

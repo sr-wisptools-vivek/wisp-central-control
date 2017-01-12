@@ -15,3 +15,11 @@ Router.route('/braintree-customer/:id', {
     return {id: this.params.id};
   }
 });
+
+Router.route('/braintree-customer/edit/:id', {
+  name: 'wtBraintreeEditCustomer',
+  template: 'wtBraintreeEditCustomer',
+  data: function () {
+    return {id: this.params.id};
+  }
+});

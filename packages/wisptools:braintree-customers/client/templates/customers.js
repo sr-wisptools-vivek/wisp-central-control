@@ -54,5 +54,9 @@ Template.wtBraintreeCustomers.events({
   'click .detailsBtn': function (e) {
     e.preventDefault();
     Router.go('wtBraintreeCustomerDetails', {id: this._id});
+  },
+  'click .editBtn': function (e) {
+    e.preventDefault();
+    Router.go('wtBraintreeEditCustomer', {id: this._id});
   }
 });

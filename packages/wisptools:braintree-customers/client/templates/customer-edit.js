@@ -1,4 +1,4 @@
-Template.wtBraintreeCustomerDetails.onRendered(function () {
+Template.wtBraintreeEditCustomer.onRendered(function () {
   Session.set('braintreeCustomer', false);
   Session.set('braintreeAPICustomer', false);
   Session.set('braintreePlans', false);
@@ -23,7 +23,7 @@ Template.wtBraintreeCustomerDetails.onRendered(function () {
   });
 });
 
-Template.wtBraintreeCustomerDetails.helpers({
+Template.wtBraintreeEditCustomer.helpers({
   'customer': function () {
     return Session.get('braintreeCustomer');
   },
@@ -79,9 +79,17 @@ Template.wtBraintreeCustomerDetails.helpers({
   }
 });
 
-Template.wtBraintreeCustomerDetails.events({
-  'click .editBtn': function (e) {
+Template.wtBraintreeEditCustomer.events({
+  'click .updateCustomer': function (e) {
     e.preventDefault();
-    Router.go('wtBraintreeEditCustomer', {id: this._id});
+    var firstname = $('#firstname').val();
+    var lastname = $('#lastname').val();
+    var phone = $('#phone').val();
+    var email = $('#email').val();
+    var address = $('#address').val();
+    var city = $('#city').val();
+    var state = $('#state').val();
+    var zip = $('#zip').val();
+    
   }
 });

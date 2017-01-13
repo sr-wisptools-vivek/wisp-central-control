@@ -1,10 +1,11 @@
 Meteor.methods({
-  'wtBraintreeCustomerAddCustomer': function (customerId, firstName, lastName, phone, email, address, city, state, zip) {
+  'wtBraintreeCustomerAddCustomer': function (customerId, addressId, firstName, lastName, phone, email, address, city, state, zip) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
 
     WtBraintreeCustomers.collection.insert({
       customerId: customerId,
+      addressId: addressId,
       firstName: firstName,
       lastName: lastName,
       phone: phone,

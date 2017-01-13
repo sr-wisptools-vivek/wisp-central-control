@@ -77,7 +77,10 @@ Meteor.methods({
     } else {
       throw new Meteor.Error("braintree-error", result1.msg);
     }
-    return result1.data;
+    return {
+      customer: result1.data,
+      address: result2.data
+    }
   },
   'wtBraintreeAPIUpdateCustomer': function (customerId, addressId, firstName, lastName, phone, email, address, city, state, zip) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");

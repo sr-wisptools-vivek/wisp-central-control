@@ -90,6 +90,28 @@ Template.wtBraintreeEditCustomer.events({
     var city = $('#city').val();
     var state = $('#state').val();
     var zip = $('#zip').val();
-    
+    var mongo_record_id = this._id;
+    if (!firstname || !lastname || !phone || !email || !address || !city || !state || !zip) {
+      WtGrowl.fail('Please fill all the fields.');
+    } else if (!Accounts._loginButtons.validateEmail(email)) {
+      WtGrowl.fail('Please enter a valid email.');
+    } else {
+      Meteor.call('wtBraintreeAPIUpdateCustomer', this.customerId, this.addressId, firstname, lastname, phone, email, address, city, state, zip, function (err, res) {
+        if (err) {
+          console.log(err);
+          WtGrowl.fail('Failed to update customer.');
+        } else {
+          Meteor.call('wtBraintreeCustomerUpdateCustomer', mongo_record_id, firstname, lastname, phone, email, address, city, state, zip, function (e, r) {
+            if (e) {
+              console.log(e);
+              WtGrowl.fail('Failed to update customer details.');
+            } else {
+              WtGrowl.success('Customer updated.');
+              Router.go('wtBraintreeCustomers');
+            }
+          });
+        }
+      });
+    }
   }
 });

@@ -671,6 +671,20 @@ Meteor.method("wtManagedRouterACSGet", function(request){
 Meteor.method("wtManagedRouterACSSet", function(request){
   //Check if user is authorized.
   authorize.call(this, request);
+
+  //Build Request Values.  Add "item_" to each item id.
+  var params = {};
+  for (var x = 0; x < request.values.length; x++) {
+    params["item_" + request.values[x].item_id] = request.values[x].value;
+  }
+
+  console.log(params);
+
+  this.unblock();
+  var res = HTTP.call('POST', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/save_to_acs.php', {params:params}));
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  
+  return {'acs_reply':'accepted'};
   
 },{
   url: "/mr/acs/device/set"

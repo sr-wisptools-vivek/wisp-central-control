@@ -634,7 +634,7 @@ Sample error
 
 ## Refresh Data on Device
 
-Refreshing will tell the ACS to reach out to a device and request that it does a check in.  If the device is offline, this command will liekly error out.
+Refreshing will tell the ACS to reach out to a device and request that it does a check in.  If the device is offline, this command will likely error out.
 
 ```http
 POST /mr/acs/device/refresh

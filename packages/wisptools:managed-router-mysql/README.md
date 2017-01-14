@@ -430,11 +430,11 @@ Sample result
 ```
 # Getting and Setting Data Directly on the ACS
 
-The following end points are used for a more direct way of talking to the ACS.  These end points are authenticated using the same login and token used above.  Even though you are getting access into the ACS, many items have been simplified.  For example, the list of `hosts` returned using the `/mr/acs/device/get` end point has been simplified into a single easy to use list, but the actual ACS has ethernet, wireless and bridged devices listed in three seperate places, plus the wireless dBm is in a section of it's own.  This API brings all these items together, giving you a complete list in one place.
+The following end points are used for a more direct way of talking to the ACS.  These end points are authenticated using the same login and token used above.  Even though you are getting access into the ACS, many things have been simplified for you.  For example, the list of `hosts` you get when using `/mr/acs/device/get` is put into a single easy to use list, rather than given to you as it is in the ACS, spread out into five different data trees.  You can thank us later.
 
 ## Get Data on ACS
 
-This pulls the most recent data, on a device, from the ACS. The data returned will depend on the make and model of the equipment.  For instance, some routers don't have VoIP port, so a `get` will not return any VoIP related items.
+This gives you the most recent data, on a device, from the ACS. The data returned will depend on the make and model of the equipment.  For instance, some routers don't have VoIP port, so a `get` will not return any VoIP related items.
 
 Some values have an `item_id` which is used when updating the value using the `/mr/acs/device/set` call below.
 

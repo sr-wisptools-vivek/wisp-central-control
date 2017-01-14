@@ -678,10 +678,8 @@ Meteor.method("wtManagedRouterACSSet", function(request){
     params["item_" + request.values[x].item_id] = request.values[x].value;
   }
 
-  console.log(params);
-
   this.unblock();
-  var res = HTTP.call('POST', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/save_to_acs.php', {params:params}));
+  var res = HTTP.call('POST', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/save_to_acs.php'), {params:params});
   if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
   
   return {'acs_reply':'accepted'};

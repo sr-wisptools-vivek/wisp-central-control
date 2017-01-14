@@ -452,7 +452,7 @@ Sample post data
 Sample result
 ```js
 {  
-  "last_check_in":"1\/2\/2017 2:50 PM (10 days and 5 hours ago)",
+  "last_check_in":"1/2/2017 2:50 PM (10 days and 5 hours ago)",
   "uptime":"8 days and 10 hours",
   "status":"Offline",
   "connected_hosts":[  
@@ -461,7 +461,7 @@ Sample result
       "ip_address":"192.168.0.21",
       "mac_address":"00:10:75:2B:1D:85",
       "interface":"Ethernet",
-      "signal_strength":"N\/A"
+      "signal_strength":"N/A"
     },
     {  
       "host_name":"hp-laptop",
@@ -482,7 +482,7 @@ Sample result
     {  
       "item_id":"64",
       "name":"Wireless",
-      "type":"Enabled\/Disabled",
+      "type":"Enabled/Disabled",
       "value":"true"
     },
     {  
@@ -531,7 +531,7 @@ Sample result
     {  
       "item_id":"111",
       "name":"Router Limits System",
-      "type":"Enabled\/Disabled",
+      "type":"Enabled/Disabled",
       "value":"1"
     },
     {  

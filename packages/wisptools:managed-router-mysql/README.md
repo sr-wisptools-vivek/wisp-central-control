@@ -158,7 +158,7 @@ and maximum number of results.  It is also allows for a search of the Reserved R
 POST /mr/search
 ```
 
-Sample data
+Sample post data
 ```js
 {
   "q":"RNV5000512",
@@ -184,7 +184,7 @@ it conflicts with an existing device.
 POST /mr/add
 ```
 
-Sample data
+Sample post data
 ```js
 {
   "serial":"RNV5000511",
@@ -236,7 +236,7 @@ Sample data
 }
 ```
 
-Sample data
+Sample post data
 ```js
 {
     "id":"1267785",
@@ -278,7 +278,7 @@ any conflict occurs.
 POST /mr/delete
 ```
 
-Sample data
+Sample post data
 ```js
 {
     "id":"1267785",
@@ -312,7 +312,7 @@ any conflict occurs.
 POST /mr/undelete
 ```
 
-Sample data
+Sample post data
 ```js
 {
     "id":"1267785",
@@ -353,7 +353,7 @@ Users with `admin` or `reseller` previlages can reserve a serial number, by doin
 POST /mr/reserve
 ```
 
-Sample data
+Sample post data
 ```js
 [
   {
@@ -427,4 +427,236 @@ Sample result
     "result": "domain value missing"
   }
 ]
+```
+# Getting and Setting Data Directly on the ACS
+
+The following end points are used for a more direct way of talking to the ACS.  These end points are authenticated using the same login and token used above.  Even though you are getting access into the ACS, many items have been simplified.  For example, the list of `hosts` returned using the `/mr/acs/device/get` end point has been simplified into a single easy to use list, but the actual ACS has ethernet, wireless and bridged devices listed in three seperate places, plus the wireless dBm is in a section of it's own.  This API brings all these items together, giving you a complete list in one place.
+
+## Get Data on ACS
+
+This pulls the most recent data, on a device, from the ACS. The data returned will depend on the make and model of the equipment.  For instance, some routers don't have VoIP port, so a `get` will not return any VoIP related items.
+
+Some values have an `item_id` which is used when updating the value using the `/mr/acs/device/set` call below.
+
+```http
+POST /mr/acs/device/get
+```
+
+Sample post data
+```js
+{
+    "id":"1267785"
+}
+```
+
+Sample result
+```js
+{  
+  "last_check_in":"1\/2\/2017 2:50 PM (10 days and 5 hours ago)",
+  "uptime":"8 days and 10 hours",
+  "status":"Offline",
+  "connected_hosts":[  
+    {  
+      "host_name":"Unknown",
+      "ip_address":"192.168.0.21",
+      "mac_address":"00:10:75:2B:1D:85",
+      "interface":"Ethernet",
+      "signal_strength":"N\/A"
+    },
+    {  
+      "host_name":"hp-laptop",
+      "ip_address":"192.168.0.176",
+      "mac_address":"00:C2:C6:BB:51:A7",
+      "interface":"802.11",
+      "signal_strength":"-57db"
+    },
+    {  
+      "host_name":"AppleWatch",
+      "ip_address":"192.168.0.145",
+      "mac_address":"08:66:98:55:53:19",
+      "interface":"802.11",
+      "signal_strength":"-46db"
+    }
+  ],
+  "main_config":[  
+    {  
+      "item_id":"64",
+      "name":"Wireless",
+      "type":"Enabled\/Disabled",
+      "value":"true"
+    },
+    {  
+      "item_id":"66",
+      "name":"2.4 Ghz Channel",
+      "type":"Drop Down",
+      "value":"1"
+    },
+    {  
+      "item_id":"67",
+      "name":"2.4 Ghz SSID",
+      "type":"Text Entry",
+      "value":"LAMBERT"
+    },
+    .
+    .
+    .
+
+  ],
+  "info":[  
+    {  
+      "name":"Manufacturer",
+      "type":"Read Only",
+      "value":"READYNET"
+    },
+    {  
+      "name":"Model",
+      "type":"Read Only",
+      "value":"AC1200MS"
+    },
+    {  
+      "name":"Firmware Version",
+      "type":"Read Only",
+      "value":"V3.11(201611232024)"
+    },
+    .
+    .
+    .
+
+  ],
+  .
+  .
+  .
+
+  "routerlimits":[  
+    {  
+      "item_id":"111",
+      "name":"Router Limits System",
+      "type":"Enabled\/Disabled",
+      "value":"1"
+    },
+    {  
+      "name":"Current Status",
+      "type":"Read Only",
+      "value":"online"
+    },
+    {  
+      "name":"Current Version",
+      "type":"Read Only",
+      "value":"2.9-release-readynet-20161122052748"
+    },
+    {  
+      "name":"Pairing Code",
+      "type":"Read Only",
+      "value":"1234"
+    }
+  ]
+}
+```
+
+Sample error
+```js
+{
+  "error": "denied",
+  "reason": "Domain Error"
+}
+```
+## Set Data on the ACS
+
+Values can be set for items, returned in the `get` call, that have an `item_id`.  It's important to refer to the `item_id` returned in the `get`, as they same type of data might have a different `item_id` on a different make/model.  For example, the 2.4 GHz SSID is not always `item_id=67` on every device.
+
+```http
+POST /mr/acs/device/set
+```
+
+This will update the Channel and SSID on the sample device. For values that are `true` or `false, the following are all accepted as true: "Enabled", true, "true" and 1.  Everything else is sent to the ACS as false.
+
+Sample post data
+```js
+{
+  id:1267785,
+  values:[
+    {
+      item_id:66,
+      value:6
+    },
+    {
+      item_id:67,
+      value:'TEST'
+    }
+  ]
+}
+```
+
+I know this reply is quite bare, but there isn't much more to give you.  It does let you know that the ACS has accepted the change, placing it into the update queue.  You can do a follow up `get` to verify the actual data.
+
+Sample result
+```js
+{
+  acs_reply: "accepted"
+}
+```
+
+Sample error
+```js
+{
+  "error": "denied",
+  "reason": "Domain Error"
+}
+```
+## Reboot a Device
+
+You can tell a device to reboot using the following end point.
+
+```http
+POST /mr/acs/device/reboot
+```
+
+Sample post data
+```js
+{
+    "id":"1267785"
+}
+```
+Sample result
+```js
+{
+  acs_reply: "accepted"
+}
+```
+
+Sample error
+```js
+{
+  "error": "denied",
+  "reason": "Domain Error"
+}
+```
+
+## Refresh Data on Device
+
+Refreshing will tell the ACS to reach out to a device and request that it does a check in.  If the device is offline, this command will liekly error out.
+
+```http
+POST /mr/acs/device/refresh
+```
+
+Sample post data
+```js
+{
+    "id":"1267785"
+}
+```
+Sample result
+```js
+{
+  acs_reply: "accepted"
+}
+```
+
+Sample error
+```js
+{
+  "error": "denied",
+  "reason": "Domain Error"
+}
 ```

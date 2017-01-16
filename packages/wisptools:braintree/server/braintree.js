@@ -124,3 +124,41 @@ BraintreeAPI.getCustomer = function (customerId, callback) {
 
   gateway.customer.find(customerId, callback);
 };
+
+BraintreeAPI.createPaymentMethod = function (customerId, paymentMethodNonce, cardholderName, number, expirationDate, cvv, callback) {
+  if (!customerId || !paymentMethodNonce || cardholderName || number || expirationDate || cvv) {
+    throw new Meteor.Error("braintree-error", 'Braintree create customer - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+
+  gateway.paymentMethod.create({
+    customerId: customerId,
+    paymentMethodNonce: paymentMethodNonce,
+    cardholderName: cardholderName,
+    number: number,
+    expirationDate: expirationDate,
+    cvv: cvv
+  }, callback);
+};
+
+BraintreeAPI.createSubscription = function (paymentMethodToken, planId, callback) {
+  if (!paymentMethodToken || !planId) {
+    throw new Meteor.Error("braintree-error", 'Braintree create customer - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+
+  gateway.subscription.create({
+    paymentMethodToken: paymentMethodToken,
+    planId: planId
+  }, callback);
+};

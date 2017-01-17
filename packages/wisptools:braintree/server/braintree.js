@@ -125,9 +125,9 @@ BraintreeAPI.getCustomer = function (customerId, callback) {
   gateway.customer.find(customerId, callback);
 };
 
-BraintreeAPI.createPaymentMethod = function (customerId, paymentMethodNonce, cardholderName, number, expirationDate, cvv, callback) {
-  if (!customerId || !paymentMethodNonce || cardholderName || number || expirationDate || cvv) {
-    throw new Meteor.Error("braintree-error", 'Braintree create customer - Invalid parameters.');
+BraintreeAPI.createPaymentMethod = function (customerId, paymentMethodNonce, callback) {
+  if (!customerId || !paymentMethodNonce) {
+    throw new Meteor.Error("braintree-error", 'Braintree create payment method - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("braintree-error", 'Callback should be a function.');
@@ -148,7 +148,7 @@ BraintreeAPI.createPaymentMethod = function (customerId, paymentMethodNonce, car
 
 BraintreeAPI.createSubscription = function (paymentMethodToken, planId, callback) {
   if (!paymentMethodToken || !planId) {
-    throw new Meteor.Error("braintree-error", 'Braintree create customer - Invalid parameters.');
+    throw new Meteor.Error("braintree-error", 'Braintree create subscription - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
     throw new Meteor.Error("braintree-error", 'Callback should be a function.');

@@ -15,6 +15,7 @@ Package.onUse(function(api) {
 
   api.use([
     'meteor',
+    'http',
     'mongo',
     'templating',
     'reactive-var',

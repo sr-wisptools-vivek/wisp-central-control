@@ -21,6 +21,42 @@ var getDomain = function() {
   return WtManagedRouterMySQL.escape(domain.name);
 }
 
+var authorize = function(router) {
+  var res;
+  var sql;
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+  var equipmentId = router.id;
+
+  // Check if the user's domain matches the equipment domain
+
+  var escapedDomain = getDomain.call(this);
+  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized'); // User not logged in or has no domain
+
+  // Get SubscriberId for Equipment
+  var fut = new Future();
+
+  sql = "SELECT SubscriberID FROM "
+        + db_name + ".Equipment " + 
+        " WHERE EquipmentID = " + equipmentId; 
+  runQuery(sql, fut);
+  var res = fut.wait();
+  if(res.length == 0) throw new Meteor.Error('denied','Router ID Not Found');
+  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
+
+  var fut = new Future();
+  sql = "SELECT * FROM " + 
+        db_name + ".Subscriber " +
+        "WHERE SubscriberID= " +
+        subscriberId + " AND " +
+        "SystemID= " + escapedDomain ; 
+  runQuery(sql,fut);
+  var res = fut.wait();
+  if(res.length == 0) throw new Meteor.Error('denied','Non Authorized Domain');
+
+  // You have the power!
+  return true;
+}
+
 var search = function(search, limit) {
   if (this.userId == null) return [];
 
@@ -392,26 +428,9 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
   var updateRouter = router.new;
-  var escapedDomain = getDomain.call(this);
-  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
-  // Get SubscriberId for Equipment
-  var fut = new Future();
-  sql = "SELECT SubscriberID FROM "
-        + db_name + ".Equipment " + 
-        " WHERE EquipmentID = " + equipmentId; 
-  runQuery(sql, fut);
-  var res = fut.wait();
-  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
 
-  var fut = new Future();
-  sql = "SELECT * FROM " + 
-        db_name + ".Subscriber " +
-        "WHERE SubscriberID= " +
-        subscriberId + " AND " +
-        "SystemID= " + escapedDomain ; 
-  runQuery(sql,fut);
-  var res = fut.wait();
-  if(res.length == 0) throw new Meteor.Error('denied','Domain Error');
+  //Check if user is authorized.
+  authorize.call(this, router);
 
   //Update SubscriberName in table Subscriber 
   if (typeof updateRouter["name"] !== "undefined") {
@@ -465,29 +484,8 @@ Meteor.method("wtManagedRouterMySQLRemove", function(router){
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
 
-  var escapedDomain = getDomain.call(this);
-  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
-
-  // Get SubscriberId for Equipment
-  var fut = new Future();
-
-  sql = "SELECT SubscriberID FROM "
-        + db_name + ".Equipment " + 
-        " WHERE EquipmentID = " + equipmentId; 
-  runQuery(sql, fut);
-  var res = fut.wait();
-  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
-
-  var fut = new Future();
-  sql = "SELECT * FROM " + 
-        db_name + ".Subscriber " +
-        "WHERE SubscriberID= " +
-        subscriberId + " AND " +
-        "SystemID= " + escapedDomain ; 
-  runQuery(sql,fut);
-  var res = fut.wait();
-  
-  if(res.length == 0) throw new Meteor.Error('denied','Domain Error');
+  //Check if user is authorized.
+  authorize.call(this, router);
   
   var fut = new Future();
   sql = "UPDATE " 
@@ -533,29 +531,8 @@ Meteor.method("wtManagedRouterMySQLRestore", function(router){
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
 
-  var escapedDomain = getDomain.call(this);
-  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
-
-  // Get SubscriberId for Equipment
-  var fut = new Future();
-
-  sql = "SELECT SubscriberID FROM "
-        + db_name + ".Equipment " + 
-        " WHERE EquipmentID = " + equipmentId; 
-  runQuery(sql, fut);
-  var res = fut.wait();
-  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
-
-  var fut = new Future();
-  sql = "SELECT * FROM " + 
-        db_name + ".Subscriber " +
-        "WHERE SubscriberID= " +
-        subscriberId + " AND " +
-        "SystemID= " + escapedDomain ; 
-  runQuery(sql,fut);
-  var res = fut.wait();
-  
-  if(res.length == 0) throw new Meteor.Error('denied','Domain Error');
+  //Check if user is authorized.
+  authorize.call(this, router);
   
   var fut = new Future();
   sql = "UPDATE " 
@@ -676,3 +653,63 @@ Meteor.method("wtManagedRouterGetUpdateACS", function(getDomain) {
   url: "/mr/domain/update-acs/:0"
 });
 
+
+Meteor.method("wtManagedRouterACSGet", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  this.unblock();
+  var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/get.php'));
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+
+  return res.data.REPLY;
+
+},{
+  url: "/mr/acs/device/get"
+});
+
+Meteor.method("wtManagedRouterACSSet", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  //Build Request Values.  Add "item_" to each item id.
+  var params = {};
+  for (var x = 0; x < request.values.length; x++) {
+    params["item_" + request.values[x].item_id] = request.values[x].value;
+  }
+
+  this.unblock();
+  var res = HTTP.call('POST', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/save_to_acs.php'), {params:params});
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  
+  return {'acs_reply':'accepted'};
+  
+},{
+  url: "/mr/acs/device/set"
+});
+
+Meteor.method("wtManagedRouterACSReboot", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  this.unblock();
+  var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/send_reboot.php'));
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  
+  return {'acs_reply':'accepted'};
+},{
+  url: "/mr/acs/device/reboot"
+});
+
+Meteor.method("wtManagedRouterACSRefresh", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  this.unblock();
+  var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/refresh_v2.php'));
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  
+  return {'acs_reply':'accepted'};
+},{
+  url: "/mr/acs/device/refresh"
+});

@@ -125,6 +125,17 @@ BraintreeAPI.getCustomer = function (customerId, callback) {
   gateway.customer.find(customerId, callback);
 };
 
+BraintreeAPI.createClientToken = function (callback) {
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+
+  gateway.clientToken.generate({}, callback);
+};
+
 BraintreeAPI.createPaymentMethod = function (customerId, paymentMethodNonce, callback) {
   if (!customerId || !paymentMethodNonce) {
     throw new Meteor.Error("braintree-error", 'Braintree create payment method - Invalid parameters.');
@@ -138,11 +149,7 @@ BraintreeAPI.createPaymentMethod = function (customerId, paymentMethodNonce, cal
 
   gateway.paymentMethod.create({
     customerId: customerId,
-    paymentMethodNonce: paymentMethodNonce,
-    cardholderName: cardholderName,
-    number: number,
-    expirationDate: expirationDate,
-    cvv: cvv
+    paymentMethodNonce: paymentMethodNonce
   }, callback);
 };
 

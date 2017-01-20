@@ -1,16 +1,24 @@
 Template.wtBraintreeAddPaymentMethodForm.onRendered(function () {
-  var braintreeCustomer = Session.get('braintreeCustomer');
-  if (braintreeCustomer) {
-    loadBraintreeLibs(function () {
-      Meteor.call('wtBraintreeAPICreateClientToken', function (e,r) {
-        if (r && r.status=="success") {
-          initPaymentForm(r.data, braintreeCustomer.customerId);
-        } else {
-          WtGrowl.fail('An error has occurred');
-        }
-      })
-    });
-  }
+  Meteor.call('wtBraintreeCustomerGetCustomer', this.data.id, function (e, r) {
+    if (r) {
+      var braintreeCustomer = r;
+      if (braintreeCustomer) {
+        loadBraintreeLibs(function () {
+          Meteor.call('wtBraintreeAPICreateClientToken', function (e,r) {
+            if (r && r.status=="success") {
+              initPaymentForm(r.data, braintreeCustomer.customerId);
+            } else {
+              WtGrowl.fail('An error has occurred');
+            }
+          })
+        });
+      } else {
+        WtGrowl.fail('An error has occurred');
+      }
+    } else {
+      WtGrowl.fail('An error has occurred');
+    }
+  });
 });
 
 function loadBraintreeLibs(callback) {
@@ -126,6 +134,13 @@ function initPaymentForm(authorization, customerId) {
             if (e) {
               WtGrowl.fail('Failed to create new payment method.');
             } else {
+              Meteor.call('wtBraintreeAPIGetCustomer', customerId, function (e, r) {
+                if (!e) {
+                  if (r && r.status=='success') {
+                    Session.set('braintreeAPICustomer', r.data);
+                  }
+                }
+              });
               WtGrowl.success('Payment method created.');
             }
           });

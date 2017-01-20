@@ -220,11 +220,11 @@ Meteor.methods({
       if (err) {
         myFuture.return({status: "error", msg: err.message});
       } else {
-        if (res && res.data) {
-          if (res.data.success) {
+        if (res) {
+          if (res.success) {
             myFuture.return({status: "success", data: res});
           } else {
-            myFuture.return({status: "error", msg: res.data.message});
+            myFuture.return({status: "error", msg: res.message});
           }
         } else {
           myFuture.return({status: "error", msg: "Failed to create Payment Method."});

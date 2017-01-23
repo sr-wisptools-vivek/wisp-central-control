@@ -60,9 +60,9 @@ Template.wtBraintreeEditCustomer.helpers({
     }
     return subscriptions;
   },
-  'count': function (subscriptions) {
-    if (subscriptions && subscriptions.length>0) {
-      return subscriptions.length;
+  'subscriptionscount': function () {
+    if (this.subscriptions && this.subscriptions.length>0) {
+      return this.subscriptions.length;
     }
     return 0;
   },
@@ -76,6 +76,9 @@ Template.wtBraintreeEditCustomer.helpers({
       }
     }
     return planId;
+  },
+  'plans': function () {
+    return Session.get('braintreePlans');
   }
 });
 
@@ -112,6 +115,31 @@ Template.wtBraintreeEditCustomer.events({
           });
         }
       });
+    }
+  },
+  'click .createSubscriptionBtn': function (e) {
+    e.preventDefault();
+    var token = this.token;
+    var planId = $(e.target).parent().find('select').val();
+    var customerId = this.customerId;
+    if (token && planId && customerId) {
+      Meteor.call('wtBraintreeAPICreateSubscription', token, planId, function (e, r) {
+        if (e) {
+          console.log(e);
+          WtGrowl.fail('Failed to create subscription.');
+        } else {
+          Meteor.call('wtBraintreeAPIGetCustomer', customerId, function (e, r) {
+            if (!e) {
+              if (r && r.status=='success') {
+                Session.set('braintreeAPICustomer', r.data);
+              }
+            }
+          });
+          WtGrowl.success('New Subscription created.');
+        }
+      });
+    } else {
+      WtGrowl.fail('Please select a valid plan.')
     }
   }
 });

@@ -82,6 +82,7 @@
               <th>Number</th>
               <th>Expiry</th>
               <th>Subscriptions</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -92,12 +93,24 @@
               <td>{{cardholderName}}</td>
               <td>{{maskedNumber}}</td>
               <td>{{expirationDate}}</td>
-              <td>{{count subscriptions}}</td>
+              <td>{{subscriptionscount}}</td>
+              <td>
+                <form class="form-inline">
+                  <div class="form-group">
+                    <select class="form-control">
+                      {{#each plans}}
+                      <option value="{{id}}">{{name}}</option>
+                      {{/each}}
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-default createSubscriptionBtn">Create Subscription</button>
+                </form>
+              </td>
             </tr>
             {{/each}}
             {{else}}
             <tr>
-              <td colspan="5">No Payment Methods</td>
+              <td colspan="6">No Payment Methods</td>
             </tr>
             {{/if}}
           </tbody>

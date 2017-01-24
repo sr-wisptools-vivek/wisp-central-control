@@ -8,10 +8,7 @@ Meteor.methods({
       throw new Meteor.Error("accounts-invite", "An account already exist with this email.");
     }
 
-    var domain = "";
-    if (Meteor.user() && Meteor.user().profile && Meteor.user().profile.domain) {
-      domain = Meteor.user().profile.domain;
-    }
+    var domain = Meteor.call('wtManagedRouterMySQLGetMyDomain');
 
     var invitation = WtAccountsInviteTokens.findOne({email: email, domain: domain});
     if (invitation) {

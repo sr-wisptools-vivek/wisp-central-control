@@ -441,11 +441,13 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
     var fut = new Future();
     sql = 
       "UPDATE " 
-      + db_name + ".Subscriber "
-      + "SET SubscriberName = "
+      + db_name + ".Subscriber, "
+      + db_name + ".Equipment "
+      + "SET Subscriber.SubscriberName = "
       + escapedName +
-      " WHERE " + "SubscriberID = " +
-      subscriberId;
+      " WHERE " + "Subscriber.SubscriberID = Equipment.SubscriberID "
+      + "AND Equipment.EquipmentID = " +
+      equipmentId;
 
     runQuery(sql,fut);
     res = fut.wait();

@@ -147,6 +147,12 @@ var searchReservation = function(search, limit) {
   return res;
 }
 
+Meteor.method("wtManagedRouterMySQLGetMyDomain", function() {
+  var domain = WtMangedRouterMySQLDomains.findOne({userId: this.userId});
+  if (!domain) return null;
+  if (domain.name == "") return null;
+  return domain.name;
+});
 
 Meteor.method("wtManagedRouterMySQLGetLimit", function(limit) {
   return search.call(this, '', limit);

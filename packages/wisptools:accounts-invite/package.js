@@ -14,6 +14,7 @@ Package.onUse(function(api) {
     'mongo',
     'templating',
     'underscore',
+    'reactive-var',
     'iron:router@1.0.7',
     'wisptools:growl',
     'wisptools:collection',

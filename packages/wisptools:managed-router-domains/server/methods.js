@@ -1,4 +1,9 @@
 Meteor.method("wtManagedRouterDeleteDomain", function(){
+  throw new Meteor.Error('denied','Delete domain is broken.');
+  /***
+
+  THIS NEEDS TO BE RE-WORKED!
+
   var removeDomain = Session.get('managedRouterDomainDelete');
   //check if domain is assigned to any user.
   var item = WtMangedRouterMySQLDomains.findOne({name: removeDomain.domain});
@@ -8,10 +13,12 @@ Meteor.method("wtManagedRouterDeleteDomain", function(){
   } else {
     WtMangedRouterMySQLDomainsList.remove({_id: removeDomain._id});
   }
+  ***/
 });
 
 Meteor.method("wtManagedRouterAddDomain", function (domain) {
   if (!this.userId) throw new Meteor.Error('denied','Not Authorized');
+  // Only add new domain, if there isn't one already.
   if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
     var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
     if (!domainList) {

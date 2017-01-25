@@ -205,7 +205,7 @@ Meteor.methods({
 
     return result;
   },
-  'wtBraintreeAPICreatePaymentMethod': function (customerId, paymentMethodNonce) {
+  'wtBraintreeAPICreatePaymentMethod': function (customerId, paymentMethodNonce, cardholderName) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
 
@@ -216,7 +216,7 @@ Meteor.methods({
     BraintreeAPI.connect(braintreeSettings.environment, braintreeSettings.merchantId, braintreeSettings.publicKey, braintreeSettings.privateKey);
 
     var myFuture = new Future();
-    BraintreeAPI.createPaymentMethod(customerId, paymentMethodNonce, function (err, res) {
+    BraintreeAPI.createPaymentMethod(customerId, paymentMethodNonce, cardholderName, function (err, res) {
       if (err) {
         myFuture.return({status: "error", msg: err.message});
       } else {
@@ -228,6 +228,36 @@ Meteor.methods({
           }
         } else {
           myFuture.return({status: "error", msg: "Failed to create Payment Method."});
+        }
+      }
+    });
+    var result = myFuture.wait();
+
+    return result;
+  },
+  'wtBraintreeAPIUpdatePaymentMethod': function (token, paymentMethodNonce, cardholderName) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+
+    var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
+    if (!braintreeSettings) {
+      throw new Meteor.Error(401, "Failed to connect to Braintree.");
+    }
+    BraintreeAPI.connect(braintreeSettings.environment, braintreeSettings.merchantId, braintreeSettings.publicKey, braintreeSettings.privateKey);
+
+    var myFuture = new Future();
+    BraintreeAPI.updatePaymentMethod(token, paymentMethodNonce, cardholderName, function (err, res) {
+      if (err) {
+        myFuture.return({status: "error", msg: err.message});
+      } else {
+        if (res) {
+          if (res.success) {
+            myFuture.return({status: "success", data: res});
+          } else {
+            myFuture.return({status: "error", msg: res.message});
+          }
+        } else {
+          myFuture.return({status: "error", msg: "Failed to update Payment Method."});
         }
       }
     });

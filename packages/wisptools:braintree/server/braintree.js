@@ -136,7 +136,7 @@ BraintreeAPI.createClientToken = function (callback) {
   gateway.clientToken.generate({}, callback);
 };
 
-BraintreeAPI.createPaymentMethod = function (customerId, paymentMethodNonce, callback) {
+BraintreeAPI.createPaymentMethod = function (customerId, paymentMethodNonce, cardholderName, callback) {
   if (!customerId || !paymentMethodNonce) {
     throw new Meteor.Error("braintree-error", 'Braintree create payment method - Invalid parameters.');
   }
@@ -146,10 +146,34 @@ BraintreeAPI.createPaymentMethod = function (customerId, paymentMethodNonce, cal
   if (!gateway) {
     throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
   }
+  if (!cardholderName) {
+    cardholderName = "";
+  }
 
   gateway.paymentMethod.create({
     customerId: customerId,
-    paymentMethodNonce: paymentMethodNonce
+    paymentMethodNonce: paymentMethodNonce,
+    cardholderName: cardholderName
+  }, callback);
+};
+
+BraintreeAPI.updatePaymentMethod = function (token, paymentMethodNonce, cardholderName, callback) {
+  if (!token || !paymentMethodNonce) {
+    throw new Meteor.Error("braintree-error", 'Braintree update payment method - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+  if (!cardholderName) {
+    cardholderName = "";
+  }
+
+  gateway.paymentMethod.update(token, {
+    paymentMethodNonce: paymentMethodNonce,
+    cardholderName: cardholderName
   }, callback);
 };
 

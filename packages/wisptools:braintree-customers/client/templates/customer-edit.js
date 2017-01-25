@@ -2,6 +2,7 @@ Template.wtBraintreeEditCustomer.onRendered(function () {
   Session.set('braintreeCustomer', false);
   Session.set('braintreeAPICustomer', false);
   Session.set('braintreePlans', false);
+  Session.set('braintreeEditPaymentMethod', false);
   Meteor.call('wtBraintreeCustomerGetCustomer', this.data.id, function (e, r) {
     if (!e) {
       if (r) {
@@ -79,6 +80,20 @@ Template.wtBraintreeEditCustomer.helpers({
   },
   'plans': function () {
     return Session.get('braintreePlans');
+  },
+  'isEdit': function () {
+    var token = Session.get('braintreeEditPaymentMethod');
+    if (token && this.token==token) {
+      return true;
+    }
+    return false;
+  },
+  'showPaymentEditForm': function () {
+    var token = Session.get('braintreeEditPaymentMethod');
+    if (token) {
+      return true;
+    }
+    return false;
   }
 });
 
@@ -141,5 +156,13 @@ Template.wtBraintreeEditCustomer.events({
     } else {
       WtGrowl.fail('Please select a valid plan.')
     }
+  },
+  'click .editPaymentMethod': function (e) {
+    e.preventDefault();
+    Session.set('braintreeEditPaymentMethod', this.token);
+  },
+  'click .cancelEditPaymentMethod': function (e) {
+    e.preventDefault();
+    Session.set('braintreeEditPaymentMethod', false);
   }
 });

@@ -1,14 +1,14 @@
-<template name="wtBraintreeAddPaymentMethodForm">
+<template name="wtBraintreeEditPaymentMethodForm">
   <div class="panel panel-default bootstrap-basic">
     <div class="panel-heading">
-      <h3 class="panel-title">Enter Card Details</h3>
+      <h3 class="panel-title">Edit Payment Method</h3>
     </div>
-    <form class="panel-body" id="add-payment-method-form">
+    <form class="panel-body" id="edit-payment-method-form">
       <div class="row">
         <div class="form-group col-xs-8">
           <label class="control-label">Card Number</label>
           <!--  Hosted Fields div container -->
-          <div class="form-control" id="card-number"></div>
+          <div class="form-control" id="edit-card-number"></div>
           <span class="helper-text"></span>
         </div>
         <div class="form-group col-xs-4">
@@ -16,11 +16,11 @@
             <label class="control-label col-xs-12">Expiration Date</label>
             <div class="col-xs-6">
               <!--  Hosted Fields div container -->
-              <div class="form-control" id="expiration-month"></div>
+              <div class="form-control" id="edit-expiration-month"></div>
             </div>
             <div class="col-xs-6">
               <!--  Hosted Fields div container -->
-              <div class="form-control" id="expiration-year"></div>
+              <div class="form-control" id="edit-expiration-year"></div>
             </div>
           </div>
         </div>
@@ -29,15 +29,15 @@
         <div class="form-group col-xs-4">
           <label class="control-label">CVV</label>
           <!--  Hosted Fields div container -->
-          <div class="form-control" id="cvv"></div>
+          <div class="form-control" id="edit-cvv"></div>
         </div>
         <div class="form-group col-xs-4">
           <label class="control-label">Cardholder Name</label>
-          <input type="text" class="form-control" id="cardholder-name" />
+          <input type="text" class="form-control" id="edit-cardholder-name" />
         </div>
       </div>
 
-      <button value="submit" id="submit" class="btn btn-success btn-lg center-block">Add Payment Method</button>
+      <button value="submit" id="submit" class="btn btn-primary btn-lg center-block">Update Payment Method</button>
     </form>
   </div>
 </template>

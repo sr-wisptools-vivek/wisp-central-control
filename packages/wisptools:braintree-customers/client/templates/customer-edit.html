@@ -82,13 +82,13 @@
               <th>Number</th>
               <th>Expiry</th>
               <th>Subscriptions</th>
-              <th>Action</th>
+              <th colspan="2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {{#if paymentmethods}}
             {{#each paymentmethods}}
-            <tr>
+            <tr class="{{#if isEdit}}warning{{/if}}">
               <td>{{cardType}}</td>
               <td>{{cardholderName}}</td>
               <td>{{maskedNumber}}</td>
@@ -106,6 +106,13 @@
                   <button type="submit" class="btn btn-default createSubscriptionBtn">Create Subscription</button>
                 </form>
               </td>
+              <td>
+                {{#if isEdit}}
+                <button class="btn btn-warning cancelEditPaymentMethod">Cancel</button>
+                {{else}}
+                <button class="btn btn-primary editPaymentMethod">Edit</button>
+                {{/if}}
+              </td>
             </tr>
             {{/each}}
             {{else}}
@@ -116,6 +123,11 @@
           </tbody>
         </table>
       </div>
+      {{#if showPaymentEditForm}}
+      <div class="row">
+        {{ > wtBraintreeEditPaymentMethodForm }}
+      </div>
+      {{/if}}
       <h4>Subscriptions</h4>
       <div class="row">
         <table class="table table-bordered">

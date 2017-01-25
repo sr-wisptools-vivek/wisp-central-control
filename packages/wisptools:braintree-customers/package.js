@@ -37,7 +37,9 @@ Package.onUse(function(api) {
     'client/templates/customer-edit.html',
     'client/templates/customer-edit.js',
     'client/templates/braintree-form.html',
-    'client/templates/braintree-form.js'
+    'client/templates/braintree-form.js',
+    'client/templates/braintree-edit-form.html',
+    'client/templates/braintree-edit-form.js'
   ], 'client');
 
   api.addFiles([

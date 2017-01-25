@@ -130,7 +130,9 @@ function initPaymentForm(authorization, customerId) {
             return;
           }
 
-          Meteor.call('wtBraintreeAPICreatePaymentMethod', customerId, payload.nonce, function (e, r) {
+          var cardholderName = $('#cardholder-name').val();
+
+          Meteor.call('wtBraintreeAPICreatePaymentMethod', customerId, payload.nonce, cardholderName, function (e, r) {
             if (e) {
               WtGrowl.fail('Failed to create new payment method.');
             } else {

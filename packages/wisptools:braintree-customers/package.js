@@ -18,7 +18,8 @@ Package.onUse(function(api) {
     'wisptools:growl',
     'wisptools:collection',
     'wisptools:menu',
-    'wisptools:aes'
+    'wisptools:aes',
+    'wisptools:editable-field'
   ]);
 
   api.addFiles([

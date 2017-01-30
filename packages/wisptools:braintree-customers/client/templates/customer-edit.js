@@ -94,10 +94,162 @@ Template.wtBraintreeEditCustomer.helpers({
       return true;
     }
     return false;
+  },
+  'editingFirstName': function () {
+    return Session.equals('braintreeCustomerEditingFirstName', this.customerId);
+  },
+  'editingLastName': function () {
+    return Session.equals('braintreeCustomerEditingLastName', this.customerId);      
+  },
+  'editingPhone': function () {
+    return Session.equals('braintreeCustomerEditingPhone', this.customerId);      
+  },
+  'editingEmail': function () {
+    return Session.equals('braintreeCustomerEditingEmail', this.customerId);      
+  },
+  'editingAddress': function () {
+    return Session.equals('braintreeCustomerEditingAddress', this.customerId);      
+  },
+  'editingCity': function () {
+    return Session.equals('braintreeCustomerEditingCity', this.customerId);      
+  },
+  'editingState': function () {
+    return Session.equals('braintreeCustomerEditingState', this.customerId);      
+  },
+  'editingZip': function () {
+    return Session.equals('braintreeCustomerEditingZip', this.customerId);      
   }
 });
 
 Template.wtBraintreeEditCustomer.events({
+  'click .firstName': function (e,t) {
+    Session.set('braintreeCustomerEditingFirstName', this.customerId);
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
+      this.find('input#firstname').focus()
+    }.bind(t));
+  },
+  'blur .firstName, keypress .firstName': function(e,t){  //event to save updated router name.
+    var keyPressed = e.which;
+    var eventType = e.type;
+
+    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
+      var newFirstName = e.target.value.trim();
+      console.log(newFirstName);
+      Session.set('braintreeCustomerEditingFirstName', null);
+    }
+  },
+  'click .lastName': function (e,t) {
+    Session.set('braintreeCustomerEditingLastName', this.customerId);
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
+      this.find('input#lastname').focus()
+    }.bind(t));
+  },  
+  'blur .lastName, keypress .lastName': function(e,t){  //event to save updated router name.
+    var keyPressed = e.which;
+    var eventType = e.type;
+
+    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
+      var newLastName = e.target.value.trim();
+      console.log(newLastName);
+      Session.set('braintreeCustomerEditingLastName', null);
+    }
+  },
+  'click .phoneNumber': function (e,t) {
+    Session.set('braintreeCustomerEditingPhone', this.customerId);
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
+      this.find('input#phone').focus()
+    }.bind(t));
+  },  
+  'blur .phoneNumber, keypress .phoneNumber': function(e,t){  //event to save updated router name.
+    var keyPressed = e.which;
+    var eventType = e.type;
+
+    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
+      var newPhone = e.target.value.trim();
+      console.log(newPhone);
+      Session.set('braintreeCustomerEditingPhone', null);
+    }
+  },
+  'click .email': function (e,t) {
+    Session.set('braintreeCustomerEditingEmail', this.customerId);
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
+      this.find('input#email').focus()
+    }.bind(t));
+  },  
+  'blur .email, keypress .email': function(e,t){  //event to save updated router name.
+    var keyPressed = e.which;
+    var eventType = e.type;
+
+    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
+      var newPhone = e.target.value.trim();
+      console.log(newPhone);
+      Session.set('braintreeCustomerEditingEmail', null);
+    }
+  },
+  'click .address': function (e,t) {
+    Session.set('braintreeCustomerEditingAddress', this.customerId);
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
+      this.find('input#address').focus()
+    }.bind(t));
+  },  
+  'blur .address, keypress .address': function(e,t){  //event to save updated router name.
+    var keyPressed = e.which;
+    var eventType = e.type;
+
+    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
+      var newPhone = e.target.value.trim();
+      console.log(newPhone);
+      Session.set('braintreeCustomerEditingAddress', null);
+    }
+  },  
+  'click .city': function (e,t) {
+    Session.set('braintreeCustomerEditingCity', this.customerId);
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
+      this.find('input#city').focus()
+    }.bind(t));
+  },  
+  'blur .city, keypress .city': function(e,t){  //event to save updated router name.
+    var keyPressed = e.which;
+    var eventType = e.type;
+
+    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
+      var newPhone = e.target.value.trim();
+      console.log(newPhone);
+      Session.set('braintreeCustomerEditingCity', null);
+    }
+  },
+  'click .state': function (e,t) {
+    Session.set('braintreeCustomerEditingState', this.customerId);
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
+      this.find('input#state').focus()
+    }.bind(t));
+  },  
+  'blur .state, keypress .state': function(e,t){  //event to save updated router name.
+    var keyPressed = e.which;
+    var eventType = e.type;
+
+    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
+      var newPhone = e.target.value.trim();
+      console.log(newPhone);
+      Session.set('braintreeCustomerEditingState', null);
+    }
+  },
+  'click .zip': function (e,t) {
+    Session.set('braintreeCustomerEditingZip', this.customerId);
+    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
+      this.find('input#zip').focus()
+    }.bind(t));
+  },  
+  'blur .zip, keypress .zip': function (e, t) {  //event to save updated router name.
+    var keyPressed = e.which;
+    var eventType = e.type;
+
+    if ((eventType == "keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
+      var newPhone = e.target.value.trim();
+      console.log(newPhone);
+      Session.set('braintreeCustomerEditingZip', null);
+    }
+  },
   'click .updateCustomer': function (e) {
     e.preventDefault();
     var firstname = $('#firstname').val();

@@ -34,7 +34,7 @@ Meteor.methods({
       });
     }
   },
-  'wtBraintreeAPIAddCustomer': function (firstName, lastName, phone, email, address, city, state, zip) {
+  'wtBraintreeAPIAddCustomer': function (firstName, lastName, companyname, phone, email, address, city, state, zip) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
 
@@ -45,7 +45,7 @@ Meteor.methods({
     BraintreeAPI.connect(braintreeSettings.environment, braintreeSettings.merchantId, braintreeSettings.publicKey, braintreeSettings.privateKey);
 
     var myFuture = new Future();
-    BraintreeAPI.createCustomer(firstName, lastName, email, phone, function (err, res) {
+    BraintreeAPI.createCustomer(firstName, lastName, companyname, email, phone, function (err, res) {
       if (err) {
         myFuture.return({status: "error", msg: err.message});
       } else {
@@ -82,7 +82,7 @@ Meteor.methods({
       address: result2.data
     }
   },
-  'wtBraintreeAPIUpdateCustomer': function (customerId, addressId, firstName, lastName, phone, email, address, city, state, zip) {
+  'wtBraintreeAPIUpdateCustomer': function (customerId, addressId, firstName, lastName, companyname, phone, email, address, city, state, zip) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
 
@@ -93,7 +93,7 @@ Meteor.methods({
     BraintreeAPI.connect(braintreeSettings.environment, braintreeSettings.merchantId, braintreeSettings.publicKey, braintreeSettings.privateKey);
 
     var myFuture = new Future();
-    BraintreeAPI.updateCustomer(customerId, firstName, lastName, email, phone, function (err, res) {
+    BraintreeAPI.updateCustomer(customerId, firstName, lastName, companyname, email, phone, function (err, res) {
       if (err) {
         myFuture.return({status: "error", msg: err.message});
       } else {

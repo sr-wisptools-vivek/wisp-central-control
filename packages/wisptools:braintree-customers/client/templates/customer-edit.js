@@ -317,8 +317,9 @@ function updateCustomer (updateFieldName, updateFieldValue, mongoRecordID) {
             console.log(e);
             WtGrowl.fail('Failed to update customer details.');
           } else {
+            customer[updateFieldName] = updateFieldValue;
+            Session.set('braintreeCustomer', customer);
             WtGrowl.success('Customer updated.');
-            Router.go('wtBraintreeCustomers');
           }
         });
       }

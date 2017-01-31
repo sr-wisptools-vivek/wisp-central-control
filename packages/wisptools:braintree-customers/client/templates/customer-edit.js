@@ -134,8 +134,9 @@ Template.wtBraintreeEditCustomer.events({
 
     if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
       var newFirstName = e.target.value.trim();
-      console.log(newFirstName);
       Session.set('braintreeCustomerEditingFirstName', null);
+      
+      updateCustomer('firstName', newFirstName, this._id);
     }
   },
   'click .lastName': function (e,t) {
@@ -150,7 +151,7 @@ Template.wtBraintreeEditCustomer.events({
 
     if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
       var newLastName = e.target.value.trim();
-      console.log(newLastName);
+      updateCustomer('lastName', newLastName, this._id);
       Session.set('braintreeCustomerEditingLastName', null);
     }
   },
@@ -166,7 +167,7 @@ Template.wtBraintreeEditCustomer.events({
 
     if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
       var newPhone = e.target.value.trim();
-      console.log(newPhone);
+      updateCustomer('phone', newPhone, this._id);
       Session.set('braintreeCustomerEditingPhone', null);
     }
   },
@@ -181,9 +182,13 @@ Template.wtBraintreeEditCustomer.events({
     var eventType = e.type;
 
     if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newPhone = e.target.value.trim();
-      console.log(newPhone);
-      Session.set('braintreeCustomerEditingEmail', null);
+      var newEmail = e.target.value.trim();
+      if (!Accounts._loginButtons.validateEmail(newEmail)) {
+        WtGrowl.fail('Please enter a valid email.');
+      } else {
+        updateCustomer('email', newEmail, this._id);
+        Session.set('braintreeCustomerEditingEmail', null);
+      }
     }
   },
   'click .address': function (e,t) {
@@ -197,8 +202,8 @@ Template.wtBraintreeEditCustomer.events({
     var eventType = e.type;
 
     if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newPhone = e.target.value.trim();
-      console.log(newPhone);
+      var newAddress = e.target.value.trim();
+      updateCustomer('address', newAddress, this._id);
       Session.set('braintreeCustomerEditingAddress', null);
     }
   },  
@@ -213,8 +218,8 @@ Template.wtBraintreeEditCustomer.events({
     var eventType = e.type;
 
     if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newPhone = e.target.value.trim();
-      console.log(newPhone);
+      var newCity = e.target.value.trim();
+      updateCustomer('city', newCity, this._id);
       Session.set('braintreeCustomerEditingCity', null);
     }
   },
@@ -229,8 +234,8 @@ Template.wtBraintreeEditCustomer.events({
     var eventType = e.type;
 
     if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newPhone = e.target.value.trim();
-      console.log(newPhone);
+      var newState = e.target.value.trim();
+      updateCustomer('state', newState, this._id);
       Session.set('braintreeCustomerEditingState', null);
     }
   },
@@ -245,43 +250,9 @@ Template.wtBraintreeEditCustomer.events({
     var eventType = e.type;
 
     if ((eventType == "keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newPhone = e.target.value.trim();
-      console.log(newPhone);
+      var newZip = e.target.value.trim();
+      updateCustomer('zip', newZip, this._id);
       Session.set('braintreeCustomerEditingZip', null);
-    }
-  },
-  'click .updateCustomer': function (e) {
-    e.preventDefault();
-    var firstname = $('#firstname').val();
-    var lastname = $('#lastname').val();
-    var phone = $('#phone').val();
-    var email = $('#email').val();
-    var address = $('#address').val();
-    var city = $('#city').val();
-    var state = $('#state').val();
-    var zip = $('#zip').val();
-    var mongo_record_id = this._id;
-    if (!firstname || !lastname || !phone || !email || !address || !city || !state || !zip) {
-      WtGrowl.fail('Please fill all the fields.');
-    } else if (!Accounts._loginButtons.validateEmail(email)) {
-      WtGrowl.fail('Please enter a valid email.');
-    } else {
-      Meteor.call('wtBraintreeAPIUpdateCustomer', this.customerId, this.addressId, firstname, lastname, phone, email, address, city, state, zip, function (err, res) {
-        if (err) {
-          console.log(err);
-          WtGrowl.fail('Failed to update customer.');
-        } else {
-          Meteor.call('wtBraintreeCustomerUpdateCustomer', mongo_record_id, firstname, lastname, phone, email, address, city, state, zip, function (e, r) {
-            if (e) {
-              console.log(e);
-              WtGrowl.fail('Failed to update customer details.');
-            } else {
-              WtGrowl.success('Customer updated.');
-              Router.go('wtBraintreeCustomers');
-            }
-          });
-        }
-      });
     }
   },
   'click .createSubscriptionBtn': function (e) {
@@ -318,3 +289,39 @@ Template.wtBraintreeEditCustomer.events({
     Session.set('braintreeEditPaymentMethod', false);
   }
 });
+
+function updateCustomer (updateFieldName, updateFieldValue, mongoRecordID) {
+  var customer = Session.get('braintreeCustomer');
+  var updatedCustomer = {
+    firstName : customer.firstName,
+    lastName : customer.lastName,
+    phone : customer.phone,
+    email : customer.email,
+    address : customer.address,
+    state : customer.state,
+    city : customer.city,
+    zip : customer.zip
+  };
+
+  if (!updateFieldValue) {
+    WtGrowl.fail('Please fill all the fields.');
+  } else {
+    updatedCustomer[updateFieldName] = updateFieldValue;
+    Meteor.call('wtBraintreeAPIUpdateCustomer', customer.customerId, customer.addressId, updatedCustomer.firstName, updatedCustomer.lastName, updatedCustomer.phone, updatedCustomer.email, updatedCustomer.address, updatedCustomer.city, updatedCustomer.state, updatedCustomer.zip, function (err, res) {
+      if (err) {
+        console.log(err);
+        WtGrowl.fail('Failed to update customer.');
+      } else {
+        Meteor.call('wtBraintreeCustomerUpdateCustomer', mongoRecordID, updatedCustomer.firstName, updatedCustomer.lastName, updatedCustomer.phone, updatedCustomer.email, updatedCustomer.address, updatedCustomer.city, updatedCustomer.state, updatedCustomer.zip, function (e, r) {
+          if (e) {
+            console.log(e);
+            WtGrowl.fail('Failed to update customer details.');
+          } else {
+            WtGrowl.success('Customer updated.');
+            Router.go('wtBraintreeCustomers');
+          }
+        });
+      }
+    });
+  }
+}

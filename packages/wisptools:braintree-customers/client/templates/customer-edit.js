@@ -102,6 +102,7 @@ Template.wtBraintreeEditCustomer.events({
     e.preventDefault();
     var firstname = $('#firstname').val();
     var lastname = $('#lastname').val();
+    var companyname = $('#companyname').val();
     var phone = $('#phone').val();
     var email = $('#email').val();
     var address = $('#address').val();
@@ -109,23 +110,24 @@ Template.wtBraintreeEditCustomer.events({
     var state = $('#state').val();
     var zip = $('#zip').val();
     var mongo_record_id = this._id;
-    if (!firstname || !lastname || !phone || !email || !address || !city || !state || !zip) {
-      WtGrowl.fail('Please fill all the fields.');
+    if (!email) {
+      WtGrowl.fail('Email field is required.');
+    } else if (!(!!firstname && !!lastname) && !companyname) {
+      WtGrowl.fail('Either the Company name or the First name and Last name is required.');
     } else if (!Accounts._loginButtons.validateEmail(email)) {
       WtGrowl.fail('Please enter a valid email.');
     } else {
-      Meteor.call('wtBraintreeAPIUpdateCustomer', this.customerId, this.addressId, firstname, lastname, phone, email, address, city, state, zip, function (err, res) {
+      Meteor.call('wtBraintreeAPIUpdateCustomer', this.customerId, this.addressId, firstname, lastname, companyname, phone, email, address, city, state, zip, function (err, res) {
         if (err) {
           console.log(err);
           WtGrowl.fail('Failed to update customer.');
         } else {
-          Meteor.call('wtBraintreeCustomerUpdateCustomer', mongo_record_id, firstname, lastname, phone, email, address, city, state, zip, function (e, r) {
+          Meteor.call('wtBraintreeCustomerUpdateCustomer', mongo_record_id, firstname, lastname, companyname, phone, email, address, city, state, zip, function (e, r) {
             if (e) {
               console.log(e);
               WtGrowl.fail('Failed to update customer details.');
             } else {
               WtGrowl.success('Customer updated.');
-              Router.go('wtBraintreeCustomers');
             }
           });
         }

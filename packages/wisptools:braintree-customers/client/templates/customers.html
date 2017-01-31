@@ -1,14 +1,14 @@
 <template name="wtBraintreeCustomers">
   <div class="bg-secondary app-page">
     <div class="container">
-      <h3>Braintree Customers</h3><hr />
+      <h3>Customers</h3><hr />
       <div class="row">
           <form class="form-inline">
             <div class="form-group">
               <input type="text" class="form-control" id="searchBox" placeholder="Search">
             </div>
             <button class="btn btn-primary searchBtn">Search</button>
-            <button class="btn btn-success addCustomerBtn">Add Customer</button>
+            <button class="btn btn-success addCustomerBtn pull-right">Add Customer</button>
           </form>
       </div>
       <hr />
@@ -29,8 +29,6 @@
               <th>Company Name</th>
               <th>Phone</th>
               <th>Email</th>
-              <th>Domain</th>
-              <th>Created</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -42,11 +40,8 @@
               <td>{{ company }}</td>
               <td>{{ phone }}</td>
               <td>{{ email }}</td>
-              <td>{{ domain }}</td>
-              <td>{{ createdAt }}</td>
               <td>
-                <button class="btn btn-primary detailsBtn">Details</button>
-                <button class="btn btn-warning editBtn">Edit</button>
+                <button class="btn btn-primary editBtn">View</button>
               </td>
             </tr>
             {{/each}}

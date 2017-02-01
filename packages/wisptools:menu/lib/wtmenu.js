@@ -58,6 +58,7 @@ WtMenu =  {
     p.name = name;
     p.route = route;
     p.icon = icon;
+    p.displayOrder = displayOrder;
     p.roles = roles;
     this.primary.push(p);
   }

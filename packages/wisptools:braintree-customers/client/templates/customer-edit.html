@@ -3,7 +3,7 @@
     <div class="container">
       {{#if customer}}
       {{#with customer}}
-      <h3>Update Braintree Customer ({{ customerId }})</h3><hr />
+      <h3>{{ showTitle }} <span class="pull-right">{{ customerId }}</span></h3><hr />
       <div class="row">
         <form class="form-horizontal col-md-8">
           <div class="form-group">
@@ -71,9 +71,11 @@
       </div>
       {{/if}}
       <h4>Payment Methods</h4>
+      {{#unless showPaymentEditForm}}
       <div class="row">
         {{ > wtBraintreeAddPaymentMethodForm }}
       </div>
+      {{/unless}}
       <div class="row">
         <table class="table table-bordered">
           <thead>

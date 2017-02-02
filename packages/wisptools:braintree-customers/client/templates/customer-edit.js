@@ -31,6 +31,13 @@ Template.wtBraintreeEditCustomer.helpers({
   'apicustomer': function () {
     return Session.get('braintreeAPICustomer');
   },
+  'showTitle': function () {
+    if (this.company) {
+      return this.company;
+    } else {
+      return this.firstName + " " + this.lastName;
+    }
+  },
   'paymentmethods': function () {
     var customer = Session.get('braintreeAPICustomer');
     var paymentmethods = [];
@@ -202,12 +209,34 @@ function updateCustomer (updateFieldName, updateFieldValue, mongoRecordID, callb
 }
 
 function validateCustomer(updateFieldName, updateFieldValue, customer) {
-  if (!updateFieldValue) {
-    WtGrowl.fail('The field cannot be empty.');
-    return false;
-  } else if (updateFieldName=='email' && !Accounts._loginButtons.validateEmail(updateFieldValue)) {
-    WtGrowl.fail('Please enter a valid email.');
-    return false;
+  switch (updateFieldName) {
+    case 'email':
+      if (updateFieldValue.trim().length<1) {
+        WtGrowl.fail('Email is required.');
+        return false;
+      } else if (!Accounts._loginButtons.validateEmail(updateFieldValue)) {
+        WtGrowl.fail('Please enter a valid email.');
+        return false;
+      }
+      break;
+    case 'firstName':
+      if (updateFieldValue.trim().length<1 && customer.company.length<1) {
+        WtGrowl.fail('Either the Company name or the First name and Last name is required.');
+        return false;
+      }
+      break;
+    case 'lastName':
+      if (updateFieldValue.trim().length<1 && customer.company.length<1) {
+        WtGrowl.fail('Either the Company name or the First name and Last name is required.');
+        return false;
+      }
+      break;
+    case 'company':
+      if (updateFieldValue.trim().length<1 && (customer.firstName.length<1 || customer.lastName.length<1)) {
+        WtGrowl.fail('Either the Company name or the First name and Last name is required.');
+        return false;
+      }
+      break;
   }
   return true;
 }

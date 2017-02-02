@@ -94,167 +94,10 @@ Template.wtBraintreeEditCustomer.helpers({
       return true;
     }
     return false;
-  },
-  'editingFirstName': function () {
-    return Session.equals('braintreeCustomerEditingFirstName', this.customerId);
-  },
-  'editingLastName': function () {
-    return Session.equals('braintreeCustomerEditingLastName', this.customerId);      
-  },
-  'editingPhone': function () {
-    return Session.equals('braintreeCustomerEditingPhone', this.customerId);      
-  },
-  'editingEmail': function () {
-    return Session.equals('braintreeCustomerEditingEmail', this.customerId);      
-  },
-  'editingAddress': function () {
-    return Session.equals('braintreeCustomerEditingAddress', this.customerId);      
-  },
-  'editingCity': function () {
-    return Session.equals('braintreeCustomerEditingCity', this.customerId);      
-  },
-  'editingState': function () {
-    return Session.equals('braintreeCustomerEditingState', this.customerId);      
-  },
-  'editingZip': function () {
-    return Session.equals('braintreeCustomerEditingZip', this.customerId);      
   }
 });
 
 Template.wtBraintreeEditCustomer.events({
-  'click .firstName': function (e,t) {
-    Session.set('braintreeCustomerEditingFirstName', this.customerId);
-    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
-      this.find('input#firstname').focus()
-    }.bind(t));
-  },
-  'blur .firstName, keypress .firstName': function(e,t){  //event to save updated router name.
-    var keyPressed = e.which;
-    var eventType = e.type;
-
-    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newFirstName = e.target.value.trim();
-      Session.set('braintreeCustomerEditingFirstName', null);
-      
-      updateCustomer('firstName', newFirstName, this._id);
-    }
-  },
-  'click .lastName': function (e,t) {
-    Session.set('braintreeCustomerEditingLastName', this.customerId);
-    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
-      this.find('input#lastname').focus()
-    }.bind(t));
-  },  
-  'blur .lastName, keypress .lastName': function(e,t){  //event to save updated router name.
-    var keyPressed = e.which;
-    var eventType = e.type;
-
-    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newLastName = e.target.value.trim();
-      updateCustomer('lastName', newLastName, this._id);
-      Session.set('braintreeCustomerEditingLastName', null);
-    }
-  },
-  'click .phoneNumber': function (e,t) {
-    Session.set('braintreeCustomerEditingPhone', this.customerId);
-    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
-      this.find('input#phone').focus()
-    }.bind(t));
-  },  
-  'blur .phoneNumber, keypress .phoneNumber': function(e,t){  //event to save updated router name.
-    var keyPressed = e.which;
-    var eventType = e.type;
-
-    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newPhone = e.target.value.trim();
-      updateCustomer('phone', newPhone, this._id);
-      Session.set('braintreeCustomerEditingPhone', null);
-    }
-  },
-  'click .email': function (e,t) {
-    Session.set('braintreeCustomerEditingEmail', this.customerId);
-    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
-      this.find('input#email').focus()
-    }.bind(t));
-  },  
-  'blur .email, keypress .email': function(e,t){  //event to save updated router name.
-    var keyPressed = e.which;
-    var eventType = e.type;
-
-    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newEmail = e.target.value.trim();
-      if (!Accounts._loginButtons.validateEmail(newEmail)) {
-        WtGrowl.fail('Please enter a valid email.');
-      } else {
-        updateCustomer('email', newEmail, this._id);
-        Session.set('braintreeCustomerEditingEmail', null);
-      }
-    }
-  },
-  'click .address': function (e,t) {
-    Session.set('braintreeCustomerEditingAddress', this.customerId);
-    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
-      this.find('input#address').focus()
-    }.bind(t));
-  },  
-  'blur .address, keypress .address': function(e,t){  //event to save updated router name.
-    var keyPressed = e.which;
-    var eventType = e.type;
-
-    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newAddress = e.target.value.trim();
-      updateCustomer('address', newAddress, this._id);
-      Session.set('braintreeCustomerEditingAddress', null);
-    }
-  },  
-  'click .city': function (e,t) {
-    Session.set('braintreeCustomerEditingCity', this.customerId);
-    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
-      this.find('input#city').focus()
-    }.bind(t));
-  },  
-  'blur .city, keypress .city': function(e,t){  //event to save updated router name.
-    var keyPressed = e.which;
-    var eventType = e.type;
-
-    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newCity = e.target.value.trim();
-      updateCustomer('city', newCity, this._id);
-      Session.set('braintreeCustomerEditingCity', null);
-    }
-  },
-  'click .state': function (e,t) {
-    Session.set('braintreeCustomerEditingState', this.customerId);
-    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
-      this.find('input#state').focus()
-    }.bind(t));
-  },  
-  'blur .state, keypress .state': function(e,t){  //event to save updated router name.
-    var keyPressed = e.which;
-    var eventType = e.type;
-
-    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newState = e.target.value.trim();
-      updateCustomer('state', newState, this._id);
-      Session.set('braintreeCustomerEditingState', null);
-    }
-  },
-  'click .zip': function (e,t) {
-    Session.set('braintreeCustomerEditingZip', this.customerId);
-    Tracker.afterFlush(function() { //Focus on textfield after text is converted. 
-      this.find('input#zip').focus()
-    }.bind(t));
-  },  
-  'blur .zip, keypress .zip': function (e, t) {  //event to save updated router name.
-    var keyPressed = e.which;
-    var eventType = e.type;
-
-    if ((eventType == "keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
-      var newZip = e.target.value.trim();
-      updateCustomer('zip', newZip, this._id);
-      Session.set('braintreeCustomerEditingZip', null);
-    }
-  },
   'click .createSubscriptionBtn': function (e) {
     e.preventDefault();
     var token = this.token;
@@ -290,7 +133,35 @@ Template.wtBraintreeEditCustomer.events({
   }
 });
 
-function updateCustomer (updateFieldName, updateFieldValue, mongoRecordID) {
+Template.wtBraintreeClickToEdit.helpers({
+  'isEditing': function (fieldName) {
+    return Session.equals('braintreeCustomerEditingField', fieldName);
+  }
+});
+
+Template.wtBraintreeClickToEdit.events({
+  'click .click-to-edit-area': function (e, t) {
+    e.preventDefault();
+    var _self = this;
+    Session.set('braintreeCustomerEditingField', this.fieldName);
+    Tracker.afterFlush(function() {
+      this.find('input#'+_self.fieldName).focus();
+    }.bind(t));
+  },
+  'blur .click-to-edit-area, keypress .click-to-edit-area': function(e, t) {
+    var keyPressed = e.which;
+    var eventType = e.type;
+    if ((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") {
+      e.preventDefault();
+      var newValue = e.target.value.trim();
+      updateCustomer(this.fieldName, newValue, Template.parentData()._id, function () {
+        Session.set('braintreeCustomerEditingField', null);
+      });
+    }
+  }
+});
+
+function updateCustomer (updateFieldName, updateFieldValue, mongoRecordID, callback) {
   var customer = Session.get('braintreeCustomer');
   var updatedCustomer = {
     firstName : customer.firstName,
@@ -298,19 +169,18 @@ function updateCustomer (updateFieldName, updateFieldValue, mongoRecordID) {
     phone : customer.phone,
     email : customer.email,
     address : customer.address,
-    state : customer.state,
     city : customer.city,
+    state : customer.state,
     zip : customer.zip
   };
 
-  if (!updateFieldValue) {
-    WtGrowl.fail('Please fill all the fields.');
-  } else {
+  if (validateCustomer(updateFieldName, updateFieldValue, updatedCustomer)) {
     updatedCustomer[updateFieldName] = updateFieldValue;
     Meteor.call('wtBraintreeAPIUpdateCustomer', customer.customerId, customer.addressId, updatedCustomer.firstName, updatedCustomer.lastName, updatedCustomer.phone, updatedCustomer.email, updatedCustomer.address, updatedCustomer.city, updatedCustomer.state, updatedCustomer.zip, function (err, res) {
       if (err) {
         console.log(err);
         WtGrowl.fail('Failed to update customer.');
+        callback();
       } else {
         Meteor.call('wtBraintreeCustomerUpdateCustomer', mongoRecordID, updatedCustomer.firstName, updatedCustomer.lastName, updatedCustomer.phone, updatedCustomer.email, updatedCustomer.address, updatedCustomer.city, updatedCustomer.state, updatedCustomer.zip, function (e, r) {
           if (e) {
@@ -321,8 +191,22 @@ function updateCustomer (updateFieldName, updateFieldValue, mongoRecordID) {
             Session.set('braintreeCustomer', customer);
             WtGrowl.success('Customer updated.');
           }
+          callback();
         });
       }
     });
+  } else {
+    callback();
   }
+}
+
+function validateCustomer(updateFieldName, updateFieldValue, customer) {
+  if (!updateFieldValue) {
+    WtGrowl.fail('The field cannot be empty.');
+    return false;
+  } else if (updateFieldName=='email' && !Accounts._loginButtons.validateEmail(updateFieldValue)) {
+    WtGrowl.fail('Please enter a valid email.');
+    return false;
+  }
+  return true;
 }

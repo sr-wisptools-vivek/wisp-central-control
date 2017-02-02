@@ -19,8 +19,8 @@ BraintreeAPI.connect = function (environment, merchantId, publicKey, privateKey)
   });
 };
 
-BraintreeAPI.createCustomer = function (firstName, lastName, email, phone, callback) {
-  if (!firstName || !lastName || !email || !phone) {
+BraintreeAPI.createCustomer = function (firstName, lastName, companyname, email, phone, callback) {
+  if (!email || (!!email && (!(!!firstName && !!lastName) && !companyname))) {
     throw new Meteor.Error("braintree-error", 'Braintree create customer - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
@@ -33,13 +33,14 @@ BraintreeAPI.createCustomer = function (firstName, lastName, email, phone, callb
   gateway.customer.create({
     firstName: firstName,
     lastName: lastName,
+    company: companyname,
     email: email,
     phone: phone
   }, callback);
 };
 
-BraintreeAPI.updateCustomer = function (customerId, firstName, lastName, email, phone, callback) {
-  if (!customerId || !firstName || !lastName || !email || !phone) {
+BraintreeAPI.updateCustomer = function (customerId, firstName, lastName, companyname, email, phone, callback) {
+  if (!email || (!!email && (!(!!firstName && !!lastName) && !companyname))) {
     throw new Meteor.Error("braintree-error", 'Braintree update customer - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
@@ -52,13 +53,14 @@ BraintreeAPI.updateCustomer = function (customerId, firstName, lastName, email, 
   gateway.customer.update(customerId, {
     firstName: firstName,
     lastName: lastName,
+    company: companyname,
     email: email,
     phone: phone
   }, callback);
 };
 
 BraintreeAPI.createAddress = function (customerId, firstName, lastName, streetAddress, locality, region, postalCode, callback) {
-  if (!customerId || !firstName || !lastName || !streetAddress || !locality || !region || !postalCode) {
+  if (!customerId) {
     throw new Meteor.Error("braintree-error", 'Braintree create address - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {
@@ -80,7 +82,7 @@ BraintreeAPI.createAddress = function (customerId, firstName, lastName, streetAd
 };
 
 BraintreeAPI.updateAddress = function (customerId, addressId, firstName, lastName, streetAddress, locality, region, postalCode, callback) {
-  if (!customerId || !addressId || !firstName || !lastName || !streetAddress || !locality || !region || !postalCode) {
+  if (!customerId || !addressId) {
     throw new Meteor.Error("braintree-error", 'Braintree update address - Invalid parameters.');
   }
   if (callback && typeof(callback)!=="function") {

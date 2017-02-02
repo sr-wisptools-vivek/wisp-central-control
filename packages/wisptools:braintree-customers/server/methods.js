@@ -1,13 +1,14 @@
 Meteor.methods({
-  'wtBraintreeCustomerAddCustomer': function (customerId, addressId, firstName, lastName, phone, email, address, city, state, zip) {
+  'wtBraintreeCustomerAddCustomer': function (customerId, addressId, firstName, lastName, companyname, phone, email, address, city, state, zip) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
 
-    WtBraintreeCustomers.collection.insert({
+    return WtBraintreeCustomers.collection.insert({
       customerId: customerId,
       addressId: addressId,
       firstName: firstName,
       lastName: lastName,
+      company: companyname,
       phone: phone,
       email: email,
       address: address,
@@ -18,13 +19,14 @@ Meteor.methods({
       owner: this.userId
     });
   },
-  'wtBraintreeCustomerUpdateCustomer': function (id, firstName, lastName, phone, email, address, city, state, zip) {
+  'wtBraintreeCustomerUpdateCustomer': function (id, firstName, lastName, companyname, phone, email, address, city, state, zip) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
 
-    WtBraintreeCustomers.collection.update({_id: id}, {$set: {
+    return WtBraintreeCustomers.collection.update({_id: id}, {$set: {
       firstName: firstName,
       lastName: lastName,
+      company: companyname,
       phone: phone,
       email: email,
       address: address,

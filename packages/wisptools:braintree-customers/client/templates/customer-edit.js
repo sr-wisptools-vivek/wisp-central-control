@@ -166,6 +166,7 @@ function updateCustomer (updateFieldName, updateFieldValue, mongoRecordID, callb
   var updatedCustomer = {
     firstName : customer.firstName,
     lastName : customer.lastName,
+    company : customer.company,
     phone : customer.phone,
     email : customer.email,
     address : customer.address,
@@ -176,13 +177,13 @@ function updateCustomer (updateFieldName, updateFieldValue, mongoRecordID, callb
 
   if (validateCustomer(updateFieldName, updateFieldValue, updatedCustomer)) {
     updatedCustomer[updateFieldName] = updateFieldValue;
-    Meteor.call('wtBraintreeAPIUpdateCustomer', customer.customerId, customer.addressId, updatedCustomer.firstName, updatedCustomer.lastName, updatedCustomer.phone, updatedCustomer.email, updatedCustomer.address, updatedCustomer.city, updatedCustomer.state, updatedCustomer.zip, function (err, res) {
+    Meteor.call('wtBraintreeAPIUpdateCustomer', customer.customerId, customer.addressId, updatedCustomer.firstName, updatedCustomer.lastName, updatedCustomer.company, updatedCustomer.phone, updatedCustomer.email, updatedCustomer.address, updatedCustomer.city, updatedCustomer.state, updatedCustomer.zip, function (err, res) {
       if (err) {
         console.log(err);
         WtGrowl.fail('Failed to update customer.');
         callback();
       } else {
-        Meteor.call('wtBraintreeCustomerUpdateCustomer', mongoRecordID, updatedCustomer.firstName, updatedCustomer.lastName, updatedCustomer.phone, updatedCustomer.email, updatedCustomer.address, updatedCustomer.city, updatedCustomer.state, updatedCustomer.zip, function (e, r) {
+        Meteor.call('wtBraintreeCustomerUpdateCustomer', mongoRecordID, updatedCustomer.firstName, updatedCustomer.lastName, updatedCustomer.company, updatedCustomer.phone, updatedCustomer.email, updatedCustomer.address, updatedCustomer.city, updatedCustomer.state, updatedCustomer.zip, function (e, r) {
           if (e) {
             console.log(e);
             WtGrowl.fail('Failed to update customer details.');

@@ -2,6 +2,7 @@ Template.wtBraintreeEditCustomer.onRendered(function () {
   Session.set('braintreeCustomer', false);
   Session.set('braintreeAPICustomer', false);
   Session.set('braintreePlans', false);
+  Session.set('braintreeForceShowAddPaymentMethodForm', false);
   Session.set('braintreeEditPaymentMethod', false);
   Meteor.call('wtBraintreeCustomerGetCustomer', this.data.id, function (e, r) {
     if (!e) {
@@ -95,6 +96,19 @@ Template.wtBraintreeEditCustomer.helpers({
     }
     return false;
   },
+  'showPaymentAddForm': function () {
+    if (Session.get('braintreeForceShowAddPaymentMethodForm')) {
+      return true;
+    }
+    if (Session.get('braintreeEditPaymentMethod')) {
+      return false;
+    }
+    var apiCustomer = Session.get('braintreeAPICustomer');
+    if (apiCustomer && apiCustomer.paymentMethods && apiCustomer.paymentMethods.length>0) {
+      return false;
+    }
+    return true;
+  },
   'showPaymentEditForm': function () {
     var token = Session.get('braintreeEditPaymentMethod');
     if (token) {
@@ -130,9 +144,15 @@ Template.wtBraintreeEditCustomer.events({
       WtGrowl.fail('Please select a valid plan.')
     }
   },
+  'click .addCreditCardBtn': function (e) {
+    e.preventDefault();
+    Session.set('braintreeForceShowAddPaymentMethodForm', true);
+    Session.set('braintreeEditPaymentMethod', false);
+  },
   'click .editPaymentMethod': function (e) {
     e.preventDefault();
     Session.set('braintreeEditPaymentMethod', this.token);
+    Session.set('braintreeForceShowAddPaymentMethodForm', false);
   },
   'click .cancelEditPaymentMethod': function (e) {
     e.preventDefault();

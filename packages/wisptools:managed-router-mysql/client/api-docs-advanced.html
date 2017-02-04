@@ -1,8 +1,8 @@
 <template name="wtManagedRouterMySQLAPIAdvanced">
 {{#markdown}}
-## Getting and Setting Data Directly on the ACS
+## Getting and Setting Data Directly
 
-The following end points are used for a more direct way of talking to the ACS.  These end points are authenticated using the same login and token used above.  Even though you are getting access into the ACS, many things have been simplified for you.  For example, the list of `hosts` you get when using `/mr/acs/device/get` is put into a single easy to use list, rather than given to you as it is in the ACS, spread out into five different data trees.  You can thank us later.
+The following end points are used for a more direct way of talking to the TR-069 ACS (Auto Configuration Server).  Even though you are getting access into the ACS, many things have been simplified for you.  For example, the list of `hosts` you get when using `/mr/acs/device/get` is put into a single easy to use list, rather than given to you as it is in the ACS, spread out into five different data trees.  You can thank us later.
 
 ## Get Data on ACS
 
@@ -11,7 +11,7 @@ This gives you the most recent data, on a device, from the ACS. The data returne
 Some values have an `item_id` which is used when updating the value using the `/mr/acs/device/set` call below.
 
 ```http
-POST /mr/acs/device/get
+POST https://api.rncontrol.com/mr/acs/device/get
 ```
 
 Sample post data
@@ -137,7 +137,7 @@ Sample error
 Values can be set for items, returned in the `get` call, that have an `item_id`.  It's important to refer to the `item_id` returned in the `get`, as they same type of data might have a different `item_id` on a different make/model.  For example, the 2.4 GHz SSID is not always `item_id=67` on every device.
 
 ```http
-POST /mr/acs/device/set
+POST https://api.rncontrol.com/mr/acs/device/set
 ```
 
 This will update the Channel and SSID on the sample device. For values that are `true` or `false, the following are all accepted as true: "Enabled", true, "true" and 1.  Everything else is sent to the ACS as false.
@@ -180,7 +180,7 @@ Sample error
 You can tell a device to reboot using the following end point.
 
 ```http
-POST /mr/acs/device/reboot
+POST https://api.rncontrol.com/mr/acs/device/reboot
 ```
 
 Sample post data
@@ -209,7 +209,7 @@ Sample error
 Refreshing will tell the ACS to reach out to a device and request that it does a check in.  If the device is offline, this command will likely error out.
 
 ```http
-POST /mr/acs/device/refresh
+POST https://api.rncontrol.com/mr/acs/device/refresh
 ```
 
 Sample post data

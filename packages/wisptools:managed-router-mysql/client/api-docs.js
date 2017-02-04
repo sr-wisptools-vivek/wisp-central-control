@@ -24,7 +24,7 @@ Template.wtManagedRouterMySQLAPI.helpers({
         tabId: "api_doc_delete",
         tabTemplate: "wtManagedRouterMySQLAPIDelete"
       },{
-        tabName: "Restore",
+        tabName: "Undelete",
         tabId: "api_doc_restore",
         tabTemplate: "wtManagedRouterMySQLAPIRestore"
       },{

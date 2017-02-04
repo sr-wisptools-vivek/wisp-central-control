@@ -1,11 +1,11 @@
 <template name="wtManagedRouterMySQLAPIRestore">
 {{#markdown}}
-## Restore Device
+## Undelete Device
 Deleted device can be restored by doing a `"post"` to `/mr/undelete`.  You'll get the restored device returned, or an error if
 any conflict occurs. 
 
 ```http
-POST /mr/undelete
+POST https://api.rncontrol.com/mr/undelete
 ```
 
 Sample post data

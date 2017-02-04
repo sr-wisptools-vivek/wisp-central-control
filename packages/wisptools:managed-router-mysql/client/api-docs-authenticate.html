@@ -4,7 +4,7 @@
 Before other requests will be accepted, you'll need an authentication token.  To get a token you'll need to `"post"` a json object to `/users/login`, containing your login username and password.
 
 ```http
-POST /users/login
+POST https://api.rncontrol.com/users/login
 ```
 
 Sample data
@@ -31,7 +31,7 @@ Sample result
 // Getting an oauth token
 $.ajax({
   method: "post",
-  url: "https://[domain]/users/login",
+  url: "https://api.rncontrol.com/users/login",
   data: JSON.stringify({"username":"user","password":"pass"}),
   contentType: "application/json",
   success: function (data) {
@@ -53,7 +53,7 @@ Authorization: Bearer <token>
 // Search for device
 $.ajax({
   method: "post",
-  url: "https://[domain]/mr/search",
+  url: "https://api.rncontrol.com/mr/search",
   data: JSON.stringify({"q":"abc","limit":5}),
   contentType: "application/json",
   headers: { Authorization: "Bearer " + token },

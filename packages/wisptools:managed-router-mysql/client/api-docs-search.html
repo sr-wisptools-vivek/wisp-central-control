@@ -8,7 +8,7 @@ Searches try matching on the Name, Serial Number and MAC Address of the device.
 If you make a search request, but supply no data, it will return the most recent 20 devices.
 
 ```http
-POST /mr/search
+POST https://api.rncontrol.com/mr/search
 ```
 Sample result
 ```js
@@ -47,10 +47,10 @@ Sample result
 ```
 
 ### Method Two
-Passing an array with a single string will do a search using the string, returning a maximum of 20 devices.
+Passing an array with a single string will do a search using the string, returning a maximum of 20 devices.  If you supply a full Serial Number or MAC Address, you should expect a single device returned.
 
 ```http
-POST /mr/search
+POST https://api.rncontrol.com/mr/search
 ```
 
 Sample data
@@ -89,7 +89,7 @@ This is the most detailed way to do a search.  It requires an JSON object with p
 and maximum number of results.  It is also allows for a search of the Reserved Router database.  Partial searches of Reserved Router database will return matches found up to the limit.
 
 ```http
-POST /mr/search
+POST https://api.rncontrol.com/mr/search
 ```
 
 Sample post data

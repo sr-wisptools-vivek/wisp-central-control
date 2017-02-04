@@ -1,0 +1,88 @@
+<template name="wtManagedRouterMySQLAPIReserve">
+{{#markdown}}
+## Reserve Serial Number
+A serial number reservation is a method for a privilaged user to set aside serial numbers for specific `domains`.  Any serial number can be reserved, not just currently supported RN Control make/models.  Any domain can be added, it does not have to be in current use.
+
+Users with `admin` or `reseller` previlages can reserve a serial number, by doing a `"post"` to `/mr/reserve`.  The `result` of `success` means the serial number reservation was properly added or updated in the database, anything else is a failure.  You'll get a `result` on each serial number passed in.
+
+```http
+POST /mr/reserve
+```
+
+Sample post data
+```js
+[
+  {
+    "serial":"RNV5000520",
+    "domain":"test"
+  },
+  {
+    "serial":"RNV6000521",
+    "domain":"cool-isp"
+  },
+  {
+    "serial":"RNV6000522",
+    "domain":"cool-isp",
+    "extra":"value"
+  },
+  {
+    "serial":"RNV6000523",
+    "domain":""
+  },
+  {
+    "serial":"",
+    "domain":"cool-isp"
+  },
+  {
+    "serial":"123"
+  },
+  {
+    "domain":"123"
+  },
+  {},
+  {
+   "dummy":"i am smart"
+  }
+]
+```
+
+Sample result
+```js
+[
+  {
+    "serial": "RNV5000520",
+    "result": "success"
+  },
+  {
+    "serial": "RNV6000521",
+    "result": "success"
+  },
+  {
+    "serial": "RNV6000522",
+    "result": "success"
+  },
+  {
+    "serial": "RNV6000523",
+    "result": "domain cannot be blank"
+  },
+  {
+    "serial": "",
+    "result": "serial cannot be blank"
+  },
+  {
+    "serial": "123",
+    "result": "domain value missing"
+  },
+  {
+    "result": "serial value missing"
+  },
+  {
+    "result": "domain value missing"
+  },
+  {
+    "result": "domain value missing"
+  }
+]
+```
+{{/markdown}}
+</template>

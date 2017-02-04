@@ -1,0 +1,45 @@
+<template name="wtManagedRouterMySQLAPIAdd">
+{{#markdown}}
+## Adding Devices
+New devices are added by doing a `"post"` to `/mr/add`.  You'll get the newly added devices returned, or an error if
+it conflicts with an existing device. 
+
+```http
+POST /mr/add
+```
+
+Sample post data
+```js
+{
+  "serial":"RNV5000511",
+  "mac":"00019F1407D2",
+  "name":"TEST 123"
+}
+```
+
+Sample result
+```js
+[
+  {
+    "id": 1267774,
+    "domain": "test",
+    "name": "TEST 123",
+    "serial": "RNV5000511",
+    "mac": "00019F1407D2",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267774&TOKEN=88b0930699d3ef20659e013a906fe36a"
+  }
+]
+```
+
+Sample error
+```js
+{
+  "error": "dup",
+  "reason": "Duplicate Serial Number",
+  "details": "RNV5000511"
+}
+```
+{{/markdown}}
+</template>

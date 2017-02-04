@@ -36,6 +36,16 @@ Package.onUse(function(api) {
   ], ['client', 'server']);
 
   api.addFiles([
+    'client/api-docs.html',
+    'client/api-docs-authenticate.html',
+    'client/api-docs-search.html',
+    'client/api-docs-add.html',
+    'client/api-docs-update.html',
+    'client/api-docs-delete.html',
+    'client/api-docs-restore.html',
+    'client/api-docs-reserve.html',
+    'client/api-docs-advanced.html',
+    'client/api-docs.js',
     'client/domains.html',
     'client/domains.js',
     'client/list.html',

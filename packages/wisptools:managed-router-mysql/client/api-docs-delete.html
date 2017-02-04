@@ -1,0 +1,37 @@
+<template name="wtManagedRouterMySQLAPIDelete">
+{{#markdown}}
+## Delete Device
+Device can be deleted by doing a `"post"` to `/mr/delete`.  You'll get the deleted device returned, or an error if
+any conflict occurs. 
+
+```http
+POST /mr/delete
+```
+
+Sample post data
+```js
+{
+    "id":"1267785",
+    "serial":"RNV5019236"
+}
+```
+
+Sample result
+```js
+[
+  {
+    "id": 1267785,
+    "status": "Deleted"
+  }
+]
+```
+
+Sample error
+```js
+{
+  "error": "denied",
+  "reason": "Not Authorized"
+}
+```
+{{/markdown}}
+</template>

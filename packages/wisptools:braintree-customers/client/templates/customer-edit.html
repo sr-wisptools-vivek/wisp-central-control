@@ -145,6 +145,7 @@
               <th>Next Bill Amount</th>
               <th>Next Billing Date</th>
               <th>Status</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -158,6 +159,11 @@
               <td>{{nextBillAmount}}</td>
               <td>{{nextBillingDate}}</td>
               <td>{{status}}</td>
+              <td>
+                {{#if isActive}}
+                <button class="btn btn-danger cancelSubscription">Cancel</button>
+                {{/if}}
+              </td>
             </tr>
             {{/each}}
             {{else}}

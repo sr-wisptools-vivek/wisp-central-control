@@ -195,3 +195,17 @@ BraintreeAPI.createSubscription = function (paymentMethodToken, planId, callback
     planId: planId
   }, callback);
 };
+
+BraintreeAPI.cancelSubscription = function (subscriptionId, callback) {
+  if (!subscriptionId) {
+    throw new Meteor.Error("braintree-error", 'Braintree cancel subscription - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+
+  gateway.subscription.cancel(subscriptionId, callback);
+};

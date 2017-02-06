@@ -115,6 +115,12 @@ Template.wtBraintreeEditCustomer.helpers({
       return true;
     }
     return false;
+  },
+  'isActive': function () {
+    if (this.status == "Active") {
+      return true;
+    }
+    return false;
   }
 });
 
@@ -142,6 +148,32 @@ Template.wtBraintreeEditCustomer.events({
       });
     } else {
       WtGrowl.fail('Please select a valid plan.')
+    }
+  },
+  'click .cancelSubscription': function (e) {
+    e.preventDefault();
+    var subscriptionId = this.id;
+    var customer = Session.get('braintreeCustomer');
+    if (subscriptionId && customer) {
+      $(e.target).attr('disabled','disabled');
+      Meteor.call('wtBraintreeAPICancelSubscription', subscriptionId, function (e, r) {
+        if (e) {
+          console.log(e);
+          $(e.target).removeAttr('disabled');
+          WtGrowl.fail('Failed to cancel subscription.');
+        } else {
+          Meteor.call('wtBraintreeAPIGetCustomer', customer.customerId, function (e, r) {
+            if (!e) {
+              if (r && r.status=='success') {
+                Session.set('braintreeAPICustomer', r.data);
+              }
+            }
+          });
+          WtGrowl.success('Subscription canceled.');
+        }
+      });
+    } else {
+      WtGrowl.fail('Failed to cancel subscription.');
     }
   },
   'click .addCreditCardBtn': function (e) {

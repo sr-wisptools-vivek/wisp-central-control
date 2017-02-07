@@ -209,3 +209,25 @@ BraintreeAPI.cancelSubscription = function (subscriptionId, callback) {
 
   gateway.subscription.cancel(subscriptionId, callback);
 };
+
+BraintreeAPI.getAddons = function (callback) {
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+
+  gateway.addOn.all(callback);
+};
+
+BraintreeAPI.getDiscounts = function (callback) {
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+
+  gateway.discount.all(callback);
+};

@@ -1,21 +1,17 @@
 <template name="wtAccountsInviteCreateAccount">
-  <div class="bg-secondary app-page">
-    <div class="container">
-      {{#if isLoggedIn}}
-        Please logout before accepting the invite.
+  {{#if isLoggedIn}}
+    Please logout before accepting the invite.
+  {{else}}
+    {{#if checking}}
+      {{> spinner}}
+    {{else}}
+      {{#if isValidToken}}
+        {{> wtAccountsInviteCreateAccountForm}}
       {{else}}
-        {{#if checking}}
-          {{> spinner}}
-        {{else}}
-          {{#if isValidToken}}
-            {{> wtAccountsInviteCreateAccountForm}}
-          {{else}}
-            This invitation has either expired or is invalid.
-          {{/if}}
-        {{/if}}
+        This invitation has either expired or is invalid.
       {{/if}}
-    </div>
-  </div>
+    {{/if}}
+  {{/if}}
 </template>
 
 <template name="wtAccountsInviteCreateAccountForm">

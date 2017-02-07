@@ -1,30 +1,26 @@
 <template name="wtRolesUser">
-  <div class="bg-secondary app-page">
-    <div class="container">
-      <table id="wtRolesUserTable" class="table table-hover"  >
-        <tbody>
-          <tr>
-            <th>Email</th>
-            <th>Roles</th>
-          </tr>
-          {{#each userList}}
-          <tr>
-            <td>
-              {{username}}
-              {{#each emails}}
-              {{address}}
-              {{/each}}
-              {{services.google.email}}
-            </td>
-            <td>
-              {{>wtRolesUsersSelect}}
-            </td>
-          </tr>
+  <table id="wtRolesUserTable" class="table table-hover"  >
+    <tbody>
+      <tr>
+        <th>Email</th>
+        <th>Roles</th>
+      </tr>
+      {{#each userList}}
+      <tr>
+        <td>
+          {{username}}
+          {{#each emails}}
+          {{address}}
           {{/each}}
-        </tbody>
-      </table>
-    </div>
-  </div>
+          {{services.google.email}}
+        </td>
+        <td>
+          {{>wtRolesUsersSelect}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </template>
 
 <template name="wtRolesUsersSelect">

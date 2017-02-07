@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'wisptools:collection',
+  name: 'wisptools:ui-address',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -11,21 +11,20 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.0.3.2');
+  api.versionsFrom('1.1.0.2');
   api.use([
     'meteor',
-    'mongo',
-    'meteorhacks:subs-manager@1.6.4',
-    'matb33:collection-hooks@0.8.1'
+    'templating',
+    'reactive-var',
   ]);
-  
-  api.addFiles('wisptools:collection.js');
-
-  api.export('WtCollection');
+  api.addFiles([
+    'client/address.html',
+    'client/address.js',
+  ], 'client');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('wisptools:collection');
-  api.addFiles('wisptools:collection-tests.js');
+  api.use('wisptools:ui-address');
+  api.addFiles('ui-address-tests.js');
 });

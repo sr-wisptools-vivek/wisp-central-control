@@ -30,6 +30,8 @@ Package.onUse(function(api) {
     'wisptools:menu'
   ]);
   
+  api.use('email', ['server']);
+
   api.addFiles([
     'lib/router.js'
     ], ['server','client']);

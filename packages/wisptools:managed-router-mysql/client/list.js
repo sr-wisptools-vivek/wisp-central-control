@@ -204,9 +204,19 @@ Template.wtManagedRouterMySQLList.events({
         Session.set('removedRouterId', null);
       }
     });
-  }    
+  }
 });
 
 Template.wtManagedRouterMySQLList.onRendered(function () {
-  $('.routerTable').loadInModal('.addtomodal');
+  $('.routerTable').loadInModal('.addtomodal', function () {
+    $('#iframeinmodal').on('load',function () {
+        $('#siteloader-content').hide();
+        var heightOfModal = Math.floor($(document).height() * 0.7);
+        $('#iframeinmodal').css('height',heightOfModal+'px');
+    });
+  });
+  $('.routerTable').on('mouseenter mouseleave','.removeRouter',function(e){
+      $(this).toggleClass('btn-danger');
+    }
+  );
 });

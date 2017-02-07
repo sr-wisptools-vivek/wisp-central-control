@@ -43,7 +43,9 @@ Template.wtMenu.helpers({
       }
     }
 
-    return dropdowns;
+    return dropdowns.sort(function (a,b) {
+      return a.displayOrder > b.displayOrder;
+    });
 
   },
   primary: function() {

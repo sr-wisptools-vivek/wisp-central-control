@@ -1,0 +1,93 @@
+<template name='wtUIAddress'>
+  <div class="form-group">
+    <label for="address" class="col-md-3 control-label">Address</label>
+    <div class="col-md-9">
+      <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="{{addr.address}}">
+    </div>
+  </div>
+  {{#if displayAddr2 addr.address2}}
+  <div class="form-group">
+    <label for="address2" class="col-md-3 control-label">Address 2</label>
+    <div class="col-md-9">
+      <input type="text" class="form-control" id="address2" name="address2" placeholder="Address 2" value="{{addr.address2}}">
+    </div>
+  </div>
+  {{else}}
+  <div class='form-group'>
+    <div class="col-md-offset-3 col-md-9">
+      <span class="add2ndLine"><a href="#"><i class="fa fa-plus-circle"></i> Add 2nd Line</a></span>
+    </div>
+  </div>
+  {{/if}}
+  <div class="form-group">
+    <label for="city" class="col-md-3 control-label">City</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="city" name="city" placeholder="City" value="{{addr.city}}">
+    </div>
+    <label for="state" class="col-md-2 control-label">State</label>
+    <div class="col-md-2">
+      <select class="form-control" name="state">
+        <option value="AL" {{selected addr.state "AL"}}>AL</option>
+        <option value="AK" {{selected addr.state "AK"}}>AK</option>
+        <option value="AZ" {{selected addr.state "AZ"}}>AZ</option>
+        <option value="AR" {{selected addr.state "AR"}}>AR</option>
+        <option value="CA" {{selected addr.state "CA"}}>CA</option>
+        <option value="CO" {{selected addr.state "CO"}}>CO</option>
+        <option value="CT" {{selected addr.state "CT"}}>CT</option>
+        <option value="DE" {{selected addr.state "DE"}}>DE</option>
+        <option value="DC" {{selected addr.state "DC"}}>DC</option>
+        <option value="FL" {{selected addr.state "FL"}}>FL</option>
+        <option value="GA" {{selected addr.state "GA"}}>GA</option>
+        <option value="HI" {{selected addr.state "HI"}}>HI</option>
+        <option value="ID" {{selected addr.state "ID"}}>ID</option>
+        <option value="IL" {{selected addr.state "IL"}}>IL</option>
+        <option value="IN" {{selected addr.state "IN"}}>IN</option>
+        <option value="IA" {{selected addr.state "IA"}}>IA</option>
+        <option value="KS" {{selected addr.state "KS"}}>KS</option>
+        <option value="KY" {{selected addr.state "KY"}}>KY</option>
+        <option value="LA" {{selected addr.state "LA"}}>LA</option>
+        <option value="ME" {{selected addr.state "ME"}}>ME</option>
+        <option value="MD" {{selected addr.state "MD"}}>MD</option>
+        <option value="MA" {{selected addr.state "MA"}}>MA</option>
+        <option value="MI" {{selected addr.state "MI"}}>MI</option>
+        <option value="MN" {{selected addr.state "MN"}}>MN</option>
+        <option value="MS" {{selected addr.state "MS"}}>MS</option>
+        <option value="MO" {{selected addr.state "MO"}}>MO</option>
+        <option value="MT" {{selected addr.state "MT"}}>MT</option>
+        <option value="NE" {{selected addr.state "NE"}}>NE</option>
+        <option value="NV" {{selected addr.state "NV"}}>NV</option>
+        <option value="NH" {{selected addr.state "NH"}}>NH</option>
+        <option value="NJ" {{selected addr.state "NJ"}}>NJ</option>
+        <option value="NM" {{selected addr.state "NM"}}>NM</option>
+        <option value="NY" {{selected addr.state "NY"}}>NY</option>
+        <option value="NC" {{selected addr.state "NC"}}>NC</option>
+        <option value="ND" {{selected addr.state "ND"}}>ND</option>
+        <option value="OH" {{selected addr.state "OH"}}>OH</option>
+        <option value="OK" {{selected addr.state "OK"}}>OK</option>
+        <option value="OR" {{selected addr.state "OR"}}>OR</option>
+        <option value="PA" {{selected addr.state "PA"}}>PA</option>
+        <option value="RI" {{selected addr.state "RI"}}>RI</option>
+        <option value="SC" {{selected addr.state "SC"}}>SC</option>
+        <option value="SD" {{selected addr.state "SD"}}>SD</option>
+        <option value="TN" {{selected addr.state "TN"}}>TN</option>
+        <option value="TX" {{selected addr.state "TX"}}>TX</option>
+        <option value="UT" {{selected addr.state "UT"}}>UT</option>
+        <option value="VT" {{selected addr.state "VT"}}>VT</option>
+        <option value="VA" {{selected addr.state "VA"}}>VA</option>
+        <option value="WA" {{selected addr.state "WA"}}>WA</option>
+        <option value="WV" {{selected addr.state "WV"}}>WV</option>
+        <option value="WI" {{selected addr.state "WI"}}>WI</option>
+        <option value="WY" {{selected addr.state "WY"}}>WY</option>
+        <option value="AE" {{selected addr.state "AE"}}>AE</option>
+        <option value="AP" {{selected addr.state "AP"}}>AP</option>
+        <option value="AA" {{selected addr.state "AA"}}>AA</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="zip" class="col-md-3 control-label">Zip</label>
+    <div class="col-md-5">
+      <input type="text" class="form-control" id="zip" name="zip" placeholder="Zip" value="{{addr.zip}}">
+    </div>
+  </div>
+</template>

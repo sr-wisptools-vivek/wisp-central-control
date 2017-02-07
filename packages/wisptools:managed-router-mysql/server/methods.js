@@ -21,6 +21,42 @@ var getDomain = function() {
   return WtManagedRouterMySQL.escape(domain.name);
 }
 
+var authorize = function(router) {
+  var res;
+  var sql;
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+  var equipmentId = router.id;
+
+  // Check if the user's domain matches the equipment domain
+
+  var escapedDomain = getDomain.call(this);
+  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized'); // User not logged in or has no domain
+
+  // Get SubscriberId for Equipment
+  var fut = new Future();
+
+  sql = "SELECT SubscriberID FROM "
+        + db_name + ".Equipment " + 
+        " WHERE EquipmentID = " + equipmentId; 
+  runQuery(sql, fut);
+  var res = fut.wait();
+  if(res.length == 0) throw new Meteor.Error('denied','Router ID Not Found');
+  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
+
+  var fut = new Future();
+  sql = "SELECT * FROM " + 
+        db_name + ".Subscriber " +
+        "WHERE SubscriberID= " +
+        subscriberId + " AND " +
+        "SystemID= " + escapedDomain ; 
+  runQuery(sql,fut);
+  var res = fut.wait();
+  if(res.length == 0) throw new Meteor.Error('denied','Non Authorized Domain');
+
+  // You have the power!
+  return true;
+}
+
 var search = function(search, limit) {
   if (this.userId == null) return [];
 
@@ -78,6 +114,46 @@ var search = function(search, limit) {
   return res;  
 }
 
+var searchReservation = function(search, limit) {
+  if (this.userId == null) return [];
+
+  var escapedDomain = getDomain.call(this);
+  if (escapedDomain == null) return [];
+
+  var sqlSearch = search || "";
+  if (sqlSearch.toString() === "[object Object]") sqlSearch = ''; // handleing default empty object on rest api
+  var escapedSearch = WtManagedRouterMySQL.escape("%" + sqlSearch + "%");
+
+  var sqlLimit = limit || 20;
+  if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
+  sqlLimit = WtManagedRouterMySQL.escape(sqlLimit);
+
+  var fut = new Future();
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+  var sql =
+    "SELECT " +
+    "  SerialNumber as serial " +
+    "FROM " +
+    "  " + db_name + ".EquipmentReserved " +
+    "WHERE " +
+    "  Domain=" + escapedDomain + " AND " +
+    "  SerialNumber LIKE " + escapedSearch + " " +
+    "ORDER BY SerialNumber DESC " +
+    "LIMIT " + sqlLimit;
+
+  runQuery(sql, fut);
+
+  var res = fut.wait();
+  return res;
+}
+
+Meteor.method("wtManagedRouterMySQLGetMyDomain", function() {
+  var domain = WtMangedRouterMySQLDomains.findOne({userId: this.userId});
+  if (!domain) return null;
+  if (domain.name == "") return null;
+  return domain.name;
+});
+
 Meteor.method("wtManagedRouterMySQLGetLimit", function(limit) {
   return search.call(this, '', limit);
 },{
@@ -87,6 +163,8 @@ Meteor.method("wtManagedRouterMySQLGetLimit", function(limit) {
 Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var res;
   var sql;
+  var fut;
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
 
 
   // Check for duplicate Serial
@@ -99,6 +177,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
       }
     }  
   }
+
   // Check for duplicate mac
   router.mac = router.mac.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, ""); // normalize mac
   res = search.call(this, router.mac);
@@ -113,17 +192,47 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var Make;
   var model;
 
+  // Check for reserved serial number
+  fut = new Future();
+  sql = 
+    "SELECT " +
+    "  Domain " +
+    "FROM " +
+    "  " + db_name + ".EquipmentReserved " +
+    "WHERE " + 
+    " SerialNumber=" + escapedSerial;
+  runQuery(sql, fut);
+  res = fut.wait();
+  if (res.length > 0) {
+    if (WtManagedRouterMySQL.escape(res[0].Domain) != escapedDomain)
+      throw new Meteor.Error('denied','Serial Number Is Reserved');
+  }
+
+
   //Auto detect model number from serial
   var serialWithModelNumber = { "RNV50":"WRT500",
-                                "RNV51":"VWRT510",
+                                "RNV210":"VRT210",
+                                "RNV510":"VWRT510",
+                                "RNV530":"VWRT520",
+                                "RNV520":"VWRT520R",
+                                "RNV220":"VRT220",
                                 "12MS":"AC1200MS",
                                 "12M":"AC1200M",
-                                "400":"cnPilot R201"
+                                "400":"cnPilot R201",
+                                "J12M00":"JMR1200M",
+                                "LTN520":"LTE520",
+                                "LTE520":"LTE520",
+                                "L42":"LTE420",
+                                "L52":"LTE520"
                               }; //serial numbers with auto detect model number.
   //Auto detect make number. 
   var macWithMakeNumber = { "00019F":"READYNET",
                             "000456":"CAMBIUM"
                           }; //OUI with make. (OUI: First 6 digits of MAC)
+  // Used to override OUI based make.
+  var modelToMake = {
+    "JMR1200M":"JIVE"
+  }
   var validSerial = false;
   var regexString;
 
@@ -153,6 +262,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     if (regEx.test(escapedMAC)) {
       validMac = true;
       make = macWithMakeNumber[key];
+      if (modelToMake[model]) make = modelToMake[model]; //override make
       break;
     }
   }
@@ -163,9 +273,8 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var escapedMake  = WtManagedRouterMySQL.escape(make);
 
   // Check for Serial Number Conflict
-  var fut = new Future();
-  var db_name = Meteor.settings.managedRouterMySQL.dbName;
-  var sql = 
+  fut = new Future();
+  sql = 
     "SELECT * FROM " +
     " " + db_name + ".Equipment " +
     "WHERE " + 
@@ -174,11 +283,10 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 
   runQuery(sql, fut);
 
-  var res = fut.wait();
+  res = fut.wait();
   if (res.length > 0) throw new Meteor.Error('denied','Serial Number Conflict');
 
-  var fut = new Future();
-  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+  fut = new Future();
 
   // Add the Name
   sql = 
@@ -192,7 +300,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 
   runQuery(sql, fut);
 
-  var res = fut.wait();
+  res = fut.wait();
   var subId = res.insertId;
 
   fut = new Future();
@@ -214,9 +322,51 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   res = fut.wait();
   var eId = res.insertId;
 
-  fut = new Future();
   // Add default passphrase
-  var passphrase = WtManagedRouterMySQL.escape("W500" + router.serial.substr(-4));;
+  var defaultRemotePassword = WtManagedRouterMySQL.escape("UNKNOWN");
+  var passphrase = WtManagedRouterMySQL.escape("UNKNOWN");
+  switch (model) {
+    case 'WRT500':
+      passphrase = WtManagedRouterMySQL.escape("W500" + router.serial.substr(-4));;
+      defaultRemotePassword = WtManagedRouterMySQL.escape("pz938q500");
+      break;
+    case 'VWRT510':
+      passphrase = WtManagedRouterMySQL.escape("V510" + router.serial.substr(-4));;
+      defaultRemotePassword = WtManagedRouterMySQL.escape("pz938q510");
+      break;
+    case 'VWRT520':
+      passphrase = WtManagedRouterMySQL.escape("V520" + router.serial.substr(-4));;
+      break;
+    case 'AC1200M':
+      passphrase = WtManagedRouterMySQL.escape("12M-" + router.serial.substr(-4));;
+      defaultRemotePassword = WtManagedRouterMySQL.escape("pz938q12m");
+      break;
+    case 'AC1200MS':
+      passphrase = WtManagedRouterMySQL.escape("12MS" + router.serial.substr(-4));;
+      defaultRemotePassword = WtManagedRouterMySQL.escape("pz938q12ms");
+      break;
+    case 'JMR1200M':
+      passphrase = WtManagedRouterMySQL.escape("J12M" + router.serial.substr(-4));;
+      break;
+    case 'LTE520':
+      passphrase = WtManagedRouterMySQL.escape("L520" + router.serial.substr(-4));;
+      break;
+  }
+  // Default remote management password
+  fut = new Future();
+  sql = 
+    "INSERT INTO " +
+    " " + db_name + ".ManagedRouterLastSavedValue " +
+    "VALUES ( " +
+    " " + eId + ", " +
+    " 'InternetGatewayDevice.UserInterface.User.1.Password', " +
+    " " + defaultRemotePassword + " " +
+    ")";
+  runQuery(sql, fut);
+  res = fut.wait();
+  
+  // 2.4GHz Passphrase
+  fut = new Future();
   sql = 
     "INSERT INTO " +
     " " + db_name + ".ManagedRouterLastSavedValue " +
@@ -225,22 +375,59 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
     " 'InternetGatewayDevice.LANDevice.1.WLANConfiguration.1.KeyPassphrase', " +
     " " + passphrase + " " +
     ")";
-
   runQuery(sql, fut);
   res = fut.wait();
 
+  // 5GHz Passphrase
+  fut = new Future();
+  sql = 
+    "INSERT INTO " +
+    " " + db_name + ".ManagedRouterLastSavedValue " +
+    "VALUES ( " +
+    " " + eId + ", " +
+    " 'InternetGatewayDevice.LANDevice.1.WLANConfiguration.5.KeyPassphrase', " +
+    " " + passphrase + " " +
+    ")";
+  runQuery(sql, fut);
+  res = fut.wait();
+  
+  // Backend Event - Add Equipment
+  fut = new Future();
+  sql =
+    "INSERT INTO " +
+    " " + db_name + ".Changes " +
+    "VALUES ( " +
+    " null, " +
+    " 1, " +
+    " 1, " +
+    " 'AddUpdateEquipment', " +
+    " '', " +
+    " " + eId + ", " +
+    " null, " +
+    " '0000-00-00 00:00:00' " +
+    ")";
+  runQuery(sql, fut);
+  res = fut.wait();
+  
   return search.call(this, router.serial, 1);
 },{
   url: "/mr/add"
 });
-// srch is a string or an object with "q" and "limit" values
+
+// srch is a string or an object with "q", "limit" and "type" values
 Meteor.method("wtManagedRouterMySQLSearch", function(srch) {
   var str = srch.q || srch;
   var limit = srch.limit || 20;
-  return search.call(this, str, limit);
+  var type = srch.type || 'router';
+  if (type == 'reservation') {
+    return searchReservation.call(this, str, limit);
+  } else {
+    return search.call(this, str, limit);
+  }
 },{
   url: "/mr/search"
 });
+
 
 Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
   var res;
@@ -248,26 +435,9 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
   var updateRouter = router.new;
-  var escapedDomain = getDomain.call(this);
-  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
-  // Get SubscriberId for Equipment
-  var fut = new Future();
-  sql = "SELECT SubscriberID FROM "
-        + db_name + ".Equipment " + 
-        " WHERE EquipmentID = " + equipmentId; 
-  runQuery(sql, fut);
-  var res = fut.wait();
-  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
 
-  var fut = new Future();
-  sql = "SELECT * FROM " + 
-        db_name + ".Subscriber " +
-        "WHERE SubscriberID= " +
-        subscriberId + " AND " +
-        "SystemID= " + escapedDomain ; 
-  runQuery(sql,fut);
-  var res = fut.wait();
-  if(res.length == 0) throw new Meteor.Error('denied','Domain Error');
+  //Check if user is authorized.
+  authorize.call(this, router);
 
   //Update SubscriberName in table Subscriber 
   if (typeof updateRouter["name"] !== "undefined") {
@@ -278,11 +448,13 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
     var fut = new Future();
     sql = 
       "UPDATE " 
-      + db_name + ".Subscriber "
-      + "SET SubscriberName = "
+      + db_name + ".Subscriber, "
+      + db_name + ".Equipment "
+      + "SET Subscriber.SubscriberName = "
       + escapedName +
-      " WHERE " + "SubscriberID = " +
-      subscriberId;
+      " WHERE " + "Subscriber.SubscriberID = Equipment.SubscriberID "
+      + "AND Equipment.EquipmentID = " +
+      equipmentId;
 
     runQuery(sql,fut);
     res = fut.wait();
@@ -321,29 +493,8 @@ Meteor.method("wtManagedRouterMySQLRemove", function(router){
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
 
-  var escapedDomain = getDomain.call(this);
-  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
-
-  // Get SubscriberId for Equipment
-  var fut = new Future();
-
-  sql = "SELECT SubscriberID FROM "
-        + db_name + ".Equipment " + 
-        " WHERE EquipmentID = " + equipmentId; 
-  runQuery(sql, fut);
-  var res = fut.wait();
-  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
-
-  var fut = new Future();
-  sql = "SELECT * FROM " + 
-        db_name + ".Subscriber " +
-        "WHERE SubscriberID= " +
-        subscriberId + " AND " +
-        "SystemID= " + escapedDomain ; 
-  runQuery(sql,fut);
-  var res = fut.wait();
-  
-  if(res.length == 0) throw new Meteor.Error('denied','Domain Error');
+  //Check if user is authorized.
+  authorize.call(this, router);
   
   var fut = new Future();
   sql = "UPDATE " 
@@ -358,6 +509,24 @@ Meteor.method("wtManagedRouterMySQLRemove", function(router){
         "id" : equipmentId,
         "status" : "Deleted"
   };
+  
+  // Backend Event - Delete Equipment
+  fut = new Future();
+  sql =
+    "INSERT INTO " +
+    " " + db_name + ".Changes " +
+    "VALUES ( " +
+    " null, " +
+    " 1, " +
+    " 1, " +
+    " 'DeleteEquipment', " +
+    " '', " +
+    " " + equipmentId + ", " +
+    " null, " +
+    " '0000-00-00 00:00:00' " +
+    ")";
+  runQuery(sql, fut);
+  res = fut.wait();
 
   return response;
 
@@ -371,29 +540,8 @@ Meteor.method("wtManagedRouterMySQLRestore", function(router){
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var equipmentId = router.id;
 
-  var escapedDomain = getDomain.call(this);
-  if (escapedDomain == null) throw new Meteor.Error('denied','Not Authorized');
-
-  // Get SubscriberId for Equipment
-  var fut = new Future();
-
-  sql = "SELECT SubscriberID FROM "
-        + db_name + ".Equipment " + 
-        " WHERE EquipmentID = " + equipmentId; 
-  runQuery(sql, fut);
-  var res = fut.wait();
-  var subscriberId = WtManagedRouterMySQL.escape(res[0].SubscriberID);
-
-  var fut = new Future();
-  sql = "SELECT * FROM " + 
-        db_name + ".Subscriber " +
-        "WHERE SubscriberID= " +
-        subscriberId + " AND " +
-        "SystemID= " + escapedDomain ; 
-  runQuery(sql,fut);
-  var res = fut.wait();
-  
-  if(res.length == 0) throw new Meteor.Error('denied','Domain Error');
+  //Check if user is authorized.
+  authorize.call(this, router);
   
   var fut = new Future();
   sql = "UPDATE " 
@@ -404,7 +552,173 @@ Meteor.method("wtManagedRouterMySQLRestore", function(router){
   runQuery(sql,fut);
   var res = fut.wait();
   
+  // Backend Event - Add/Update Equipment
+  fut = new Future();
+  sql =
+    "INSERT INTO " +
+    " " + db_name + ".Changes " +
+    "VALUES ( " +
+    " null, " +
+    " 1, " +
+    " 1, " +
+    " 'AddUpdateEquipment', " +
+    " '', " +
+    " " + equipmentId + ", " +
+    " null, " +
+    " '0000-00-00 00:00:00' " +
+    ")";
+  runQuery(sql, fut);
+  res = fut.wait();    
+
   return search.call(this, router.serial, 1);
 },{
   url: "/mr/undelete"
+});
+
+Meteor.method("wtManagedRouterMySQLReserve", function() {
+  var mysqlRes;
+  var fut;
+  var res;
+
+  if (!this.userId || !Roles.userIsInRole(this.userId, ['admin','reseller'])) throw new Meteor.Error('denied','Not Authorized');
+
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+
+  var result = [];
+
+  _.each(arguments, function (item) {
+    var itemResult = {
+      serial: item.serial,
+      result: 'failed'
+    }
+    if (!item.serial) itemResult.result = 'serial value missing';
+    if (!item.domain) itemResult.result = 'domain value missing';
+    if (item.serial == "") itemResult.result = 'serial cannot be blank';
+    if (item.domain == "") itemResult.result = 'domain cannot be blank';
+    if (item.serial && item.domain) {
+      //Is the domain name exist?
+      if (Meteor.call('wtManagedRouterCheckDomain', item.domain)) {
+        var escapedSerial =  WtManagedRouterMySQL.escape(item.serial);
+        var escapedDomain =  WtManagedRouterMySQL.escape(item.domain);
+
+        //Delete from reserve
+        fut = new Future();
+        sql = 
+          "DELETE FROM " + 
+          " " + db_name + ".EquipmentReserved " +
+          "WHERE SerialNumber = " + escapedSerial;
+        runQuery(sql,fut);
+        res = fut.wait();
+
+        //Insert new reserve
+        fut = new Future();
+        sql = 
+          "INSERT INTO " +
+          " " + db_name + ".EquipmentReserved " +
+          "VALUES ( " +
+          " " + escapedSerial + ", " +
+          " " + escapedDomain + " " +
+          ")";
+        runQuery(sql, fut);
+        res = fut.wait();
+
+        itemResult.result = 'success';
+      } else {
+        itemResult.result = 'non-existing domain';
+      }
+    }
+    result.push(itemResult);
+  });
+
+  return result;
+
+},{
+  url: "/mr/reserve"
+});
+
+Meteor.method("wtManagedRouterUpdateUserDomain", function(oldDomainName, newDomainName){
+  if (!this.userId || !Roles.userIsInRole(this.userId, ['admin'])) throw new Meteor.Error('denied','Not Authorized');
+  WtMangedRouterMySQLDomains.update({name:oldDomainName}, {$set: {name: newDomainName}}, {multi: true});
+});
+
+Meteor.method("wtManagedRouterAddUserDomain", function (userId, domain) {
+  if (!this.userId || (this.userId && this.userId!=userId)) throw new Meteor.Error('denied','Not Authorized');
+  var userDomain = WtMangedRouterMySQLDomains.findOne({userId: userId});
+  if (userDomain) {
+    WtMangedRouterMySQLDomains.update({userId: userId}, {$set: {name: domain}});
+  } else {
+    WtMangedRouterMySQLDomains.insert({userId: userId, name: domain});
+  }
+});
+
+Meteor.method("wtManagedRouterGetUpdateACS", function(getDomain) {
+  var domain = WtMangedRouterMySQLDomainsList.findOne({domain: getDomain});
+  var updateACS = { "result":false};
+  if(domain && domain.updateACS) {
+     updateACS.result = true;
+  }
+  return updateACS;
+},{
+  url: "/mr/domain/update-acs/:0"
+});
+
+
+Meteor.method("wtManagedRouterACSGet", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  this.unblock();
+  var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/get.php'));
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+
+  return res.data.REPLY;
+
+},{
+  url: "/mr/acs/device/get"
+});
+
+Meteor.method("wtManagedRouterACSSet", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  //Build Request Values.  Add "item_" to each item id.
+  var params = {};
+  for (var x = 0; x < request.values.length; x++) {
+    params["item_" + request.values[x].item_id] = request.values[x].value;
+  }
+
+  this.unblock();
+  var res = HTTP.call('POST', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/save_to_acs.php'), {params:params});
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  
+  return {'acs_reply':'accepted'};
+  
+},{
+  url: "/mr/acs/device/set"
+});
+
+Meteor.method("wtManagedRouterACSReboot", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  this.unblock();
+  var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/send_reboot.php'));
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  
+  return {'acs_reply':'accepted'};
+},{
+  url: "/mr/acs/device/reboot"
+});
+
+Meteor.method("wtManagedRouterACSRefresh", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  this.unblock();
+  var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/refresh_v2.php'));
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  
+  return {'acs_reply':'accepted'};
+},{
+  url: "/mr/acs/device/refresh"
 });

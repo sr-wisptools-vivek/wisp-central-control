@@ -1,4 +1,6 @@
-WtMenu.addDropdown('Network', 'fa-sitemap', 0, ['admin','customer']);
-WtMenu.addDropdownItem('Network', 'Managed Routers', 'wtManagedRouterMySQLList', 'fa-laptop', 1, ['admin','customer']);
+//WtMenu.addDropdown('Network', 'fa-sitemap', 0, ['admin','customer']);
+WtMenu.addPrimary('Managed Routers', 'wtManagedRouterMySQLList', 'fa-sitemap', 1, ['admin','customer']);
 
-WtMenu.addDropdownItem('Admin', 'Managed Router Domains', 'wtManagedRouterMySQLDomains', 'fa-user', 3, ['admin']);
+WtMenu.addDropdownItem('Admin', 'Edit Domain Users', 'wtManagedRouterMySQLDomains', 'fa-users', 3, ['admin']);
+
+WtMenu.addPrimary('API', 'wtManagedRouterMySQLAPI', 'fa-cloud', 2, ['admin','domain-admin','reseller']);

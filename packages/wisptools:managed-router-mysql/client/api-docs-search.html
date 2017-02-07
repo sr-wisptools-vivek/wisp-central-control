@@ -1,0 +1,114 @@
+<template name="wtManagedRouterMySQLAPISearch">
+{{#markdown}}
+## Searching for Devices
+There are three ways you can search for devices.  They all work with a `"post"` to `/mr/search`. 
+Searches try matching on the Name, Serial Number and MAC Address of the device. 
+
+### Method One
+If you make a search request, but supply no data, it will return the most recent 20 devices.
+
+```http
+POST https://api.rncontrol.com/mr/search
+```
+Sample result
+```js
+[
+  {
+    "id": 1267774,
+    "domain": "test",
+    "name": "TEST 123",
+    "serial": "RNV5000512",
+    "mac": "00019F1407D2",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267774&TOKEN=XXX"
+  },
+  {
+    "id": 1267772,
+    "domain": "test",
+    "name": "Jerry",
+    "serial": "RNV5018859",
+    "mac": "00019F153665",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267772&TOKEN=XXX"
+  },
+  {
+    "id": 1267770,
+    "domain": "test",
+    "name": "TEST",
+    "serial": "RNV5000511",
+    "mac": "00019F1407DD",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267770&TOKEN=XXX"
+  }
+]
+```
+
+### Method Two
+Passing an array with a single string will do a search using the string, returning a maximum of 20 devices.  If you supply a full Serial Number or MAC Address, you should expect a single device returned.
+
+```http
+POST https://api.rncontrol.com/mr/search
+```
+
+Sample data
+```js
+["RNV50005"]
+```
+
+Sample result
+```js
+[
+  {
+    "id": 1267774,
+    "domain": "test",
+    "name": "TEST 123",
+    "serial": "RNV5000512",
+    "mac": "00019F1407D2",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267774&TOKEN=XXX"
+  },
+  {
+    "id": 1267770,
+    "domain": "test",
+    "name": "TEST",
+    "serial": "RNV5000511",
+    "mac": "00019F1407DD",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267770&TOKEN=XXX"
+  }
+]
+```
+
+### Method Three
+This is the most detailed way to do a search.  It requires an JSON object with pramaters that specify the search query
+and maximum number of results.  It is also allows for a search of the Reserved Router database.  Partial searches of Reserved Router database will return matches found up to the limit.
+
+```http
+POST https://api.rncontrol.com/mr/search
+```
+
+Sample post data
+```js
+{
+  "q":"RNV5000512",
+  "limit":1,
+  "type":"reservation"
+}
+```
+
+Sample result
+```js
+[
+  {
+    "serial": "RNV5000512"
+  }
+]
+
+```
+{{/markdown}}
+</template>

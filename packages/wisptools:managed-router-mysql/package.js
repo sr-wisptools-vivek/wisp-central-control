@@ -15,6 +15,7 @@ Package.onUse(function(api) {
 
   api.use([
     'meteor',
+    'http',
     'mongo',
     'templating',
     'reactive-var',
@@ -25,7 +26,8 @@ Package.onUse(function(api) {
     'wisptools:menu',
     'wisptools:growl',
     'wisptools:collection',
-    'wisptools:roles'
+    'wisptools:roles',
+    'wisptools:editable-field'
   ]);
 
   api.addFiles([
@@ -34,6 +36,16 @@ Package.onUse(function(api) {
   ], ['client', 'server']);
 
   api.addFiles([
+    'client/api-docs.html',
+    'client/api-docs-authenticate.html',
+    'client/api-docs-search.html',
+    'client/api-docs-add.html',
+    'client/api-docs-update.html',
+    'client/api-docs-delete.html',
+    'client/api-docs-restore.html',
+    'client/api-docs-reserve.html',
+    'client/api-docs-advanced.html',
+    'client/api-docs.js',
     'client/domains.html',
     'client/domains.js',
     'client/list.html',
@@ -43,8 +55,11 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'server/server.js',
-    'server/methods.js',
+    'server/methods.js'
   ], 'server');
+  
+  api.export('WtMangedRouterMySQLDomains');
+
 });
 
 Package.onTest(function(api) {

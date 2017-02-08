@@ -11,7 +11,6 @@ iron:router
 sacha:spin
 accounts-password
 fortawesome:fontawesome
-meteorhacks:fast-render
 zimme:bootstrap-growl
 twbs:bootstrap
 markdown

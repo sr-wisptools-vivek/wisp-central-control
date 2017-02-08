@@ -17,8 +17,20 @@ var requireLogin = function() {
   } else {
     this.next();
   }
-}
-Router.onBeforeAction('dataNotFound', {only: 'interactionPage'});
+};
+
+var redirectRouterList = function() {
+  if (Meteor.user()) {
+    if (!WtFreeRouter.findOne()) {
+      Router.go('wtFreeRouterForm');
+    } else {
+      Router.go('wtManagedRouterMySQLList');
+    }
+  }
+  this.next();
+};
+
+Router.onBeforeAction(redirectRouterList, {only: 'home'});
 Router.onBeforeAction(requireLogin, {except: [
   'home',
   'wtAccountsInviteCreateAccount',

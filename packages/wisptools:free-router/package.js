@@ -35,7 +35,7 @@ Package.onUse(function(api) {
     'client/form.js',
   ], 'client');
 
-  //api.export('WtFreeRouter');
+  api.export('WtFreeRouter');
 
 });
 

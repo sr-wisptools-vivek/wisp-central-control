@@ -78,102 +78,18 @@
         <button class="btn btn-success addCreditCardBtn pull-right">Add Credit Card</button><br><br>
       {{/if}}
       </div>
-      <div class="row">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Name</th>
-              <th>Number</th>
-              <th>Expiry</th>
-              <th>Subscriptions</th>
-              <th colspan="2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#if paymentmethods}}
-            {{#each paymentmethods}}
-            <tr class="{{#if isEdit}}warning{{/if}}">
-              <td>{{cardType}}</td>
-              <td>{{cardholderName}}</td>
-              <td>{{maskedNumber}}</td>
-              <td>{{expirationDate}}</td>
-              <td>{{subscriptionscount}}</td>
-              <td>
-                <form class="form-inline">
-                  <div class="form-group">
-                    <select class="form-control">
-                      {{#each plans}}
-                      <option value="{{id}}">{{name}}</option>
-                      {{/each}}
-                    </select>
-                  </div>
-                  <button type="submit" class="btn btn-default createSubscriptionBtn">Create Subscription</button>
-                </form>
-              </td>
-              <td>
-                {{#if isEdit}}
-                <button class="btn btn-warning cancelEditPaymentMethod">Cancel</button>
-                {{else}}
-                <button class="btn btn-primary editPaymentMethod">Edit</button>
-                {{/if}}
-              </td>
-            </tr>
-            {{/each}}
-            {{else}}
-            <tr>
-              <td colspan="6">No Payment Methods</td>
-            </tr>
-            {{/if}}
-          </tbody>
-        </table>
-      </div>
+      {{#if paymentmethods}}
+      {{#each paymentmethods}}
+        <div class="row">
+          {{ > wtBraintreePaymentMethodPanel}}
+        </div>
+      {{/each}}
+      {{/if}}
       {{#if showPaymentEditForm}}
       <div class="row">
         {{ > wtBraintreeEditPaymentMethodForm }}
       </div>
       {{/if}}
-      <h4>Subscriptions</h4>
-      <div class="row">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Plan</th>
-              <th>Price</th>
-              <th>Billing Period</th>
-              <th>Balance</th>
-              <th>Next Bill Amount</th>
-              <th>Next Billing Date</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#if subscriptions}}
-            {{#each subscriptions}}
-            <tr>
-              <td>{{planName planId}}</td>
-              <td>{{price}}</td>
-              <td>{{billingPeriodStartDate}} to {{billingPeriodEndDate}}</td>
-              <td>{{balance}}</td>
-              <td>{{nextBillAmount}}</td>
-              <td>{{nextBillingDate}}</td>
-              <td>{{status}}</td>
-              <td>
-                {{#if isActive}}
-                <button class="btn btn-danger cancelSubscription">Cancel</button>
-                {{/if}}
-              </td>
-            </tr>
-            {{/each}}
-            {{else}}
-            <tr>
-              <td colspan="7">No Subscriptions</td>
-            </tr>
-            {{/if}}
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
 </template>
@@ -188,5 +104,78 @@
         {{> wtEditableIcon}}
       </p>
     {{/if}}
+  </div>
+</template>
+
+<template name="wtBraintreePaymentMethodPanel">
+  <div class="panel {{#if isEdit}}panel-warning{{else}}panel-default{{/if}}">
+    <div class="panel-heading">
+      {{ cardholderName }}
+      <span class="pull-right">
+        <span class="pull-left">
+          {{ maskedNumber }} ({{ cardType }})<br>
+          <span class="pull-right">Exp: {{ expirationDate }}</span>
+        </span>&nbsp;&nbsp;&nbsp;
+        <span class="pull-right">
+          {{#if isEdit}}
+          <button class="btn btn-warning cancelEditPaymentMethod">Cancel</button>
+          {{else}}
+          <button class="btn btn-primary editPaymentMethod">Edit</button>
+          {{/if}}
+        </span>
+      </span>
+      <br><br>
+    </div>
+    <div class="panel-body">
+      {{#if subscriptions}}
+      {{#each subscriptions}}
+        {{ > wtBraintreeSubscriptionPanel}}
+      {{/each}}
+      {{/if}}
+      {{ > wtBraintreeAddSubscriptionPanel}}
+    </div>
+  </div>
+</template>
+
+<template name="wtBraintreeSubscriptionPanel">
+  <div class="col-md-3">
+    <div class="panel {{#if isActive}}panel-success{{else}}panel-danger{{/if}}">
+      <div class="panel-heading">
+        {{planName}}
+        <span class="pull-right">${{price}}</span>
+      </div>
+      <div class="panel-body">
+        Billing Period: {{billingPeriodStartDate}} to {{billingPeriodEndDate}}<br>
+        Balance : {{balance}}<br>
+        Next Bill Amount: {{nextBillAmount}}<br>
+        Next Billing Date: {{nextBillingDate}}<br>
+        Status: {{status}}<br>
+        {{#if isActive}}
+        <button class="btn btn-danger cancelSubscription">Cancel</button>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="wtBraintreeAddSubscriptionPanel">
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Create Subscription
+      </div>
+      <div class="panel-body">
+        <form class="form-inline">
+          <div class="form-group">
+            <select class="form-control">
+              {{#each plans}}
+              <option value="{{id}}">{{name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-default createSubscriptionBtn">Create Subscription</button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>

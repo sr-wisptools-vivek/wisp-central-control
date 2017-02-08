@@ -2,6 +2,8 @@ Template.wtBraintreeEditCustomer.onRendered(function () {
   Session.set('braintreeCustomer', false);
   Session.set('braintreeAPICustomer', false);
   Session.set('braintreePlans', false);
+  Session.set('braintreeAddons', false);
+  Session.set('braintreeDiscounts', false);
   Session.set('braintreeForceShowAddPaymentMethodForm', false);
   Session.set('braintreeEditPaymentMethod', false);
   Meteor.call('wtBraintreeCustomerGetCustomer', this.data.id, function (e, r) {
@@ -21,6 +23,16 @@ Template.wtBraintreeEditCustomer.onRendered(function () {
   Meteor.call('wtBraintreeAPIGetPlans', function (e, r) {
     if (!e) {
       Session.set('braintreePlans', r);
+    }
+  });
+  Meteor.call('wtBraintreeAPIGetAddons', function (e, r) {
+    if (!e) {
+      Session.set('braintreeAddons', r);
+    }
+  });
+  Meteor.call('wtBraintreeAPIGetDiscounts', function (e, r) {
+    if (!e) {
+      Session.set('braintreeDiscounts', r);
     }
   });
 });
@@ -52,49 +64,11 @@ Template.wtBraintreeEditCustomer.helpers({
     }
     return paymentmethods;
   },
-  'subscriptions': function () {
-    var customer = Session.get('braintreeAPICustomer');
-    var subscriptions = [];
-    if (customer && customer.paymentMethods && customer.paymentMethods.length > 0) {
-      for (var i=0; i<customer.paymentMethods.length; i++) {
-        if (customer.paymentMethods[i].subscriptions && customer.paymentMethods[i].subscriptions.length>0) {
-          for (var j=0; j<customer.paymentMethods[i].subscriptions.length; j++) {
-            subscriptions.push(customer.paymentMethods[i].subscriptions[j]);
-          }
-        }
-      }
-    }
-    if (subscriptions.length<1) {
-      return false;
-    }
-    return subscriptions;
-  },
   'subscriptionscount': function () {
     if (this.subscriptions && this.subscriptions.length>0) {
       return this.subscriptions.length;
     }
     return 0;
-  },
-  'planName': function (planId) {
-    var plans = Session.get('braintreePlans');
-    if (plans && plans.length>0) {
-      for (var i=0; i<plans.length; i++) {
-        if (plans[i].id == planId) {
-          return plans[i].name;
-        }
-      }
-    }
-    return planId;
-  },
-  'plans': function () {
-    return Session.get('braintreePlans');
-  },
-  'isEdit': function () {
-    var token = Session.get('braintreeEditPaymentMethod');
-    if (token && this.token==token) {
-      return true;
-    }
-    return false;
   },
   'showPaymentAddForm': function () {
     if (Session.get('braintreeForceShowAddPaymentMethodForm')) {
@@ -112,12 +86,6 @@ Template.wtBraintreeEditCustomer.helpers({
   'showPaymentEditForm': function () {
     var token = Session.get('braintreeEditPaymentMethod');
     if (token) {
-      return true;
-    }
-    return false;
-  },
-  'isActive': function () {
-    if (this.status == "Active") {
       return true;
     }
     return false;
@@ -217,6 +185,48 @@ Template.wtBraintreeClickToEdit.events({
         Session.set('braintreeCustomerEditingField', null);
       });
     }
+  }
+});
+
+Template.wtBraintreePaymentMethodPanel.helpers({
+  'isEdit': function () {
+    var token = Session.get('braintreeEditPaymentMethod');
+    if (token && this.token==token) {
+      return true;
+    }
+    return false;
+  },
+  'subscriptions': function () {
+    if (this.subscriptions && this.subscriptions.length>0) {
+      return this.subscriptions;
+    }
+    return false;
+  }
+});
+
+Template.wtBraintreeSubscriptionPanel.helpers({
+  'planName': function () {
+    var plans = Session.get('braintreePlans');
+    if (plans && plans.length>0) {
+      for (var i=0; i<plans.length; i++) {
+        if (plans[i].id == this.planId) {
+          return plans[i].name;
+        }
+      }
+    }
+    return this.planId;
+  },
+  'isActive': function () {
+    if (this.status == "Active") {
+      return true;
+    }
+    return false;
+  }
+});
+
+Template.wtBraintreeAddSubscriptionPanel.helpers({
+  'plans': function () {
+    return Session.get('braintreePlans');
   }
 });
 

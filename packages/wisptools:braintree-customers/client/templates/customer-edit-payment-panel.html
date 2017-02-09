@@ -1,0 +1,101 @@
+<template name="wtBraintreePaymentMethodPanel">
+  <div class="panel {{#if isEdit}}panel-warning{{else}}panel-default{{/if}}">
+    <div class="panel-heading">
+      {{ cardholderName }}
+      <span class="pull-right">
+        <span class="pull-left">
+          {{ maskedNumber }} ({{ cardType }})<br>
+          <span class="pull-right">Exp: {{ expirationDate }}</span>
+        </span>&nbsp;&nbsp;&nbsp;
+        <span class="pull-right">
+          {{#if isEdit}}
+          <button class="btn btn-warning cancelEditPaymentMethod">Cancel</button>
+          {{else}}
+          <button class="btn btn-primary editPaymentMethod">Edit</button>
+          {{/if}}
+        </span>
+      </span>
+      <br><br>
+    </div>
+    <div class="panel-body">
+      {{#if subscriptions}}
+      {{#each subscriptions}}
+        {{ > wtBraintreeSubscriptionPanel}}
+      {{/each}}
+      {{/if}}
+      {{ > wtBraintreeAddSubscriptionPanel}}
+    </div>
+  </div>
+</template>
+
+<template name="wtBraintreeSubscriptionPanel">
+  <div class="col-md-3">
+    <div class="panel {{#if isActive}}panel-success{{else}}panel-danger{{/if}}">
+      <div class="panel-heading">
+        {{planName}}
+        <span class="pull-right">${{price}}</span>
+      </div>
+      <div class="panel-body">
+        Billing Period: {{billingPeriodStartDate}} to {{billingPeriodEndDate}}<br>
+        Balance : {{balance}}<br>
+        Next Bill Amount: {{nextBillAmount}}<br>
+        Next Billing Date: {{nextBillingDate}}<br>
+        Status: {{status}}<br>
+        {{#if isActive}}
+        <button class="btn btn-danger cancelSubscription">Cancel</button>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="wtBraintreeAddSubscriptionPanel">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Create Subscription
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Plan</label>
+            <div class="col-sm-9">
+              <select class="form-control">
+                {{#each plans}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Addons</label>
+            <div class="col-sm-9">
+              <select class="form-control">
+                <option value="">-- None --</option>
+                {{#each addons}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Discounts</label>
+            <div class="col-sm-9">
+              <select class="form-control">
+                <option value="">-- None --</option>
+                {{#each discounts}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <button type="submit" class="btn btn-primary createSubscriptionBtn">Create Subscription</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>

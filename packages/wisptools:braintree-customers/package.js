@@ -35,6 +35,8 @@ Package.onUse(function(api) {
     'client/templates/add.js',
     'client/templates/customer-edit.html',
     'client/templates/customer-edit.js',
+    'client/templates/customer-edit-payment-panel.html',
+    'client/templates/customer-edit-payment-panel.js',
     'client/templates/braintree-form.html',
     'client/templates/braintree-form.js',
     'client/templates/braintree-edit-form.html',

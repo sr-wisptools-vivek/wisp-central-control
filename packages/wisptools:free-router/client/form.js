@@ -5,6 +5,7 @@ Template.wtFreeRouterForm.events({
 
     // Build object with form data
     var formData = {};
+    formData.status = "Submitted";
     for (var x = 0; x < e.target.length; x++) {
       if (e.target[x].name) {
         if (e.target[x].type === 'checkbox') {

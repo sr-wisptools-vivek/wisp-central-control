@@ -36,13 +36,13 @@ Template.wtFreeRouterList.events({
     e.preventDefault();
     e.stopPropagation();
     t.selStatus.set($(e.target).val());
-    WtFreeRouter.subscribe(searchFilter(_this.selDays.get(), _this.selStatus.get()), true, {createdAt: -1});
+    WtFreeRouter.subscribe(searchFilter(this.selDays.get(), this.selStatus.get()), true, {createdAt: -1});
   },
   "change .filter-date": function(e, t) {
     e.preventDefault();
     e.stopPropagation();
     t.selDays.set($(e.target).val());
-    WtFreeRouter.subscribe(searchFilter(_this.selDays.get(), _this.selStatus.get()), true, {createdAt: -1});
+    WtFreeRouter.subscribe(searchFilter(this.selDays.get(), this.selStatus.get()), true, {createdAt: -1});
   },  
 });
 

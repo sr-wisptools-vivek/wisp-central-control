@@ -43,6 +43,26 @@ Template.wtBraintreeSubscriptionPanel.helpers({
       return true;
     }
     return false;
+  },
+  'addonName': function () {
+    var names = [];
+    if (this.addOns && this.addOns.length>0) {
+      for (i in this.addOns) {
+        names.push(this.addOns[i].name);
+      }
+      return names.join(', ');
+    }
+    return false;
+  },
+  'discountName': function () {
+    var names = [];
+    if (this.discounts && this.discounts.length>0) {
+      for (i in this.discounts) {
+        names.push(this.discounts[i].name);
+      }
+      return names.join(', ');
+    }
+    return false;
   }
 });
 
@@ -95,11 +115,10 @@ Template.wtBraintreeAddSubscriptionPanel.events({
     var addonId = $(e.target).parent().parent().parent().find('select').eq(1).val();
     var discountId = $(e.target).parent().parent().parent().find('select').eq(2).val();
     var customerId = this.customerId;
-    console.log(planId);
-    console.log(addonId);
-    console.log(discountId);
-    /*if (token && planId && customerId) {
-      Meteor.call('wtBraintreeAPICreateSubscription', token, planId, function (e, r) {
+    addonId = addonId?[addonId]:false;
+    discountId = discountId?[discountId]:false;
+    if (token && planId && customerId) {
+      Meteor.call('wtBraintreeAPICreateSubscription', token, planId, addonId, discountId, function (e, r) {
         if (e) {
           console.log(e);
           WtGrowl.fail('Failed to create subscription.');
@@ -116,6 +135,6 @@ Template.wtBraintreeAddSubscriptionPanel.events({
       });
     } else {
       WtGrowl.fail('Please select a valid plan.')
-    }*/
+    }
   }
 });

@@ -179,7 +179,7 @@ BraintreeAPI.updatePaymentMethod = function (token, paymentMethodNonce, cardhold
   }, callback);
 };
 
-BraintreeAPI.createSubscription = function (paymentMethodToken, planId, callback) {
+BraintreeAPI.createSubscription = function (paymentMethodToken, planId, addons, discounts, callback) {
   if (!paymentMethodToken || !planId) {
     throw new Meteor.Error("braintree-error", 'Braintree create subscription - Invalid parameters.');
   }
@@ -189,10 +189,18 @@ BraintreeAPI.createSubscription = function (paymentMethodToken, planId, callback
   if (!gateway) {
     throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
   }
+  if (!addons) {
+    addons = [];
+  }
+  if (!discounts) {
+    discounts = [];
+  }
 
   gateway.subscription.create({
     paymentMethodToken: paymentMethodToken,
-    planId: planId
+    planId: planId,
+    addOns: addons,
+    discounts: discounts
   }, callback);
 };
 

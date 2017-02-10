@@ -265,7 +265,7 @@ Meteor.methods({
 
     return result;
   },
-  'wtBraintreeAPICreateSubscription': function (paymentMethodToken, planId) {
+  'wtBraintreeAPICreateSubscription': function (paymentMethodToken, planId, addonList, discountList) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
 
@@ -275,8 +275,23 @@ Meteor.methods({
     }
     BraintreeAPI.connect(braintreeSettings.environment, braintreeSettings.merchantId, braintreeSettings.publicKey, braintreeSettings.privateKey);
 
+    var addons = {};
+    if (addonList.length>0) {
+      addons = {add: []};
+      for (i in addonList) {
+        addons.add.push({inheritedFromId: addonList[i]});
+      }
+    }
+    var discounts = {};
+    if (discountList.length>0) {
+      discounts = {add: []};
+      for (i in discountList) {
+        discounts.add.push({inheritedFromId: discountList[i]});
+      }
+    }
+
     var myFuture = new Future();
-    BraintreeAPI.createSubscription(paymentMethodToken, planId, function (err, res) {
+    BraintreeAPI.createSubscription(paymentMethodToken, planId, addons, discounts, function (err, res) {
       if (err) {
         myFuture.return({status: "error", msg: err.message});
       } else {

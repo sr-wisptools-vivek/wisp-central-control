@@ -40,6 +40,8 @@
         Balance : {{balance}}<br>
         Next Bill Amount: {{nextBillAmount}}<br>
         Next Billing Date: {{nextBillingDate}}<br>
+        {{#if addonName}}Addons: {{addonName}}<br>{{/if}}
+        {{#if discountName}}Discounts: {{discountName}}<br>{{/if}}
         Status: {{status}}<br>
         {{#if isActive}}
         <button class="btn btn-danger cancelSubscription">Cancel</button>

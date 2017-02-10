@@ -1,9 +1,7 @@
 Template.wtFreeRouterList.onCreated(function () {
-  _this = this;
-  _this.selStatus = new ReactiveVar('All');
-  _this.selDays = new ReactiveVar('7');
-
-  WtFreeRouter.subscribe(searchFilter(_this.selDays.get(), _this.selStatus.get()), true, {createdAt: -1});
+  this.selStatus = new ReactiveVar('All');
+  this.selDays = new ReactiveVar('7');
+  WtFreeRouter.subscribe(searchFilter(this.selDays.get(), this.selStatus.get()), true, {createdAt: -1});
 });
 
 Template.wtFreeRouterList.helpers({

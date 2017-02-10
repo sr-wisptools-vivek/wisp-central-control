@@ -27,10 +27,10 @@ Template.wtFreeRouterList.events({
     e.stopPropagation();
     WtFreeRouter.subscribe(searchFilter(t.selDays.get(), t.selStatus.get()), false, {createdAt: -1});
   },
-  'click .md-archive-row': function (e, t) {
+  'click .wt-free-router-row': function (e, t) {
     e.preventDefault();
     e.stopPropagation();
-    Router.go('wtFreeRouterDetails', {id: $(e.currentTarget).data('id')});
+    Router.go('wtFreeRouterDetails', {itemId: $(e.currentTarget).data('id')});
   },
   "change .filter-status": function(e, t) {
     e.preventDefault();

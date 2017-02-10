@@ -1,0 +1,41 @@
+<template name="wtFreeRouterDetails">
+  <div class="row">
+    <div class="col-xs-6">
+      <h4>Free Router Details</h4>
+    </div>
+    <div class="col-xs-6 text-right">
+      <h5>{{item.company}}</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12"><hr /></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <strong>Name</strong><br />
+      {{item.name}}<br />
+      <br />
+      <strong>Company</strong><br />
+      {{item.company}}<br />
+      <br />
+      <strong>Phone</strong><br />
+      {{item.phone}}<br />
+      <br />
+      <strong>Email</strong><br />
+      {{item.email}}
+    </div>
+    <div class="col-sm-4">
+      <strong>Address</strong><br />
+      {{item.address}}<br />
+      {{#if item.address2}}
+        {{item.address2}}<br />
+      {{/if}}
+      {{item.city}}, {{item.state}} {{item.zip}}
+    </div>
+    <div class="col-sm-4">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12"><hr /></div>
+  </div>
+</template>

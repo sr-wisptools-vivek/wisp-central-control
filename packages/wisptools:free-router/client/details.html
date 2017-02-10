@@ -11,7 +11,7 @@
     <div class="col-xs-12"><hr /></div>
   </div>
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-6 col-md-4 some-air-bottom">
       <strong>Name</strong><br />
       {{item.name}}<br />
       <br />
@@ -24,18 +24,152 @@
       <strong>Email</strong><br />
       {{item.email}}
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-6 col-md-4 some-air-bottom">
       <strong>Address</strong><br />
       {{item.address}}<br />
       {{#if item.address2}}
         {{item.address2}}<br />
       {{/if}}
       {{item.city}}, {{item.state}} {{item.zip}}
+      <br />
+      <br />
+      <strong>Sales Person</strong><br />
+      {{item.sales_rep}}<br />
+      <br />
+      <strong>Router Wanted</strong><br />
+      {{item.preferred_router}}<br />
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-6 col-md-4 some-air-bottom">
+      <strong>Status</strong><br />
+      {{item.status}}<br />
+      <br />
+      {{#if notEquals item.status 'Shipped'}}
+        <button type="button" class="btn btn-primary mark-shipped">Mark as Shipped</button>
+      {{/if}}
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12"><hr /></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-4 some-air-bottom">
+      <strong>Number of Employees</strong><br />
+      <hr />
+      <div class="row">
+        <div class="col-sm-6 text-right"><strong>Customer Service:</strong></div>
+        <div class="col-sm-6">{{item.cust_serv}}</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 text-right"><strong>Installers:</strong></div>
+        <div class="col-sm-6">{{item.installers}}</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 text-right"><strong>Total:</strong></div>
+        <div class="col-sm-6">{{item.total_employees}}</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 some-air-bottom">
+      <strong>Services Offered</strong><br />
+      <hr />
+      <div class="row">
+        <div class="col-sm-offset-1 col-sm-11">
+          <strong>Internet Speeds Offered</strong><br />
+          <div class="row">
+            <div class="col-sm-offset-1 col-sm-11">
+              <div class="row">
+                <div class="col-sm-6"><strong>1-5 Mbps:</strong></div>
+                <div class="col-sm-6">{{yesOrNo item.internet_1_5_mbps}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><strong>5-20 Mbps:</strong></div>
+                <div class="col-sm-6">{{yesOrNo item.internet_5_20_mbps}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><strong>20-100 Mbps:</strong></div>
+                <div class="col-sm-6">{{yesOrNo item.internet_20_100_mbps}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><strong>100-1000 Mbps:</strong></div>
+                <div class="col-sm-6">{{yesOrNo item.internet_100_1000_mbps}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-offset-1 col-sm-11">
+          <strong>VoIP</strong><br />
+          <div class="row">
+            <div class="col-sm-offset-1 col-sm-11">
+              <div class="row">
+                <div class="col-sm-6"><strong>In-House Servers:</strong></div>
+                <div class="col-sm-6">{{yesOrNo item.voip_in_house}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><strong>Resell:</strong></div>
+                <div class="col-sm-6">{{yesOrNo item.voip_resell}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-offset-1 col-sm-11">
+          <strong>Other</strong><br />
+          <div class="row">
+            <div class="col-sm-offset-1 col-sm-11">
+              <div class="row">
+                <div class="col-sm-6"><strong>IT Services:</strong></div>
+                <div class="col-sm-6">{{yesOrNo item.other_it_services}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><strong>Data Storage:</strong></div>
+                <div class="col-sm-6">{{yesOrNo item.other_data_storage}}</div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6"><strong>Computer Repair:</strong></div>
+                <div class="col-sm-6">{{yesOrNo item.other_computer_repair}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 some-air-bottom">
+      <strong>Percentage of Customers</strong><br />
+      <hr />
+      <div class="row">
+        <div class="col-sm-6 text-right"><strong>Enterprise:</strong></div>
+        <div class="col-sm-6">{{item.percent_enterprise}}%</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 text-right"><strong>Small Business:</strong></div>
+        <div class="col-sm-6">{{item.percent_small_biz}}%</div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 text-right"><strong>Residential:</strong></div>
+        <div class="col-sm-6">{{item.percent_residential}}%</div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 some-air-bottom">
+      <strong>Interested in Learning More About</strong><br />
+      <hr />
+      <div class="row">
+        <div class="col-sm-offset-1 col-sm-11">
+          <div class="row">
+            <div class="col-sm-6"><strong>Managed Router:</strong></div>
+            <div class="col-sm-6">{{yesOrNo item.learn_managed_router}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6"><strong>Router Limits:</strong></div>
+            <div class="col-sm-6">{{yesOrNo item.learn_router_limits}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6"><strong>LTE Routers:</strong></div>
+            <div class="col-sm-6">{{yesOrNo item.learn_lte_routers}}</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6"><strong>Other:</strong></div>
+            <div class="col-sm-6">{{item.learn_other}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

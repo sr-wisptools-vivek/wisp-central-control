@@ -26,6 +26,10 @@ Template.wtBraintreePaymentMethodPanel.events({
   }
 });
 
+Template.wtBraintreeSubscriptionPanel.onCreated(function () {
+  this.requireCancelConfirmation = new ReactiveVar(false);
+});
+
 Template.wtBraintreeSubscriptionPanel.helpers({
   'planName': function () {
     var plans = Session.get('braintreePlans');
@@ -63,10 +67,25 @@ Template.wtBraintreeSubscriptionPanel.helpers({
       return names.join(', ');
     }
     return false;
+  },
+  'requireConfirmation': function () {
+    if (this.id == Template.instance().requireCancelConfirmation.get()) {
+      return true;
+    }
+    return false;
   }
 });
 
 Template.wtBraintreeSubscriptionPanel.events({
+  'click .cancelSubscriptionBtn1': function (e, t) {
+    e.preventDefault();
+    var subscriptionId = this.id;
+    t.requireCancelConfirmation.set(subscriptionId);
+  },
+  'click .cancelCancelSubscription': function (e, t) {
+    e.preventDefault();
+    t.requireCancelConfirmation.set(false);
+  },
   'click .cancelSubscription': function (e) {
     e.preventDefault();
     var subscriptionId = this.id;

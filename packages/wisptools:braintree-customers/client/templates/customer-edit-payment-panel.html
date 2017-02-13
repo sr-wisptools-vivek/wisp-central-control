@@ -35,7 +35,7 @@
         {{planName}}
         <span class="pull-right">${{price}}</span>
       </div>
-      <div class="panel-body">
+      <div class="panel-body" style="position:relative;">
         Billing Period: {{billingPeriodStartDate}} to {{billingPeriodEndDate}}<br>
         Balance : {{balance}}<br>
         Next Bill Amount: {{nextBillAmount}}<br>
@@ -44,7 +44,14 @@
         {{#if discountName}}Discounts: {{discountName}}<br>{{/if}}
         Status: {{status}}<br>
         {{#if isActive}}
-        <button class="btn btn-danger cancelSubscription">Cancel</button>
+        <button class="btn btn-danger cancelSubscriptionBtn1">Cancel</button>
+          {{#if requireConfirmation}}
+          <div style="position:absolute;top:0;left:0;opacity:0.9;background-color:white;padding-top:50px;width:100%;height:100%;text-align:center;">
+            Are you sure you want to Cancel this subscription?<br>
+            <button class="btn btn-primary cancelSubscription">Yes</button>
+            <button class="btn btn-default cancelCancelSubscription">No</button>
+          </div>
+          {{/if}}
         {{/if}}
       </div>
     </div>

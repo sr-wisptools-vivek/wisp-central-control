@@ -19,7 +19,8 @@ Package.onUse(function(api) {
     'wisptools:collection',
     'wisptools:menu',
     'wisptools:aes',
-    'wisptools:editable-field'
+    'wisptools:editable-field',
+    'reactive-var'
   ]);
 
   api.addFiles([

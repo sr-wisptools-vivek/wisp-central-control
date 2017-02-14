@@ -1,19 +1,20 @@
-.modal-dialog {
-  width: 100%;
+.loadInModal.modal .modal-dialog {
+  width: 100% ;
   max-width: 1300px;
   height: 90%;
   margin: auto;
 }
 
-.modal-container {
+.loadInModal.modal .modal-container {
   padding: 15px;
 }
 
-.modal-content {
+.loadInModal.modal .modal-content {
   height: auto;
   min-height: 90%;
   border-radius: 0;
   max-width: 1300px;
+  margin: 15px !important;
 }
 
 #siteloader-content{
@@ -21,4 +22,8 @@
 	margin: 0 auto;
 	text-align: center;
 	margin-top: 15%;
+}
+
+.loadInModal.modal .modal-body{
+    max-height: 100%;
 }

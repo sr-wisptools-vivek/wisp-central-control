@@ -6,23 +6,17 @@
 
 meteor-platform
 alanning:roles
-mizzao:bootstrap-3
 underscore
 iron:router
 sacha:spin
 accounts-password
 fortawesome:fontawesome
-wisptools:menu
-wisptools:interaction
-wisptools:customer
-wisptools:tower
-meteorhacks:fast-render
-dburles:google-maps
-meteorhacks:kadira
 zimme:bootstrap-growl
-mrt:jquery-mousewheel
-wisptools:ap
+twbs:bootstrap
+markdown
 wisptools:roles
+wisptools:menu
+#wisptools:customer
 wisptools:managed-router-mysql
 wisptools:load-in-modal
 wisptools:managed-router-domains
@@ -31,3 +25,4 @@ wisptools:rest-accounts-password
 wisptools:accounts-invite
 wisptools:braintree
 wisptools:braintree-customers
+wisptools:free-router

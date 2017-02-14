@@ -1,0 +1,66 @@
+<template name="wtManagedRouterMySQLAPIAuthentication">
+{{#markdown}}
+## Authentication
+Before other requests will be accepted, you'll need an authentication token.  To get a token you'll need to `"post"` a json object to `/users/login`, containing your login username and password.
+
+```http
+POST https://api.rncontrol.com/users/login
+```
+
+Sample data
+
+```js
+{
+  "username":"USERNAME",
+  "password":"PASSWORD"
+}
+```
+
+Sample result
+```js
+{
+  "id": "HS7fELJQG4tLyx7kc",
+  "token": "SF4OCULoTD2J1AjDJBfld9xQr-be7pvCsxJcJMIjaBA",
+  "tokenExpires": "2016-03-31T18:52:55.490Z"
+}
+```
+
+### Example login code with JQuery
+
+```js
+// Getting an oauth token
+$.ajax({
+  method: "post",
+  url: "https://api.rncontrol.com/users/login",
+  data: JSON.stringify({"username":"user","password":"pass"}),
+  contentType: "application/json",
+  success: function (data) {
+    console.log(data.token);
+  }
+});
+```
+
+## Using the Token
+After you have received a valid token, include it in the header when making API calls.
+
+```http
+Authorization: Bearer <token>
+```
+
+### Example API call using JQuery and token in header
+
+```js
+// Search for device
+$.ajax({
+  method: "post",
+  url: "https://api.rncontrol.com/mr/search",
+  data: JSON.stringify({"q":"abc","limit":5}),
+  contentType: "application/json",
+  headers: { Authorization: "Bearer " + token },
+  success: function (data) {
+    console.log(data);
+  }
+});
+```
+{{/markdown}}
+</template>

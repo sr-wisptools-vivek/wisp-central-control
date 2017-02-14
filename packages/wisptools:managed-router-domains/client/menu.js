@@ -1,1 +1,1 @@
-WtMenu.addDropdownItem('Admin', 'Managed Router Domains', 'wtManagedRouterMySQLManageDomains', 'fa-user', 4, ['admin']);
+WtMenu.addDropdownItem('Admin', 'Edit Domains', 'wtManagedRouterMySQLManageDomains', 'fa-server', 4, ['admin']);

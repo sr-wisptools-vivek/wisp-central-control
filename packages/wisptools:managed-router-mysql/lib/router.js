@@ -3,6 +3,12 @@ Router.route('/managed-routers', {
   template: 'wtManagedRouterMySQLList'
 });
 
+Router.route('/api-doc', {
+  name: 'wtManagedRouterMySQLAPI',
+  template: 'wtManagedRouterMySQLAPI'
+});
+
+
 Router.map(function() {
   this.route('/admin/managed-router-domains', {
     path: '/admin/managed-router-domains',

@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'wisptools:roles',
+  name: 'wisptools:free-router',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -12,50 +12,35 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.1.0.2');
-  
-  
+
   api.use([
     'meteor',
-    'alanning:roles@1.2.13',
-    'accounts-password',
     'mongo',
     'templating',
-    'reactive-var',
     'underscore',
+    'reactive-var',
     'iron:router@1.0.7',
-    'wisptools:tab-page',
-    'numeral:numeral@1.5.3',
     'wisptools:growl',
     'wisptools:collection',
-    'wisptools:menu'
+    'wisptools:ui-address',
   ]);
-  
-  api.use('email', ['server']);
 
   api.addFiles([
-    'lib/router.js'
+    'lib/router.js',
+    'lib/collection.js',
     ], ['server','client']);
-    
-  api.addFiles([
-    'client/menu.js',
-    'client/subscription.js',
-    'client/templates/users.html',
-    'client/templates/users.js',
-    'client/templates/manage-roles.html',
-    'client/templates/manage-roles.js'
-  ], 'client');
-    
-  api.addFiles([
-    'server/publication.js',
-    'server/methods.js',
-    'server/on-create-user.js'
-  ], 'server');
 
-  api.export('Roles');
+  api.addFiles([
+    'client/form.html',
+    'client/form.js',
+  ], 'client');
+
+  api.export('WtFreeRouter');
+
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('wisptools:roles');
-  api.addFiles('roles-tests.js');
+  api.use('wisptools:free-router');
+  api.addFiles('free-router-tests.js');
 });

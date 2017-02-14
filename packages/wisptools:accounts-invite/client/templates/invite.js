@@ -1,6 +1,18 @@
+Template.wtAccountsInviteInvite.onCreated(function () {
+  this.domain = new ReactiveVar('---');
+
+});
+
+Template.wtAccountsInviteInvite.onRendered(function () {
+  var _this = this;
+  Meteor.call('wtManagedRouterMySQLGetMyDomain', function (err, res) {
+    if (!err) _this.domain.set(res);
+  });
+});
+
 Template.wtAccountsInviteInvite.helpers({
   'domainName': function () {
-    return Meteor.user().profile.domain;
+    return Template.instance().domain.get();
   },
   'hasSendInvitations': function () {
     var invitations = WtAccountsInviteTokens.find({owner: Meteor.userId()}).count();

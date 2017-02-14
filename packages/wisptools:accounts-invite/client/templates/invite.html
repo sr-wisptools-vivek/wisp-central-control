@@ -1,47 +1,43 @@
 <template name="wtAccountsInviteInvite">
-  <div class="bg-secondary app-page">
-    <div class="container">
-      <h3>Invite users to join your domain ({{domainName}}).</h3><hr />
-      <form class="form-horizontal col-md-8">
-        <div class="form-group">
-          <label for="inviteEmail" class="col-sm-2 control-label">Email</label>
-          <div class="col-sm-10">
-            <input type="email" class="form-control" id="inviteEmail" placeholder="Email">
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-default sendInvitationBtn">Send Invitation</button>
-          </div>
-        </div>
-      </form>
-      <br />
-      {{#if hasSendInvitations}}
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th>Time</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-          {{#each getSendInvitations}}
-            <tr>
-              <td>{{email}}</td>
-              <td>{{createdAt}}</td>
-              <td>{{statusMessage accepted}}</td>
-              <td>
-              {{#if showResendBtn accepted}}
-                <button class="btn btn-primary btn-xs resendInvitation">Resend</button>
-              {{/if}}
-              </td>
-            </tr>
-          {{/each}}
-          </tbody>
-        </table>
-      {{/if}}
+  <h3>Invite users to join your domain ({{domainName}}).</h3><hr />
+  <form class="form-horizontal col-md-8">
+    <div class="form-group">
+      <label for="inviteEmail" class="col-sm-2 control-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="inviteEmail" placeholder="Email">
+      </div>
     </div>
-  </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-default sendInvitationBtn">Send Invitation</button>
+      </div>
+    </div>
+  </form>
+  <br />
+  {{#if hasSendInvitations}}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each getSendInvitations}}
+        <tr>
+          <td>{{email}}</td>
+          <td>{{createdAt}}</td>
+          <td>{{statusMessage accepted}}</td>
+          <td>
+          {{#if showResendBtn accepted}}
+            <button class="btn btn-primary btn-xs resendInvitation">Resend</button>
+          {{/if}}
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
 </template>

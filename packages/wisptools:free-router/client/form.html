@@ -1,0 +1,224 @@
+<template name="wtFreeRouterForm">
+  <h3>Tell us a little about your company and get a FREE ReadyNet router.</h3><hr />
+    <form class="form-horizontal" id="requestFreeRouter">
+      <div class="form-group">
+        <div class="col-lg-6">
+          <strong>Shipping Address</strong><hr />
+          <div class="form-group">
+            <label for="name" class="col-md-3 control-label">Name</label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="name" placeholder="Name" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company" class="col-md-3 control-label">Company</label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="company" placeholder="Company" value="">
+            </div>
+          </div>
+          {{> wtUIAddress}}
+          <div class="form-group">
+            <label for="phone" class="col-md-3 control-label">Phone</label>
+            <div class="col-md-3">
+              <input type="text" class="form-control" name="phone" placeholder="Phone" value="">
+            </div>
+            <label for="email" class="col-md-2 control-label">Email</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" name="email" placeholder="Email" value="">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <strong>Number of Employees</strong><hr />
+          <div class="form-group">
+            <div class="col-md-offset-0 col-md-12 col-xs-offset-1 col-xs-11">
+              <div class="form-group">
+                <label for="cust_serv" class="col-md-3 col-lg-4 control-label">Customer Service</label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="cust_serv" placeholder="Number" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="installers" class="col-md-3 col-lg-4 control-label">Installers</label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="installers" placeholder="Number" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="total_employees" class="col-md-3 col-lg-4 control-label">Total Employees</label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="total_employees" placeholder="Number" value="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-6">          
+          <strong>Services Offered</strong><hr />
+          <div class="form-group">
+            <div class="col-xs-offset-1 col-xs-11">
+              <strong>Internet Speeds Offered</strong>
+              <div class="form-group">
+                <div class="col-xs-offset-1 col-xs-11">
+                  <div class="checkbox">
+                    <label class="control-label">
+                      <input type="checkbox" name="internet_1_5_mbps" value="">
+                      1-5 Mbps
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label class="control-label">
+                      <input type="checkbox" name="internet_5_20_mbps" value="">
+                      5-20 Mbps
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label class="control-label">
+                      <input type="checkbox" name="internet_20_100_mbps" value="">
+                      20-100 Mbps
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label class="control-label">
+                      <input type="checkbox" name="internet_100_1000_mbps" value="">
+                      100-1000 Mbps
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <strong>VoIP</strong>
+              <div class="form-group">
+                <div class="col-xs-offset-1 col-xs-11">
+                  <div class="checkbox">
+                    <label class="control-label">
+                      <input type="checkbox" name="voip_in_house" value="">
+                      In-House Servers
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label class="control-label">
+                      <input type="checkbox" name="voip_resell" value="">
+                      Resell
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <strong>Other</strong>
+              <div class="form-group">
+                <div class="col-xs-offset-1 col-xs-11">
+                  <div class="checkbox">
+                    <label class="control-label">
+                      <input type="checkbox" name="other_it_services" value="">
+                      IT Services
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label class="control-label">
+                      <input type="checkbox" name="other_data_storage" value="">
+                      Data Storage
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label class="control-label">
+                      <input type="checkbox" name="other_computer_repair" value="">
+                      Computer Repair
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <strong>Percentage of Customers</strong><hr />
+          <div class="form-group">
+            <div class="col-md-offset-0 col-md-12 col-xs-offset-1 col-xs-11">
+              <div class="form-group">
+                <label for="percent_enterprise" class="col-md-3 col-lg-4 control-label">Enterprise %</label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="percent_enterprise" placeholder="Number" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="percent_small_biz" class="col-md-3 col-lg-4 control-label">Small Business %</label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="percent_small_biz" placeholder="Number" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="percent_residential" class="col-md-3 col-lg-4 control-label">Residential %</label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="percent_residential" placeholder="Number" value="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <strong>Interested in Learning More About</strong><hr />
+          <div class="form-group">
+            <div class="col-xs-offset-1 col-xs-11">
+              <div class="checkbox">
+                <label class="control-label">
+                  <input type="checkbox" name="learn_managed_router" value="">
+                  Managed Router
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="control-label">
+                  <input type="checkbox" name="learn_router_limits" value="">
+                  Router Limits
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="control-label">
+                  <input type="checkbox" name="learn_lte_routers" value="">
+                  LTE Routers
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="learn_other" class="col-md-0 control-label"></label>
+                <div class="col-md-5">
+                  <input type="text" class="form-control" name="learn_other" placeholder="Other" value="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="sales_rep" class="col-md-6 control-label">Your Sales Rep</label>
+            <div class="col-md-6">
+              <select class="form-control" name="sales_rep">
+                <option value="Unknown">I Don't Know</option>
+                <option value="Bill">Bill</option>
+                <option value="Rodger">Rodger</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="preferred_router" class="col-md-6 control-label">Preferred Router</label>
+            <div class="col-md-6">
+              <select class="form-control" name="preferred_router">
+                <option value="AC1200M">AC1200M</option>
+                <option value="AC1200MS">AC1200MS</option>
+                <option value="WRT500">WRT500</option>
+                <option value="WRT510">WRT510</option>
+                <option value="WRT300N-DX">WRT300N-DX</option>
+                <option value="WRT300N-D6">WRT300N-D6</option>
+                <option value="LTE520">LTE520</option>
+                <option value="LTE420">LTE420</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-block btn-primary">Get My FREE Router</button>
+        </div>
+      </div>
+    </form>
+</template>

@@ -3,3 +3,4 @@ env.sh
 wisp-central-control.tar.gz
 mup.json
 server.pem
+*.npm

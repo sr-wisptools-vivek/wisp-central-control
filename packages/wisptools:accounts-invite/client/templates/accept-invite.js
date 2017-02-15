@@ -50,14 +50,17 @@ Template.wtAccountsInviteCreateAccountForm.events({
             WtGrowl.success('Account created.');
             console.log(res);
 
-            Meteor.call('wtAccountsInviteAccepted', token, function () {
-              Meteor.loginWithPassword(res.email, password, function (err) {
-                if (err) {
-                  WtGrowl.fail('Unable to login the user.');
-                } else {
-                  Router.go('home');
-                }
-              });
+            Meteor.loginWithPassword(res.email, password, function (err) {
+              if (err) {
+                WtGrowl.fail('Unable to login the user.');
+              } else {
+                Meteor.call('wtAccountsInviteAccepted', token, function (err) {
+                  if (err) {
+                    WtGrowl.fail('Failed to update token status.');
+                  }
+                });
+                Router.go('home');
+              }
             });
           }
         });

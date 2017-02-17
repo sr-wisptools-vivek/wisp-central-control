@@ -1,9 +1,30 @@
 Meteor.methods({
+  'wtBraintreeFindDomainAdminUserId': function () {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
+
+    if (Roles.userIsInRole(this.userId, ['domain-admin'])) {
+      return this.userId;
+    } else {
+      var user = Meteor.users.findOne({_id: this.userId});
+      var domainAdminUser = Meteor.users.findOne({roles: "domain-admin", "profile.domain": user.profile.domain});
+      return domainAdminUser._id;
+    }
+  },
   'wtBraintreeGetSettings': function () {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
-    var braintreeSettings = WtBraintreeSettings.collection.findOne({owner: this.userId});
+    if (Roles.userIsInRole(this.userId, ['domain-admin'])) {
+      var braintreeSettings = WtBraintreeSettings.collection.findOne({owner: this.userId});
+    } else {
+      var domainAdminUserId = Meteor.call('wtBraintreeFindDomainAdminUserId');
+      if (domainAdminUserId) {
+        var braintreeSettings = WtBraintreeSettings.collection.findOne({owner: domainAdminUserId});
+      } else {
+        return {};
+      }
+    }
     if (braintreeSettings) {
       braintreeSettings.privateKey = WtAES.decrypt(braintreeSettings.privateKey);
       return braintreeSettings;
@@ -36,7 +57,7 @@ Meteor.methods({
   },
   'wtBraintreeAPIAddCustomer': function (firstName, lastName, companyname, phone, email, address, city, state, zip) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -84,7 +105,7 @@ Meteor.methods({
   },
   'wtBraintreeAPIUpdateCustomer': function (customerId, addressId, firstName, lastName, companyname, phone, email, address, city, state, zip) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -129,7 +150,7 @@ Meteor.methods({
   },
   'wtBraintreeAPIGetPlans': function () {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -155,7 +176,7 @@ Meteor.methods({
   },
   'wtBraintreeAPIGetCustomer': function (customerId) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -181,7 +202,7 @@ Meteor.methods({
   },
   'wtBraintreeAPICreateClientToken': function () {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -207,7 +228,7 @@ Meteor.methods({
   },
   'wtBraintreeAPICreatePaymentMethod': function (customerId, paymentMethodNonce, cardholderName) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -237,7 +258,7 @@ Meteor.methods({
   },
   'wtBraintreeAPIUpdatePaymentMethod': function (token, paymentMethodNonce, cardholderName) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -267,7 +288,7 @@ Meteor.methods({
   },
   'wtBraintreeAPICreateSubscription': function (paymentMethodToken, planId, addonList, discountList) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -312,7 +333,7 @@ Meteor.methods({
   },
   'wtBraintreeAPICancelSubscription': function (subscriptionId) {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -342,7 +363,7 @@ Meteor.methods({
   },
   'wtBraintreeAPIGetAddons': function () {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {
@@ -368,7 +389,7 @@ Meteor.methods({
   },
   'wtBraintreeAPIGetDiscounts': function () {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
     var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
     if (!braintreeSettings) {

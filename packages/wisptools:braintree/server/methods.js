@@ -1,30 +1,10 @@
 Meteor.methods({
-  'wtBraintreeFindDomainAdminUserId': function () {
-    if (!this.userId) throw new Meteor.Error(401, "Not authorized");
-    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
-
-    if (Roles.userIsInRole(this.userId, ['domain-admin'])) {
-      return this.userId;
-    } else {
-      var user = Meteor.users.findOne({_id: this.userId});
-      var domainAdminUser = Meteor.users.findOne({roles: "domain-admin", "profile.domain": user.profile.domain});
-      return domainAdminUser._id;
-    }
-  },
   'wtBraintreeGetSettings': function () {
     if (!this.userId) throw new Meteor.Error(401, "Not authorized");
     if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
 
-    if (Roles.userIsInRole(this.userId, ['domain-admin'])) {
-      var braintreeSettings = WtBraintreeSettings.collection.findOne({owner: this.userId});
-    } else {
-      var domainAdminUserId = Meteor.call('wtBraintreeFindDomainAdminUserId');
-      if (domainAdminUserId) {
-        var braintreeSettings = WtBraintreeSettings.collection.findOne({owner: domainAdminUserId});
-      } else {
-        return {};
-      }
-    }
+    var domainId = Meteor.call('wtManagedRouterMySQLGetMyDomainId');
+    var braintreeSettings = WtBraintreeSettings.collection.findOne({domainId: domainId});
     if (braintreeSettings) {
       braintreeSettings.privateKey = WtAES.decrypt(braintreeSettings.privateKey);
       return braintreeSettings;

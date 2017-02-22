@@ -154,6 +154,15 @@ Meteor.method("wtManagedRouterMySQLGetMyDomain", function() {
   return domain.name;
 });
 
+Meteor.method("wtManagedRouterMySQLGetMyDomainId", function() {
+  var domain = WtMangedRouterMySQLDomains.findOne({userId: this.userId});
+  if (!domain) return null;
+  if (domain.name == "") return null;
+  var domainRecord = Meteor.call('wtManagedRouterGetDomain', domain.name);
+  if (!domainRecord) return null;
+  return domainRecord._id;
+});
+
 Meteor.method("wtManagedRouterMySQLGetLimit", function(limit) {
   return search.call(this, '', limit);
 },{

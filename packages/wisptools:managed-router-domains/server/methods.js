@@ -55,3 +55,26 @@ Meteor.method("wtManagedRouterCheckDomain", function (domain, ignoreCase) {
     return false;
   }
 });
+
+Meteor.method("wtManagedRouterGetDomain", function (domain, ignoreCase) {
+  //Case sensitive search by default
+  if (typeof ignoreCase == "undefined") {
+    ignoreCase = false;
+  } else {
+    ignoreCase = (ignoreCase === true) ? true : false;
+  }
+  if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
+    if (ignoreCase) {
+      var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
+    } else {
+      var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: domain});
+    }
+    if (!domainList) {
+      return false;
+    } else {
+      return domainList;
+    }
+  } else {
+    return false;
+  }
+});

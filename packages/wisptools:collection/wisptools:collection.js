@@ -67,9 +67,13 @@ WtCollection = function(collectionName, settings) {
             options.sort = sort;
           }
           query.owner = this.userId;
+          query.domainId = Meteor.call('wtManagedRouterMySQLGetMyDomainId');
           return wtCollection.find(query, options);
         } else {
-          return wtCollection.find({owner: this.userId});
+          return wtCollection.find({
+            owner: this.userId,
+            domainId: Meteor.call('wtManagedRouterMySQLGetMyDomainId')
+          });
         }
       }
 
@@ -81,6 +85,7 @@ WtCollection = function(collectionName, settings) {
       // document creator and owner
       doc.creator = userId;
       doc.owner = userId;
+      doc.domainId = Meteor.call('wtManagedRouterMySQLGetMyDomainId');
     });
 
     wtCollection.before.update(function(userId, doc, fieldNames, modifier, options) {

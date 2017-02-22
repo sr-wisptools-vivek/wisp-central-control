@@ -17,6 +17,7 @@ Template.wtFreeRouterForm.events({
     }
     WtFreeRouter.insert(formData);
     WtGrowl.success('Thank you.');
+    Meteor.call('freeRouterNotifyEmail');
     Router.go('wtManagedRouterMySQLList');
   }
 });

@@ -27,6 +27,8 @@ Package.onUse(function(api) {
     'wisptools:ui-address',
   ]);
 
+  api.use('email', ['server']);
+
   api.addFiles([
     'lib/router.js',
     'lib/collection.js',
@@ -41,6 +43,10 @@ Package.onUse(function(api) {
     'client/details.js',
     'client/menu.js',
   ], 'client');
+
+  api.addFiles([
+    'server/methods.js',
+    ], ['server']);
 
   api.export('WtFreeRouter');
 

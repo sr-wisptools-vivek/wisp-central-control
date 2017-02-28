@@ -15,8 +15,9 @@ Package.onUse(function(api) {
   api.use([
     'meteor',
     'templating',
-    'iron:router@1.0.7'
-  ]);  
+    'iron:router@1.0.7',
+    'reactive-var'
+  ]);
 
   api.addFiles([
     'lib/wtmenu.js'

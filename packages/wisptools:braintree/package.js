@@ -20,7 +20,8 @@ Package.onUse(function(api) {
     'wisptools:growl',
     'wisptools:collection',
     'wisptools:menu',
-    'wisptools:aes'
+    'wisptools:aes',
+    'reactive-var'
   ]);
 
   api.addFiles([

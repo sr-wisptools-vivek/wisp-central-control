@@ -729,7 +729,8 @@ Meteor.method("wtManagedRouterIsOnline", function(request){
 
   this.unblock();
   var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/is_recent_checkin.php'));
-  return res.data;
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  return res.data.REPLY;
 },{
   url: "/mr/acs/device/online"
 });

@@ -232,5 +232,35 @@ Sample error
   "reason": "Domain Error"
 }
 ```
+
+## Check if a Device is Online
+
+A quick call to see if the device has recently checked in with the ACS, indicating that it's online.
+
+```http
+POST https://api.rncontrol.com/mr/acs/device/online
+```
+
+Sample post data
+```js
+{
+    "id":"1267785"
+}
+```
+Sample result
+```js
+{
+  online: true
+}
+```
+
+Sample error
+```js
+{
+  "error": "denied",
+  "reason": "Domain Error"
+}
+```
+
 {{/markdown}}
 </template>

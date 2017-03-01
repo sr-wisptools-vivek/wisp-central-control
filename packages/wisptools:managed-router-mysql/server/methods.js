@@ -722,3 +722,15 @@ Meteor.method("wtManagedRouterACSRefresh", function(request){
 },{
   url: "/mr/acs/device/refresh"
 });
+
+Meteor.method("wtManagedRouterIsOnline", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  this.unblock();
+  var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/is_recent_checkin.php'));
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  return res.data.REPLY;
+},{
+  url: "/mr/acs/device/online"
+});

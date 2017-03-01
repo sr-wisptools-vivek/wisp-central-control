@@ -220,3 +220,25 @@ Template.wtManagedRouterMySQLList.onRendered(function () {
     }
   );
 });
+
+Template.wtManagedRouterIsOnline.onCreated(function () {
+  this.doneChecking = new ReactiveVar(false);
+  this.isOnline = new ReactiveVar(false);
+});
+
+Template.wtManagedRouterIsOnline.helpers({
+  'doneChecking': function() {
+    return Template.instance().doneChecking.get();
+  },
+  'isOnline': function() {
+    return Template.instance().isOnline.get();
+  },
+});
+
+Template.wtManagedRouterIsOnline.onRendered(function () {
+  var _this = this;
+  Meteor.call('wtManagedRouterIsOnline', {id: _this.data.id}, function(err, res) {
+    if (res && res.online) _this.isOnline.set(true);
+    _this.doneChecking.set(true);
+  });
+});

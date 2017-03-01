@@ -3,6 +3,11 @@
     <div class="container">
       <h3>Braintree Plans</h3><hr />
       <div class="row">
+        {{#unless hasBraintreeSettings}}
+        <div class="alert alert-danger" role="alert">
+          In order to start using this feature, Braintree Payments needs to be configured by the Domain Admin.
+        </div>
+        {{/unless}}
         <div class="alert alert-info" role="alert">
           Please login to your Braintree dashboard to add, edit or delete plans.
         </div>

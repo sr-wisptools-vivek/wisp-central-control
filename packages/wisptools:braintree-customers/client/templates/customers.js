@@ -1,14 +1,27 @@
+Template.wtBraintreeCustomers.onCreated(function () {
+  this.hasBraintreeSettings = new ReactiveVar(false);
+});
+
 Template.wtBraintreeCustomers.onRendered(function () {
   Session.set('braintreeCustomers', false);
   Session.set('braintreeCustomersSearchFilter', false);
-  Meteor.call('wtBraintreeCustomerGetCustomers', 10, function (e, r) {
-    if (!e) {
-      Session.set('braintreeCustomers', r);
+  var hasBraintreeSettings = Template.instance().hasBraintreeSettings;
+  Meteor.call('wtBraintreeGetSettings', function (e, r) {
+    if (r && r.publicKey && r.privateKey && r.merchantId) {
+      hasBraintreeSettings.set(true);
+      Meteor.call('wtBraintreeCustomerGetCustomers', 10, function (e, r) {
+        if (!e) {
+          Session.set('braintreeCustomers', r);
+        }
+      });
     }
   });
 });
 
 Template.wtBraintreeCustomers.helpers({
+  'hasBraintreeSettings': function () {
+    return Template.instance().hasBraintreeSettings.get();
+  },
   'customers': function () {
     return Session.get('braintreeCustomers');
   },

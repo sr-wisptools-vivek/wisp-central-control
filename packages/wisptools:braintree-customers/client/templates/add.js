@@ -1,3 +1,22 @@
+Template.wtBraintreeCustomersAdd.onCreated(function () {
+  this.hasBraintreeSettings = new ReactiveVar(false);
+});
+
+Template.wtBraintreeCustomersAdd.onRendered(function () {
+  var hasBraintreeSettings = Template.instance().hasBraintreeSettings;
+  Meteor.call('wtBraintreeGetSettings', function (e, r) {
+    if (r && r.publicKey && r.privateKey && r.merchantId) {
+      hasBraintreeSettings.set(true);
+    }
+  });
+});
+
+Template.wtBraintreeCustomersAdd.helpers({
+  'hasBraintreeSettings': function () {
+    return Template.instance().hasBraintreeSettings.get();
+  }
+});
+
 Template.wtBraintreeCustomersAdd.events({
   'click .addCustomer': function (e) {
     e.preventDefault();

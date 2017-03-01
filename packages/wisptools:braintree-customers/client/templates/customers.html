@@ -3,6 +3,13 @@
     <div class="container">
       <h3>Customers</h3><hr />
       <div class="row">
+        {{#unless hasBraintreeSettings}}
+        <div class="alert alert-danger" role="alert">
+          In order to start using this feature, Braintree Payments needs to be configured by the Domain Admin.
+        </div>
+        {{/unless}}
+      </div>
+      <div class="row">
           <form class="form-inline">
             <div class="form-group">
               <input type="text" class="form-control" id="searchBox" placeholder="Search">

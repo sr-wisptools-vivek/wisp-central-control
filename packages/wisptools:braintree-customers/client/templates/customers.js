@@ -1,17 +1,18 @@
 Template.wtBraintreeCustomers.onCreated(function () {
   this.hasBraintreeSettings = new ReactiveVar(false);
+  this.braintreeCustomers = new ReactiveVar(false);
+  this.braintreeCustomersSearchFilter = new ReactiveVar(false);
 });
 
 Template.wtBraintreeCustomers.onRendered(function () {
-  Session.set('braintreeCustomers', false);
-  Session.set('braintreeCustomersSearchFilter', false);
   var hasBraintreeSettings = Template.instance().hasBraintreeSettings;
+  var braintreeCustomers = Template.instance().braintreeCustomers;
   Meteor.call('wtBraintreeGetSettings', function (e, r) {
     if (r && r.publicKey && r.privateKey && r.merchantId) {
       hasBraintreeSettings.set(true);
       Meteor.call('wtBraintreeCustomerGetCustomers', 10, function (e, r) {
         if (!e) {
-          Session.set('braintreeCustomers', r);
+          braintreeCustomers.set(r);
         }
       });
     }
@@ -23,17 +24,17 @@ Template.wtBraintreeCustomers.helpers({
     return Template.instance().hasBraintreeSettings.get();
   },
   'customers': function () {
-    return Session.get('braintreeCustomers');
+    return Template.instance().braintreeCustomers.get();
   },
   'hasSearchFilter': function () {
-    var filter = Session.get('braintreeCustomersSearchFilter');
+    var filter = Template.instance().braintreeCustomersSearchFilter.get();
     if (filter===false) {
       return false;
     }
     return true;
   },
   'getSearchFilter': function () {
-    return Session.get('braintreeCustomersSearchFilter');
+    return Template.instance().braintreeCustomersSearchFilter.get();
   }
 });
 
@@ -42,25 +43,27 @@ Template.wtBraintreeCustomers.events({
     e.preventDefault();
     Router.go('wtBraintreeCustomersAdd');
   },
-  'click .searchBtn': function (e) {
+  'click .searchBtn': function (e, t) {
     e.preventDefault();
     var query = $('#searchBox').val();
-    Session.set('braintreeCustomersSearchFilter', query);
-    Session.set('braintreeCustomers', false);
-    Meteor.call('wtBraintreeCustomerGetCustomers', 10, query, function (e, r) {
-      if (!e) {
-        Session.set('braintreeCustomers', r);
-      }
-    });
+    if (query.trim().length>0) {
+      t.braintreeCustomersSearchFilter.set(query);
+      t.braintreeCustomers.set(false);
+      Meteor.call('wtBraintreeCustomerGetCustomers', 10, query, function (e, r) {
+        if (!e) {
+          t.braintreeCustomers.set(r);
+        }
+      });
+    }
   },
-  'click .clearFilter': function (e) {
+  'click .clearFilter': function (e, t) {
     e.preventDefault();
     $('#searchBox').val('');
-    Session.set('braintreeCustomersSearchFilter', false);
-    Session.set('braintreeCustomers', false);
+    t.braintreeCustomersSearchFilter.set(false);
+    t.braintreeCustomers.set(false);
     Meteor.call('wtBraintreeCustomerGetCustomers', 10, function (e, r) {
       if (!e) {
-        Session.set('braintreeCustomers', r);
+        t.braintreeCustomers.set(r);
       }
     });
   },

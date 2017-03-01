@@ -1,16 +1,17 @@
 Template.wtBraintreePlans.onCreated(function () {
   this.hasBraintreeSettings = new ReactiveVar(false);
+  this.braintreePlans = new ReactiveVar(false);
 });
 
 Template.wtBraintreePlans.onRendered(function () {
-  Session.set('braintreePlans', false);
   var hasBraintreeSettings = Template.instance().hasBraintreeSettings;
+  var braintreePlans = Template.instance().braintreePlans;
   Meteor.call('wtBraintreeGetSettings', function (e, r) {
     if (r && r.publicKey && r.privateKey && r.merchantId) {
       hasBraintreeSettings.set(true);
       Meteor.call('wtBraintreeAPIGetPlans', function (e, r) {
         if (!e) {
-          Session.set('braintreePlans', r);
+          braintreePlans.set(r);
         }
       });
     }
@@ -22,13 +23,13 @@ Template.wtBraintreePlans.helpers({
     return Template.instance().hasBraintreeSettings.get();
   },
   'hasPlans': function () {
-    var plans = Session.get('braintreePlans');
+    var plans = Template.instance().braintreePlans.get();
     if (plans) {
       return true;
     }
     return false;
   },
   'plans': function () {
-    return Session.get('braintreePlans');
+    return Template.instance().braintreePlans.get();
   }
 });

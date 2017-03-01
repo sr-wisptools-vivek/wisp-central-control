@@ -1,77 +1,75 @@
 <template name="wtBraintreeCustomersAdd">
-  <div class="bg-secondary app-page">
-    <div class="container">
-      <h3>Add Customer</h3><hr />
-      <div class="row">
-        {{#unless hasBraintreeSettings}}
+  <h3>Add Customer</h3><hr />
+  {{#unless hasBraintreeSettings}}
+    <div class="row">
+      <div class="col-sm-12">
         <div class="alert alert-danger" role="alert">
           In order to start using this feature, Braintree Payments needs to be configured by the Domain Admin.
         </div>
-        {{/unless}}
-      </div>
-      <div class="row">
-        <form class="form-horizontal col-md-8">
-          <div class="form-group">
-            <label for="firstname" class="col-sm-2 control-label">First Name</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="firstname" placeholder="First Name">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="lastname" class="col-sm-2 control-label">Last Name</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="lastname" placeholder="Last Name">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="companyname" class="col-sm-2 control-label">Company Name</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="companyname" placeholder="Company Name">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="phone" class="col-sm-2 control-label">Phone</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="phone" placeholder="Phone">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Email</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="email" placeholder="Email">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="address" class="col-sm-2 control-label">Address</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="address" placeholder="Address">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="city" class="col-sm-2 control-label">City</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="city" placeholder="City">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="state" class="col-sm-2 control-label">State</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="state" placeholder="State">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="zip" class="col-sm-2 control-label">Zip</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="zip" placeholder="Zip">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button class="btn btn-default addCustomer">Add Customer</button>
-            </div>
-          </div>
-        </form>
       </div>
     </div>
+  {{/unless}}
+  <div class="row">
+    <form class="form-horizontal col-md-8">
+      <div class="form-group">
+        <label for="firstname" class="col-sm-2 control-label">First Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="firstname" placeholder="First Name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastname" class="col-sm-2 control-label">Last Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="lastname" placeholder="Last Name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="companyname" class="col-sm-2 control-label">Company Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="companyname" placeholder="Company Name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="phone" class="col-sm-2 control-label">Phone</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="phone" placeholder="Phone">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Email</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="email" placeholder="Email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address" class="col-sm-2 control-label">Address</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="address" placeholder="Address">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="city" class="col-sm-2 control-label">City</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="city" placeholder="City">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="state" class="col-sm-2 control-label">State</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="state" placeholder="State">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="zip" class="col-sm-2 control-label">Zip</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="zip" placeholder="Zip">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button class="btn btn-default addCustomer">Add Customer</button>
+        </div>
+      </div>
+    </form>
   </div>
 </template>

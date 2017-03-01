@@ -1,45 +1,45 @@
 <template name="wtBraintreePlans">
-  <div class="bg-secondary app-page">
-    <div class="container">
-      <h3>Braintree Plans</h3><hr />
-      <div class="row">
-        {{#unless hasBraintreeSettings}}
-        <div class="alert alert-danger" role="alert">
-          In order to start using this feature, Braintree Payments needs to be configured by the Domain Admin.
-        </div>
-        {{/unless}}
-        <div class="alert alert-info" role="alert">
-          Please login to your Braintree dashboard to add, edit or delete plans.
-        </div>
+  <h3>Braintree Plans</h3><hr />
+  <div class="row">
+    <div class="col-sm-12">
+      {{#unless hasBraintreeSettings}}
+      <div class="alert alert-danger" role="alert">
+        In order to start using this feature, Braintree Payments needs to be configured by the Domain Admin.
       </div>
-      <div class="row">
-        <table class="table">
-          <thead>
+      {{/unless}}
+      <div class="alert alert-info" role="alert">
+        Please login to your Braintree dashboard to add, edit or delete plans.
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Billing Frequency</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#if hasPlans}}
+            {{#each plans}}
             <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Billing Frequency</th>
+              <td>{{ name }}</td>
+              <td>{{ description }}</td>
+              <td>{{ currencyIsoCode }} {{ price }}</td>
+              <td>{{ billingFrequency }} Months</td>
             </tr>
-          </thead>
-          <tbody>
-            {{#if hasPlans}}
-              {{#each plans}}
-              <tr>
-                <td>{{ name }}</td>
-                <td>{{ description }}</td>
-                <td>{{ currencyIsoCode }} {{ price }}</td>
-                <td>{{ billingFrequency }} Months</td>
-              </tr>
-              {{/each}}
-            {{else}}
-              <tr>
-                <td colspan="4">No plans</td>
-              </tr>
-            {{/if}}
-          </tbody>
-        </table>
-      </div>
+            {{/each}}
+          {{else}}
+            <tr>
+              <td colspan="4">No plans</td>
+            </tr>
+          {{/if}}
+        </tbody>
+      </table>
     </div>
   </div>
 </template>

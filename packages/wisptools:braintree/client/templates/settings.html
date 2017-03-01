@@ -1,43 +1,39 @@
 <template name="wtBraintreeSettings">
-  <div class="bg-secondary app-page">
-    <div class="container">
-      <h3>Braintree Settings</h3><hr />
-      {{#with braintreeSettings}}
-      <form class="form-horizontal col-md-8">
-        <div class="form-group">
-          <label for="publickey" class="col-sm-2 control-label">Public Key</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="publickey" placeholder="Public Key" value="{{publicKey}}">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="privatekey" class="col-sm-2 control-label">Private Key</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="privatekey" placeholder="Private Key" value="{{privateKey}}">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="environment" class="col-sm-2 control-label">Environment</label>
-          <div class="col-sm-10">
-            <select id="environment" class="form-control">
-              <option value="production" {{selected 'production'}}>Production</option>
-              <option value="sandbox" {{selected 'sandbox'}}>Sandbox</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="merchantid" class="col-sm-2 control-label">Merchant Id</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="merchantid" placeholder="Merchant Id" value="{{merchantId}}">
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-default saveSettings">Save</button>
-          </div>
-        </div>
-      </form>
-      {{/with}}
+  <h3>Braintree Settings</h3><hr />
+  {{#with braintreeSettings}}
+  <form class="form-horizontal col-md-8">
+    <div class="form-group">
+      <label for="publickey" class="col-sm-2 control-label">Public Key</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="publickey" placeholder="Public Key" value="{{publicKey}}">
+      </div>
     </div>
-  </div>
+    <div class="form-group">
+      <label for="privatekey" class="col-sm-2 control-label">Private Key</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="privatekey" placeholder="Private Key" value="{{privateKey}}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="environment" class="col-sm-2 control-label">Environment</label>
+      <div class="col-sm-10">
+        <select id="environment" class="form-control">
+          <option value="production" {{selected 'production'}}>Production</option>
+          <option value="sandbox" {{selected 'sandbox'}}>Sandbox</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="merchantid" class="col-sm-2 control-label">Merchant Id</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="merchantid" placeholder="Merchant Id" value="{{merchantId}}">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-default saveSettings">Save</button>
+      </div>
+    </div>
+  </form>
+  {{/with}}
 </template>

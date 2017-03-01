@@ -18,10 +18,6 @@ Template.wtMenu.helpers({
         }
       }
 
-      if (WtMenu.dropdown[x].display.get() == false) {
-        canSeeTopLevel = false;
-      }
-
       if (canSeeTopLevel) {
         // Now check the items
         var items = [];
@@ -29,14 +25,10 @@ Template.wtMenu.helpers({
           // check if user can see this item
           if (WtMenu.dropdown[x].items[i].roles.length == 0) {
             // no roles are set, so everyone can see it.
-            if (WtMenu.dropdown[x].items[i].display.get() == true) {
-              items.push(WtMenu.dropdown[x].items[i]);
-            }
+            items.push(WtMenu.dropdown[x].items[i]);
           } else {
             if (Roles.userIsInRole(loggedInUser, WtMenu.dropdown[x].items[i].roles)) {
-              if (WtMenu.dropdown[x].items[i].display.get() == true) {
-                items.push(WtMenu.dropdown[x].items[i]);
-              }
+              items.push(WtMenu.dropdown[x].items[i]);
             }
           }
         }
@@ -65,14 +57,10 @@ Template.wtMenu.helpers({
       // check if user can see this item
       if (WtMenu.primary[x].roles.length == 0) {
         // no roles are set, so everyone can see it.
-        if (WtMenu.primary[x].display.get() == true) {
-          primary.push(WtMenu.primary[x]);
-        }
+        primary.push(WtMenu.primary[x]);
       } else {
         if (Roles.userIsInRole(loggedInUser, WtMenu.primary[x].roles)) {
-          if (WtMenu.primary[x].display.get() == true) {
-            primary.push(WtMenu.primary[x]);
-          }
+          primary.push(WtMenu.primary[x]);
         }
       }
 

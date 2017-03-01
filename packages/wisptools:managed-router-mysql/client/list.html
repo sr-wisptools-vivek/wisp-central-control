@@ -102,12 +102,12 @@
 <template name='wtManagedRouterIsOnline'>
   {{#if doneChecking}}
     {{#if isOnline}}
-      <button type="button" class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
+      <i class="fa fa-2x fa-check text-success"></i>
     {{else}}
-      <button type="button" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button>
+      <i class="fa fa-2x fa-circle text-danger"></i>
     {{/if}}
   {{else}}
-    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-refresh fa-spin"></i></button>
+    <i class="fa fa-2x fa-refresh fa-spin"></i>
   {{/if}}
 </template>
 

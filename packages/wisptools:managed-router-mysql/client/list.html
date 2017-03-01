@@ -16,7 +16,7 @@
         <div class="table-responsive">
         <table class="table table-striped routerTable">
           <thead>
-            <tr><th>Customer</th><th>Serial Number</th><th>MAC</th><th>Make</th><th>Model</th><th>Online</th><th>Manage</th></tr>
+            <tr><th>Customer</th><th>Serial Number</th><th>MAC</th><th>Make</th><th>Model</th><th class="text-center">Online</th><th>Manage</th></tr>
           </thead>
           <tbody>
             {{#each routers}}
@@ -61,7 +61,7 @@
                 </td>
                 <td>{{make}}</td>
                 <td>{{model}}</td>
-                <td>
+                <td class="text-center">
                   {{> wtManagedRouterIsOnline id=id}}
                 </td>
                 <td>

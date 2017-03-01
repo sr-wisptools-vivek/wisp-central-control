@@ -13,25 +13,57 @@ Template.wtManagedRouterMySQLList.helpers({
   },
   restoreRouter: function() {
     return Session.equals('removedRouterId', this.id);
+  },
+  hasMore: function() {
+    return !(Template.instance().routerList.get().length % Template.instance().queryLimit);
+  },
+  showSpinner: function() {
+    return Template.instance().showSpinner.get()
   }
 });
 
 Template.wtManagedRouterMySQLList.created = function () {
   var self = this;
   self.routerList = new ReactiveVar([]);
+  self.showSpinner = new ReactiveVar(false);
+  self.queryLimit = 20;
+  self.queryPage = 1;
 
-  Meteor.call('wtManagedRouterMySQLGetLimit', function (err, res) {
+  Meteor.call('wtManagedRouterMySQLGetLimit', self.queryLimit, function (err, res) {
     if (err)
       console.log(err)
     else 
       self.routerList.set(res);
   });
-
 }
 
 Template.wtManagedRouterMySQLList.events({
+  "click #showMoreBtn": function (e, t) {
+    e.preventDefault();
+    e.stopPropagation();
+    t.queryPage++;
+    t.showSpinner.set(true);
+    var search = {
+      q: $('#search-str').val(),
+      limit: t.queryLimit,
+      page: t.queryPage
+    }
+    Meteor.call('wtManagedRouterMySQLSearch', search, function (err, res) {
+      if (err) {
+        WtGrowl.fail('Looks like this is the end.');
+      } else {
+        // Append the results to the router list.
+        var list = t.routerList.get();
+        list = list.concat(res);
+        t.routerList.set(list);
+      }
+      t.showSpinner.set(false);
+    });
+
+  },
   'submit .mr-search': function(e, t) {
     e.preventDefault();
+    t.queryPage = 1;
     Meteor.call('wtManagedRouterMySQLSearch', e.target[0].value, function (err, res) {
       if (err)
         WtGrowl.fail('Search Failed');

@@ -93,14 +93,19 @@ Template.wtManagedRouterMySQLList.events({
       mac: mac,
     };
 
+    // clear the add form
+    e.target[0].value = '';
+    e.target[1].value = '';
+    e.target[2].value = '';
+
     Meteor.call('wtManagedRouterMySQLAdd', router, function (err, res) {
       if (err) {
         WtGrowl.fail(err.reason);
       } else {
         WtGrowl.success('Router Added');
-        var tmp = t.routerList.get();
-        tmp.push(res[0]);
-        t.routerList.set(tmp);
+        var list = t.routerList.get();
+        list = res.concat(list);
+        t.routerList.set(list);
       }
     });
   },

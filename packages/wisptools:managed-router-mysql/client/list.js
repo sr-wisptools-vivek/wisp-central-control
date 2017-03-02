@@ -64,6 +64,7 @@ Template.wtManagedRouterMySQLList.events({
   'submit .mr-search': function(e, t) {
     e.preventDefault();
     t.queryPage = 1;
+    t.routerList.set([]); // Clear the slate, so all the statuses get rechecked in the results
     Meteor.call('wtManagedRouterMySQLSearch', e.target[0].value, function (err, res) {
       if (err)
         WtGrowl.fail('Search Failed');

@@ -86,7 +86,60 @@ Sample result
 
 ### Method Three
 This is the most detailed way to do a search.  It requires an JSON object with pramaters that specify the search query
-and maximum number of results.  It is also allows for a search of the Reserved Router database.  Partial searches of Reserved Router database will return matches found up to the limit.
+and maximum number of results.  It also gives access to the optional `page` parameter.  By default `page` will be 1, giving only the top results.  The query can be followed up with a `page` value of 2, 3, 4, etc. to get results beyond the limit.
+
+#### Parameters
+`q` : The search string.  Can be whole of part of a Serial Number, MAC Address, or Customer Name.  The MAC Address can be fomated like: XX:XX:XX:XX:XX:XX, XX-XX-XX-XX-XX-XX, or XXXXXXXXXXXX.  Partial MAC Addresses are also valid.  Leave `q` as an empty string to pull everything.
+
+`limit` : This value is optional and is set to 20, when not included.  This specifies the limit on the number of matching results to return.
+
+`type` : This can ether be 'router' or 'reservation'.  When it's not included, the search type will default to 'router'.
+
+`page` : This allows you to get results beyond the `limit`.  When not included, it will default to 1, returning the results from 1 to `limit`.  Setting `page` to 2, for example, will give you the results starting from `limit` X 2, or the second page of resutls.  It's important to not change the value for `limit` when doing follow up searches, going beyond the first page of results. 
+
+```http
+POST https://api.rncontrol.com/mr/search
+```
+
+Sample post data
+```js
+{
+  "q":"RNV50005",
+  "limit":1,
+  "type":"router",
+  "page":1
+}
+```
+
+Sample result
+```js
+[
+  {
+    "id": 1267774,
+    "domain": "test",
+    "name": "TEST 123",
+    "serial": "RNV5000512",
+    "mac": "00019F1407D2",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267774&TOKEN=XXX"
+  },
+  {
+    "id": 1267770,
+    "domain": "test",
+    "name": "TEST",
+    "serial": "RNV5000511",
+    "mac": "00019F1407DD",
+    "make": "READYNET",
+    "model": "WRT500",
+    "url": "http://159.203.192.31/mr/?ID=1267770&TOKEN=XXX"
+  }
+]
+```
+
+### Method Four
+This method searches the reservation table.  Router reservations set aside a serial number to only be used in a perticular domain.  See the reserve tab for more details. It requires an JSON object with pramaters that specify the search query
+and maximum number of results. Partial searches of Reserved Router database will return matches found up to the limit.
 
 ```http
 POST https://api.rncontrol.com/mr/search
@@ -110,5 +163,6 @@ Sample result
 ]
 
 ```
+
 {{/markdown}}
 </template>

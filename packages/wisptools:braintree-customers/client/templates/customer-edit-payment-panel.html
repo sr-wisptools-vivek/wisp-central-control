@@ -23,7 +23,11 @@
         {{ > wtBraintreeSubscriptionPanel}}
       {{/each}}
       {{/if}}
-      {{ > wtBraintreeAddSubscriptionPanel}}
+      {{#if showAddSubscriptionForm}}
+        {{ > wtBraintreeAddSubscriptionPanel}}
+      {{else}}
+        {{ > wtBraintreeAddOneTimeChargePanel}}
+      {{/if}}
     </div>
   </div>
 </template>
@@ -104,6 +108,33 @@
             </div>
           </div>
         </form>
+        <span class="pull-right addOneTimeCharge"><a href="">Add one time charge</a></span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="wtBraintreeAddOneTimeChargePanel">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Add One Time Charge
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Amount</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <button type="submit" class="btn btn-primary addOneTimeChargeBtn">Add One Time Charge</button>
+            </div>
+          </div>
+        </form>
+        <span class="pull-right createSubscription"><a href="">Create subscription</a></span>
       </div>
     </div>
   </div>

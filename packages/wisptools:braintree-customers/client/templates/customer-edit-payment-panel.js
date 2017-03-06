@@ -1,3 +1,7 @@
+Template.wtBraintreePaymentMethodPanel.onCreated(function () {
+  this.showAddSubscriptionForm = new ReactiveVar(true);
+});
+
 Template.wtBraintreePaymentMethodPanel.helpers({
   'isEdit': function () {
     var token = Session.get('braintreeEditPaymentMethod');
@@ -11,6 +15,9 @@ Template.wtBraintreePaymentMethodPanel.helpers({
       return this.subscriptions;
     }
     return false;
+  },
+  'showAddSubscriptionForm': function () {
+    return Template.instance().showAddSubscriptionForm.get();
   }
 });
 
@@ -155,5 +162,22 @@ Template.wtBraintreeAddSubscriptionPanel.events({
     } else {
       WtGrowl.fail('Please select a valid plan.')
     }
+  },
+  'click .addOneTimeCharge': function (e, t) {
+    e.preventDefault();
+    t.view.parentView.parentView.templateInstance().showAddSubscriptionForm.set(false);
+  }
+});
+
+Template.wtBraintreeAddOneTimeChargePanel.events({
+  'click .addOneTimeChargeBtn': function (e, t) {
+    e.preventDefault();
+    var token = this.token;
+    var amount = $(e.target).parent().parent().parent().find('input').eq(0).val();
+    var customerId = this.customerId;
+  },
+  'click .createSubscription': function (e, t) {
+    e.preventDefault();
+    t.view.parentView.parentView.templateInstance().showAddSubscriptionForm.set(true);
   }
 });

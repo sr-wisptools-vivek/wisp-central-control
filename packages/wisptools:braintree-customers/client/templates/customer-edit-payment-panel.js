@@ -175,6 +175,25 @@ Template.wtBraintreeAddOneTimeChargePanel.events({
     var token = this.token;
     var amount = $(e.target).parent().parent().parent().find('input').eq(0).val();
     var customerId = this.customerId;
+    var _event = e;
+
+    if (token && amount && customerId) {
+      Meteor.call('wtBraintreeAPICreateSaleTransaction', token, amount, function (e, r) {
+        if (e) {
+          console.log(e);
+          WtGrowl.fail('Failed to add one time charge.');
+        } else {
+          if (r.status == "error") {
+            WtGrowl.fail(r.msg);
+          } else {
+            WtGrowl.success('One time charge added.');
+            $(_event.target).parent().parent().parent().find('input').eq(0).val('');
+          }
+        }
+      });
+    } else {
+      WtGrowl.fail('Please enter a valid amount.');
+    }
   },
   'click .createSubscription': function (e, t) {
     e.preventDefault();

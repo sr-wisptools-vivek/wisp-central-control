@@ -239,3 +239,23 @@ BraintreeAPI.getDiscounts = function (callback) {
 
   gateway.discount.all(callback);
 };
+
+BraintreeAPI.createSaleTransaction = function (paymentMethodToken, amount, callback) {
+  if (!paymentMethodToken || !amount) {
+    throw new Meteor.Error("braintree-error", 'Braintree create sale transaction - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+
+  gateway.transaction.sale({
+    paymentMethodToken: paymentMethodToken,
+    amount: amount,
+    options: {
+      submitForSettlement: true
+    }
+  }, callback);
+};

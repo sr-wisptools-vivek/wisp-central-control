@@ -392,5 +392,35 @@ Meteor.methods({
     var result = myFuture.wait();
 
     return result.data;
+  },
+  'wtBraintreeAPICreateSaleTransaction': function (paymentMethodToken, amount) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
+
+    var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
+    if (!braintreeSettings) {
+      throw new Meteor.Error(401, "Failed to connect to Braintree.");
+    }
+    BraintreeAPI.connect(braintreeSettings.environment, braintreeSettings.merchantId, braintreeSettings.publicKey, braintreeSettings.privateKey);
+
+    var myFuture = new Future();
+    BraintreeAPI.createSaleTransaction(paymentMethodToken, amount, function (err, res) {
+      if (err) {
+        myFuture.return({status: "error", msg: err.message});
+      } else {
+        if (res) {
+          if (res.success) {
+            myFuture.return({status: "success", data: res});
+          } else {
+            myFuture.return({status: "error", msg: res.message});
+          }
+        } else {
+          myFuture.return({status: "error", msg: "Failed to create new Sale transaction."});
+        }
+      }
+    });
+    var result = myFuture.wait();
+
+    return result;
   }
 });

@@ -11,6 +11,7 @@ blaze-tools@1.0.3
 boilerplate-generator@1.0.3
 callback-hook@1.0.3
 check@1.0.5
+coffeescript@1.0.6
 ddp@1.1.0
 deps@1.0.7
 ejson@1.0.6
@@ -45,8 +46,10 @@ meteor-platform@1.2.2
 meteorhacks:subs-manager@1.6.4
 minifiers@1.1.5
 minimongo@1.0.8
+mizzao:timesync@0.2.2
 mobile-status-bar@1.0.3
 mongo@1.1.0
+mrt:moment@2.8.1
 npm-bcrypt@0.7.8_2
 numeral:numeral@1.5.3
 observe-sequence@1.0.6
@@ -66,6 +69,7 @@ simple:rest@0.2.3
 spacebars@1.0.6
 spacebars-compiler@1.0.6
 srp@1.0.3
+stratogee:relative-time@1.0.0
 stylus@1.0.7
 templating@1.1.1
 tracker@1.0.7

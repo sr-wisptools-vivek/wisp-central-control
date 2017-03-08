@@ -2,7 +2,7 @@
   <h3>Tell us a little about your company and get a FREE ReadyNet router.</h3><hr />
     <form class="form-horizontal" id="requestFreeRouter">
       <div class="form-group">
-        <div class="col-lg-6">
+        <div class="col-md-offset-2 col-md-8">
           <strong>Shipping Address</strong><hr />
           <div class="form-group">
             <label for="name" class="col-md-3 control-label">Name</label>
@@ -19,43 +19,39 @@
           {{> wtUIAddress}}
           <div class="form-group">
             <label for="phone" class="col-md-3 control-label">Phone</label>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <input type="text" class="form-control" name="phone" placeholder="Phone" value="">
             </div>
-            <label for="email" class="col-md-2 control-label">Email</label>
+          </div>
+          <div class="form-group">
+            <label for="email" class="col-md-3 control-label">Email</label>
             <div class="col-md-4">
               <input type="text" class="form-control" name="email" placeholder="Email" value="">
             </div>
           </div>
-        </div>
-        <div class="col-lg-6">
           <strong>Number of Employees</strong><hr />
           <div class="form-group">
             <div class="col-md-offset-0 col-md-12 col-xs-offset-1 col-xs-11">
               <div class="form-group">
-                <label for="cust_serv" class="col-md-3 col-lg-4 control-label">Customer Service</label>
+                <label for="cust_serv" class="col-md-3 control-label">Customer Service</label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" name="cust_serv" placeholder="Number" value="">
                 </div>
               </div>
               <div class="form-group">
-                <label for="installers" class="col-md-3 col-lg-4 control-label">Installers</label>
+                <label for="installers" class="col-md-3 control-label">Installers</label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" name="installers" placeholder="Number" value="">
                 </div>
               </div>
               <div class="form-group">
-                <label for="total_employees" class="col-md-3 col-lg-4 control-label">Total Employees</label>
+                <label for="total_employees" class="col-md-3 control-label">Total Employees</label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" name="total_employees" placeholder="Number" value="">
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-lg-6">          
           <strong>Services Offered</strong><hr />
           <div class="form-group">
             <div class="col-xs-offset-1 col-xs-11">
@@ -130,25 +126,23 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-6">
           <strong>Percentage of Customers</strong><hr />
           <div class="form-group">
             <div class="col-md-offset-0 col-md-12 col-xs-offset-1 col-xs-11">
               <div class="form-group">
-                <label for="percent_enterprise" class="col-md-3 col-lg-4 control-label">Enterprise %</label>
+                <label for="percent_enterprise" class="col-md-3 control-label">Enterprise %</label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" name="percent_enterprise" placeholder="Number" value="">
                 </div>
               </div>
               <div class="form-group">
-                <label for="percent_small_biz" class="col-md-3 col-lg-4 control-label">Small Business %</label>
+                <label for="percent_small_biz" class="col-md-3 control-label">Small Business %</label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" name="percent_small_biz" placeholder="Number" value="">
                 </div>
               </div>
               <div class="form-group">
-                <label for="percent_residential" class="col-md-3 col-lg-4 control-label">Residential %</label>
+                <label for="percent_residential" class="col-md-3 control-label">Residential %</label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" name="percent_residential" placeholder="Number" value="">
                 </div>
@@ -184,39 +178,41 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-md-4">
+          <strong>Sales Person and Router</strong><hr />
           <div class="form-group">
-            <label for="sales_rep" class="col-md-6 control-label">Your Sales Rep</label>
-            <div class="col-md-6">
-              <select class="form-control" name="sales_rep">
-                <option value="Unknown">I Don't Know</option>
-                <option value="Bill">Bill</option>
-                <option value="Rodger">Rodger</option>
-              </select>
+            <div class="col-md-offset-0 col-md-12 col-xs-offset-1 col-xs-11">
+              <div class="form-group">
+                <label for="sales_rep" class="col-md-3 control-label">Your Sales Rep</label>
+                <div class="col-md-4">
+                  <select class="form-control" name="sales_rep">
+                    <option value="Unknown">I Don't Know</option>
+                    <option value="Bill Pedersen">Bill Pedersen</option>
+                    <option value="Dan Ortega">Dan Ortega</option>
+                    <option value="Roger Moore">Roger Moore</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4">
           <div class="form-group">
-            <label for="preferred_router" class="col-md-6 control-label">Preferred Router</label>
-            <div class="col-md-6">
-              <select class="form-control" name="preferred_router">
-                <option value="AC1200M">AC1200M</option>
-                <option value="AC1200MS">AC1200MS</option>
-                <option value="WRT500">WRT500</option>
-                <option value="WRT510">WRT510</option>
-                <option value="WRT300N-DX">WRT300N-DX</option>
-                <option value="WRT300N-D6">WRT300N-D6</option>
-                <option value="LTE520">LTE520</option>
-                <option value="LTE420">LTE420</option>
-              </select>
+            <div class="col-md-offset-0 col-md-12 col-xs-offset-1 col-xs-11">
+              <div class="form-group">
+                <label for="preferred_router" class="col-md-3 control-label">Preferred Router</label>
+                <div class="col-md-4">
+                  <select class="form-control" name="preferred_router">
+                    <option value="AC1200M">AC1200M</option>
+                    <option value="AC1200MS">AC1200MS</option>
+                    <option value="WRT500">WRT500</option>
+                    <option value="WRT510">WRT510</option>
+                    <option value="WRT300N-DX">WRT300N-DX</option>
+                    <option value="WRT300N-D6">WRT300N-D6</option>
+                    <option value="LTE520">LTE520</option>
+                    <option value="LTE420">LTE420</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-4">
           <button type="submit" class="btn btn-block btn-primary">Get My FREE Router</button>
         </div>
       </div>

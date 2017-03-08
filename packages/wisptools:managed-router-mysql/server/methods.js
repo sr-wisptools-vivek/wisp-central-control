@@ -57,7 +57,7 @@ var authorize = function(router) {
   return true;
 }
 
-var search = function(search, limit) {
+var search = function(search, limit, page) {
   if (this.userId == null) return [];
 
   var escapedDomain = getDomain.call(this);
@@ -71,8 +71,17 @@ var search = function(search, limit) {
   var escapedSearchMAC = WtManagedRouterMySQL.escape("%" + sqlSearchMAC + "%");
 
   var sqlLimit = limit || 20;
-  if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
-  sqlLimit = WtManagedRouterMySQL.escape(sqlLimit);
+  if (!isNaN(sqlLimit)) sqlLimit == 20;
+  //if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
+
+  var sqlPage = page || 1;
+  if (!isNaN(sqlPage)) sqlPage == 1;
+  //if (sqlPage.toString() === "[object Object]") sqlPage = 1; // handleing default empty object on rest api
+
+  if (sqlPage != 1) {
+    var limitStart = sqlLimit * (sqlPage - 1);
+    sqlLimit = limitStart + ',' + sqlLimit;
+  }
 
   var fut = new Future();
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
@@ -227,7 +236,8 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "RNV220":"VRT220",
                                 "12MS":"AC1200MS",
                                 "12M":"AC1200M",
-                                "400":"cnPilot R201",
+                                "400FRG":"cnPilot R200x",
+                                "WFSH":"cnPilot R200x",
                                 "J12M00":"JMR1200M",
                                 "LTN520":"LTE520",
                                 "LTE520":"LTE520",
@@ -428,10 +438,11 @@ Meteor.method("wtManagedRouterMySQLSearch", function(srch) {
   var str = srch.q || srch;
   var limit = srch.limit || 20;
   var type = srch.type || 'router';
+  var page = srch.page || 1;
   if (type == 'reservation') {
     return searchReservation.call(this, str, limit);
   } else {
-    return search.call(this, str, limit);
+    return search.call(this, str, limit, page);
   }
 },{
   url: "/mr/search"
@@ -730,4 +741,16 @@ Meteor.method("wtManagedRouterACSRefresh", function(request){
   return {'acs_reply':'accepted'};
 },{
   url: "/mr/acs/device/refresh"
+});
+
+Meteor.method("wtManagedRouterIsOnline", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  this.unblock();
+  var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/is_recent_checkin.php'));
+  if (res.data.RESULT != 'SUCCESS') throw new Meteor.Error('error', res.data.ERROR);
+  return res.data.REPLY;
+},{
+  url: "/mr/acs/device/online"
 });

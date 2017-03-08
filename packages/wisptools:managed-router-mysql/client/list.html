@@ -1,79 +1,27 @@
 <template name='wtManagedRouterMySQLList'>
-  <div class="row" style="padding-bottom: 15px;">
-    <div class="col-xs-12">
-      <form class="form-inline mr-search">
-        <div class="form-group" style="width: 50%;">
-          <label class="sr-only" for="search-str">Search for Router</label>
-          <input type="text" class="form-control" id="search-str" placeholder="Name, MAC Address or Serial Number" style="width: 100%;">
-        </div>
+  <div class="row some-air-bottom">
+    <form class="form-inline mr-search">
+      <div class="form-group col-xs-8 col-sm-6">
+        <label class="sr-only" for="search-str">Search for Router</label>
+        <input type="text" class="form-control" id="search-str" placeholder="Name, MAC Address or Serial Number" style="width: 100%;">
+      </div>
+      <div class="form-group col-xs-4 col-sm-6">
         <button type="submit" class="btn btn-default">Search</button>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
-  <div class="row" style="padding-bottom: 15px;">
+  <div class="row">
     <div class="col-xs-12">
       <form class="mr-add">
         <div class="table-responsive">
         <table class="table table-striped routerTable">
           <thead>
-            <tr><th>Customer</th><th>Serial Number</th><th>MAC</th><th>Make</th><th>Model</th><th>Manage</th></tr>
+            <tr><th>Customer</th><th>Serial Number</th><th>MAC</th><th>Make</th><th>Model</th><th class="text-center">Online</th><th>Manage</th></tr>
           </thead>
           <tbody>
-            {{#each routers}}
-              {{#if restoreRouter}}
-                <tr style="height: 55px;">
-                  <td class="routerName" >
-                    <strike>{{name}}</strike>
-                  </td>
-                  <td class="routerSerial">
-                    <strike>{{serial}}</strike>
-                  </td>
-                  <td class="routerMac">
-                    <strike>{{mac}}</strike>
-                  </td>
-                  <td><strike>{{make}}</strike></td>
-                  <td><strike>{{model}}</strike></td>
-                  <td>
-                    <a href="#" class="restoreRouter btn btn-warning btn-xs pull-right">
-                      <i class="fa fa-undo"></i>  
-                    </a>
-                  </td>
-                </tr>
-              {{else}}
-                <tr style="height: 55px;">
-                  <td class="routerName editable" style="min-width:225px;">
-                    {{#if editingName}}
-                      <input class="form-control" type="text" id="editName" value="{{name}}">
-                    {{else}}
-                      {{name}}
-                      {{> wtEditableIcon}}
-                    {{/if}}
-                  </td>
-                  <td class="routerSerial">
-                    {{serial}}
-                  </td>
-                  <td class="routerMac editable">
-                    {{#if editingMac}}
-                      <input class="form-control input-xs" type="text" id="editMac" value="{{mac}}">
-                    {{else}}
-                      {{mac}}
-                      {{> wtEditableIcon}}
-                    {{/if}}
-                  </td>
-                  <td>{{make}}</td>
-                  <td>{{model}}</td>
-                  <td>
-                    <a class="btn btn-default btn-sm addtomodal" href="{{url}}" target="_blank">View Router</a>
-                    <a href="#" class="removeRouter btn btn-default btn-xs pull-right" id="removeBtn{{id}}" data-toggle="modal" data-target="#myModal" >
-                      <i class="fa fa-times"></i>  
-                    </a>
-                  </td>
-                </tr>
-              {{/if}}
-            {{/each}}
             <tr>
               <td>
-                <input type="text" class="form-control" id="customer" placeholder="Name">
+                <input type="text" class="form-control" id="customer" placeholder="Name" style="min-width:250px;">
               </td>
               <td>
                 <input type="text" class="form-control" id="serial" placeholder="Serial Number RNV...">
@@ -83,10 +31,74 @@
               </td>
               <td></td>
               <td></td>
+              <td></td>
               <td>
                 <button type="submit" class="btn btn-default">Add</button>
               </td>
-            </tr>
+            </tr>          
+            {{#each routers}}
+              <tr >
+              {{#if restoreRouter}}
+                <td class="routerName" >
+                  <strike>{{name}}</strike>
+                </td>
+                <td class="routerSerial">
+                  <strike>{{serial}}</strike>
+                </td>
+                <td class="routerMac">
+                  <strike>{{mac}}</strike>
+                </td>
+                <td><strike>{{make}}</strike></td>
+                <td><strike>{{model}}</strike></td>
+                <td></td>
+                <td>
+                  <a href="#" class="restoreRouter btn btn-warning btn-xs pull-right">
+                    <i class="fa fa-undo"></i>  
+                  </a>
+                </td>
+              {{else}}
+                <td class="routerName editable">
+                  {{#if editingName}}
+                    <input class="form-control" type="text" id="editName" value="{{name}}">
+                  {{else}}
+                    {{name}}
+                    {{> wtEditableIcon}}
+                  {{/if}}
+                </td>
+                <td class="routerSerial">
+                  {{serial}}
+                </td>
+                <td class="routerMac editable">
+                  {{#if editingMac}}
+                    <input class="form-control input-xs" type="text" id="editMac" value="{{mac}}">
+                  {{else}}
+                    {{mac}}
+                    {{> wtEditableIcon}}
+                  {{/if}}
+                </td>
+                <td>{{make}}</td>
+                <td>{{model}}</td>
+                <td class="text-center">
+                  {{> wtManagedRouterIsOnline id=id}}
+                </td>
+                <td style="white-space: nowrap">
+                  <a class="btn btn-default btn-sm addtomodal" href="{{url}}" target="_blank">View Router</a>
+                  <a href="#" class="removeRouter btn btn-default btn-xs pull-right" id="removeBtn{{id}}" data-toggle="modal" data-target="#myModal" >
+                    <i class="fa fa-times"></i>  
+                  </a>
+                </td>
+              {{/if}}
+              </tr>
+            {{/each}}
+            {{#if hasMore}}
+              <tr>
+                {{#if showSpinner}}
+                  <td colspan="7" style="text-align:center; position:relative;">{{> spinner}}</td>
+                {{else}}
+                  <td colspan="7" style="text-align:center; cursor:pointer;" id="showMoreBtn">Show more</td>
+                {{/if}}
+              </tr>
+            {{/if}}
           </tbody>
         </table>
       </div>
@@ -94,6 +106,18 @@
     </div>
   </div>
   {{> wtManagedRouterDeleteModal}}
+</template>
+
+<template name='wtManagedRouterIsOnline'>
+  {{#if doneChecking}}
+    {{#if isOnline}}
+      <i class="fa fa-check" style="color: #5cb85c;"></i>
+    {{else}}
+      <i class="fa fa-circle" style="color: #d9534f;"></i>
+    {{/if}}
+  {{else}}
+    <i class="fa fa-refresh fa-spin"></i>
+  {{/if}}
 </template>
 
 <template name='wtManagedRouterDeleteModal'>

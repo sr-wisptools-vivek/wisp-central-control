@@ -20,10 +20,14 @@ Package.onUse(function(api) {
     'underscore',
     'reactive-var',
     'iron:router@1.0.7',
+    'stratogee:relative-time@1.0.0',
     'wisptools:growl',
+    'wisptools:menu',
     'wisptools:collection',
     'wisptools:ui-address',
   ]);
+
+  api.use('email', ['server']);
 
   api.addFiles([
     'lib/router.js',
@@ -33,7 +37,16 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/form.html',
     'client/form.js',
+    'client/list.html',
+    'client/list.js',
+    'client/details.html',
+    'client/details.js',
+    'client/menu.js',
   ], 'client');
+
+  api.addFiles([
+    'server/methods.js',
+    ], ['server']);
 
   api.export('WtFreeRouter');
 

@@ -21,11 +21,7 @@ var requireLogin = function() {
 
 var redirectRouterList = function() {
   if (Meteor.user()) {
-    if (!WtFreeRouter.findOne()) {
-      Router.go('wtFreeRouterForm');
-    } else {
-      Router.go('wtManagedRouterMySQLList');
-    }
+    Router.go('wtManagedRouterMySQLList');
   }
   this.next();
 };

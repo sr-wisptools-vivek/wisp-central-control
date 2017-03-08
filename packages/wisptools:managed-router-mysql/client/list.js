@@ -13,25 +13,58 @@ Template.wtManagedRouterMySQLList.helpers({
   },
   restoreRouter: function() {
     return Session.equals('removedRouterId', this.id);
+  },
+  hasMore: function() {
+    return !(Template.instance().routerList.get().length % Template.instance().queryLimit);
+  },
+  showSpinner: function() {
+    return Template.instance().showSpinner.get()
   }
 });
 
 Template.wtManagedRouterMySQLList.created = function () {
   var self = this;
   self.routerList = new ReactiveVar([]);
+  self.showSpinner = new ReactiveVar(false);
+  self.queryLimit = 20;
+  self.queryPage = 1;
 
-  Meteor.call('wtManagedRouterMySQLGetLimit', function (err, res) {
+  Meteor.call('wtManagedRouterMySQLGetLimit', self.queryLimit, function (err, res) {
     if (err)
       console.log(err)
     else 
       self.routerList.set(res);
   });
-
 }
 
 Template.wtManagedRouterMySQLList.events({
+  "click #showMoreBtn": function (e, t) {
+    e.preventDefault();
+    e.stopPropagation();
+    t.queryPage++;
+    t.showSpinner.set(true);
+    var search = {
+      q: $('#search-str').val(),
+      limit: t.queryLimit,
+      page: t.queryPage
+    }
+    Meteor.call('wtManagedRouterMySQLSearch', search, function (err, res) {
+      if (err) {
+        WtGrowl.fail('Looks like this is the end.');
+      } else {
+        // Append the results to the router list.
+        var list = t.routerList.get();
+        list = list.concat(res);
+        t.routerList.set(list);
+      }
+      t.showSpinner.set(false);
+    });
+
+  },
   'submit .mr-search': function(e, t) {
     e.preventDefault();
+    t.queryPage = 1;
+    t.routerList.set([]); // Clear the slate, so all the statuses get rechecked in the results
     Meteor.call('wtManagedRouterMySQLSearch', e.target[0].value, function (err, res) {
       if (err)
         WtGrowl.fail('Search Failed');
@@ -61,14 +94,19 @@ Template.wtManagedRouterMySQLList.events({
       mac: mac,
     };
 
+    // clear the add form
+    e.target[0].value = '';
+    e.target[1].value = '';
+    e.target[2].value = '';
+
     Meteor.call('wtManagedRouterMySQLAdd', router, function (err, res) {
       if (err) {
         WtGrowl.fail(err.reason);
       } else {
         WtGrowl.success('Router Added');
-        var tmp = t.routerList.get();
-        tmp.push(res[0]);
-        t.routerList.set(tmp);
+        var list = t.routerList.get();
+        list = res.concat(list);
+        t.routerList.set(list);
       }
     });
   },
@@ -219,4 +257,26 @@ Template.wtManagedRouterMySQLList.onRendered(function () {
       $(this).toggleClass('btn-danger');
     }
   );
+});
+
+Template.wtManagedRouterIsOnline.onCreated(function () {
+  this.doneChecking = new ReactiveVar(false);
+  this.isOnline = new ReactiveVar(false);
+});
+
+Template.wtManagedRouterIsOnline.helpers({
+  'doneChecking': function() {
+    return Template.instance().doneChecking.get();
+  },
+  'isOnline': function() {
+    return Template.instance().isOnline.get();
+  },
+});
+
+Template.wtManagedRouterIsOnline.onRendered(function () {
+  var _this = this;
+  Meteor.call('wtManagedRouterIsOnline', {id: _this.data.id}, function(err, res) {
+    if (res && res.online) _this.isOnline.set(true);
+    _this.doneChecking.set(true);
+  });
 });

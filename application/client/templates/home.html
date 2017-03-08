@@ -1,17 +1,45 @@
 <template name='home'>
-  <div class="bg-secondary app-page">
-    <div class="container">
-      <center>
-        <h2>Welcome to ReadyNet Control</h2>
-        <br />
-        <h3>Easily Control</h3>
-        <h3>Wi-Fi Routers, LTE Routers, DSL Routers, ATAs, IP Phones</h3>
-        <br />
-        <p>Free for your first 5 routers. Click Join above to create an account now.</p>
-        <p>RNControl.com manages ReadyNet routers and other TR-069 capable devices.</p>
-        <br />
-        <img src="/img/rncontrol-screenshot.png" class="img-responsive" alt="">
-      </center>
-    </div>
+  <div class="container">
+    {{> Template.dynamic template=content}}
   </div>
+</template>
+
+<template name='home-default'>
+  <center>
+    <h2>Welcome to ReadyNet Control</h2>
+    <br />
+    <h3>Easily Control</h3>
+    <h3>Wi-Fi Routers, LTE Routers, DSL Routers, ATAs, IP Phones</h3>
+    <br />
+    <p>Free for your first 20 routers. Click Join above to create an account now.</p>
+    <p>RNControl.com manages ReadyNet routers and other TR-069 capable devices.</p>
+    <br />
+    <img src="/img/rncontrol-screenshot.png" class="img-responsive" alt="">
+  </center>
+</template>
+
+<template name='home-test'>
+  <center>
+    <h2>Welcome to ReadyNet Control (TEST)</h2>
+    <br />
+    <h3>Easily Control</h3>
+    <h3>Wi-Fi Routers, LTE Routers, DSL Routers, ATAs, IP Phones</h3>
+    <br />
+    <p>Free for your first 20 routers. Click Join above to create an account now.</p>
+    <p>RNControl.com manages ReadyNet routers and other TR-069 capable devices.</p>
+    <br />
+    <img src="/img/rncontrol-screenshot.png" class="img-responsive" alt="">
+  </center>
+</template>
+
+<template name='home-wwssa'>
+  <center>
+    <h2>Welcome to the World Wide Supply control portal</h2>
+    <br />
+    <h3>Easily Control</h3>
+    <h3>Wi-Fi Routers, LTE Routers, DSL Routers, ATAs, & IP Phones</h3>
+    <br />
+    <p>Use it free for your first 20 routers. Click Join above to create an account now.</p>
+    <p>This application is used to manage World Wide Supply routers and other TR-069 capable devices.</p>
+  </center>
 </template>

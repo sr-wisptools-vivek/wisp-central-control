@@ -259,3 +259,19 @@ BraintreeAPI.createSaleTransaction = function (paymentMethodToken, amount, callb
     }
   }, callback);
 };
+
+BraintreeAPI.searchTransactions = function (customerId, callback) {
+  if (!customerId) {
+    throw new Meteor.Error("braintree-error", 'Braintree search transaction - Invalid parameters.');
+  }
+  if (callback && typeof(callback)!=="function") {
+    throw new Meteor.Error("braintree-error", 'Callback should be a function.');
+  }
+  if (!gateway) {
+    throw new Meteor.Error("braintree-error", 'Failed to connect to Braintree.');
+  }
+
+  gateway.transaction.search(function (search) {
+    search.customerId().is(customerId);
+  }, callback);
+};

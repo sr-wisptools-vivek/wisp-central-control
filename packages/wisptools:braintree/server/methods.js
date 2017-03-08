@@ -422,5 +422,40 @@ Meteor.methods({
     var result = myFuture.wait();
 
     return result;
+  },
+  'wtBraintreeAPISearchTransactions': function (customerId) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
+
+    var braintreeSettings = Meteor.call('wtBraintreeGetSettings');
+    if (!braintreeSettings) {
+      throw new Meteor.Error(401, "Failed to connect to Braintree.");
+    }
+    BraintreeAPI.connect(braintreeSettings.environment, braintreeSettings.merchantId, braintreeSettings.publicKey, braintreeSettings.privateKey);
+
+    var myFuture = new Future();
+    BraintreeAPI.searchTransactions(customerId, Meteor.bindEnvironment(function (err, res) {
+      if (err) {
+        myFuture.return({status: "error", msg: err.message});
+      } else {
+        if (res) {
+          var transactions = [];
+          var myFuture1 = new Future();
+          res.each(function (err, transaction) {
+            transactions.push(transaction);
+            if (transactions.length >= res.ids.length) {
+              myFuture1.return(true);
+            }
+          });
+          myFuture1.wait();
+          myFuture.return({status: "success", data: transactions});
+        } else {
+          myFuture.return({status: "error", msg: "Failed to search transactions."});
+        }
+      }
+    }));
+    var result = myFuture.wait();
+
+    return result;
   }
 });

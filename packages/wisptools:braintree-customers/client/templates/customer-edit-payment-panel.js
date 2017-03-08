@@ -1,5 +1,6 @@
 Template.wtBraintreePaymentMethodPanel.onCreated(function () {
   this.showAddSubscriptionForm = new ReactiveVar(true);
+  this.showTransactionsPanel = new ReactiveVar(false);
 });
 
 Template.wtBraintreePaymentMethodPanel.helpers({
@@ -18,6 +19,9 @@ Template.wtBraintreePaymentMethodPanel.helpers({
   },
   'showAddSubscriptionForm': function () {
     return Template.instance().showAddSubscriptionForm.get();
+  },
+  'showTransactionsPanel': function () {
+    return Template.instance().showTransactionsPanel.get();
   }
 });
 
@@ -30,6 +34,11 @@ Template.wtBraintreePaymentMethodPanel.events({
   'click .cancelEditPaymentMethod': function (e) {
     e.preventDefault();
     Session.set('braintreeEditPaymentMethod', false);
+  },
+  'click .showTransactionsPanelBtn': function (e, t) {
+    e.preventDefault();
+    var showTransactionsPanel = t.showTransactionsPanel.get();
+    t.showTransactionsPanel.set(!showTransactionsPanel);
   }
 });
 
@@ -198,5 +207,34 @@ Template.wtBraintreeAddOneTimeChargePanel.events({
   'click .createSubscription': function (e, t) {
     e.preventDefault();
     t.view.parentView.parentView.templateInstance().showAddSubscriptionForm.set(true);
+  }
+});
+
+Template.wtBraintreeTransactionsPanel.onCreated(function () {
+  this.transactionsList = new ReactiveVar(false);
+});
+
+Template.wtBraintreeTransactionsPanel.onRendered(function () {
+  var instance = Template.instance();
+  Meteor.call('wtBraintreeAPISearchTransactions', this.data.customerId, function (e, r) {
+    if (r && r.status && r.status == "success") {
+      instance.transactionsList.set(r.data);
+    }
+  });
+});
+
+Template.wtBraintreeTransactionsPanel.helpers({
+  'transactions': function () {
+    return Template.instance().transactionsList.get();
+  },
+  'recurringMsg': function () {
+    if (this.recurring) {
+      return "Yes";
+    } else {
+      return "No";
+    }
+  },
+  'date': function () {
+    return new Date(this.createdAt);
   }
 });

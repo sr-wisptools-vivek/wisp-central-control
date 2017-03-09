@@ -15,7 +15,7 @@ Meteor.methods({
       city: city,
       state: state,
       zip: zip,
-      domain: Meteor.user().profile.domain,
+      domain: Meteor.call('wtManagedRouterMySQLGetMyDomain'),
       owner: this.userId
     });
   },
@@ -45,14 +45,14 @@ Meteor.methods({
 
     if (!query || (query && query.length==0)) {
       return WtBraintreeCustomers.collection.find(
-        {domain: Meteor.user().profile.domain},
+        {domain: Meteor.call('wtManagedRouterMySQLGetMyDomain')},
         {sort: {createdAt: -1}, limit: count}
       ).fetch();
     } else {
       var limitQuery = {limit: count};
       var re = new RegExp(query, 'i');
       var crit = {
-        domain: Meteor.user().profile.domain,
+        domain: Meteor.call('wtManagedRouterMySQLGetMyDomain'),
         $or: [
           {'customerId': re},
           {'firstName': re},
@@ -71,7 +71,7 @@ Meteor.methods({
 
     return WtBraintreeCustomers.collection.findOne({
       _id: id,
-      domain: Meteor.user().profile.domain
+      domain: Meteor.call('wtManagedRouterMySQLGetMyDomain')
     });
   }
 });

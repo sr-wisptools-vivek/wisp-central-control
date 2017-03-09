@@ -216,9 +216,17 @@ Template.wtBraintreeTransactionsPanel.onCreated(function () {
 
 Template.wtBraintreeTransactionsPanel.onRendered(function () {
   var instance = Template.instance();
+  var _self = this;
   Meteor.call('wtBraintreeAPISearchTransactions', this.data.customerId, function (e, r) {
     if (r && r.status && r.status == "success") {
-      instance.transactionsList.set(r.data);
+      var transactionsList = r.data;
+      var cardTransactionsList = [];
+      for (var i=0; i<transactionsList.length; i++) {
+        if (transactionsList[i].creditCard && transactionsList[i].creditCard.token == _self.data.token) {
+          cardTransactionsList.push(transactionsList[i]);
+        }
+      }
+      instance.transactionsList.set(cardTransactionsList);
     }
   });
 });

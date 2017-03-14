@@ -73,5 +73,25 @@ Meteor.methods({
       _id: id,
       domain: Meteor.call('wtManagedRouterMySQLGetMyDomain')
     });
+  },
+  'wtBraintreeCustomerAddManagedRouter': function (customerId, serialNumber) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
+
+    return WtBraintreeCustomers.managedRouterCollection.insert({
+      customerId: customerId,
+      serialNumber: serialNumber,
+      domain: Meteor.call('wtManagedRouterMySQLGetMyDomain'),
+      owner: this.userId
+    });
+  },
+  'wtBraintreeCustomerGetManagedRouters': function (customerId) {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized");
+    if (!Roles.userIsInRole(this.userId, ['domain-admin', 'customer'])) throw new Meteor.Error(401, "Not authorized");
+
+    return WtBraintreeCustomers.managedRouterCollection.find({
+      customerId: customerId,
+      domain: Meteor.call('wtManagedRouterMySQLGetMyDomain')
+    });
   }
 });

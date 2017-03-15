@@ -92,6 +92,6 @@ Meteor.methods({
     return WtBraintreeCustomers.managedRouterCollection.find({
       customerId: customerId,
       domain: Meteor.call('wtManagedRouterMySQLGetMyDomain')
-    });
+    }).fetch();
   }
 });

@@ -97,8 +97,12 @@
   </div>
   {{/if}}
 
-  <h4>Managed Routers</h4><hr>
-  {{ > wtManagedRouterMySQLList hideSearchField=true}}
+  {{#if customer}}
+  {{#with customer}}
+    <h4>Managed Routers</h4><hr>
+    {{ > wtManagedRouterMySQLList hideSearchField=true customerId=customerId}}
+  {{/with}}
+  {{/if}}
 </template>
 
 <template name="wtBraintreeClickToEdit">

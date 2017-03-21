@@ -30,9 +30,11 @@ Template.wtBraintreeCustomersAdd.events({
     var state = $('#state').val();
     var zip = $('#zip').val();
     if (!email) {
-      WtGrowl.fail('Email field is required.');
+      WtGrowl.fail('Email is required.');
     } else if (!(!!firstname && !!lastname) && !companyname) {
       WtGrowl.fail('Either the Company name or the First name and Last name is required.');
+    } else if (!address) {
+      WtGrowl.fail('Address is required.');
     } else if (!Accounts._loginButtons.validateEmail(email)) {
       WtGrowl.fail('Please enter a valid email.');
     } else {

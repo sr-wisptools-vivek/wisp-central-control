@@ -1,39 +1,85 @@
 <template name="wtBraintreeSettings">
-  <h3>Braintree Settings</h3><hr />
+  <h3>Braintree Payments Settings</h3><hr />
   {{#with braintreeSettings}}
-  <form class="form-horizontal col-md-8">
-    <div class="form-group">
-      <label for="publickey" class="col-sm-2 control-label">Public Key</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="publickey" placeholder="Public Key" value="{{publicKey}}">
+  <div class="row">
+    <form class="form-horizontal col-md-8 col-md-offset-2">
+      <div class="form-group">
+        <label for="publickey" class="col-sm-2 control-label">Public Key</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="publickey" placeholder="Public Key" value="{{publicKey}}">
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="privatekey" class="col-sm-2 control-label">Private Key</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="privatekey" placeholder="Private Key" value="{{privateKey}}">
+      <div class="form-group">
+        <label for="privatekey" class="col-sm-2 control-label">Private Key</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="privatekey" placeholder="Private Key" value="{{privateKey}}">
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="environment" class="col-sm-2 control-label">Environment</label>
-      <div class="col-sm-10">
-        <select id="environment" class="form-control">
-          <option value="production" {{selected 'production'}}>Production</option>
-          <option value="sandbox" {{selected 'sandbox'}}>Sandbox</option>
-        </select>
+      <div class="form-group">
+        <label for="environment" class="col-sm-2 control-label">Environment</label>
+        <div class="col-sm-10">
+          <select id="environment" class="form-control">
+            <option value="production" {{selected 'production'}}>Production</option>
+            <option value="sandbox" {{selected 'sandbox'}}>Sandbox</option>
+          </select>
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="merchantid" class="col-sm-2 control-label">Merchant Id</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="merchantid" placeholder="Merchant Id" value="{{merchantId}}">
+      <div class="form-group">
+        <label for="merchantid" class="col-sm-2 control-label">Merchant Id</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="merchantid" placeholder="Merchant Id" value="{{merchantId}}">
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button class="btn btn-default saveSettings">Save</button>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button class="btn btn-default saveSettings">Save</button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
   {{/with}}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="row some-air-top">
+        <div class='col-xs-12'>
+        <h4>How to get started with Braintree Payments</h4>
+        </div>
+      </div>
+      <div class="row some-air-top">
+        <div class='col-xs-1 col-xs-offset-1'>1)</div>
+        <div class='col-xs-10'>
+          <p>Visit <a href="https://www.braintreepayments.com/" target="blank">www.braintreepayments.com</a> and create your free account.</p>
+        </div>
+      </div>
+      <div class="row some-air-top">
+        <div class='col-xs-1 col-xs-offset-1'>2)</div>
+        <div class='col-xs-10'>
+          <p>After you have your account, click <strong>Account > My User</strong></p>
+          <img src="/img/braintree-my-user.png" alt="Account > My User" class="img-thumbnail">
+        </div>
+      </div>
+      <div class="row some-air-top">
+        <div class='col-xs-1 col-xs-offset-1'>3)</div>
+        <div class='col-xs-10'>
+          <p>Scroll down to the API Keys section and click <strong>View Authorizations</strong></p>
+          <img src="/img/braintree-view-keys.png" alt="View Authorizations" class="img-thumbnail">
+        </div>
+      </div>
+      <div class="row some-air-top">
+        <div class='col-xs-1 col-xs-offset-1'>4)</div>
+        <div class='col-xs-10'>
+          <p>Find the <strong>View</strong> link under <strong>Private Key</strong> and click it.</p>
+          <img src="/img/braintree-view-private-key.png" alt="View" class="img-thumbnail">
+        </div>
+      </div>
+      <div class="row some-air-top some-air-bottom">
+        <div class='col-xs-1 col-xs-offset-1'>5)</div>
+        <div class='col-xs-10'>
+          <p>You should now have your detailed API key visable.  Copy and paste these values into the form above.</p>
+          <img src="/img/braintree-view-keys-detail.png" alt="View" class="img-thumbnail">
+        </div>
+      </div>
+
+    </div>
+  </div>
 </template>

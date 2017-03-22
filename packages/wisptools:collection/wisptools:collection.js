@@ -9,9 +9,15 @@ WtCollection = function(collectionName, settings) {
   // TODO: Add better access control (The owner control might be enough)
   wtCollection.allow({
     insert: function(userId, doc) {
+      if (settings && settings.update && settings.insert.requireLogin === false) {
+        return true;
+      }
       return !! userId;
     },
     update: function(userId, doc) {
+      if (settings && settings.update && settings.update.requireLogin === false) {
+        return true;
+      }
       return !! userId;
     }
   });
@@ -90,22 +96,26 @@ WtCollection = function(collectionName, settings) {
 
     wtCollection.before.update(function(userId, doc, fieldNames, modifier, options) {
       var hasUpdatePermission = false;
-      if (Roles.userIsInRole(userId, ['admin'])) {
+      if (settings && settings.update && settings.update.requireLogin === false) {
         hasUpdatePermission = true;
-      }
-      // Check if the user owns this doc
-      if (!hasUpdatePermission && doc.owner == userId) {
-        hasUpdatePermission = true;
-      }
-      if (!hasUpdatePermission && settings && settings.update && settings.update.roles && Roles.userIsInRole(userId, settings.update.roles)) {
-        if (settings.update.fields && settings.update.fields==='all') {
+      } else {
+        if (Roles.userIsInRole(userId, ['admin'])) {
           hasUpdatePermission = true;
-        } else if (settings.update.fields && typeof(settings.update.fields)==='object') {
+        }
+        // Check if the user owns this doc
+        if (!hasUpdatePermission && doc.owner == userId) {
           hasUpdatePermission = true;
-          for (var i=0; i<fieldNames.length; i++) {
-            if (settings.update.fields.indexOf(fieldNames[i])===-1) {
-              hasUpdatePermission = false;
-              break;
+        }
+        if (!hasUpdatePermission && settings && settings.update && settings.update.roles && Roles.userIsInRole(userId, settings.update.roles)) {
+          if (settings.update.fields && settings.update.fields==='all') {
+            hasUpdatePermission = true;
+          } else if (settings.update.fields && typeof(settings.update.fields)==='object') {
+            hasUpdatePermission = true;
+            for (var i=0; i<fieldNames.length; i++) {
+              if (settings.update.fields.indexOf(fieldNames[i])===-1) {
+                hasUpdatePermission = false;
+                break;
+              }
             }
           }
         }

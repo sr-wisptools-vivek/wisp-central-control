@@ -76,5 +76,18 @@ Meteor.methods({
 
   'wtAccountsInviteResendInvitationMail': function (id) {
     WtAccountsInvite.reSendInvitationMail(id);
+  },
+
+  'wtAccountsFixAllInviteStatus': function () {
+    if (!this.userId) throw new Meteor.Error(401, "Not authorized"); // Check user logged in.
+    if (!Roles.userIsInRole(this.userId, ['admin'])) throw new Meteor.Error(401, "Not authorized");
+
+    var pendingInvites = WtAccountsInviteTokens.find({accepted: false});
+    pendingInvites.forEach(function (data) {
+      var user = Meteor.users.findOne({'emails.address': data.email});
+      if (user) {
+        WtAccountsInviteTokens.update({_id: data._id}, {$set:{accepted: true}});
+      }
+    });
   }
 });

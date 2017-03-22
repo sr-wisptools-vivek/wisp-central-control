@@ -1,4 +1,5 @@
 <template name='wtManagedRouterMySQLList'>
+  {{#unless hideSearchField}}
   <div class="row some-air-bottom">
     <form class="form-inline mr-search">
       <div class="form-group col-xs-8 col-sm-6">
@@ -10,6 +11,7 @@
       </div>
     </form>
   </div>
+  {{/unless}}
   <div class="row">
     <div class="col-xs-12">
       <form class="mr-add">
@@ -35,7 +37,7 @@
               <td>
                 <button type="submit" class="btn btn-default">Add</button>
               </td>
-            </tr>          
+            </tr>
             {{#each routers}}
               <tr >
               {{#if restoreRouter}}
@@ -53,7 +55,7 @@
                 <td></td>
                 <td>
                   <a href="#" class="restoreRouter btn btn-warning btn-xs pull-right">
-                    <i class="fa fa-undo"></i>  
+                    <i class="fa fa-undo"></i>
                   </a>
                 </td>
               {{else}}
@@ -84,7 +86,7 @@
                 <td style="white-space: nowrap">
                   <a class="btn btn-default btn-sm addtomodal" href="{{url}}" target="_blank">View Router</a>
                   <a href="#" class="removeRouter btn btn-default btn-xs pull-right" id="removeBtn{{id}}" data-toggle="modal" data-target="#myModal" >
-                    <i class="fa fa-times"></i>  
+                    <i class="fa fa-times"></i>
                   </a>
                 </td>
               {{/if}}

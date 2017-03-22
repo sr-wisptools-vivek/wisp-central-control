@@ -1,6 +1,7 @@
 accounts-base@1.2.0
 accounts-password@1.1.1
 alanning:roles@1.2.13
+altapp:aes@1.2.0
 anti:i18n@0.4.3
 autoupdate@1.2.1
 base64@1.0.3
@@ -80,6 +81,9 @@ webapp@1.2.0
 webapp-hashing@1.0.3
 wisptools:accounts-invite@0.0.1
 wisptools:accounts-ui-bootstrap-3@0.0.1
+wisptools:aes@0.0.1
+wisptools:braintree@0.0.1
+wisptools:braintree-customers@0.0.1
 wisptools:collection@0.0.1
 wisptools:editable-field@0.0.1
 wisptools:free-router@0.0.1

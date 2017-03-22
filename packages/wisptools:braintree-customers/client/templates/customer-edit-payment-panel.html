@@ -1,0 +1,193 @@
+<template name="wtBraintreePaymentMethodPanel">
+  <div class="panel {{#if isEdit}}panel-warning{{else}}panel-default{{/if}}">
+    <div class="panel-heading">
+      {{ cardholderName }}
+      <span class="pull-right">
+        <span class="pull-left">
+          {{ maskedNumber }} ({{ cardType }})<br>
+          <span class="pull-right">Exp: {{ expirationDate }}</span>
+        </span>&nbsp;&nbsp;&nbsp;
+        <span class="pull-right">
+          {{#if isEdit}}
+          <button class="btn btn-warning cancelEditPaymentMethod">Cancel</button>
+          {{else}}
+          <button class="btn btn-primary editPaymentMethod">Edit</button>
+          {{/if}}
+        </span>
+      </span>
+      <br><br>
+    </div>
+    <div class="panel-body">
+      {{#if subscriptions}}
+      {{#each subscriptions}}
+        {{ > wtBraintreeSubscriptionPanel}}
+      {{/each}}
+      {{/if}}
+      {{#if showAddSubscriptionForm}}
+        {{ > wtBraintreeAddSubscriptionPanel}}
+      {{else}}
+        {{ > wtBraintreeAddOneTimeChargePanel}}
+      {{/if}}
+      <div class="col-md-12" style="text-align:right">
+        <button class="btn btn-primary btn-xs showTransactionsPanelBtn">
+          {{#if showTransactionsPanel}}
+          Hide Transactions
+          {{else}}
+          Show Transactions
+          {{/if}}
+        </button>
+      </div>
+      {{#if showTransactionsPanel}}
+        {{ > wtBraintreeTransactionsPanel}}
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="wtBraintreeSubscriptionPanel">
+  <div class="col-md-3">
+    <div class="panel {{#if isActive}}panel-success{{else}}panel-danger{{/if}}">
+      <div class="panel-heading">
+        {{planName}}
+        <span class="pull-right">${{price}}</span>
+      </div>
+      <div class="panel-body" style="position:relative;">
+        Billing Period: {{billingPeriodStartDate}} to {{billingPeriodEndDate}}<br>
+        Balance : {{balance}}<br>
+        Next Bill Amount: {{nextBillAmount}}<br>
+        Next Billing Date: {{nextBillingDate}}<br>
+        {{#if addonName}}Addons: {{addonName}}<br>{{/if}}
+        {{#if discountName}}Discounts: {{discountName}}<br>{{/if}}
+        Status: {{status}}<br>
+        {{#if isActive}}
+        <button class="btn btn-danger cancelSubscriptionBtn1">Cancel</button>
+          {{#if requireConfirmation}}
+          <div style="position:absolute;top:0;left:0;opacity:0.9;background-color:white;padding-top:50px;width:100%;height:100%;text-align:center;">
+            Are you sure you want to Cancel this subscription?<br>
+            <button class="btn btn-primary cancelSubscription">Yes</button>
+            <button class="btn btn-default cancelCancelSubscription">No</button>
+          </div>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="wtBraintreeAddSubscriptionPanel">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Create Subscription
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Plan</label>
+            <div class="col-sm-9">
+              <select class="form-control">
+                {{#each plans}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Addons</label>
+            <div class="col-sm-9">
+              <select class="form-control">
+                <option value="">-- None --</option>
+                {{#each addons}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Discounts</label>
+            <div class="col-sm-9">
+              <select class="form-control">
+                <option value="">-- None --</option>
+                {{#each discounts}}
+                <option value="{{id}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <button type="submit" class="btn btn-primary createSubscriptionBtn">Create Subscription</button>
+            </div>
+          </div>
+        </form>
+        <span class="pull-right addOneTimeCharge"><a href="">Add one time charge</a></span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="wtBraintreeAddOneTimeChargePanel">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Add One Time Charge
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">Amount</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+              <button type="submit" class="btn btn-primary addOneTimeChargeBtn">Add One Time Charge</button>
+            </div>
+          </div>
+        </form>
+        <span class="pull-right createSubscription"><a href="">Create subscription</a></span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="wtBraintreeTransactionsPanel">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Transactions
+      </div>
+      <div class="panel-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Recurring</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#if transactions}}
+              {{#each transactions}}
+              <tr>
+                <td>{{ date }}</td>
+                <td>{{ type }}</td>
+                <td>$ {{ amount }}</td>
+                <td>{{ status }}</td>
+                <td>{{ recurringMsg }}</td>
+              </tr>
+              {{/each}}
+            {{else}}
+              <tr>
+                <td colspan="5">No transactions found.</td>
+              </tr>
+            {{/if}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>

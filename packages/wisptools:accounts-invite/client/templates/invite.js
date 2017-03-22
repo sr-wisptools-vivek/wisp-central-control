@@ -42,6 +42,7 @@ Template.wtAccountsInviteInvite.events({
           if (err) {
             WtGrowl.fail(err.reason);
           } else {
+            $('#inviteEmail').val('');
             WtGrowl.success('Invitation has been send.');
           }
         });

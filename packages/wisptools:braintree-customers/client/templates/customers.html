@@ -1,0 +1,64 @@
+<template name="wtBraintreeCustomers">
+  <h3>Customers</h3><hr />
+  {{#unless hasBraintreeSettings}}
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="alert alert-danger" role="alert">
+          In order to start using this feature, Braintree Payments needs to be configured by the Domain Admin.
+        </div>
+      </div>
+    </div>
+  {{/unless}}
+  <div class="row">
+    <div class="col-sm-12">
+      <form class="form-inline">
+        <div class="form-group">
+          <input type="text" class="form-control" id="searchBox" placeholder="Search">
+        </div>
+        <button class="btn btn-primary searchBtn">Search</button>
+        <button class="btn btn-success addCustomerBtn pull-right">Add Customer</button>
+      </form>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-sm-12">
+    {{#if hasSearchFilter}}
+    <div class="alert alert-info" role="alert">
+      Results filtered by "{{ getSearchFilter }}".
+      (<a class="clearFilter">Clear filter</a>)
+    </div>
+    {{/if}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">  
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Customer Id</th>
+            <th>Name</th>
+            <th>Company Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each customers}}
+          <tr>
+            <td>{{ customerId }}</td>
+            <td>{{ firstName }} {{ lastName }}</td>
+            <td>{{ company }}</td>
+            <td>{{ phone }}</td>
+            <td>{{ email }}</td>
+            <td>
+              <button class="btn btn-primary editBtn">View</button>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>

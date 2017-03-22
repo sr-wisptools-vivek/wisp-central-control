@@ -1,0 +1,122 @@
+<template name="wtBraintreeEditCustomer">
+  {{#if customer}}
+  {{#with customer}}
+  <h3>{{ showTitle }}<span class="pull-right">Customer: {{ customerId }}</span></h3><hr />
+  <div class="row">
+    <form class="form-horizontal">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="firstname" class="col-sm-3 control-label">First Name</label>
+          <div class="col-sm-6">
+            {{ > wtBraintreeClickToEdit fieldName="firstName" fieldValue=firstName fieldPlaceholder="First Name" }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="lastname" class="col-sm-3 control-label">Last Name</label>
+          <div class="col-sm-6">
+            {{ > wtBraintreeClickToEdit fieldName="lastName" fieldValue=lastName fieldPlaceholder="Last Name" }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="companyname" class="col-sm-3 control-label">Company Name</label>
+          <div class="col-sm-6">
+            {{ > wtBraintreeClickToEdit fieldName="company" fieldValue=company fieldPlaceholder="Company Name" }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="phone" class="col-sm-3 control-label">Phone</label>
+          <div class="col-sm-6">
+            {{ > wtBraintreeClickToEdit fieldName="phone" fieldValue=phone fieldPlaceholder="Phone" }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email" class="col-sm-3 control-label">Email</label>
+          <div class="col-sm-6">
+            {{ > wtBraintreeClickToEdit fieldName="email" fieldValue=email fieldPlaceholder="Email" }}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="address" class="col-sm-3 control-label">Address</label>
+          <div class="col-sm-6">
+            {{ > wtBraintreeClickToEdit fieldName="address" fieldValue=address fieldPlaceholder="Address" }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="city" class="col-sm-3 control-label">City</label>
+          <div class="col-sm-6">
+            {{ > wtBraintreeClickToEdit fieldName="city" fieldValue=city fieldPlaceholder="City" }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="state" class="col-sm-3 control-label">State</label>
+          <div class="col-sm-6">
+            {{ > wtBraintreeClickToEdit fieldName="state" fieldValue=state fieldPlaceholder="State" }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="zip" class="col-sm-3 control-label">Zip</label>
+          <div class="col-sm-6">
+            {{ > wtBraintreeClickToEdit fieldName="zip" fieldValue=zip fieldPlaceholder="Zip" }}
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  {{/with}}
+  {{else}}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="alert alert-danger" role="alert">
+        Customer not found.
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{#if customer}}
+  {{#with customer}}
+    <h4>Managed Routers</h4><hr/>
+    {{ > wtManagedRouterMySQLList hideSearchField=true customerId=customerId}}
+  {{/with}}
+  {{/if}}  
+  <h4>Billing Information</h4><hr/>
+  <div class="row">
+    <div class="col-sm-12">
+      {{#if showPaymentAddForm}}
+        {{ > wtBraintreeAddPaymentMethodForm }}
+      {{else}}
+        <button class="btn btn-success addCreditCardBtn pull-right">Add Credit Card</button><br><br>
+      {{/if}}
+    </div>
+  </div>
+  {{#if paymentmethods}}
+  {{#each paymentmethods}}
+    <div class="row">
+      <div class="col-sm-12">
+        {{ > wtBraintreePaymentMethodPanel}}
+      </div>
+    </div>
+  {{/each}}
+  {{/if}}
+  {{#if showPaymentEditForm}}
+  <div class="row">
+    <div class="col-sm-12">
+      {{ > wtBraintreeEditPaymentMethodForm }}
+    </div>
+  </div>
+  {{/if}}
+</template>
+
+<template name="wtBraintreeClickToEdit">
+  <div class="click-to-edit-area">
+    {{#if isEditing fieldName}}
+      <input type="text" class="form-control" id="{{ fieldName }}" placeholder="{{ fieldPlaceholder }}" value="{{ fieldValue }}">
+    {{else}}
+      <p class="form-control-static editable">
+        {{ fieldValue }} &nbsp;
+        {{> wtEditableIcon}}
+      </p>
+    {{/if}}
+  </div>
+</template>

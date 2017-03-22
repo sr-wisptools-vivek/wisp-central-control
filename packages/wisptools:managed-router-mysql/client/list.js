@@ -1,6 +1,18 @@
 Template.wtManagedRouterMySQLList.helpers({
   routers: function () {
-    return Template.instance().routerList.get();
+    if (this.customerId) {
+      var customerRouterSerialNumbers = Template.instance().customerRouterSerialNumbers.get();
+      var routerList = Template.instance().routerList.get();
+      var filteredRouterList = [];
+      for (var i=0; i<routerList.length; i++) {
+        if (customerRouterSerialNumbers.indexOf(routerList[i].serial) > -1) {
+          filteredRouterList.push(routerList[i]);
+        }
+      }
+      return filteredRouterList;
+    } else {
+      return Template.instance().routerList.get();
+    }
   },
   editingName: function(){
     return Session.equals('managedRouterEditingName', this.id);
@@ -28,6 +40,7 @@ Template.wtManagedRouterMySQLList.created = function () {
   self.showSpinner = new ReactiveVar(false);
   self.queryLimit = 20;
   self.queryPage = 1;
+  self.customerRouterSerialNumbers = new ReactiveVar([]);
 
   Meteor.call('wtManagedRouterMySQLGetLimit', self.queryLimit, function (err, res) {
     if (err)
@@ -35,6 +48,20 @@ Template.wtManagedRouterMySQLList.created = function () {
     else 
       self.routerList.set(res);
   });
+
+  if (this.data && this.data.customerId) {
+    Meteor.call('wtBraintreeCustomerGetManagedRouters', this.data.customerId, function (err, res) {
+      if (err) {
+        console.log(err);
+      } else {
+        var serialNumbers = [];
+        for (var i=0; i<res.length; i++) {
+          serialNumbers.push(res[i].serialNumber);
+        }
+        self.customerRouterSerialNumbers.set(serialNumbers);
+      }
+    });
+  }
 }
 
 Template.wtManagedRouterMySQLList.events({
@@ -94,6 +121,11 @@ Template.wtManagedRouterMySQLList.events({
       mac: mac,
     };
 
+    var customerId = false;
+    if (this.customerId) {
+      customerId = this.customerId;
+    }
+
     // clear the add form
     e.target[0].value = '';
     e.target[1].value = '';
@@ -103,6 +135,15 @@ Template.wtManagedRouterMySQLList.events({
       if (err) {
         WtGrowl.fail(err.reason);
       } else {
+        if (customerId) {
+          Meteor.call('wtBraintreeCustomerAddManagedRouter', customerId, router.serial, function (err, res) {
+            if (!err) {
+              var list = t.customerRouterSerialNumbers.get();
+              list = list.concat(router.serial);
+              t.customerRouterSerialNumbers.set(list);
+            }
+          });
+        }
         WtGrowl.success('Router Added');
         var list = t.routerList.get();
         list = res.concat(list);

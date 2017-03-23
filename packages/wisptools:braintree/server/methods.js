@@ -17,9 +17,10 @@ Meteor.methods({
     if (!Roles.userIsInRole(this.userId, ['domain-admin'])) throw new Meteor.Error(401, "Not authorized");
     privateKey = WtAES.encrypt(privateKey);
 
-    var braintreeSettings = WtBraintreeSettings.collection.findOne({owner: this.userId});
+    var domainId = Meteor.call('wtManagedRouterMySQLGetMyDomainId');
+    var braintreeSettings = WtBraintreeSettings.collection.findOne({domainId: domainId});
     if (braintreeSettings) {
-      WtBraintreeSettings.collection.update({owner: this.userId}, {$set: {
+      WtBraintreeSettings.collection.update({domainId: domainId}, {$set: {
         publicKey: publicKey,
         privateKey: privateKey,
         environment: environment,
@@ -30,8 +31,7 @@ Meteor.methods({
         publicKey: publicKey,
         privateKey: privateKey,
         environment: environment,
-        merchantId: merchantId,
-        owner: this.userId
+        merchantId: merchantId
       });
     }
   },

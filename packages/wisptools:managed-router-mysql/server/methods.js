@@ -163,8 +163,9 @@ Meteor.method("wtManagedRouterMySQLGetMyDomain", function() {
   return domain.name;
 });
 
-Meteor.method("wtManagedRouterMySQLGetMyDomainId", function() {
-  var domain = WtMangedRouterMySQLDomains.findOne({userId: this.userId});
+Meteor.method("wtManagedRouterMySQLGetMyDomainId", function(userId) {
+  var _userId = userId || this.userId;
+  var domain = WtMangedRouterMySQLDomains.findOne({userId: _userId});
   if (!domain) return null;
   if (domain.name == "") return null;
   var domainRecord = Meteor.call('wtManagedRouterGetDomain', domain.name);

@@ -243,11 +243,13 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "LTN520":"LTE520",
                                 "LTE520":"LTE520",
                                 "L42":"LTE420",
-                                "L52":"LTE520"
+                                "L52":"LTE520",
+                                "FLY8417":"FTA1101"
                               }; //serial numbers with auto detect model number.
   //Auto detect make number. 
   var macWithMakeNumber = { "00019F":"READYNET",
-                            "000456":"CAMBIUM"
+                            "000456":"CAMBIUM",
+                            "0021F2":"FLYINGVOICE"
                           }; //OUI with make. (OUI: First 6 digits of MAC)
   // Used to override OUI based make.
   var modelToMake = {

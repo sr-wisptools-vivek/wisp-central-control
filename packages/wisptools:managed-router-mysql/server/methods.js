@@ -185,6 +185,9 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   var fut;
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
 
+  router.name = router.name.trim();
+  router.serial = router.serial.trim();
+  router.mac = router.mac.trim();
 
   // Check for duplicate Serial
   res = search.call(this, router.serial);

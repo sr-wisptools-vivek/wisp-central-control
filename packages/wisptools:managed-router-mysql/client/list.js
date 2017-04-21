@@ -104,9 +104,9 @@ Template.wtManagedRouterMySQLList.events({
     if(Session.get('managedRouterEditingName') || Session.get('managedRouterEditingSerial') || Session.get('managedRouterEditingMac')) {
       return;
     }
-    var name = e.target[0].value;
-    var serial = e.target[1].value.toUpperCase();
-    var mac = e.target[2].value.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, "");
+    var name = e.target[0].value.trim();
+    var serial = e.target[1].value.trim().toUpperCase();
+    var mac = e.target[2].value.trim().toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, "");
     var hasError = false;
     
     if (mac.length != 12) {

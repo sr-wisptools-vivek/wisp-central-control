@@ -248,7 +248,8 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "L42":"LTE420",
                                 "L52":"LTE520",
                                 "FLY8417":"FTA1101",
-                                "S162V":"EMG3425-Q10A"
+                                "S162V":"EMG3425-Q10A",
+                                "S172V":"EMG3425-Q10A"
                               }; //serial numbers with auto detect model number.
   //Auto detect make number. 
   var macWithMakeNumber = { "00019F":"READYNET",

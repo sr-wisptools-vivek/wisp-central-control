@@ -34,6 +34,13 @@ Template.wtManagedRouterMySQLList.helpers({
   }
 });
 
+Template.wtManagedRouterMySQLList.onRendered(function () {
+  if (Session.get('show-free-router') === true) {
+    Session.set('show-free-router', false);
+    Router.go('wtFreeRouterForm');
+  }
+});
+
 Template.wtManagedRouterMySQLList.created = function () {
   var self = this;
   self.routerList = new ReactiveVar([]);

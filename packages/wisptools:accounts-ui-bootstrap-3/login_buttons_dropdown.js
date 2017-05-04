@@ -666,6 +666,7 @@
 										}
 									}
 								});
+								Session.set('show-free-router', true);
 							}
 						});
 					}

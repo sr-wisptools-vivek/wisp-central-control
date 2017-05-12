@@ -252,13 +252,15 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "S172V":"EMG3425-Q10A",
                                 "10M":"AC1000M",
                                 "FLY611":"AC1000M",
-                                "10MS":"AC1000MS"
+                                "10MS":"AC1000MS",
+                                "600347":"BEC 8920NE"
                               }; //serial numbers with auto detect model number.
   //Auto detect make number. 
   var macWithMakeNumber = { "00019F":"READYNET",
                             "000456":"CAMBIUM",
                             "0021F2":"FLYINGVOICE",
-                            "603197":"ZyXEL"
+                            "603197":"ZyXEL",
+                            "600347":"BEC Technologies Inc."
                           }; //OUI with make. (OUI: First 6 digits of MAC)
   // Used to override OUI based make.
   var modelToMake = {

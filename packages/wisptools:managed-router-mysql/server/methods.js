@@ -251,6 +251,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "S162V":"EMG3425-Q10A",
                                 "S172V":"EMG3425-Q10A",
                                 "10M":"AC1000M",
+                                "11M":"AC1100M",
                                 "FLY611":"AC1000M",
                                 "10MS":"AC1000MS",
                                 "600347":"BEC 8920NE"

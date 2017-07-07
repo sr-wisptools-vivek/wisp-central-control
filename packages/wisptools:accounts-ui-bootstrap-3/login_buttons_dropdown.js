@@ -639,6 +639,7 @@
 		}
 
 		if (options.profile['domain']) {
+			options.profile['domain'] = options.profile['domain'].trim();
 			Meteor.call('wtManagedRouterCheckDomain', options.profile['domain'], true, function (e, r) {
 				if (e) {
 					errorFunction("An unknown error has occurred.");

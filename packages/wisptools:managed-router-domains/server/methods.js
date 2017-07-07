@@ -20,6 +20,7 @@ Meteor.method("wtManagedRouterAddDomain", function (domain) {
   if (!this.userId) throw new Meteor.Error('denied','Not Authorized');
   // Only add new domain, if there isn't one already.
   if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
+    domain = domain.trim();
     var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
     if (!domainList) {
       WtMangedRouterMySQLDomainsList.insert({
@@ -41,6 +42,7 @@ Meteor.method("wtManagedRouterCheckDomain", function (domain, ignoreCase) {
     ignoreCase = (ignoreCase === true) ? true : false;
   }
   if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
+    domain = domain.trim();
     if (ignoreCase) {
       var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
     } else {

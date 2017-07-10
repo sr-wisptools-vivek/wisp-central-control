@@ -28,6 +28,12 @@ Meteor.method("wtManagedRouterAddDomain", function (domain) {
         updateACS: false
       });
       Roles.addUsersToRoles(this.userId, ['domain-admin']);
+      var userDomain = WtMangedRouterMySQLDomains.findOne({userId: this.userId});
+      if (userDomain) {
+        WtMangedRouterMySQLDomains.update({userId: this.userId}, {$set: {name: domain}});
+      } else {
+        WtMangedRouterMySQLDomains.insert({userId: this.userId, name: domain});
+      }
       return true;
     }
   }

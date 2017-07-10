@@ -659,12 +659,6 @@
 								Meteor.call('wtManagedRouterAddDomain', options.profile['domain'], function(e, r) {
 									if (e) {
 										console.log('Account created, but unable to add new domain.');
-									} else {
-										if (r) {
-											Meteor.call('wtManagedRouterAddUserDomain', Meteor.userId(), options.profile['domain']);
-										} else {
-											console.log('Account created, but unable to add new domain.');
-										}
 									}
 								});
 								Session.set('show-free-router', true);

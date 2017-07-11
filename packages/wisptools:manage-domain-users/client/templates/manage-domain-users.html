@@ -1,0 +1,29 @@
+<template name="wtManageDomainUsers">
+  <h3>Manage Domain Users</h3><hr />
+  <table class="col-md-12 table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Roles</th>
+        <th>Created At</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#if domainUsers}}
+        {{#each domainUsers}}
+        <tr>
+          <td>{{ _id }}</td>
+          <td>{{ email }}</td>
+          <td>{{ roles }}</td>
+          <td>{{ createdAt }}</td>
+          <td></td>
+          <td></td>
+        </tr>
+        {{/each}}
+      {{/if}}
+    </tbody>
+  </table>
+</template>

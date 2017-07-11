@@ -26,3 +26,4 @@ wisptools:accounts-invite
 wisptools:braintree
 wisptools:braintree-customers
 wisptools:free-router
+wisptools:manage-domain-users

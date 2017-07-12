@@ -19,8 +19,24 @@
           <td>{{ email }}</td>
           <td>{{ roles }}</td>
           <td>{{ createdAt }}</td>
-          <td></td>
-          <td></td>
+          <td>
+            {{#if isEnabled}}
+              <i class="fa fa-check text-success"></i>
+            {{else}}
+              <i class="fa fa-remove text-danger"></i>
+            {{/if}}
+          </td>
+          <td>
+            {{#if isCurrentUser}}
+              You cannot disable your own account.
+            {{else}}
+              {{#if isEnabled}}
+                <button class="btn btn-danger btn-xs disableBtn">Disable</button>
+              {{else}}
+                <button class="btn btn-success btn-xs enableBtn">Enable</button>
+              {{/if}}
+            {{/if}}
+          </td>
         </tr>
         {{/each}}
       {{/if}}

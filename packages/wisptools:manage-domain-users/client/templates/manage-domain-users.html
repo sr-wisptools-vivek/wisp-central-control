@@ -1,0 +1,39 @@
+<template name="wtManageDomainUsers">
+  <h3>Manage Users</h3><hr />
+  <table class="col-md-12 table">
+    <thead>
+      <tr>
+        <th>User Email</th>
+        <th>Enabled</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#if domainUsers}}
+        {{#each domainUsers}}
+        <tr>
+          <td>{{ email }}</td>
+          <td>
+            {{#if isEnabled}}
+              <i class="fa fa-check text-success"></i>
+            {{else}}
+              <i class="fa fa-remove text-danger"></i>
+            {{/if}}
+          </td>
+          <td>
+            {{#if isCurrentUser}}
+              You cannot disable your own account.
+            {{else}}
+              {{#if isEnabled}}
+                <button class="btn btn-danger btn-xs disableBtn">Disable Login</button>
+              {{else}}
+                <button class="btn btn-success btn-xs enableBtn">Enable Login</button>
+              {{/if}}
+            {{/if}}
+          </td>
+        </tr>
+        {{/each}}
+      {{/if}}
+    </tbody>
+  </table>
+</template>

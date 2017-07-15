@@ -89,6 +89,7 @@ wisptools:editable-field@0.0.1
 wisptools:free-router@0.0.1
 wisptools:growl@0.0.1
 wisptools:load-in-modal@0.0.1
+wisptools:manage-domain-users@0.0.1
 wisptools:managed-router-domains@0.0.1
 wisptools:managed-router-mysql@0.0.1
 wisptools:menu@0.0.1

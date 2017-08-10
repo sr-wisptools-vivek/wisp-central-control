@@ -242,6 +242,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "12M":"AC1200M",
                                 "400FRG":"cnPilot R200x",
                                 "WFSH":"cnPilot R200x",
+                                "WFSK":"cnPilot R200x",
                                 "J12M00":"JMR1200M",
                                 "LTN520":"LTE520",
                                 "LTE520":"LTE520",

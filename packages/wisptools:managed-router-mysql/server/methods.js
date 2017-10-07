@@ -242,6 +242,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "12M":"AC1200M",
                                 "400FRG":"cnPilot R200x",
                                 "WFSH":"cnPilot R200x",
+                                "WFSK":"cnPilot R200x",
                                 "J12M00":"JMR1200M",
                                 "LTN520":"LTE520",
                                 "LTE520":"LTE520",
@@ -254,7 +255,8 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "10M":"AC1000M",
                                 "11M":"AC1100M",
                                 "FLY611":"AC1000M",
-                                "600347":"BEC 8920NE"
+                                "600347":"BEC 8920NE",
+                                "QX3":"QX300"
                               }; //serial numbers with auto detect model number.
   //Auto detect make number. 
   var macWithMakeNumber = { "00019F":"READYNET",

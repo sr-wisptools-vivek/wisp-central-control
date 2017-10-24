@@ -54,9 +54,6 @@ var searchFilter = function (daysBack, status) {
   if (daysBack > 0) {
     _daysBack.setTime(_daysBack.getTime() - (daysBack * _unixTimeOneDay));
     _search.createdAt = {$gte: _daysBack};
-  } else {
-    _daysBack.setTime(_daysBack.getTime() - (30 * _unixTimeOneDay));
-    _search.createdAt = {$gte: _daysBack};
   }
   // Set the status filter
   if (status != "All") {

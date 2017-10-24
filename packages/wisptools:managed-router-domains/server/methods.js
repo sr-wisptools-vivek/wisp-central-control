@@ -20,6 +20,7 @@ Meteor.method("wtManagedRouterAddDomain", function (domain) {
   if (!this.userId) throw new Meteor.Error('denied','Not Authorized');
   // Only add new domain, if there isn't one already.
   if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
+    domain = domain.trim();
     var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
     if (!domainList) {
       WtMangedRouterMySQLDomainsList.insert({
@@ -27,6 +28,12 @@ Meteor.method("wtManagedRouterAddDomain", function (domain) {
         updateACS: false
       });
       Roles.addUsersToRoles(this.userId, ['domain-admin']);
+      var userDomain = WtMangedRouterMySQLDomains.findOne({userId: this.userId});
+      if (userDomain) {
+        WtMangedRouterMySQLDomains.update({userId: this.userId}, {$set: {name: domain}});
+      } else {
+        WtMangedRouterMySQLDomains.insert({userId: this.userId, name: domain});
+      }
       return true;
     }
   }
@@ -41,6 +48,7 @@ Meteor.method("wtManagedRouterCheckDomain", function (domain, ignoreCase) {
     ignoreCase = (ignoreCase === true) ? true : false;
   }
   if (domain && domain.trim().length>0 && domain.trim().indexOf(" ")==-1) {
+    domain = domain.trim();
     if (ignoreCase) {
       var domainList = WtMangedRouterMySQLDomainsList.findOne({domain: new RegExp("^"+domain+"$", "i")});
     } else {

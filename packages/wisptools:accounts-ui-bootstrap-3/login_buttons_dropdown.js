@@ -347,6 +347,17 @@
 			return loginButtonsSession.get('inSignupFlow');
 		},
 
+		creatingNewUser: function() {
+			return Session.get('creatingNewUser');
+		},
+
+		disableSignupBtn: function() {
+			if (Session.get('creatingNewUser')) {
+				return 'disabled';
+			}
+			return '';
+		},
+
 		showForgotPasswordLink: function() {
 			return _.contains(
 				["USERNAME_AND_EMAIL_CONFIRM", "USERNAME_AND_EMAIL", "USERNAME_AND_OPTIONAL_EMAIL", "EMAIL_ONLY", "EMAIL_AND_LEGACY_USERNAME"],
@@ -647,7 +658,9 @@
 					if (r) {
 						errorFunction("Domain already in use. Please contact domain admin for an account.");
 					} else {
+						Session.set('creatingNewUser', true);
 						Accounts.createUser(options, function(error) {
+							Session.set('creatingNewUser', false);
 							if (error) {
 								if (error.reason == 'Signups forbidden') {
 									loginButtonsSession.errorMessage(i18n('errorMessages.signupsForbidden'));
@@ -668,7 +681,9 @@
 				}
 			});
 		} else {
+			Session.set('creatingNewUser', true);
 			Accounts.createUser(options, function(error) {
+				Session.set('creatingNewUser', false);
 				if (error) {
 					if (error.reason == 'Signups forbidden') {
 						loginButtonsSession.errorMessage(i18n('errorMessages.signupsForbidden'));

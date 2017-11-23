@@ -80,9 +80,14 @@
 		{{#each fields}}
 			{{> _loginButtonsFormField}}
 		{{/each}}
-		<button class="btn btn-primary col-xs-12 col-sm-12" id="login-buttons-password" type="button">
+		<button class="btn btn-primary col-xs-12 col-sm-12" id="login-buttons-password" type="button" {{ disableSignupBtn }}>
 			{{#if inSignupFlow}}
-				{{i18n 'loginButtonsLoggedOutPasswordService.create'}}
+				{{#if creatingNewUser}}
+					{{i18n 'loginButtonsLoggedOutPasswordService.creating'}}
+					<i class="fa fa-circle-o-notch fa-spin"></i>
+				{{else}}
+					{{i18n 'loginButtonsLoggedOutPasswordService.create'}}
+				{{/if}}
 			{{else}}
 				{{i18n 'loginButtonsLoggedOutPasswordService.signIn'}}
 			{{/if}}

@@ -33,6 +33,7 @@ i18n.map("en", {
 	},
 	loginButtonsLoggedOutPasswordService: {
 		create: "Create",
+		creating: "Creating...",
 		signIn: "Sign in",
 		forgot: "Forgot password?",
 		createAcc: "Create account"

@@ -14,6 +14,12 @@ Template.wtManagedRouterMySQLList.helpers({
       return Template.instance().routerList.get();
     }
   },
+  totalCount: function () {
+    return Template.instance().totalCount.get();
+  },
+  displayCount: function () {
+    return Template.instance().routerList.get().length;
+  },
   editingName: function(){
     return Session.equals('managedRouterEditingName', this.id);
   },
@@ -45,6 +51,7 @@ Template.wtManagedRouterMySQLList.created = function () {
   var self = this;
   self.routerList = new ReactiveVar([]);
   self.showSpinner = new ReactiveVar(false);
+  self.totalCount = new ReactiveVar(0);
   self.queryLimit = 20;
   self.queryPage = 1;
   self.customerRouterSerialNumbers = new ReactiveVar([]);
@@ -52,8 +59,10 @@ Template.wtManagedRouterMySQLList.created = function () {
   Meteor.call('wtManagedRouterMySQLGetLimit', self.queryLimit, function (err, res) {
     if (err)
       console.log(err)
-    else 
-      self.routerList.set(res);
+    else {
+      self.routerList.set(res.res);
+      self.totalCount.set(res.count);
+    }
   });
 
   if (this.data && this.data.customerId) {
@@ -88,8 +97,9 @@ Template.wtManagedRouterMySQLList.events({
       } else {
         // Append the results to the router list.
         var list = t.routerList.get();
-        list = list.concat(res);
+        list = list.concat(res.res);
         t.routerList.set(list);
+        t.totalCount.set(res.count);
       }
       t.showSpinner.set(false);
     });
@@ -102,8 +112,10 @@ Template.wtManagedRouterMySQLList.events({
     Meteor.call('wtManagedRouterMySQLSearch', e.target[0].value, function (err, res) {
       if (err)
         WtGrowl.fail('Search Failed');
-      else 
-        t.routerList.set(res);
+      else {
+        t.routerList.set(res.res);
+        t.totalCount.set(res.count);
+      }
     });
   },
   'submit .mr-add': function(e, t) {
@@ -153,8 +165,9 @@ Template.wtManagedRouterMySQLList.events({
         }
         WtGrowl.success('Router Added');
         var list = t.routerList.get();
-        list = res.concat(list);
+        list = res.res.concat(list);
         t.routerList.set(list);
+        t.totalCount.set(res.count);
       }
     });
   },
@@ -191,7 +204,8 @@ Template.wtManagedRouterMySQLList.events({
               //refresh router list.
               Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
                 if(!err){
-                  t.routerList.set(res);
+                  t.routerList.set(res.res);
+                  t.totalCount.set(res.count);
                   WtGrowl.success('Router Name Updated');
                   Session.set('managedRouterEditingName', null);
                 }
@@ -238,7 +252,8 @@ Template.wtManagedRouterMySQLList.events({
               //Refresh router list.
               Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
                 if(!err){
-                  t.routerList.set(res);
+                  t.routerList.set(res.res);
+                  t.totalCount.set(res.count);
                   WtGrowl.success('Router MAC Updated');
                   Session.set('managedRouterEditingMac', null);
                 }
@@ -260,7 +275,8 @@ Template.wtManagedRouterMySQLList.events({
     //Remove previous delete router from routerList
     Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
       if(!err){
-        t.routerList.set(res);
+        t.routerList.set(res.res);
+        t.totalCount.set(res.count);
       }
     });
   },

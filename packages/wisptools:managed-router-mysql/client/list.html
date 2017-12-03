@@ -6,8 +6,23 @@
         <label class="sr-only" for="search-str">Search for Router</label>
         <input type="text" class="form-control" id="search-str" placeholder="Name, MAC Address or Serial Number" style="width: 100%;">
       </div>
-      <div class="form-group col-xs-4 col-sm-6">
+      <div class="form-group col-xs-4 col-sm-2">
         <button type="submit" class="btn btn-default">Search</button>
+      </div>
+    </form>
+    <form class="form-inline mr-sort">
+      <div class="form-group col-xs-8 col-sm-3">
+        <select class="form-control" id="sort-str" style="width: 100%;">
+          <option value="0">Most Recent</option>
+          <option value="1">Customer</option>
+          <option value="2">Serial Number</option>
+          <option value="3">MAC</option>
+          <option value="4">Make</option>
+          <option value="5">Model</option>
+        </select>
+      </div>
+      <div class="form-group col-xs-4 col-sm-1">
+        <button type="submit" class="btn btn-default">Sort</button>
       </div>
     </form>
   </div>

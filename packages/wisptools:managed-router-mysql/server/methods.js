@@ -57,7 +57,7 @@ var authorize = function(router) {
   return true;
 }
 
-var search = function(search, limit, page) {
+var search = function(search, limit, page, sort) {
   if (this.userId == null) return [];
 
   var escapedDomain = getDomain.call(this);
@@ -81,6 +81,23 @@ var search = function(search, limit, page) {
   if (sqlPage != 1) {
     var limitStart = sqlLimit * (sqlPage - 1);
     sqlLimit = limitStart + ',' + sqlLimit;
+  }
+
+  var sqlSort = sort || 0;
+  if (isNaN(sqlSort)) sqlSort = 0;
+
+  if (sqlSort == 1) {
+    sqlSort = "name ASC";
+  } else if (sqlSort == 2) {
+    sqlSort = "serial ASC";
+  } else if (sqlSort == 3) {
+    sqlSort = "mac ASC";
+  } else if (sqlSort == 4) {
+    sqlSort = "make ASC";
+  } else if (sqlSort == 5) {
+    sqlSort = "model ASC";
+  } else {
+    sqlSort = "Equipment.EquipmentID DESC";
   }
 
   var fut = new Future();
@@ -109,7 +126,7 @@ var search = function(search, limit, page) {
     "   Equipment.SerialNumber LIKE " + escapedSearch + " OR " +
     "   Equipment.MACAddress LIKE " + escapedSearchMAC + " " +
     " ) " +
-    "ORDER BY Equipment.EquipmentID DESC " +
+    "ORDER BY " + sqlSort + " " +
     "LIMIT " + sqlLimit;
 
   runQuery(sql, fut);
@@ -487,10 +504,11 @@ Meteor.method("wtManagedRouterMySQLSearch", function(srch) {
   var limit = srch.limit || 20;
   var type = srch.type || 'router';
   var page = srch.page || 1;
+  var sort = srch.sort || 0;
   if (type == 'reservation') {
     return searchReservation.call(this, str, limit);
   } else {
-    return search.call(this, str, limit, page);
+    return search.call(this, str, limit, page, sort);
   }
 },{
   url: "/mr/search"

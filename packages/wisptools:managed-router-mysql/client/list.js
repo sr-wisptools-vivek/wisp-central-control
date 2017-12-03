@@ -54,6 +54,8 @@ Template.wtManagedRouterMySQLList.created = function () {
   self.totalCount = new ReactiveVar(0);
   self.queryLimit = 20;
   self.queryPage = 1;
+  self.searchStr = '';
+  self.sortStr = 0;
   self.customerRouterSerialNumbers = new ReactiveVar([]);
 
   Meteor.call('wtManagedRouterMySQLGetLimit', self.queryLimit, function (err, res) {
@@ -89,7 +91,8 @@ Template.wtManagedRouterMySQLList.events({
     var search = {
       q: $('#search-str').val(),
       limit: t.queryLimit,
-      page: t.queryPage
+      page: t.queryPage,
+      sort: $('#sort-str').val()
     }
     Meteor.call('wtManagedRouterMySQLSearch', search, function (err, res) {
       if (err) {
@@ -109,9 +112,34 @@ Template.wtManagedRouterMySQLList.events({
     e.preventDefault();
     t.queryPage = 1;
     t.routerList.set([]); // Clear the slate, so all the statuses get rechecked in the results
-    Meteor.call('wtManagedRouterMySQLSearch', e.target[0].value, function (err, res) {
+    t.searchStr = e.target[0].value;
+    var search = {
+      q: e.target[0].value,
+      page: 1,
+      sort: t.sortStr
+    }
+    Meteor.call('wtManagedRouterMySQLSearch', search, function (err, res) {
       if (err)
         WtGrowl.fail('Search Failed');
+      else
+        t.routerList.set(res);
+    });
+  },
+  'submit .mr-sort': function(e, t) {
+    e.preventDefault();
+    t.queryPage = 1;
+    t.routerList.set([]); // Clear the slate, so all the statuses get rechecked in the results
+    t.sortStr = e.target[0].value;
+    var search = {
+      q: t.searchStr,
+      page: 1,
+      sort: e.target[0].value
+    }
+    Meteor.call('wtManagedRouterMySQLSearch', search, function (err, res) {
+      if (err)
+        WtGrowl.fail('Sort Failed');
+      else
+        t.routerList.set(res);
       else {
         t.routerList.set(res.res);
         t.totalCount.set(res.count);

@@ -137,7 +137,34 @@ var search = function(search, limit, page, sort) {
     r.url = WtManagedRouterMySQL.makeUrl(r.id);
     return r;
   });
-  return res;  
+
+  var fut = new Future();
+  var db_name = Meteor.settings.managedRouterMySQL.dbName;
+  var countSql =
+    "SELECT " +
+    "  COUNT(*) as count " +
+    "FROM " +
+    "  " + db_name + ".Subscriber, " +
+    "  " + db_name + ".Equipment, " +
+    "  " + db_name + ".ManagedRouter " +
+    "WHERE " +
+    " Subscriber.SystemID=" + escapedDomain + " AND " +
+    " Subscriber.SubscriberID=Equipment.SubscriberID AND " +
+    " Equipment.Deleted='N' AND " +
+    " Equipment.Make=ManagedRouter.CSGMake AND " +
+    " Equipment.Model=ManagedRouter.CSGModel AND " +
+    " ( " +
+    "   Subscriber.SubscriberName LIKE " + escapedSearch + " OR " +
+    "   Equipment.SerialNumber LIKE " + escapedSearch + " OR " +
+    "   Equipment.MACAddress LIKE " + escapedSearchMAC + " " +
+    " ) ";
+
+  runQuery(countSql, fut);
+
+  var count_res = fut.wait();
+  count = count_res[0].count;
+
+  return {res: res, count: count};
 }
 
 var searchReservation = function(search, limit) {
@@ -208,6 +235,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 
   // Check for duplicate Serial
   res = search.call(this, router.serial);
+  res = res.res;
   if (res.length > 0){
     for (var i = 0; i < res.length; i++) {
       if (res[i].serial == router.serial) {
@@ -220,6 +248,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
   // Check for duplicate mac
   router.mac = router.mac.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, ""); // normalize mac
   res = search.call(this, router.mac);
+  res = res.res;
   if (res.length > 0) throw new Meteor.Error('dup','Duplicate MAC Address', router.mac);
 
   var escapedDomain = getDomain.call(this);
@@ -525,7 +554,7 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
     
     // Check for duplicate mac
     res = search.call(this, updateRouter.mac);
-    if (res.length > 0) throw new Meteor.Error('dup','Duplicate MAC Address', updateRouter.mac);
+    if (res.res.length > 0) throw new Meteor.Error('dup','Duplicate MAC Address', updateRouter.mac);
 
     //Update Mac
     var fut = new Future();

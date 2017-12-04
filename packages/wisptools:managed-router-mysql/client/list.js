@@ -122,7 +122,8 @@ Template.wtManagedRouterMySQLList.events({
       if (err)
         WtGrowl.fail('Search Failed');
       else
-        t.routerList.set(res);
+        t.routerList.set(res.res);
+        t.totalCount.set(res.count);
     });
   },
   'submit .mr-sort': function(e, t) {
@@ -138,8 +139,6 @@ Template.wtManagedRouterMySQLList.events({
     Meteor.call('wtManagedRouterMySQLSearch', search, function (err, res) {
       if (err)
         WtGrowl.fail('Sort Failed');
-      else
-        t.routerList.set(res);
       else {
         t.routerList.set(res.res);
         t.totalCount.set(res.count);

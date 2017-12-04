@@ -138,8 +138,6 @@ Template.wtManagedRouterMySQLList.events({
     Meteor.call('wtManagedRouterMySQLSearch', search, function (err, res) {
       if (err)
         WtGrowl.fail('Sort Failed');
-      else
-        t.routerList.set(res);
       else {
         t.routerList.set(res.res);
         t.totalCount.set(res.count);

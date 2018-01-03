@@ -674,7 +674,7 @@
 										console.log('Account created, but unable to add new domain.');
 									}
 								});
-								Session.set('show-free-router', true);
+								//Session.set('show-free-router', true);
 							}
 						});
 					}

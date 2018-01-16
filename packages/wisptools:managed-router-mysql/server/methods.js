@@ -321,6 +321,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                             "000456":"CAMBIUM",
                             "0021F2":"FLYINGVOICE",
                             "603197":"ZyXEL",
+                            "5CE28C":"ZyXEL",
                             "600347":"BEC Technologies Inc.",
                             "0004ED":"BEC Technologies Inc.",
                             "001261":"LTE",

@@ -104,6 +104,7 @@ var search = function(search, limit, page, sort) {
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var sql = 
     "SELECT " +
+    "  DISTINCT " +
     "  EquipmentID as id, " +
     "  SystemID as domain, " +
     "  SubscriberName as name, " +
@@ -142,7 +143,7 @@ var search = function(search, limit, page, sort) {
   var db_name = Meteor.settings.managedRouterMySQL.dbName;
   var countSql =
     "SELECT " +
-    "  COUNT(*) as count " +
+    "  COUNT(DISTINCT EquipmentID) as count " +
     "FROM " +
     "  " + db_name + ".Subscriber, " +
     "  " + db_name + ".Equipment, " +

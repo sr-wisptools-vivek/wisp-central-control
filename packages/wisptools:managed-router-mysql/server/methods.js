@@ -70,8 +70,8 @@ var search = function(search, limit, page, sort) {
   var sqlSearchMAC = sqlSearch.toUpperCase().replace(/:/g, "").replace(/\./g, "").replace(/-/g, "");
   var escapedSearchMAC = WtManagedRouterMySQL.escape("%" + sqlSearchMAC + "%");
 
-  var sqlLimit = limit || 8;
-  if (!isNaN(sqlLimit)) sqlLimit == 8;
+  var sqlLimit = limit || 5;
+  if (!isNaN(sqlLimit)) sqlLimit == 5;
   //if (sqlLimit.toString() === "[object Object]") sqlLimit = 20; // handleing default empty object on rest api
 
   var sqlPage = page || 1;
@@ -516,7 +516,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
 // srch is a string or an object with "q", "limit" and "type" values
 Meteor.method("wtManagedRouterMySQLSearch", function(srch) {
   var str = srch.q || srch;
-  var limit = srch.limit || 8;
+  var limit = srch.limit || 5;
   var type = srch.type || 'router';
   var page = srch.page || 1;
   var sort = srch.sort || 0;

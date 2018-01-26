@@ -132,13 +132,13 @@
 <template name='wtManagedRouterCheckedIn'>
   {{#if doneChecking}}
     {{#if isRecent}}
-      Recent
+      <i class="fa fa-check" style="color: #5cb85c;"></i> Recent
     {{/if}}
     {{#if isPastDue}}
-      Past Due
+      <i class="fa fa-clock-o" style="color: #d9534f;"></i> Past Due
     {{/if}}
     {{#if isNone}}
-      None
+      <i class="fa fa-circle" style="color: #c1c1c1;"></i> None
     {{/if}}
   {{else}}
     <i class="fa fa-ellipsis-h"></i>

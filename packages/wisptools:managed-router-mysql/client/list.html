@@ -33,7 +33,7 @@
         <div class="table-responsive">
         <table class="table table-striped routerTable">
           <thead>
-            <tr><th>Customer</th><th>Serial Number</th><th>MAC</th><th>Make</th><th>Model</th><th class="text-center">Online</th><th>Manage</th></tr>
+            <tr><th>Customer</th><th>Serial Number</th><th>MAC</th><th>Make</th><th>Model</th><th>Check In</th><th>Manage</th></tr>
           </thead>
           <tbody>
             <tr>
@@ -95,8 +95,8 @@
                 </td>
                 <td>{{make}}</td>
                 <td>{{model}}</td>
-                <td class="text-center">
-                  {{> wtManagedRouterIsOnline id=id}}
+                <td>
+                  {{> wtManagedRouterCheckedIn id=id}}
                   {{> wtManagedRouterBackGroundRefresh id=id}}
                 </td>
                 <td style="white-space: nowrap">
@@ -129,12 +129,16 @@
   {{> wtManagedRouterDeleteModal}}
 </template>
 
-<template name='wtManagedRouterIsOnline'>
+<template name='wtManagedRouterCheckedIn'>
   {{#if doneChecking}}
-    {{#if isOnline}}
-      <i class="fa fa-check" style="color: #5cb85c;"></i>
-    {{else}}
-      <i class="fa fa-circle" style="color: #d9534f;"></i>
+    {{#if isRecent}}
+      Recent
+    {{/if}}
+    {{#if isPastDue}}
+      Past Due
+    {{/if}}
+    {{#if isNone}}
+      None
     {{/if}}
   {{else}}
     <i class="fa fa-ellipsis-h"></i>

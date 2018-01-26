@@ -350,24 +350,34 @@ Template.wtManagedRouterMySQLList.onRendered(function () {
   );
 });
 
-Template.wtManagedRouterIsOnline.onCreated(function () {
+Template.wtManagedRouterCheckedIn.onCreated(function () {
   this.doneChecking = new ReactiveVar(false);
-  this.isOnline = new ReactiveVar(false);
+  this.isRecent = new ReactiveVar(false);
+  this.isPastDue = new ReactiveVar(false);
+  this.isNone = new ReactiveVar(false);
 });
 
-Template.wtManagedRouterIsOnline.helpers({
+Template.wtManagedRouterCheckedIn.helpers({
   'doneChecking': function() {
     return Template.instance().doneChecking.get();
   },
-  'isOnline': function() {
-    return Template.instance().isOnline.get();
+  'isRecent': function() {
+    return Template.instance().isRecent.get();
+  },
+  'isPastDue': function() {
+    return Template.instance().isPastDue.get();
+  },
+  'isNone': function() {
+    return Template.instance().isNone.get();
   },
 });
 
-Template.wtManagedRouterIsOnline.onRendered(function () {
+Template.wtManagedRouterCheckedIn.onRendered(function () {
   var _this = this;
-  Meteor.call('wtManagedRouterIsOnline', {id: _this.data.id}, function(err, res) {
-    if (res && res.online) _this.isOnline.set(true);
+  Meteor.call('wtManagedRouterCheckedIn', {id: _this.data.id}, function(err, res) {
+    if (res && res.online) _this.isRecent.set(true);
+    if (res && res.online === false) _this.isPastDue.set(true);
+    if (res && res.online === null) _this.isNone.set(true);
     _this.doneChecking.set(true);
   });
 });

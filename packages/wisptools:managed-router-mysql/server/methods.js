@@ -830,7 +830,7 @@ Meteor.method("wtManagedRouterACSRefresh", function(request){
   url: "/mr/acs/device/refresh"
 });
 
-Meteor.method("wtManagedRouterIsOnline", function(request){
+Meteor.method("wtManagedRouterCheckedIn", function(request){
   //Check if user is authorized.
   authorize.call(this, request);
 

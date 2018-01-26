@@ -842,7 +842,7 @@ Meteor.method("wtManagedRouterIsOnline", function(request){
   url: "/mr/acs/device/online"
 });
 
-Meteor.method("wtManagedRouterBackendRefresh", function(request){
+Meteor.method("wtManagedRouterBackGroundRefresh", function(request){
   //Check if user is authorized.
   authorize.call(this, request);
 
@@ -850,5 +850,5 @@ Meteor.method("wtManagedRouterBackendRefresh", function(request){
   var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/backend_refresh.php'));
   return true;
 },{
-  url: "/mr/acs/device/backend-refresh"
+  url: "/mr/acs/device/back-ground-refresh"
 });

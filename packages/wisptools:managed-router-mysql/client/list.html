@@ -97,6 +97,7 @@
                 <td>{{model}}</td>
                 <td class="text-center">
                   {{> wtManagedRouterIsOnline id=id}}
+                  {{> wtManagedRouterBackGroundRefresh id=id}}
                 </td>
                 <td style="white-space: nowrap">
                   <a class="btn btn-default btn-sm addtomodal" href="{{url}}" target="_blank">View Router</a>
@@ -139,6 +140,10 @@
     <i class="fa fa-ellipsis-h"></i>
   {{/if}}
 </template>
+
+<template name='wtManagedRouterBackGroundRefresh'>
+</template>
+
 
 <template name='wtManagedRouterDeleteModal'>
   <div id="myModal" class="modal fade" role="dialog">

@@ -841,3 +841,14 @@ Meteor.method("wtManagedRouterIsOnline", function(request){
 },{
   url: "/mr/acs/device/online"
 });
+
+Meteor.method("wtManagedRouterBackendRefresh", function(request){
+  //Check if user is authorized.
+  authorize.call(this, request);
+
+  this.unblock();
+  var res = HTTP.call('GET', WtManagedRouterMySQL.makeUrl(request.id, 'ajax/backend_refresh.php'));
+  return true;
+},{
+  url: "/mr/acs/device/backend-refresh"
+});

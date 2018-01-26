@@ -366,6 +366,7 @@ Template.wtManagedRouterIsOnline.helpers({
 
 Template.wtManagedRouterIsOnline.onRendered(function () {
   var _this = this;
+  Meteor.call('wtManagedRouterBackendRefresh', {id: _this.data.id}, function(err, res) {});
   Meteor.call('wtManagedRouterIsOnline', {id: _this.data.id}, function(err, res) {
     if (res && res.online) _this.isOnline.set(true);
     _this.doneChecking.set(true);

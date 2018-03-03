@@ -23,7 +23,7 @@ wisptools:managed-router-domains
 wisptools:accounts-ui-bootstrap-3
 wisptools:rest-accounts-password
 wisptools:accounts-invite
-wisptools:braintree
-wisptools:braintree-customers
+#wisptools:braintree
+#wisptools:braintree-customers
 wisptools:free-router
 wisptools:manage-domain-users

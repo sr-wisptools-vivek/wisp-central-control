@@ -292,6 +292,7 @@ Meteor.method("wtManagedRouterMySQLAdd", function(router) {
                                 "RNV530":"VWRT520",
                                 "RNV520":"VWRT520R",
                                 "RNV220":"VRT220",
+                                "26MS":"AC2600MS",
                                 "12MS":"AC1200MS",
                                 "12M":"AC1200M",
                                 "400FRG":"cnPilot R200x",

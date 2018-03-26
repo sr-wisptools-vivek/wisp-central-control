@@ -1,3 +1,6 @@
+var routerName_keypress_flag = 0;
+var routerMac_keypress_flag = 0;
+
 Template.wtManagedRouterMySQLList.helpers({
   routers: function () {
     if (this.customerId) {
@@ -206,11 +209,14 @@ Template.wtManagedRouterMySQLList.events({
     }.bind(t));
   },
   'blur .routerName, keypress .routerName': function(e,t){  //event to save updated router name.
+    if (routerName_keypress_flag) return;
+
     var keyPressed = e.which;
     var eventType = e.type;
 
     if(eventType=="keypress" && keyPressed == 13) {
       e.preventDefault();
+      routerName_keypress_flag = 1;
     }
 
     if((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") { //Executed if enter is hit or on blur or tab out
@@ -227,6 +233,7 @@ Template.wtManagedRouterMySQLList.events({
             if (err) {
               WtGrowl.fail(err.reason);
               Session.set('managedRouterEditingName', null);
+              setTimeout(function () { routerName_keypress_flag=0; }, 500);
             } else {
               //refresh router list.
               Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
@@ -235,15 +242,18 @@ Template.wtManagedRouterMySQLList.events({
                   t.totalCount.set(res.count);
                   WtGrowl.success('Router Name Updated');
                   Session.set('managedRouterEditingName', null);
+                  setTimeout(function () { routerName_keypress_flag=0; }, 500);
                 }
               }); 
             }
           });
         } else {
           Session.set('managedRouterEditingName', null);
+          setTimeout(function () { routerName_keypress_flag=0; }, 500);
         }
       } else {
         Session.set('managedRouterEditingName', null);
+        setTimeout(function () { routerName_keypress_flag=0; }, 500);
       }
     }
   },
@@ -254,11 +264,14 @@ Template.wtManagedRouterMySQLList.events({
     }.bind(t));
   },
   'blur .routerMac, keypress .routerMac ': function(e,t){
+    if (routerMac_keypress_flag) return;
+
     var keyPressed = e.which;
     var eventType = e.type;
 
     if(eventType=="keypress" && keyPressed == 13) {
       e.preventDefault();
+      routerMac_keypress_flag = 1;
     }
 
     if((eventType=="keypress" && keyPressed == 13) || eventType == "focusout") {
@@ -275,6 +288,7 @@ Template.wtManagedRouterMySQLList.events({
             if (err) {
               WtGrowl.fail(err.reason);
               Session.set('managedRouterEditingMac', null);
+              setTimeout(function () { routerMac_keypress_flag=0; }, 500);
             } else {
               //Refresh router list.
               Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
@@ -283,17 +297,20 @@ Template.wtManagedRouterMySQLList.events({
                   t.totalCount.set(res.count);
                   WtGrowl.success('Router MAC Updated');
                   Session.set('managedRouterEditingMac', null);
+                  setTimeout(function () { routerMac_keypress_flag=0; }, 500);
                 }
               });
             }
           });
         } else {
           Session.set('managedRouterEditingMac', null);
+          setTimeout(function () { routerMac_keypress_flag=0; }, 500);
         }
       }else {
         WtGrowl.fail('Incorrect MAC Address Length');
         Session.set('managedRouterEditingMac', null);
-      }      
+        setTimeout(function () { routerMac_keypress_flag=0; }, 500);
+      }
     }
   }, 
   'click .removeRouter': function(e,t){ //event handler for delete modal

@@ -538,6 +538,8 @@ Meteor.method("wtManagedRouterMySQLUpdate", function(router) {
   var equipmentId = router.id;
   var updateRouter = router.new;
 
+  if (!router || !router.id) throw new Meteor.Error('error','Data error.');
+
   //Check if user is authorized.
   authorize.call(this, router);
 

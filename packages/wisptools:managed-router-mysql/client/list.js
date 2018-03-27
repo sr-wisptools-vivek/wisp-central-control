@@ -194,10 +194,7 @@ Template.wtManagedRouterMySQLList.events({
           });
         }
         WtGrowl.success('Router Added');
-        var list = t.routerList.get();
-        list = res.res.concat(list);
-        t.routerList.set(list);
-        t.totalCount.set(res.count);
+        $('.mr-search').trigger('submit');
       }
     });
   },
@@ -235,16 +232,11 @@ Template.wtManagedRouterMySQLList.events({
               Session.set('managedRouterEditingName', null);
               setTimeout(function () { routerName_keypress_flag=0; }, 500);
             } else {
+              WtGrowl.success('Router Name Updated');
+              Session.set('managedRouterEditingName', null);
+              setTimeout(function () { routerName_keypress_flag=0; }, 500);
               //refresh router list.
-              Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
-                if(!err){
-                  t.routerList.set(res.res);
-                  t.totalCount.set(res.count);
-                  WtGrowl.success('Router Name Updated');
-                  Session.set('managedRouterEditingName', null);
-                  setTimeout(function () { routerName_keypress_flag=0; }, 500);
-                }
-              }); 
+              $('.mr-search').trigger('submit');
             }
           });
         } else {
@@ -290,16 +282,11 @@ Template.wtManagedRouterMySQLList.events({
               Session.set('managedRouterEditingMac', null);
               setTimeout(function () { routerMac_keypress_flag=0; }, 500);
             } else {
+              WtGrowl.success('Router MAC Updated');
+              Session.set('managedRouterEditingMac', null);
+              setTimeout(function () { routerMac_keypress_flag=0; }, 500);
               //Refresh router list.
-              Meteor.call('wtManagedRouterMySQLSearch', '', function(err,res){
-                if(!err){
-                  t.routerList.set(res.res);
-                  t.totalCount.set(res.count);
-                  WtGrowl.success('Router MAC Updated');
-                  Session.set('managedRouterEditingMac', null);
-                  setTimeout(function () { routerMac_keypress_flag=0; }, 500);
-                }
-              });
+              $('.mr-search').trigger('submit');
             }
           });
         } else {
